@@ -3,7 +3,6 @@ package io.cucumber.gherkin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PrimitiveIterator;
-import java.util.Scanner;
 
 import static io.cucumber.gherkin.GherkinLanguageConstants.COMMENT_PREFIX;
 import static io.cucumber.gherkin.GherkinLanguageConstants.TAG_PREFIX;

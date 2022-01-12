@@ -23,6 +23,6 @@ public class TokenFormatterBuilder implements Parser.Builder<String> {
     }
 
     @Override
-    public void reset() {
+    public void reset(String uri) {
     }
 }

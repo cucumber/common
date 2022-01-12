@@ -52,9 +52,7 @@ public class Gherkin {
     }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
-        Envelope envelope = new Envelope();
-        envelope.setSource(new Source(uri, data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
-        return envelope;
+        return Envelope.fromSource(new Source(uri, data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
     }
 
     public Stream<Envelope> messages() {
@@ -106,33 +104,27 @@ public class Gherkin {
     }
 
     private List<Envelope> parseSource(boolean includeGherkinDocument, boolean includePickles, Source source) {
-        List<Envelope> messages = new ArrayList<>();
-
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator));
         String uri = source.getUri();
         String data = source.getData();
+        List<Envelope> messages = new ArrayList<>();
+
+        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator, uri));
 
         try {
             GherkinDocument gherkinDocument = null;
 
             if (includeGherkinDocument) {
-                gherkinDocument = parser.parse(data);
-                gherkinDocument.setUri(uri);
-                Envelope gherkinDocumentEnvelope = new Envelope();
-                gherkinDocumentEnvelope.setGherkinDocument(gherkinDocument);
-                messages.add(gherkinDocumentEnvelope);
+                gherkinDocument = parser.parse(data, uri);
+                messages.add(Envelope.fromGherkinDocument(gherkinDocument));
             }
             if (includePickles) {
                 if (gherkinDocument == null) {
-                    gherkinDocument = parser.parse(data);
-                    gherkinDocument.setUri(uri);
+                    gherkinDocument = parser.parse(data, uri);
                 }
                 PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
                 List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
                 for (Pickle pickle : pickles) {
-                    Envelope pickleEnvelope = new Envelope();
-                    pickleEnvelope.setPickle(pickle);
-                    messages.add(pickleEnvelope);
+                    messages.add(Envelope.fromPickle(pickle));
                 }
             }
         } catch (ParserException.CompositeParserException e) {
@@ -162,8 +154,7 @@ public class Gherkin {
                 ),
                 e.getMessage()
         );
-        Envelope envelope = new Envelope();
-        envelope.setParseError(parseError);
+        Envelope envelope = Envelope.fromParseError(parseError);
         messages.add(envelope);
     }
 }

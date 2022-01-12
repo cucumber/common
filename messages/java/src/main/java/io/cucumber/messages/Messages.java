@@ -12,7 +12,7 @@ public class Messages {
         private String testStepId;
         private String url;
 
-        public Attachment() {}
+        private Attachment() {}
 
         public Attachment(
             String body,
@@ -24,81 +24,51 @@ public class Messages {
             String testStepId,
             String url
         ) {
-            this.body = java.util.Objects.requireNonNull(body, "Attachment.body cannot be null");
-            this.contentEncoding = java.util.Objects.requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
+            this.body = body;
+            this.contentEncoding = contentEncoding;
             this.fileName = fileName;
-            this.mediaType = java.util.Objects.requireNonNull(mediaType, "Attachment.mediaType cannot be null");
+            this.mediaType = mediaType;
             this.source = source;
             this.testCaseStartedId = testCaseStartedId;
             this.testStepId = testStepId;
             this.url = url;
+            validate();
         }
+
 
         public String getBody() {
-            return java.util.Objects.requireNonNull(body, "Attachment.body cannot be null");
-        }
-
-        public void setBody(String body) {
-            this.body = java.util.Objects.requireNonNull(body, "Attachment.body cannot be null");
+            return body;
         }
 
         public AttachmentContentEncoding getContentEncoding() {
-            return java.util.Objects.requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
-        }
-
-        public void setContentEncoding(AttachmentContentEncoding contentEncoding) {
-            this.contentEncoding = java.util.Objects.requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
+            return contentEncoding;
         }
 
         public java.util.Optional<String> getFileName() {
             return java.util.Optional.ofNullable(fileName);
         }
 
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-
         public String getMediaType() {
-            return java.util.Objects.requireNonNull(mediaType, "Attachment.mediaType cannot be null");
-        }
-
-        public void setMediaType(String mediaType) {
-            this.mediaType = java.util.Objects.requireNonNull(mediaType, "Attachment.mediaType cannot be null");
+            return mediaType;
         }
 
         public java.util.Optional<Source> getSource() {
             return java.util.Optional.ofNullable(source);
         }
 
-        public void setSource(Source source) {
-            this.source = source;
-        }
-
         public java.util.Optional<String> getTestCaseStartedId() {
             return java.util.Optional.ofNullable(testCaseStartedId);
-        }
-
-        public void setTestCaseStartedId(String testCaseStartedId) {
-            this.testCaseStartedId = testCaseStartedId;
         }
 
         public java.util.Optional<String> getTestStepId() {
             return java.util.Optional.ofNullable(testStepId);
         }
 
-        public void setTestStepId(String testStepId) {
-            this.testStepId = testStepId;
-        }
-
         public java.util.Optional<String> getUrl() {
             return java.util.Optional.ofNullable(url);
         }
 
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(body, "Attachment.body cannot be null");
             java.util.Objects.requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
             java.util.Objects.requireNonNull(mediaType, "Attachment.mediaType cannot be null");
@@ -155,33 +125,27 @@ public class Messages {
         private Long seconds;
         private Long nanos;
 
-        public Duration() {}
+        private Duration() {}
 
         public Duration(
             Long seconds,
             Long nanos
         ) {
-            this.seconds = java.util.Objects.requireNonNull(seconds, "Duration.seconds cannot be null");
-            this.nanos = java.util.Objects.requireNonNull(nanos, "Duration.nanos cannot be null");
+            this.seconds = seconds;
+            this.nanos = nanos;
+            validate();
         }
+
 
         public Long getSeconds() {
-            return java.util.Objects.requireNonNull(seconds, "Duration.seconds cannot be null");
-        }
-
-        public void setSeconds(Long seconds) {
-            this.seconds = java.util.Objects.requireNonNull(seconds, "Duration.seconds cannot be null");
+            return seconds;
         }
 
         public Long getNanos() {
-            return java.util.Objects.requireNonNull(nanos, "Duration.nanos cannot be null");
+            return nanos;
         }
 
-        public void setNanos(Long nanos) {
-            this.nanos = java.util.Objects.requireNonNull(nanos, "Duration.nanos cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(seconds, "Duration.seconds cannot be null");
             java.util.Objects.requireNonNull(nanos, "Duration.nanos cannot be null");
         }
@@ -235,6 +199,125 @@ public class Messages {
 
         public Envelope() {}
 
+        public static Envelope fromAttachment(Attachment attachment) {
+          Envelope o = new Envelope();
+          o.attachment = java.util.Objects.requireNonNull(attachment, "Envelope.attachment cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromGherkinDocument(GherkinDocument gherkinDocument) {
+          Envelope o = new Envelope();
+          o.gherkinDocument = java.util.Objects.requireNonNull(gherkinDocument, "Envelope.gherkinDocument cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromHook(Hook hook) {
+          Envelope o = new Envelope();
+          o.hook = java.util.Objects.requireNonNull(hook, "Envelope.hook cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromMeta(Meta meta) {
+          Envelope o = new Envelope();
+          o.meta = java.util.Objects.requireNonNull(meta, "Envelope.meta cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromParameterType(ParameterType parameterType) {
+          Envelope o = new Envelope();
+          o.parameterType = java.util.Objects.requireNonNull(parameterType, "Envelope.parameterType cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromParseError(ParseError parseError) {
+          Envelope o = new Envelope();
+          o.parseError = java.util.Objects.requireNonNull(parseError, "Envelope.parseError cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromPickle(Pickle pickle) {
+          Envelope o = new Envelope();
+          o.pickle = java.util.Objects.requireNonNull(pickle, "Envelope.pickle cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromSource(Source source) {
+          Envelope o = new Envelope();
+          o.source = java.util.Objects.requireNonNull(source, "Envelope.source cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromStepDefinition(StepDefinition stepDefinition) {
+          Envelope o = new Envelope();
+          o.stepDefinition = java.util.Objects.requireNonNull(stepDefinition, "Envelope.stepDefinition cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestCase(TestCase testCase) {
+          Envelope o = new Envelope();
+          o.testCase = java.util.Objects.requireNonNull(testCase, "Envelope.testCase cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestCaseFinished(TestCaseFinished testCaseFinished) {
+          Envelope o = new Envelope();
+          o.testCaseFinished = java.util.Objects.requireNonNull(testCaseFinished, "Envelope.testCaseFinished cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestCaseStarted(TestCaseStarted testCaseStarted) {
+          Envelope o = new Envelope();
+          o.testCaseStarted = java.util.Objects.requireNonNull(testCaseStarted, "Envelope.testCaseStarted cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestRunFinished(TestRunFinished testRunFinished) {
+          Envelope o = new Envelope();
+          o.testRunFinished = java.util.Objects.requireNonNull(testRunFinished, "Envelope.testRunFinished cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestRunStarted(TestRunStarted testRunStarted) {
+          Envelope o = new Envelope();
+          o.testRunStarted = java.util.Objects.requireNonNull(testRunStarted, "Envelope.testRunStarted cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestStepFinished(TestStepFinished testStepFinished) {
+          Envelope o = new Envelope();
+          o.testStepFinished = java.util.Objects.requireNonNull(testStepFinished, "Envelope.testStepFinished cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromTestStepStarted(TestStepStarted testStepStarted) {
+          Envelope o = new Envelope();
+          o.testStepStarted = java.util.Objects.requireNonNull(testStepStarted, "Envelope.testStepStarted cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static Envelope fromUndefinedParameterType(UndefinedParameterType undefinedParameterType) {
+          Envelope o = new Envelope();
+          o.undefinedParameterType = java.util.Objects.requireNonNull(undefinedParameterType, "Envelope.undefinedParameterType cannot be null");
+          o.validate();
+          return o;
+        }
+
         public Envelope(
             Attachment attachment,
             GherkinDocument gherkinDocument,
@@ -271,145 +354,79 @@ public class Messages {
             this.testStepFinished = testStepFinished;
             this.testStepStarted = testStepStarted;
             this.undefinedParameterType = undefinedParameterType;
+            validate();
         }
+
 
         public java.util.Optional<Attachment> getAttachment() {
             return java.util.Optional.ofNullable(attachment);
-        }
-
-        public void setAttachment(Attachment attachment) {
-            this.attachment = attachment;
         }
 
         public java.util.Optional<GherkinDocument> getGherkinDocument() {
             return java.util.Optional.ofNullable(gherkinDocument);
         }
 
-        public void setGherkinDocument(GherkinDocument gherkinDocument) {
-            this.gherkinDocument = gherkinDocument;
-        }
-
         public java.util.Optional<Hook> getHook() {
             return java.util.Optional.ofNullable(hook);
-        }
-
-        public void setHook(Hook hook) {
-            this.hook = hook;
         }
 
         public java.util.Optional<Meta> getMeta() {
             return java.util.Optional.ofNullable(meta);
         }
 
-        public void setMeta(Meta meta) {
-            this.meta = meta;
-        }
-
         public java.util.Optional<ParameterType> getParameterType() {
             return java.util.Optional.ofNullable(parameterType);
-        }
-
-        public void setParameterType(ParameterType parameterType) {
-            this.parameterType = parameterType;
         }
 
         public java.util.Optional<ParseError> getParseError() {
             return java.util.Optional.ofNullable(parseError);
         }
 
-        public void setParseError(ParseError parseError) {
-            this.parseError = parseError;
-        }
-
         public java.util.Optional<Pickle> getPickle() {
             return java.util.Optional.ofNullable(pickle);
-        }
-
-        public void setPickle(Pickle pickle) {
-            this.pickle = pickle;
         }
 
         public java.util.Optional<Source> getSource() {
             return java.util.Optional.ofNullable(source);
         }
 
-        public void setSource(Source source) {
-            this.source = source;
-        }
-
         public java.util.Optional<StepDefinition> getStepDefinition() {
             return java.util.Optional.ofNullable(stepDefinition);
-        }
-
-        public void setStepDefinition(StepDefinition stepDefinition) {
-            this.stepDefinition = stepDefinition;
         }
 
         public java.util.Optional<TestCase> getTestCase() {
             return java.util.Optional.ofNullable(testCase);
         }
 
-        public void setTestCase(TestCase testCase) {
-            this.testCase = testCase;
-        }
-
         public java.util.Optional<TestCaseFinished> getTestCaseFinished() {
             return java.util.Optional.ofNullable(testCaseFinished);
-        }
-
-        public void setTestCaseFinished(TestCaseFinished testCaseFinished) {
-            this.testCaseFinished = testCaseFinished;
         }
 
         public java.util.Optional<TestCaseStarted> getTestCaseStarted() {
             return java.util.Optional.ofNullable(testCaseStarted);
         }
 
-        public void setTestCaseStarted(TestCaseStarted testCaseStarted) {
-            this.testCaseStarted = testCaseStarted;
-        }
-
         public java.util.Optional<TestRunFinished> getTestRunFinished() {
             return java.util.Optional.ofNullable(testRunFinished);
-        }
-
-        public void setTestRunFinished(TestRunFinished testRunFinished) {
-            this.testRunFinished = testRunFinished;
         }
 
         public java.util.Optional<TestRunStarted> getTestRunStarted() {
             return java.util.Optional.ofNullable(testRunStarted);
         }
 
-        public void setTestRunStarted(TestRunStarted testRunStarted) {
-            this.testRunStarted = testRunStarted;
-        }
-
         public java.util.Optional<TestStepFinished> getTestStepFinished() {
             return java.util.Optional.ofNullable(testStepFinished);
-        }
-
-        public void setTestStepFinished(TestStepFinished testStepFinished) {
-            this.testStepFinished = testStepFinished;
         }
 
         public java.util.Optional<TestStepStarted> getTestStepStarted() {
             return java.util.Optional.ofNullable(testStepStarted);
         }
 
-        public void setTestStepStarted(TestStepStarted testStepStarted) {
-            this.testStepStarted = testStepStarted;
-        }
-
         public java.util.Optional<UndefinedParameterType> getUndefinedParameterType() {
             return java.util.Optional.ofNullable(undefinedParameterType);
         }
 
-        public void setUndefinedParameterType(UndefinedParameterType undefinedParameterType) {
-            this.undefinedParameterType = undefinedParameterType;
-        }
-
-        public void validate() {
+        private void validate() {
             if (attachment != null) attachment.validate();
             if (gherkinDocument != null) gherkinDocument.validate();
             if (hook != null) hook.validate();
@@ -507,7 +524,7 @@ public class Messages {
         private Feature feature;
         private java.util.List<Comment> comments = new java.util.ArrayList<>();
 
-        public GherkinDocument() {}
+        private GherkinDocument() {}
 
         public GherkinDocument(
             String uri,
@@ -516,34 +533,24 @@ public class Messages {
         ) {
             this.uri = uri;
             this.feature = feature;
-            this.comments = java.util.Objects.requireNonNull(comments, "GherkinDocument.comments cannot be null");
+            this.comments = comments;
+            validate();
         }
+
 
         public java.util.Optional<String> getUri() {
             return java.util.Optional.ofNullable(uri);
-        }
-
-        public void setUri(String uri) {
-            this.uri = uri;
         }
 
         public java.util.Optional<Feature> getFeature() {
             return java.util.Optional.ofNullable(feature);
         }
 
-        public void setFeature(Feature feature) {
-            this.feature = feature;
-        }
-
         public java.util.List<Comment> getComments() {
-            return java.util.Objects.requireNonNull(comments, "GherkinDocument.comments cannot be null");
+            return comments;
         }
 
-        public void setComments(java.util.List<Comment> comments) {
-            this.comments = java.util.Objects.requireNonNull(comments, "GherkinDocument.comments cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             if (feature != null) feature.validate();
             java.util.Objects.requireNonNull(comments, "GherkinDocument.comments cannot be null");
             comments.forEach(Comment::validate);
@@ -588,7 +595,7 @@ public class Messages {
         private java.util.List<Step> steps = new java.util.ArrayList<>();
         private String id;
 
-        public Background() {}
+        private Background() {}
 
         public Background(
             Location location,
@@ -598,63 +605,41 @@ public class Messages {
             java.util.List<Step> steps,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Background.location cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Background.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Background.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Background.description cannot be null");
-            this.steps = java.util.Objects.requireNonNull(steps, "Background.steps cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "Background.id cannot be null");
+            this.location = location;
+            this.keyword = keyword;
+            this.name = name;
+            this.description = description;
+            this.steps = steps;
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Background.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Background.location cannot be null");
+            return location;
         }
 
         public String getKeyword() {
-            return java.util.Objects.requireNonNull(keyword, "Background.keyword cannot be null");
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Background.keyword cannot be null");
+            return keyword;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Background.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Background.name cannot be null");
+            return name;
         }
 
         public String getDescription() {
-            return java.util.Objects.requireNonNull(description, "Background.description cannot be null");
-        }
-
-        public void setDescription(String description) {
-            this.description = java.util.Objects.requireNonNull(description, "Background.description cannot be null");
+            return description;
         }
 
         public java.util.List<Step> getSteps() {
-            return java.util.Objects.requireNonNull(steps, "Background.steps cannot be null");
-        }
-
-        public void setSteps(java.util.List<Step> steps) {
-            this.steps = java.util.Objects.requireNonNull(steps, "Background.steps cannot be null");
+            return steps;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Background.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Background.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Background.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(keyword, "Background.keyword cannot be null");
@@ -709,33 +694,27 @@ public class Messages {
         private Location location;
         private String text;
 
-        public Comment() {}
+        private Comment() {}
 
         public Comment(
             Location location,
             String text
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Comment.location cannot be null");
-            this.text = java.util.Objects.requireNonNull(text, "Comment.text cannot be null");
+            this.location = location;
+            this.text = text;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Comment.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Comment.location cannot be null");
+            return location;
         }
 
         public String getText() {
-            return java.util.Objects.requireNonNull(text, "Comment.text cannot be null");
+            return text;
         }
 
-        public void setText(String text) {
-            this.text = java.util.Objects.requireNonNull(text, "Comment.text cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Comment.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(text, "Comment.text cannot be null");
@@ -773,33 +752,27 @@ public class Messages {
         private Location location;
         private java.util.List<TableRow> rows = new java.util.ArrayList<>();
 
-        public DataTable() {}
+        private DataTable() {}
 
         public DataTable(
             Location location,
             java.util.List<TableRow> rows
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "DataTable.location cannot be null");
-            this.rows = java.util.Objects.requireNonNull(rows, "DataTable.rows cannot be null");
+            this.location = location;
+            this.rows = rows;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "DataTable.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "DataTable.location cannot be null");
+            return location;
         }
 
         public java.util.List<TableRow> getRows() {
-            return java.util.Objects.requireNonNull(rows, "DataTable.rows cannot be null");
+            return rows;
         }
 
-        public void setRows(java.util.List<TableRow> rows) {
-            this.rows = java.util.Objects.requireNonNull(rows, "DataTable.rows cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "DataTable.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(rows, "DataTable.rows cannot be null");
@@ -840,7 +813,7 @@ public class Messages {
         private String content;
         private String delimiter;
 
-        public DocString() {}
+        private DocString() {}
 
         public DocString(
             Location location,
@@ -848,45 +821,31 @@ public class Messages {
             String content,
             String delimiter
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "DocString.location cannot be null");
+            this.location = location;
             this.mediaType = mediaType;
-            this.content = java.util.Objects.requireNonNull(content, "DocString.content cannot be null");
-            this.delimiter = java.util.Objects.requireNonNull(delimiter, "DocString.delimiter cannot be null");
+            this.content = content;
+            this.delimiter = delimiter;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "DocString.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "DocString.location cannot be null");
+            return location;
         }
 
         public java.util.Optional<String> getMediaType() {
             return java.util.Optional.ofNullable(mediaType);
         }
 
-        public void setMediaType(String mediaType) {
-            this.mediaType = mediaType;
-        }
-
         public String getContent() {
-            return java.util.Objects.requireNonNull(content, "DocString.content cannot be null");
-        }
-
-        public void setContent(String content) {
-            this.content = java.util.Objects.requireNonNull(content, "DocString.content cannot be null");
+            return content;
         }
 
         public String getDelimiter() {
-            return java.util.Objects.requireNonNull(delimiter, "DocString.delimiter cannot be null");
+            return delimiter;
         }
 
-        public void setDelimiter(String delimiter) {
-            this.delimiter = java.util.Objects.requireNonNull(delimiter, "DocString.delimiter cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "DocString.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(content, "DocString.content cannot be null");
@@ -937,7 +896,7 @@ public class Messages {
         private java.util.List<TableRow> tableBody = new java.util.ArrayList<>();
         private String id;
 
-        public Examples() {}
+        private Examples() {}
 
         public Examples(
             Location location,
@@ -949,81 +908,51 @@ public class Messages {
             java.util.List<TableRow> tableBody,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Examples.location cannot be null");
-            this.tags = java.util.Objects.requireNonNull(tags, "Examples.tags cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Examples.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Examples.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Examples.description cannot be null");
+            this.location = location;
+            this.tags = tags;
+            this.keyword = keyword;
+            this.name = name;
+            this.description = description;
             this.tableHeader = tableHeader;
-            this.tableBody = java.util.Objects.requireNonNull(tableBody, "Examples.tableBody cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "Examples.id cannot be null");
+            this.tableBody = tableBody;
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Examples.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Examples.location cannot be null");
+            return location;
         }
 
         public java.util.List<Tag> getTags() {
-            return java.util.Objects.requireNonNull(tags, "Examples.tags cannot be null");
-        }
-
-        public void setTags(java.util.List<Tag> tags) {
-            this.tags = java.util.Objects.requireNonNull(tags, "Examples.tags cannot be null");
+            return tags;
         }
 
         public String getKeyword() {
-            return java.util.Objects.requireNonNull(keyword, "Examples.keyword cannot be null");
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Examples.keyword cannot be null");
+            return keyword;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Examples.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Examples.name cannot be null");
+            return name;
         }
 
         public String getDescription() {
-            return java.util.Objects.requireNonNull(description, "Examples.description cannot be null");
-        }
-
-        public void setDescription(String description) {
-            this.description = java.util.Objects.requireNonNull(description, "Examples.description cannot be null");
+            return description;
         }
 
         public java.util.Optional<TableRow> getTableHeader() {
             return java.util.Optional.ofNullable(tableHeader);
         }
 
-        public void setTableHeader(TableRow tableHeader) {
-            this.tableHeader = tableHeader;
-        }
-
         public java.util.List<TableRow> getTableBody() {
-            return java.util.Objects.requireNonNull(tableBody, "Examples.tableBody cannot be null");
-        }
-
-        public void setTableBody(java.util.List<TableRow> tableBody) {
-            this.tableBody = java.util.Objects.requireNonNull(tableBody, "Examples.tableBody cannot be null");
+            return tableBody;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Examples.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Examples.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Examples.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(tags, "Examples.tags cannot be null");
@@ -1092,7 +1021,7 @@ public class Messages {
         private String description;
         private java.util.List<FeatureChild> children = new java.util.ArrayList<>();
 
-        public Feature() {}
+        private Feature() {}
 
         public Feature(
             Location location,
@@ -1103,72 +1032,46 @@ public class Messages {
             String description,
             java.util.List<FeatureChild> children
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Feature.location cannot be null");
-            this.tags = java.util.Objects.requireNonNull(tags, "Feature.tags cannot be null");
-            this.language = java.util.Objects.requireNonNull(language, "Feature.language cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Feature.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Feature.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Feature.description cannot be null");
-            this.children = java.util.Objects.requireNonNull(children, "Feature.children cannot be null");
+            this.location = location;
+            this.tags = tags;
+            this.language = language;
+            this.keyword = keyword;
+            this.name = name;
+            this.description = description;
+            this.children = children;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Feature.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Feature.location cannot be null");
+            return location;
         }
 
         public java.util.List<Tag> getTags() {
-            return java.util.Objects.requireNonNull(tags, "Feature.tags cannot be null");
-        }
-
-        public void setTags(java.util.List<Tag> tags) {
-            this.tags = java.util.Objects.requireNonNull(tags, "Feature.tags cannot be null");
+            return tags;
         }
 
         public String getLanguage() {
-            return java.util.Objects.requireNonNull(language, "Feature.language cannot be null");
-        }
-
-        public void setLanguage(String language) {
-            this.language = java.util.Objects.requireNonNull(language, "Feature.language cannot be null");
+            return language;
         }
 
         public String getKeyword() {
-            return java.util.Objects.requireNonNull(keyword, "Feature.keyword cannot be null");
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Feature.keyword cannot be null");
+            return keyword;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Feature.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Feature.name cannot be null");
+            return name;
         }
 
         public String getDescription() {
-            return java.util.Objects.requireNonNull(description, "Feature.description cannot be null");
-        }
-
-        public void setDescription(String description) {
-            this.description = java.util.Objects.requireNonNull(description, "Feature.description cannot be null");
+            return description;
         }
 
         public java.util.List<FeatureChild> getChildren() {
-            return java.util.Objects.requireNonNull(children, "Feature.children cannot be null");
+            return children;
         }
 
-        public void setChildren(java.util.List<FeatureChild> children) {
-            this.children = java.util.Objects.requireNonNull(children, "Feature.children cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Feature.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(tags, "Feature.tags cannot be null");
@@ -1231,6 +1134,27 @@ public class Messages {
 
         public FeatureChild() {}
 
+        public static FeatureChild fromRule(Rule rule) {
+          FeatureChild o = new FeatureChild();
+          o.rule = java.util.Objects.requireNonNull(rule, "FeatureChild.rule cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static FeatureChild fromBackground(Background background) {
+          FeatureChild o = new FeatureChild();
+          o.background = java.util.Objects.requireNonNull(background, "FeatureChild.background cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static FeatureChild fromScenario(Scenario scenario) {
+          FeatureChild o = new FeatureChild();
+          o.scenario = java.util.Objects.requireNonNull(scenario, "FeatureChild.scenario cannot be null");
+          o.validate();
+          return o;
+        }
+
         public FeatureChild(
             Rule rule,
             Background background,
@@ -1239,33 +1163,23 @@ public class Messages {
             this.rule = rule;
             this.background = background;
             this.scenario = scenario;
+            validate();
         }
+
 
         public java.util.Optional<Rule> getRule() {
             return java.util.Optional.ofNullable(rule);
-        }
-
-        public void setRule(Rule rule) {
-            this.rule = rule;
         }
 
         public java.util.Optional<Background> getBackground() {
             return java.util.Optional.ofNullable(background);
         }
 
-        public void setBackground(Background background) {
-            this.background = background;
-        }
-
         public java.util.Optional<Scenario> getScenario() {
             return java.util.Optional.ofNullable(scenario);
         }
 
-        public void setScenario(Scenario scenario) {
-            this.scenario = scenario;
-        }
-
-        public void validate() {
+        private void validate() {
             if (rule != null) rule.validate();
             if (background != null) background.validate();
             if (scenario != null) scenario.validate();
@@ -1311,7 +1225,7 @@ public class Messages {
         private java.util.List<RuleChild> children = new java.util.ArrayList<>();
         private String id;
 
-        public Rule() {}
+        private Rule() {}
 
         public Rule(
             Location location,
@@ -1322,72 +1236,46 @@ public class Messages {
             java.util.List<RuleChild> children,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Rule.location cannot be null");
-            this.tags = java.util.Objects.requireNonNull(tags, "Rule.tags cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Rule.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Rule.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Rule.description cannot be null");
-            this.children = java.util.Objects.requireNonNull(children, "Rule.children cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "Rule.id cannot be null");
+            this.location = location;
+            this.tags = tags;
+            this.keyword = keyword;
+            this.name = name;
+            this.description = description;
+            this.children = children;
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Rule.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Rule.location cannot be null");
+            return location;
         }
 
         public java.util.List<Tag> getTags() {
-            return java.util.Objects.requireNonNull(tags, "Rule.tags cannot be null");
-        }
-
-        public void setTags(java.util.List<Tag> tags) {
-            this.tags = java.util.Objects.requireNonNull(tags, "Rule.tags cannot be null");
+            return tags;
         }
 
         public String getKeyword() {
-            return java.util.Objects.requireNonNull(keyword, "Rule.keyword cannot be null");
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Rule.keyword cannot be null");
+            return keyword;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Rule.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Rule.name cannot be null");
+            return name;
         }
 
         public String getDescription() {
-            return java.util.Objects.requireNonNull(description, "Rule.description cannot be null");
-        }
-
-        public void setDescription(String description) {
-            this.description = java.util.Objects.requireNonNull(description, "Rule.description cannot be null");
+            return description;
         }
 
         public java.util.List<RuleChild> getChildren() {
-            return java.util.Objects.requireNonNull(children, "Rule.children cannot be null");
-        }
-
-        public void setChildren(java.util.List<RuleChild> children) {
-            this.children = java.util.Objects.requireNonNull(children, "Rule.children cannot be null");
+            return children;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Rule.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Rule.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Rule.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(tags, "Rule.tags cannot be null");
@@ -1449,31 +1337,39 @@ public class Messages {
 
         public RuleChild() {}
 
+        public static RuleChild fromBackground(Background background) {
+          RuleChild o = new RuleChild();
+          o.background = java.util.Objects.requireNonNull(background, "RuleChild.background cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static RuleChild fromScenario(Scenario scenario) {
+          RuleChild o = new RuleChild();
+          o.scenario = java.util.Objects.requireNonNull(scenario, "RuleChild.scenario cannot be null");
+          o.validate();
+          return o;
+        }
+
         public RuleChild(
             Background background,
             Scenario scenario
         ) {
             this.background = background;
             this.scenario = scenario;
+            validate();
         }
+
 
         public java.util.Optional<Background> getBackground() {
             return java.util.Optional.ofNullable(background);
-        }
-
-        public void setBackground(Background background) {
-            this.background = background;
         }
 
         public java.util.Optional<Scenario> getScenario() {
             return java.util.Optional.ofNullable(scenario);
         }
 
-        public void setScenario(Scenario scenario) {
-            this.scenario = scenario;
-        }
-
-        public void validate() {
+        private void validate() {
             if (background != null) background.validate();
             if (scenario != null) scenario.validate();
         }
@@ -1516,7 +1412,7 @@ public class Messages {
         private java.util.List<Examples> examples = new java.util.ArrayList<>();
         private String id;
 
-        public Scenario() {}
+        private Scenario() {}
 
         public Scenario(
             Location location,
@@ -1528,81 +1424,51 @@ public class Messages {
             java.util.List<Examples> examples,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Scenario.location cannot be null");
-            this.tags = java.util.Objects.requireNonNull(tags, "Scenario.tags cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Scenario.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Scenario.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Scenario.description cannot be null");
-            this.steps = java.util.Objects.requireNonNull(steps, "Scenario.steps cannot be null");
-            this.examples = java.util.Objects.requireNonNull(examples, "Scenario.examples cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "Scenario.id cannot be null");
+            this.location = location;
+            this.tags = tags;
+            this.keyword = keyword;
+            this.name = name;
+            this.description = description;
+            this.steps = steps;
+            this.examples = examples;
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Scenario.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Scenario.location cannot be null");
+            return location;
         }
 
         public java.util.List<Tag> getTags() {
-            return java.util.Objects.requireNonNull(tags, "Scenario.tags cannot be null");
-        }
-
-        public void setTags(java.util.List<Tag> tags) {
-            this.tags = java.util.Objects.requireNonNull(tags, "Scenario.tags cannot be null");
+            return tags;
         }
 
         public String getKeyword() {
-            return java.util.Objects.requireNonNull(keyword, "Scenario.keyword cannot be null");
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Scenario.keyword cannot be null");
+            return keyword;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Scenario.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Scenario.name cannot be null");
+            return name;
         }
 
         public String getDescription() {
-            return java.util.Objects.requireNonNull(description, "Scenario.description cannot be null");
-        }
-
-        public void setDescription(String description) {
-            this.description = java.util.Objects.requireNonNull(description, "Scenario.description cannot be null");
+            return description;
         }
 
         public java.util.List<Step> getSteps() {
-            return java.util.Objects.requireNonNull(steps, "Scenario.steps cannot be null");
-        }
-
-        public void setSteps(java.util.List<Step> steps) {
-            this.steps = java.util.Objects.requireNonNull(steps, "Scenario.steps cannot be null");
+            return steps;
         }
 
         public java.util.List<Examples> getExamples() {
-            return java.util.Objects.requireNonNull(examples, "Scenario.examples cannot be null");
-        }
-
-        public void setExamples(java.util.List<Examples> examples) {
-            this.examples = java.util.Objects.requireNonNull(examples, "Scenario.examples cannot be null");
+            return examples;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Scenario.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Scenario.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Scenario.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(tags, "Scenario.tags cannot be null");
@@ -1671,7 +1537,7 @@ public class Messages {
         private DataTable dataTable;
         private String id;
 
-        public Step() {}
+        private Step() {}
 
         public Step(
             Location location,
@@ -1681,63 +1547,41 @@ public class Messages {
             DataTable dataTable,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Step.location cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Step.keyword cannot be null");
-            this.text = java.util.Objects.requireNonNull(text, "Step.text cannot be null");
+            this.location = location;
+            this.keyword = keyword;
+            this.text = text;
             this.docString = docString;
             this.dataTable = dataTable;
-            this.id = java.util.Objects.requireNonNull(id, "Step.id cannot be null");
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Step.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Step.location cannot be null");
+            return location;
         }
 
         public String getKeyword() {
-            return java.util.Objects.requireNonNull(keyword, "Step.keyword cannot be null");
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Step.keyword cannot be null");
+            return keyword;
         }
 
         public String getText() {
-            return java.util.Objects.requireNonNull(text, "Step.text cannot be null");
-        }
-
-        public void setText(String text) {
-            this.text = java.util.Objects.requireNonNull(text, "Step.text cannot be null");
+            return text;
         }
 
         public java.util.Optional<DocString> getDocString() {
             return java.util.Optional.ofNullable(docString);
         }
 
-        public void setDocString(DocString docString) {
-            this.docString = docString;
-        }
-
         public java.util.Optional<DataTable> getDataTable() {
             return java.util.Optional.ofNullable(dataTable);
         }
 
-        public void setDataTable(DataTable dataTable) {
-            this.dataTable = dataTable;
-        }
-
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Step.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Step.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Step.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(keyword, "Step.keyword cannot be null");
@@ -1791,33 +1635,27 @@ public class Messages {
         private Location location;
         private String value;
 
-        public TableCell() {}
+        private TableCell() {}
 
         public TableCell(
             Location location,
             String value
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "TableCell.location cannot be null");
-            this.value = java.util.Objects.requireNonNull(value, "TableCell.value cannot be null");
+            this.location = location;
+            this.value = value;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "TableCell.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "TableCell.location cannot be null");
+            return location;
         }
 
         public String getValue() {
-            return java.util.Objects.requireNonNull(value, "TableCell.value cannot be null");
+            return value;
         }
 
-        public void setValue(String value) {
-            this.value = java.util.Objects.requireNonNull(value, "TableCell.value cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "TableCell.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(value, "TableCell.value cannot be null");
@@ -1856,43 +1694,33 @@ public class Messages {
         private java.util.List<TableCell> cells = new java.util.ArrayList<>();
         private String id;
 
-        public TableRow() {}
+        private TableRow() {}
 
         public TableRow(
             Location location,
             java.util.List<TableCell> cells,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "TableRow.location cannot be null");
-            this.cells = java.util.Objects.requireNonNull(cells, "TableRow.cells cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "TableRow.id cannot be null");
+            this.location = location;
+            this.cells = cells;
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "TableRow.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "TableRow.location cannot be null");
+            return location;
         }
 
         public java.util.List<TableCell> getCells() {
-            return java.util.Objects.requireNonNull(cells, "TableRow.cells cannot be null");
-        }
-
-        public void setCells(java.util.List<TableCell> cells) {
-            this.cells = java.util.Objects.requireNonNull(cells, "TableRow.cells cannot be null");
+            return cells;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "TableRow.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "TableRow.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "TableRow.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(cells, "TableRow.cells cannot be null");
@@ -1936,43 +1764,33 @@ public class Messages {
         private String name;
         private String id;
 
-        public Tag() {}
+        private Tag() {}
 
         public Tag(
             Location location,
             String name,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Tag.location cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Tag.name cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "Tag.id cannot be null");
+            this.location = location;
+            this.name = name;
+            this.id = id;
+            validate();
         }
+
 
         public Location getLocation() {
-            return java.util.Objects.requireNonNull(location, "Tag.location cannot be null");
-        }
-
-        public void setLocation(Location location) {
-            this.location = java.util.Objects.requireNonNull(location, "Tag.location cannot be null");
+            return location;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Tag.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Tag.name cannot be null");
+            return name;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Tag.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Tag.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(location, "Tag.location cannot be null");
             location.validate();
             java.util.Objects.requireNonNull(name, "Tag.name cannot be null");
@@ -2015,43 +1833,33 @@ public class Messages {
         private SourceReference sourceReference;
         private String tagExpression;
 
-        public Hook() {}
+        private Hook() {}
 
         public Hook(
             String id,
             SourceReference sourceReference,
             String tagExpression
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "Hook.id cannot be null");
-            this.sourceReference = java.util.Objects.requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
+            this.id = id;
+            this.sourceReference = sourceReference;
             this.tagExpression = tagExpression;
+            validate();
         }
+
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Hook.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Hook.id cannot be null");
+            return id;
         }
 
         public SourceReference getSourceReference() {
-            return java.util.Objects.requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
-        }
-
-        public void setSourceReference(SourceReference sourceReference) {
-            this.sourceReference = java.util.Objects.requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
+            return sourceReference;
         }
 
         public java.util.Optional<String> getTagExpression() {
             return java.util.Optional.ofNullable(tagExpression);
         }
 
-        public void setTagExpression(String tagExpression) {
-            this.tagExpression = tagExpression;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(id, "Hook.id cannot be null");
             java.util.Objects.requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
             sourceReference.validate();
@@ -2092,33 +1900,27 @@ public class Messages {
         private Long line;
         private Long column;
 
-        public Location() {}
+        private Location() {}
 
         public Location(
             Long line,
             Long column
         ) {
-            this.line = java.util.Objects.requireNonNull(line, "Location.line cannot be null");
+            this.line = line;
             this.column = column;
+            validate();
         }
+
 
         public Long getLine() {
-            return java.util.Objects.requireNonNull(line, "Location.line cannot be null");
-        }
-
-        public void setLine(Long line) {
-            this.line = java.util.Objects.requireNonNull(line, "Location.line cannot be null");
+            return line;
         }
 
         public java.util.Optional<Long> getColumn() {
             return java.util.Optional.ofNullable(column);
         }
 
-        public void setColumn(Long column) {
-            this.column = column;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(line, "Location.line cannot be null");
         }
 
@@ -2158,7 +1960,7 @@ public class Messages {
         private Product cpu;
         private Ci ci;
 
-        public Meta() {}
+        private Meta() {}
 
         public Meta(
             String protocolVersion,
@@ -2168,63 +1970,41 @@ public class Messages {
             Product cpu,
             Ci ci
         ) {
-            this.protocolVersion = java.util.Objects.requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
-            this.implementation = java.util.Objects.requireNonNull(implementation, "Meta.implementation cannot be null");
-            this.runtime = java.util.Objects.requireNonNull(runtime, "Meta.runtime cannot be null");
-            this.os = java.util.Objects.requireNonNull(os, "Meta.os cannot be null");
-            this.cpu = java.util.Objects.requireNonNull(cpu, "Meta.cpu cannot be null");
+            this.protocolVersion = protocolVersion;
+            this.implementation = implementation;
+            this.runtime = runtime;
+            this.os = os;
+            this.cpu = cpu;
             this.ci = ci;
+            validate();
         }
+
 
         public String getProtocolVersion() {
-            return java.util.Objects.requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
-        }
-
-        public void setProtocolVersion(String protocolVersion) {
-            this.protocolVersion = java.util.Objects.requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
+            return protocolVersion;
         }
 
         public Product getImplementation() {
-            return java.util.Objects.requireNonNull(implementation, "Meta.implementation cannot be null");
-        }
-
-        public void setImplementation(Product implementation) {
-            this.implementation = java.util.Objects.requireNonNull(implementation, "Meta.implementation cannot be null");
+            return implementation;
         }
 
         public Product getRuntime() {
-            return java.util.Objects.requireNonNull(runtime, "Meta.runtime cannot be null");
-        }
-
-        public void setRuntime(Product runtime) {
-            this.runtime = java.util.Objects.requireNonNull(runtime, "Meta.runtime cannot be null");
+            return runtime;
         }
 
         public Product getOs() {
-            return java.util.Objects.requireNonNull(os, "Meta.os cannot be null");
-        }
-
-        public void setOs(Product os) {
-            this.os = java.util.Objects.requireNonNull(os, "Meta.os cannot be null");
+            return os;
         }
 
         public Product getCpu() {
-            return java.util.Objects.requireNonNull(cpu, "Meta.cpu cannot be null");
-        }
-
-        public void setCpu(Product cpu) {
-            this.cpu = java.util.Objects.requireNonNull(cpu, "Meta.cpu cannot be null");
+            return cpu;
         }
 
         public java.util.Optional<Ci> getCi() {
             return java.util.Optional.ofNullable(ci);
         }
 
-        public void setCi(Ci ci) {
-            this.ci = ci;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
             java.util.Objects.requireNonNull(implementation, "Meta.implementation cannot be null");
             implementation.validate();
@@ -2283,7 +2063,7 @@ public class Messages {
         private String buildNumber;
         private Git git;
 
-        public Ci() {}
+        private Ci() {}
 
         public Ci(
             String name,
@@ -2291,45 +2071,31 @@ public class Messages {
             String buildNumber,
             Git git
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "Ci.name cannot be null");
+            this.name = name;
             this.url = url;
             this.buildNumber = buildNumber;
             this.git = git;
+            validate();
         }
+
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Ci.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Ci.name cannot be null");
+            return name;
         }
 
         public java.util.Optional<String> getUrl() {
             return java.util.Optional.ofNullable(url);
         }
 
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
         public java.util.Optional<String> getBuildNumber() {
             return java.util.Optional.ofNullable(buildNumber);
-        }
-
-        public void setBuildNumber(String buildNumber) {
-            this.buildNumber = buildNumber;
         }
 
         public java.util.Optional<Git> getGit() {
             return java.util.Optional.ofNullable(git);
         }
 
-        public void setGit(Git git) {
-            this.git = git;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(name, "Ci.name cannot be null");
             if (git != null) git.validate();
         }
@@ -2374,7 +2140,7 @@ public class Messages {
         private String branch;
         private String tag;
 
-        public Git() {}
+        private Git() {}
 
         public Git(
             String remote,
@@ -2382,45 +2148,31 @@ public class Messages {
             String branch,
             String tag
         ) {
-            this.remote = java.util.Objects.requireNonNull(remote, "Git.remote cannot be null");
-            this.revision = java.util.Objects.requireNonNull(revision, "Git.revision cannot be null");
+            this.remote = remote;
+            this.revision = revision;
             this.branch = branch;
             this.tag = tag;
+            validate();
         }
+
 
         public String getRemote() {
-            return java.util.Objects.requireNonNull(remote, "Git.remote cannot be null");
-        }
-
-        public void setRemote(String remote) {
-            this.remote = java.util.Objects.requireNonNull(remote, "Git.remote cannot be null");
+            return remote;
         }
 
         public String getRevision() {
-            return java.util.Objects.requireNonNull(revision, "Git.revision cannot be null");
-        }
-
-        public void setRevision(String revision) {
-            this.revision = java.util.Objects.requireNonNull(revision, "Git.revision cannot be null");
+            return revision;
         }
 
         public java.util.Optional<String> getBranch() {
             return java.util.Optional.ofNullable(branch);
         }
 
-        public void setBranch(String branch) {
-            this.branch = branch;
-        }
-
         public java.util.Optional<String> getTag() {
             return java.util.Optional.ofNullable(tag);
         }
 
-        public void setTag(String tag) {
-            this.tag = tag;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(remote, "Git.remote cannot be null");
             java.util.Objects.requireNonNull(revision, "Git.revision cannot be null");
         }
@@ -2463,33 +2215,27 @@ public class Messages {
         private String name;
         private String version;
 
-        public Product() {}
+        private Product() {}
 
         public Product(
             String name,
             String version
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "Product.name cannot be null");
+            this.name = name;
             this.version = version;
+            validate();
         }
+
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Product.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Product.name cannot be null");
+            return name;
         }
 
         public java.util.Optional<String> getVersion() {
             return java.util.Optional.ofNullable(version);
         }
 
-        public void setVersion(String version) {
-            this.version = version;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(name, "Product.name cannot be null");
         }
 
@@ -2528,7 +2274,7 @@ public class Messages {
         private Boolean useForSnippets;
         private String id;
 
-        public ParameterType() {}
+        private ParameterType() {}
 
         public ParameterType(
             String name,
@@ -2537,54 +2283,36 @@ public class Messages {
             Boolean useForSnippets,
             String id
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
-            this.regularExpressions = java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null");
-            this.preferForRegularExpressionMatch = java.util.Objects.requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
-            this.useForSnippets = java.util.Objects.requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "ParameterType.id cannot be null");
+            this.name = name;
+            this.regularExpressions = regularExpressions;
+            this.preferForRegularExpressionMatch = preferForRegularExpressionMatch;
+            this.useForSnippets = useForSnippets;
+            this.id = id;
+            validate();
         }
+
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
+            return name;
         }
 
         public java.util.List<String> getRegularExpressions() {
-            return java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null");
-        }
-
-        public void setRegularExpressions(java.util.List<String> regularExpressions) {
-            this.regularExpressions = java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null");
+            return regularExpressions;
         }
 
         public Boolean getPreferForRegularExpressionMatch() {
-            return java.util.Objects.requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
-        }
-
-        public void setPreferForRegularExpressionMatch(Boolean preferForRegularExpressionMatch) {
-            this.preferForRegularExpressionMatch = java.util.Objects.requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
+            return preferForRegularExpressionMatch;
         }
 
         public Boolean getUseForSnippets() {
-            return java.util.Objects.requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
-        }
-
-        public void setUseForSnippets(Boolean useForSnippets) {
-            this.useForSnippets = java.util.Objects.requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
+            return useForSnippets;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "ParameterType.id cannot be null");
+            return id;
         }
 
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "ParameterType.id cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
             java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null");
             regularExpressions.forEach(e -> java.util.Objects.requireNonNull(e, "ParameterType.regularExpressions elements cannot be null"));
@@ -2634,33 +2362,27 @@ public class Messages {
         private SourceReference source;
         private String message;
 
-        public ParseError() {}
+        private ParseError() {}
 
         public ParseError(
             SourceReference source,
             String message
         ) {
-            this.source = java.util.Objects.requireNonNull(source, "ParseError.source cannot be null");
-            this.message = java.util.Objects.requireNonNull(message, "ParseError.message cannot be null");
+            this.source = source;
+            this.message = message;
+            validate();
         }
+
 
         public SourceReference getSource() {
-            return java.util.Objects.requireNonNull(source, "ParseError.source cannot be null");
-        }
-
-        public void setSource(SourceReference source) {
-            this.source = java.util.Objects.requireNonNull(source, "ParseError.source cannot be null");
+            return source;
         }
 
         public String getMessage() {
-            return java.util.Objects.requireNonNull(message, "ParseError.message cannot be null");
+            return message;
         }
 
-        public void setMessage(String message) {
-            this.message = java.util.Objects.requireNonNull(message, "ParseError.message cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(source, "ParseError.source cannot be null");
             source.validate();
             java.util.Objects.requireNonNull(message, "ParseError.message cannot be null");
@@ -2703,7 +2425,7 @@ public class Messages {
         private java.util.List<PickleTag> tags = new java.util.ArrayList<>();
         private java.util.List<String> astNodeIds = new java.util.ArrayList<>();
 
-        public Pickle() {}
+        private Pickle() {}
 
         public Pickle(
             String id,
@@ -2714,72 +2436,46 @@ public class Messages {
             java.util.List<PickleTag> tags,
             java.util.List<String> astNodeIds
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "Pickle.id cannot be null");
-            this.uri = java.util.Objects.requireNonNull(uri, "Pickle.uri cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Pickle.name cannot be null");
-            this.language = java.util.Objects.requireNonNull(language, "Pickle.language cannot be null");
-            this.steps = java.util.Objects.requireNonNull(steps, "Pickle.steps cannot be null");
-            this.tags = java.util.Objects.requireNonNull(tags, "Pickle.tags cannot be null");
-            this.astNodeIds = java.util.Objects.requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null");
+            this.id = id;
+            this.uri = uri;
+            this.name = name;
+            this.language = language;
+            this.steps = steps;
+            this.tags = tags;
+            this.astNodeIds = astNodeIds;
+            validate();
         }
+
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "Pickle.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "Pickle.id cannot be null");
+            return id;
         }
 
         public String getUri() {
-            return java.util.Objects.requireNonNull(uri, "Pickle.uri cannot be null");
-        }
-
-        public void setUri(String uri) {
-            this.uri = java.util.Objects.requireNonNull(uri, "Pickle.uri cannot be null");
+            return uri;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "Pickle.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "Pickle.name cannot be null");
+            return name;
         }
 
         public String getLanguage() {
-            return java.util.Objects.requireNonNull(language, "Pickle.language cannot be null");
-        }
-
-        public void setLanguage(String language) {
-            this.language = java.util.Objects.requireNonNull(language, "Pickle.language cannot be null");
+            return language;
         }
 
         public java.util.List<PickleStep> getSteps() {
-            return java.util.Objects.requireNonNull(steps, "Pickle.steps cannot be null");
-        }
-
-        public void setSteps(java.util.List<PickleStep> steps) {
-            this.steps = java.util.Objects.requireNonNull(steps, "Pickle.steps cannot be null");
+            return steps;
         }
 
         public java.util.List<PickleTag> getTags() {
-            return java.util.Objects.requireNonNull(tags, "Pickle.tags cannot be null");
-        }
-
-        public void setTags(java.util.List<PickleTag> tags) {
-            this.tags = java.util.Objects.requireNonNull(tags, "Pickle.tags cannot be null");
+            return tags;
         }
 
         public java.util.List<String> getAstNodeIds() {
-            return java.util.Objects.requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null");
+            return astNodeIds;
         }
 
-        public void setAstNodeIds(java.util.List<String> astNodeIds) {
-            this.astNodeIds = java.util.Objects.requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(id, "Pickle.id cannot be null");
             java.util.Objects.requireNonNull(uri, "Pickle.uri cannot be null");
             java.util.Objects.requireNonNull(name, "Pickle.name cannot be null");
@@ -2839,33 +2535,27 @@ public class Messages {
         private String mediaType;
         private String content;
 
-        public PickleDocString() {}
+        private PickleDocString() {}
 
         public PickleDocString(
             String mediaType,
             String content
         ) {
             this.mediaType = mediaType;
-            this.content = java.util.Objects.requireNonNull(content, "PickleDocString.content cannot be null");
+            this.content = content;
+            validate();
         }
+
 
         public java.util.Optional<String> getMediaType() {
             return java.util.Optional.ofNullable(mediaType);
         }
 
-        public void setMediaType(String mediaType) {
-            this.mediaType = mediaType;
-        }
-
         public String getContent() {
-            return java.util.Objects.requireNonNull(content, "PickleDocString.content cannot be null");
+            return content;
         }
 
-        public void setContent(String content) {
-            this.content = java.util.Objects.requireNonNull(content, "PickleDocString.content cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(content, "PickleDocString.content cannot be null");
         }
 
@@ -2903,7 +2593,7 @@ public class Messages {
         private String id;
         private String text;
 
-        public PickleStep() {}
+        private PickleStep() {}
 
         public PickleStep(
             PickleStepArgument argument,
@@ -2912,44 +2602,30 @@ public class Messages {
             String text
         ) {
             this.argument = argument;
-            this.astNodeIds = java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "PickleStep.id cannot be null");
-            this.text = java.util.Objects.requireNonNull(text, "PickleStep.text cannot be null");
+            this.astNodeIds = astNodeIds;
+            this.id = id;
+            this.text = text;
+            validate();
         }
+
 
         public java.util.Optional<PickleStepArgument> getArgument() {
             return java.util.Optional.ofNullable(argument);
         }
 
-        public void setArgument(PickleStepArgument argument) {
-            this.argument = argument;
-        }
-
         public java.util.List<String> getAstNodeIds() {
-            return java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null");
-        }
-
-        public void setAstNodeIds(java.util.List<String> astNodeIds) {
-            this.astNodeIds = java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null");
+            return astNodeIds;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "PickleStep.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "PickleStep.id cannot be null");
+            return id;
         }
 
         public String getText() {
-            return java.util.Objects.requireNonNull(text, "PickleStep.text cannot be null");
+            return text;
         }
 
-        public void setText(String text) {
-            this.text = java.util.Objects.requireNonNull(text, "PickleStep.text cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             if (argument != null) argument.validate();
             java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null");
             astNodeIds.forEach(e -> java.util.Objects.requireNonNull(e, "PickleStep.astNodeIds elements cannot be null"));
@@ -2997,31 +2673,39 @@ public class Messages {
 
         public PickleStepArgument() {}
 
+        public static PickleStepArgument fromDocString(PickleDocString docString) {
+          PickleStepArgument o = new PickleStepArgument();
+          o.docString = java.util.Objects.requireNonNull(docString, "PickleStepArgument.docString cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static PickleStepArgument fromDataTable(PickleTable dataTable) {
+          PickleStepArgument o = new PickleStepArgument();
+          o.dataTable = java.util.Objects.requireNonNull(dataTable, "PickleStepArgument.dataTable cannot be null");
+          o.validate();
+          return o;
+        }
+
         public PickleStepArgument(
             PickleDocString docString,
             PickleTable dataTable
         ) {
             this.docString = docString;
             this.dataTable = dataTable;
+            validate();
         }
+
 
         public java.util.Optional<PickleDocString> getDocString() {
             return java.util.Optional.ofNullable(docString);
-        }
-
-        public void setDocString(PickleDocString docString) {
-            this.docString = docString;
         }
 
         public java.util.Optional<PickleTable> getDataTable() {
             return java.util.Optional.ofNullable(dataTable);
         }
 
-        public void setDataTable(PickleTable dataTable) {
-            this.dataTable = dataTable;
-        }
-
-        public void validate() {
+        private void validate() {
             if (docString != null) docString.validate();
             if (dataTable != null) dataTable.validate();
         }
@@ -3057,23 +2741,21 @@ public class Messages {
     public static class PickleTable {
         private java.util.List<PickleTableRow> rows = new java.util.ArrayList<>();
 
-        public PickleTable() {}
+        private PickleTable() {}
 
         public PickleTable(
             java.util.List<PickleTableRow> rows
         ) {
-            this.rows = java.util.Objects.requireNonNull(rows, "PickleTable.rows cannot be null");
+            this.rows = rows;
+            validate();
         }
+
 
         public java.util.List<PickleTableRow> getRows() {
-            return java.util.Objects.requireNonNull(rows, "PickleTable.rows cannot be null");
+            return rows;
         }
 
-        public void setRows(java.util.List<PickleTableRow> rows) {
-            this.rows = java.util.Objects.requireNonNull(rows, "PickleTable.rows cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(rows, "PickleTable.rows cannot be null");
             rows.forEach(PickleTableRow::validate);
         }
@@ -3106,23 +2788,21 @@ public class Messages {
     public static class PickleTableCell {
         private String value;
 
-        public PickleTableCell() {}
+        private PickleTableCell() {}
 
         public PickleTableCell(
             String value
         ) {
-            this.value = java.util.Objects.requireNonNull(value, "PickleTableCell.value cannot be null");
+            this.value = value;
+            validate();
         }
+
 
         public String getValue() {
-            return java.util.Objects.requireNonNull(value, "PickleTableCell.value cannot be null");
+            return value;
         }
 
-        public void setValue(String value) {
-            this.value = java.util.Objects.requireNonNull(value, "PickleTableCell.value cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(value, "PickleTableCell.value cannot be null");
         }
 
@@ -3154,23 +2834,21 @@ public class Messages {
     public static class PickleTableRow {
         private java.util.List<PickleTableCell> cells = new java.util.ArrayList<>();
 
-        public PickleTableRow() {}
+        private PickleTableRow() {}
 
         public PickleTableRow(
             java.util.List<PickleTableCell> cells
         ) {
-            this.cells = java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null");
+            this.cells = cells;
+            validate();
         }
+
 
         public java.util.List<PickleTableCell> getCells() {
-            return java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null");
+            return cells;
         }
 
-        public void setCells(java.util.List<PickleTableCell> cells) {
-            this.cells = java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null");
             cells.forEach(PickleTableCell::validate);
         }
@@ -3204,33 +2882,27 @@ public class Messages {
         private String name;
         private String astNodeId;
 
-        public PickleTag() {}
+        private PickleTag() {}
 
         public PickleTag(
             String name,
             String astNodeId
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "PickleTag.name cannot be null");
-            this.astNodeId = java.util.Objects.requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
+            this.name = name;
+            this.astNodeId = astNodeId;
+            validate();
         }
+
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "PickleTag.name cannot be null");
-        }
-
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "PickleTag.name cannot be null");
+            return name;
         }
 
         public String getAstNodeId() {
-            return java.util.Objects.requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
+            return astNodeId;
         }
 
-        public void setAstNodeId(String astNodeId) {
-            this.astNodeId = java.util.Objects.requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(name, "PickleTag.name cannot be null");
             java.util.Objects.requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
         }
@@ -3268,43 +2940,33 @@ public class Messages {
         private String data;
         private SourceMediaType mediaType;
 
-        public Source() {}
+        private Source() {}
 
         public Source(
             String uri,
             String data,
             SourceMediaType mediaType
         ) {
-            this.uri = java.util.Objects.requireNonNull(uri, "Source.uri cannot be null");
-            this.data = java.util.Objects.requireNonNull(data, "Source.data cannot be null");
-            this.mediaType = java.util.Objects.requireNonNull(mediaType, "Source.mediaType cannot be null");
+            this.uri = uri;
+            this.data = data;
+            this.mediaType = mediaType;
+            validate();
         }
+
 
         public String getUri() {
-            return java.util.Objects.requireNonNull(uri, "Source.uri cannot be null");
-        }
-
-        public void setUri(String uri) {
-            this.uri = java.util.Objects.requireNonNull(uri, "Source.uri cannot be null");
+            return uri;
         }
 
         public String getData() {
-            return java.util.Objects.requireNonNull(data, "Source.data cannot be null");
-        }
-
-        public void setData(String data) {
-            this.data = java.util.Objects.requireNonNull(data, "Source.data cannot be null");
+            return data;
         }
 
         public SourceMediaType getMediaType() {
-            return java.util.Objects.requireNonNull(mediaType, "Source.mediaType cannot be null");
+            return mediaType;
         }
 
-        public void setMediaType(SourceMediaType mediaType) {
-            this.mediaType = java.util.Objects.requireNonNull(mediaType, "Source.mediaType cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(uri, "Source.uri cannot be null");
             java.util.Objects.requireNonNull(data, "Source.data cannot be null");
             java.util.Objects.requireNonNull(mediaType, "Source.mediaType cannot be null");
@@ -3349,6 +3011,34 @@ public class Messages {
 
         public SourceReference() {}
 
+        public static SourceReference fromUri(String uri) {
+          SourceReference o = new SourceReference();
+          o.uri = java.util.Objects.requireNonNull(uri, "SourceReference.uri cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static SourceReference fromJavaMethod(JavaMethod javaMethod) {
+          SourceReference o = new SourceReference();
+          o.javaMethod = java.util.Objects.requireNonNull(javaMethod, "SourceReference.javaMethod cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static SourceReference fromJavaStackTraceElement(JavaStackTraceElement javaStackTraceElement) {
+          SourceReference o = new SourceReference();
+          o.javaStackTraceElement = java.util.Objects.requireNonNull(javaStackTraceElement, "SourceReference.javaStackTraceElement cannot be null");
+          o.validate();
+          return o;
+        }
+
+        public static SourceReference fromLocation(Location location) {
+          SourceReference o = new SourceReference();
+          o.location = java.util.Objects.requireNonNull(location, "SourceReference.location cannot be null");
+          o.validate();
+          return o;
+        }
+
         public SourceReference(
             String uri,
             JavaMethod javaMethod,
@@ -3359,41 +3049,27 @@ public class Messages {
             this.javaMethod = javaMethod;
             this.javaStackTraceElement = javaStackTraceElement;
             this.location = location;
+            validate();
         }
+
 
         public java.util.Optional<String> getUri() {
             return java.util.Optional.ofNullable(uri);
-        }
-
-        public void setUri(String uri) {
-            this.uri = uri;
         }
 
         public java.util.Optional<JavaMethod> getJavaMethod() {
             return java.util.Optional.ofNullable(javaMethod);
         }
 
-        public void setJavaMethod(JavaMethod javaMethod) {
-            this.javaMethod = javaMethod;
-        }
-
         public java.util.Optional<JavaStackTraceElement> getJavaStackTraceElement() {
             return java.util.Optional.ofNullable(javaStackTraceElement);
-        }
-
-        public void setJavaStackTraceElement(JavaStackTraceElement javaStackTraceElement) {
-            this.javaStackTraceElement = javaStackTraceElement;
         }
 
         public java.util.Optional<Location> getLocation() {
             return java.util.Optional.ofNullable(location);
         }
 
-        public void setLocation(Location location) {
-            this.location = location;
-        }
-
-        public void validate() {
+        private void validate() {
             if (javaMethod != null) javaMethod.validate();
             if (javaStackTraceElement != null) javaStackTraceElement.validate();
             if (location != null) location.validate();
@@ -3438,43 +3114,33 @@ public class Messages {
         private String methodName;
         private java.util.List<String> methodParameterTypes = new java.util.ArrayList<>();
 
-        public JavaMethod() {}
+        private JavaMethod() {}
 
         public JavaMethod(
             String className,
             String methodName,
             java.util.List<String> methodParameterTypes
         ) {
-            this.className = java.util.Objects.requireNonNull(className, "JavaMethod.className cannot be null");
-            this.methodName = java.util.Objects.requireNonNull(methodName, "JavaMethod.methodName cannot be null");
-            this.methodParameterTypes = java.util.Objects.requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null");
+            this.className = className;
+            this.methodName = methodName;
+            this.methodParameterTypes = methodParameterTypes;
+            validate();
         }
+
 
         public String getClassName() {
-            return java.util.Objects.requireNonNull(className, "JavaMethod.className cannot be null");
-        }
-
-        public void setClassName(String className) {
-            this.className = java.util.Objects.requireNonNull(className, "JavaMethod.className cannot be null");
+            return className;
         }
 
         public String getMethodName() {
-            return java.util.Objects.requireNonNull(methodName, "JavaMethod.methodName cannot be null");
-        }
-
-        public void setMethodName(String methodName) {
-            this.methodName = java.util.Objects.requireNonNull(methodName, "JavaMethod.methodName cannot be null");
+            return methodName;
         }
 
         public java.util.List<String> getMethodParameterTypes() {
-            return java.util.Objects.requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null");
+            return methodParameterTypes;
         }
 
-        public void setMethodParameterTypes(java.util.List<String> methodParameterTypes) {
-            this.methodParameterTypes = java.util.Objects.requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(className, "JavaMethod.className cannot be null");
             java.util.Objects.requireNonNull(methodName, "JavaMethod.methodName cannot be null");
             java.util.Objects.requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null");
@@ -3517,43 +3183,33 @@ public class Messages {
         private String fileName;
         private String methodName;
 
-        public JavaStackTraceElement() {}
+        private JavaStackTraceElement() {}
 
         public JavaStackTraceElement(
             String className,
             String fileName,
             String methodName
         ) {
-            this.className = java.util.Objects.requireNonNull(className, "JavaStackTraceElement.className cannot be null");
-            this.fileName = java.util.Objects.requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
-            this.methodName = java.util.Objects.requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
+            this.className = className;
+            this.fileName = fileName;
+            this.methodName = methodName;
+            validate();
         }
+
 
         public String getClassName() {
-            return java.util.Objects.requireNonNull(className, "JavaStackTraceElement.className cannot be null");
-        }
-
-        public void setClassName(String className) {
-            this.className = java.util.Objects.requireNonNull(className, "JavaStackTraceElement.className cannot be null");
+            return className;
         }
 
         public String getFileName() {
-            return java.util.Objects.requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
-        }
-
-        public void setFileName(String fileName) {
-            this.fileName = java.util.Objects.requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
+            return fileName;
         }
 
         public String getMethodName() {
-            return java.util.Objects.requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
+            return methodName;
         }
 
-        public void setMethodName(String methodName) {
-            this.methodName = java.util.Objects.requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(className, "JavaStackTraceElement.className cannot be null");
             java.util.Objects.requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
             java.util.Objects.requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
@@ -3595,43 +3251,33 @@ public class Messages {
         private StepDefinitionPattern pattern;
         private SourceReference sourceReference;
 
-        public StepDefinition() {}
+        private StepDefinition() {}
 
         public StepDefinition(
             String id,
             StepDefinitionPattern pattern,
             SourceReference sourceReference
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "StepDefinition.id cannot be null");
-            this.pattern = java.util.Objects.requireNonNull(pattern, "StepDefinition.pattern cannot be null");
-            this.sourceReference = java.util.Objects.requireNonNull(sourceReference, "StepDefinition.sourceReference cannot be null");
+            this.id = id;
+            this.pattern = pattern;
+            this.sourceReference = sourceReference;
+            validate();
         }
+
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "StepDefinition.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "StepDefinition.id cannot be null");
+            return id;
         }
 
         public StepDefinitionPattern getPattern() {
-            return java.util.Objects.requireNonNull(pattern, "StepDefinition.pattern cannot be null");
-        }
-
-        public void setPattern(StepDefinitionPattern pattern) {
-            this.pattern = java.util.Objects.requireNonNull(pattern, "StepDefinition.pattern cannot be null");
+            return pattern;
         }
 
         public SourceReference getSourceReference() {
-            return java.util.Objects.requireNonNull(sourceReference, "StepDefinition.sourceReference cannot be null");
+            return sourceReference;
         }
 
-        public void setSourceReference(SourceReference sourceReference) {
-            this.sourceReference = java.util.Objects.requireNonNull(sourceReference, "StepDefinition.sourceReference cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(id, "StepDefinition.id cannot be null");
             java.util.Objects.requireNonNull(pattern, "StepDefinition.pattern cannot be null");
             pattern.validate();
@@ -3674,33 +3320,27 @@ public class Messages {
         private String source;
         private StepDefinitionPatternType type;
 
-        public StepDefinitionPattern() {}
+        private StepDefinitionPattern() {}
 
         public StepDefinitionPattern(
             String source,
             StepDefinitionPatternType type
         ) {
-            this.source = java.util.Objects.requireNonNull(source, "StepDefinitionPattern.source cannot be null");
-            this.type = java.util.Objects.requireNonNull(type, "StepDefinitionPattern.type cannot be null");
+            this.source = source;
+            this.type = type;
+            validate();
         }
+
 
         public String getSource() {
-            return java.util.Objects.requireNonNull(source, "StepDefinitionPattern.source cannot be null");
-        }
-
-        public void setSource(String source) {
-            this.source = java.util.Objects.requireNonNull(source, "StepDefinitionPattern.source cannot be null");
+            return source;
         }
 
         public StepDefinitionPatternType getType() {
-            return java.util.Objects.requireNonNull(type, "StepDefinitionPattern.type cannot be null");
+            return type;
         }
 
-        public void setType(StepDefinitionPatternType type) {
-            this.type = java.util.Objects.requireNonNull(type, "StepDefinitionPattern.type cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(source, "StepDefinitionPattern.source cannot be null");
             java.util.Objects.requireNonNull(type, "StepDefinitionPattern.type cannot be null");
         }
@@ -3738,43 +3378,33 @@ public class Messages {
         private String pickleId;
         private java.util.List<TestStep> testSteps = new java.util.ArrayList<>();
 
-        public TestCase() {}
+        private TestCase() {}
 
         public TestCase(
             String id,
             String pickleId,
             java.util.List<TestStep> testSteps
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "TestCase.id cannot be null");
-            this.pickleId = java.util.Objects.requireNonNull(pickleId, "TestCase.pickleId cannot be null");
-            this.testSteps = java.util.Objects.requireNonNull(testSteps, "TestCase.testSteps cannot be null");
+            this.id = id;
+            this.pickleId = pickleId;
+            this.testSteps = testSteps;
+            validate();
         }
+
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "TestCase.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "TestCase.id cannot be null");
+            return id;
         }
 
         public String getPickleId() {
-            return java.util.Objects.requireNonNull(pickleId, "TestCase.pickleId cannot be null");
-        }
-
-        public void setPickleId(String pickleId) {
-            this.pickleId = java.util.Objects.requireNonNull(pickleId, "TestCase.pickleId cannot be null");
+            return pickleId;
         }
 
         public java.util.List<TestStep> getTestSteps() {
-            return java.util.Objects.requireNonNull(testSteps, "TestCase.testSteps cannot be null");
+            return testSteps;
         }
 
-        public void setTestSteps(java.util.List<TestStep> testSteps) {
-            this.testSteps = java.util.Objects.requireNonNull(testSteps, "TestCase.testSteps cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(id, "TestCase.id cannot be null");
             java.util.Objects.requireNonNull(pickleId, "TestCase.pickleId cannot be null");
             java.util.Objects.requireNonNull(testSteps, "TestCase.testSteps cannot be null");
@@ -3817,43 +3447,33 @@ public class Messages {
         private Long start;
         private String value;
 
-        public Group() {}
+        private Group() {}
 
         public Group(
             java.util.List<Group> children,
             Long start,
             String value
         ) {
-            this.children = java.util.Objects.requireNonNull(children, "Group.children cannot be null");
+            this.children = children;
             this.start = start;
             this.value = value;
+            validate();
         }
+
 
         public java.util.List<Group> getChildren() {
-            return java.util.Objects.requireNonNull(children, "Group.children cannot be null");
-        }
-
-        public void setChildren(java.util.List<Group> children) {
-            this.children = java.util.Objects.requireNonNull(children, "Group.children cannot be null");
+            return children;
         }
 
         public java.util.Optional<Long> getStart() {
             return java.util.Optional.ofNullable(start);
         }
 
-        public void setStart(Long start) {
-            this.start = start;
-        }
-
         public java.util.Optional<String> getValue() {
             return java.util.Optional.ofNullable(value);
         }
 
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(children, "Group.children cannot be null");
             children.forEach(Group::validate);
         }
@@ -3893,33 +3513,27 @@ public class Messages {
         private Group group;
         private String parameterTypeName;
 
-        public StepMatchArgument() {}
+        private StepMatchArgument() {}
 
         public StepMatchArgument(
             Group group,
             String parameterTypeName
         ) {
-            this.group = java.util.Objects.requireNonNull(group, "StepMatchArgument.group cannot be null");
+            this.group = group;
             this.parameterTypeName = parameterTypeName;
+            validate();
         }
+
 
         public Group getGroup() {
-            return java.util.Objects.requireNonNull(group, "StepMatchArgument.group cannot be null");
-        }
-
-        public void setGroup(Group group) {
-            this.group = java.util.Objects.requireNonNull(group, "StepMatchArgument.group cannot be null");
+            return group;
         }
 
         public java.util.Optional<String> getParameterTypeName() {
             return java.util.Optional.ofNullable(parameterTypeName);
         }
 
-        public void setParameterTypeName(String parameterTypeName) {
-            this.parameterTypeName = parameterTypeName;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(group, "StepMatchArgument.group cannot be null");
             group.validate();
         }
@@ -3955,23 +3569,21 @@ public class Messages {
     public static class StepMatchArgumentsList {
         private java.util.List<StepMatchArgument> stepMatchArguments = new java.util.ArrayList<>();
 
-        public StepMatchArgumentsList() {}
+        private StepMatchArgumentsList() {}
 
         public StepMatchArgumentsList(
             java.util.List<StepMatchArgument> stepMatchArguments
         ) {
-            this.stepMatchArguments = java.util.Objects.requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null");
+            this.stepMatchArguments = stepMatchArguments;
+            validate();
         }
+
 
         public java.util.List<StepMatchArgument> getStepMatchArguments() {
-            return java.util.Objects.requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null");
+            return stepMatchArguments;
         }
 
-        public void setStepMatchArguments(java.util.List<StepMatchArgument> stepMatchArguments) {
-            this.stepMatchArguments = java.util.Objects.requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null");
             stepMatchArguments.forEach(StepMatchArgument::validate);
         }
@@ -4008,7 +3620,7 @@ public class Messages {
         private java.util.List<String> stepDefinitionIds = new java.util.ArrayList<>();
         private java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists = new java.util.ArrayList<>();
 
-        public TestStep() {}
+        private TestStep() {}
 
         public TestStep(
             String hookId,
@@ -4018,53 +3630,35 @@ public class Messages {
             java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists
         ) {
             this.hookId = hookId;
-            this.id = java.util.Objects.requireNonNull(id, "TestStep.id cannot be null");
+            this.id = id;
             this.pickleStepId = pickleStepId;
             this.stepDefinitionIds = stepDefinitionIds;
             this.stepMatchArgumentsLists = stepMatchArgumentsLists;
+            validate();
         }
+
 
         public java.util.Optional<String> getHookId() {
             return java.util.Optional.ofNullable(hookId);
         }
 
-        public void setHookId(String hookId) {
-            this.hookId = hookId;
-        }
-
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "TestStep.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "TestStep.id cannot be null");
+            return id;
         }
 
         public java.util.Optional<String> getPickleStepId() {
             return java.util.Optional.ofNullable(pickleStepId);
         }
 
-        public void setPickleStepId(String pickleStepId) {
-            this.pickleStepId = pickleStepId;
-        }
-
         public java.util.Optional<java.util.List<String>> getStepDefinitionIds() {
             return java.util.Optional.ofNullable(stepDefinitionIds);
-        }
-
-        public void setStepDefinitionIds(java.util.List<String> stepDefinitionIds) {
-            this.stepDefinitionIds = stepDefinitionIds;
         }
 
         public java.util.Optional<java.util.List<StepMatchArgumentsList>> getStepMatchArgumentsLists() {
             return java.util.Optional.ofNullable(stepMatchArgumentsLists);
         }
 
-        public void setStepMatchArgumentsLists(java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists) {
-            this.stepMatchArgumentsLists = stepMatchArgumentsLists;
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(id, "TestStep.id cannot be null");
             if (stepDefinitionIds != null) stepDefinitionIds.forEach(e -> java.util.Objects.requireNonNull(e, "TestStep.stepDefinitionIds elements cannot be null"));
             if (stepMatchArgumentsLists != null) stepMatchArgumentsLists.forEach(StepMatchArgumentsList::validate);
@@ -4112,43 +3706,33 @@ public class Messages {
         private Timestamp timestamp;
         private Boolean willBeRetried;
 
-        public TestCaseFinished() {}
+        private TestCaseFinished() {}
 
         public TestCaseFinished(
             String testCaseStartedId,
             Timestamp timestamp,
             Boolean willBeRetried
         ) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
-            this.willBeRetried = java.util.Objects.requireNonNull(willBeRetried, "TestCaseFinished.willBeRetried cannot be null");
+            this.testCaseStartedId = testCaseStartedId;
+            this.timestamp = timestamp;
+            this.willBeRetried = willBeRetried;
+            validate();
         }
+
 
         public String getTestCaseStartedId() {
-            return java.util.Objects.requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
-        }
-
-        public void setTestCaseStartedId(String testCaseStartedId) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
+            return testCaseStartedId;
         }
 
         public Timestamp getTimestamp() {
-            return java.util.Objects.requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
-        }
-
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
+            return timestamp;
         }
 
         public Boolean getWillBeRetried() {
-            return java.util.Objects.requireNonNull(willBeRetried, "TestCaseFinished.willBeRetried cannot be null");
+            return willBeRetried;
         }
 
-        public void setWillBeRetried(Boolean willBeRetried) {
-            this.willBeRetried = java.util.Objects.requireNonNull(willBeRetried, "TestCaseFinished.willBeRetried cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
             java.util.Objects.requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
             timestamp.validate();
@@ -4192,7 +3776,7 @@ public class Messages {
         private String testCaseId;
         private Timestamp timestamp;
 
-        public TestCaseStarted() {}
+        private TestCaseStarted() {}
 
         public TestCaseStarted(
             Long attempt,
@@ -4200,45 +3784,31 @@ public class Messages {
             String testCaseId,
             Timestamp timestamp
         ) {
-            this.attempt = java.util.Objects.requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "TestCaseStarted.id cannot be null");
-            this.testCaseId = java.util.Objects.requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestCaseStarted.timestamp cannot be null");
+            this.attempt = attempt;
+            this.id = id;
+            this.testCaseId = testCaseId;
+            this.timestamp = timestamp;
+            validate();
         }
+
 
         public Long getAttempt() {
-            return java.util.Objects.requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
-        }
-
-        public void setAttempt(Long attempt) {
-            this.attempt = java.util.Objects.requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
+            return attempt;
         }
 
         public String getId() {
-            return java.util.Objects.requireNonNull(id, "TestCaseStarted.id cannot be null");
-        }
-
-        public void setId(String id) {
-            this.id = java.util.Objects.requireNonNull(id, "TestCaseStarted.id cannot be null");
+            return id;
         }
 
         public String getTestCaseId() {
-            return java.util.Objects.requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
-        }
-
-        public void setTestCaseId(String testCaseId) {
-            this.testCaseId = java.util.Objects.requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
+            return testCaseId;
         }
 
         public Timestamp getTimestamp() {
-            return java.util.Objects.requireNonNull(timestamp, "TestCaseStarted.timestamp cannot be null");
+            return timestamp;
         }
 
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestCaseStarted.timestamp cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
             java.util.Objects.requireNonNull(id, "TestCaseStarted.id cannot be null");
             java.util.Objects.requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
@@ -4285,7 +3855,7 @@ public class Messages {
         private Boolean success;
         private Timestamp timestamp;
 
-        public TestRunFinished() {}
+        private TestRunFinished() {}
 
         public TestRunFinished(
             String message,
@@ -4293,35 +3863,25 @@ public class Messages {
             Timestamp timestamp
         ) {
             this.message = message;
-            this.success = java.util.Objects.requireNonNull(success, "TestRunFinished.success cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
+            this.success = success;
+            this.timestamp = timestamp;
+            validate();
         }
+
 
         public java.util.Optional<String> getMessage() {
             return java.util.Optional.ofNullable(message);
         }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
         public Boolean getSuccess() {
-            return java.util.Objects.requireNonNull(success, "TestRunFinished.success cannot be null");
-        }
-
-        public void setSuccess(Boolean success) {
-            this.success = java.util.Objects.requireNonNull(success, "TestRunFinished.success cannot be null");
+            return success;
         }
 
         public Timestamp getTimestamp() {
-            return java.util.Objects.requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
+            return timestamp;
         }
 
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(success, "TestRunFinished.success cannot be null");
             java.util.Objects.requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
             timestamp.validate();
@@ -4361,23 +3921,21 @@ public class Messages {
     public static class TestRunStarted {
         private Timestamp timestamp;
 
-        public TestRunStarted() {}
+        private TestRunStarted() {}
 
         public TestRunStarted(
             Timestamp timestamp
         ) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
+            this.timestamp = timestamp;
+            validate();
         }
+
 
         public Timestamp getTimestamp() {
-            return java.util.Objects.requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
+            return timestamp;
         }
 
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
             timestamp.validate();
         }
@@ -4413,7 +3971,7 @@ public class Messages {
         private TestStepResult testStepResult;
         private Timestamp timestamp;
 
-        public TestStepFinished() {}
+        private TestStepFinished() {}
 
         public TestStepFinished(
             String testCaseStartedId,
@@ -4421,45 +3979,31 @@ public class Messages {
             TestStepResult testStepResult,
             Timestamp timestamp
         ) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
-            this.testStepId = java.util.Objects.requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
-            this.testStepResult = java.util.Objects.requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestStepFinished.timestamp cannot be null");
+            this.testCaseStartedId = testCaseStartedId;
+            this.testStepId = testStepId;
+            this.testStepResult = testStepResult;
+            this.timestamp = timestamp;
+            validate();
         }
+
 
         public String getTestCaseStartedId() {
-            return java.util.Objects.requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
-        }
-
-        public void setTestCaseStartedId(String testCaseStartedId) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
+            return testCaseStartedId;
         }
 
         public String getTestStepId() {
-            return java.util.Objects.requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
-        }
-
-        public void setTestStepId(String testStepId) {
-            this.testStepId = java.util.Objects.requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
+            return testStepId;
         }
 
         public TestStepResult getTestStepResult() {
-            return java.util.Objects.requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
-        }
-
-        public void setTestStepResult(TestStepResult testStepResult) {
-            this.testStepResult = java.util.Objects.requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
+            return testStepResult;
         }
 
         public Timestamp getTimestamp() {
-            return java.util.Objects.requireNonNull(timestamp, "TestStepFinished.timestamp cannot be null");
+            return timestamp;
         }
 
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestStepFinished.timestamp cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
             java.util.Objects.requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
             java.util.Objects.requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
@@ -4507,43 +4051,33 @@ public class Messages {
         private String message;
         private TestStepResultStatus status;
 
-        public TestStepResult() {}
+        private TestStepResult() {}
 
         public TestStepResult(
             Duration duration,
             String message,
             TestStepResultStatus status
         ) {
-            this.duration = java.util.Objects.requireNonNull(duration, "TestStepResult.duration cannot be null");
+            this.duration = duration;
             this.message = message;
-            this.status = java.util.Objects.requireNonNull(status, "TestStepResult.status cannot be null");
+            this.status = status;
+            validate();
         }
+
 
         public Duration getDuration() {
-            return java.util.Objects.requireNonNull(duration, "TestStepResult.duration cannot be null");
-        }
-
-        public void setDuration(Duration duration) {
-            this.duration = java.util.Objects.requireNonNull(duration, "TestStepResult.duration cannot be null");
+            return duration;
         }
 
         public java.util.Optional<String> getMessage() {
             return java.util.Optional.ofNullable(message);
         }
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
         public TestStepResultStatus getStatus() {
-            return java.util.Objects.requireNonNull(status, "TestStepResult.status cannot be null");
+            return status;
         }
 
-        public void setStatus(TestStepResultStatus status) {
-            this.status = java.util.Objects.requireNonNull(status, "TestStepResult.status cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(duration, "TestStepResult.duration cannot be null");
             duration.validate();
             java.util.Objects.requireNonNull(status, "TestStepResult.status cannot be null");
@@ -4585,43 +4119,33 @@ public class Messages {
         private String testStepId;
         private Timestamp timestamp;
 
-        public TestStepStarted() {}
+        private TestStepStarted() {}
 
         public TestStepStarted(
             String testCaseStartedId,
             String testStepId,
             Timestamp timestamp
         ) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
-            this.testStepId = java.util.Objects.requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
+            this.testCaseStartedId = testCaseStartedId;
+            this.testStepId = testStepId;
+            this.timestamp = timestamp;
+            validate();
         }
+
 
         public String getTestCaseStartedId() {
-            return java.util.Objects.requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
-        }
-
-        public void setTestCaseStartedId(String testCaseStartedId) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
+            return testCaseStartedId;
         }
 
         public String getTestStepId() {
-            return java.util.Objects.requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
-        }
-
-        public void setTestStepId(String testStepId) {
-            this.testStepId = java.util.Objects.requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
+            return testStepId;
         }
 
         public Timestamp getTimestamp() {
-            return java.util.Objects.requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
+            return timestamp;
         }
 
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
             java.util.Objects.requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
             java.util.Objects.requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
@@ -4663,33 +4187,27 @@ public class Messages {
         private Long seconds;
         private Long nanos;
 
-        public Timestamp() {}
+        private Timestamp() {}
 
         public Timestamp(
             Long seconds,
             Long nanos
         ) {
-            this.seconds = java.util.Objects.requireNonNull(seconds, "Timestamp.seconds cannot be null");
-            this.nanos = java.util.Objects.requireNonNull(nanos, "Timestamp.nanos cannot be null");
+            this.seconds = seconds;
+            this.nanos = nanos;
+            validate();
         }
+
 
         public Long getSeconds() {
-            return java.util.Objects.requireNonNull(seconds, "Timestamp.seconds cannot be null");
-        }
-
-        public void setSeconds(Long seconds) {
-            this.seconds = java.util.Objects.requireNonNull(seconds, "Timestamp.seconds cannot be null");
+            return seconds;
         }
 
         public Long getNanos() {
-            return java.util.Objects.requireNonNull(nanos, "Timestamp.nanos cannot be null");
+            return nanos;
         }
 
-        public void setNanos(Long nanos) {
-            this.nanos = java.util.Objects.requireNonNull(nanos, "Timestamp.nanos cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(seconds, "Timestamp.seconds cannot be null");
             java.util.Objects.requireNonNull(nanos, "Timestamp.nanos cannot be null");
         }
@@ -4726,33 +4244,27 @@ public class Messages {
         private String expression;
         private String name;
 
-        public UndefinedParameterType() {}
+        private UndefinedParameterType() {}
 
         public UndefinedParameterType(
             String expression,
             String name
         ) {
-            this.expression = java.util.Objects.requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "UndefinedParameterType.name cannot be null");
+            this.expression = expression;
+            this.name = name;
+            validate();
         }
+
 
         public String getExpression() {
-            return java.util.Objects.requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
-        }
-
-        public void setExpression(String expression) {
-            this.expression = java.util.Objects.requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
+            return expression;
         }
 
         public String getName() {
-            return java.util.Objects.requireNonNull(name, "UndefinedParameterType.name cannot be null");
+            return name;
         }
 
-        public void setName(String name) {
-            this.name = java.util.Objects.requireNonNull(name, "UndefinedParameterType.name cannot be null");
-        }
-
-        public void validate() {
+        private void validate() {
             java.util.Objects.requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
             java.util.Objects.requireNonNull(name, "UndefinedParameterType.name cannot be null");
         }

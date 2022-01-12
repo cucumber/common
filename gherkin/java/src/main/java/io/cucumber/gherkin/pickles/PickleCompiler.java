@@ -185,25 +185,32 @@ public class PickleCompiler {
         List<TableCell> valueCells = valuesRow == null ? Collections.emptyList() : valuesRow.getCells();
         String stepText = interpolate(step.getText(), variableCells, valueCells);
 
-        PickleStep pickleStep = new PickleStep();
-        pickleStep.setId(idGenerator.newId());
-        pickleStep.setAstNodeIds(singletonList(step.getId()));
-        pickleStep.setText(stepText);
-        if (valuesRow != null) {
-            List<String> astNodeIds = Stream.of(pickleStep.getAstNodeIds(), singletonList(valuesRow.getId()))
-                    .flatMap(Collection::stream)
-                    .collect(Collectors.toList());
-            pickleStep.setAstNodeIds(astNodeIds);
-        }
-
+        PickleStepArgument argument = null;
         if (step.getDataTable().isPresent()) {
-            pickleStep.setArgument(new PickleStepArgument(null, pickleDataTable(step.getDataTable().get(), variableCells, valueCells)));
+            argument = new PickleStepArgument(null, pickleDataTable(step.getDataTable().get(), variableCells, valueCells));
         }
 
         if (step.getDocString().isPresent()) {
-            pickleStep.setArgument(new PickleStepArgument(pickleDocString(step.getDocString().get(), variableCells, valueCells), null));
+            argument = new PickleStepArgument(pickleDocString(step.getDocString().get(), variableCells, valueCells), null);
         }
-        return pickleStep;
+
+
+        List<String> astNodeIds;
+        if (valuesRow != null) {
+            astNodeIds = Stream.of(singletonList(step.getId()), singletonList(valuesRow.getId()))
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
+
+        } else {
+            astNodeIds = singletonList(step.getId());
+        }
+
+        return new PickleStep(
+                argument,
+                astNodeIds,
+                idGenerator.newId(),
+                stepText
+        );
     }
 
     private List<PickleStep> pickleSteps(List<Step> steps) {

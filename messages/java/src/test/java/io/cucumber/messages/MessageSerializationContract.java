@@ -7,7 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,17 +20,22 @@ abstract class MessageSerializationContract {
     void can_serialise_messages_over_a_stream() throws IOException {
         List<Envelope> outgoingMessages = new ArrayList<>();
         {
-            Envelope envelope = new Envelope();
-            envelope.setSource(new Source("hello.feature", "Feature: Hello", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+            Envelope envelope = Envelope.fromSource(new Source("hello.feature", "Feature: Hello", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
             outgoingMessages.add(envelope);
         }
         {
-            Envelope envelope = new Envelope();
-            Attachment attachment = new Attachment();
-            attachment.setBody("the body");
-            attachment.setContentEncoding(AttachmentContentEncoding.IDENTITY);
-            attachment.setMediaType("text/plain");
-            envelope.setAttachment(attachment);
+            Envelope envelope = Envelope.fromAttachment(
+                    new Attachment(
+                            "the body",
+                            AttachmentContentEncoding.IDENTITY,
+                            null,
+                            "text/plain",
+                            null,
+                            null,
+                            null,
+                            null
+                    )
+            );
             outgoingMessages.add(envelope);
         }
 
@@ -42,8 +46,7 @@ abstract class MessageSerializationContract {
     void writes_empty_arrays_and_empty_strings() throws IOException {
         List<Envelope> outgoingMessages = new ArrayList<>();
         {
-            Envelope envelope = new Envelope();
-            envelope.setGherkinDocument(
+            Envelope envelope = Envelope.fromGherkinDocument(
                     new GherkinDocument(
                             "hello.feature",
                             new Feature(

@@ -81,7 +81,7 @@ public class Parser<T> {
 
     public boolean stopAtFirstError;
 
-    class ParserContext {
+    static class ParserContext {
         public final ITokenScanner tokenScanner;
         public final ITokenMatcher tokenMatcher;
         public final Queue<Token> tokenQueue;
@@ -99,35 +99,35 @@ public class Parser<T> {
         this.builder = builder;
     }
 
-    public T parse(String source) {
-        return parse(new StringReader(source));
+    public T parse(String source, String uri) {
+        return parse(new StringReader(source), uri);
     }
 
-    public T parse(Reader source) {
-        return parse(new TokenScanner(source));
+    public T parse(Reader source, String uri) {
+        return parse(new TokenScanner(source), uri);
     }
 
-    public T parse(ITokenScanner tokenScanner) {
-        return parse(tokenScanner, new TokenMatcher());
+    public T parse(ITokenScanner tokenScanner, String uri) {
+        return parse(tokenScanner, new TokenMatcher(), uri);
     }
 
-    public T parse(String source, ITokenMatcher tokenMatcher) {
-        return parse(new StringReader(source), tokenMatcher);
+    public T parse(String source, ITokenMatcher tokenMatcher, String uri) {
+        return parse(new StringReader(source), tokenMatcher, uri);
     }
 
-    public T parse(Reader source, ITokenMatcher tokenMatcher) {
-        return parse(new TokenScanner(source), tokenMatcher);
+    public T parse(Reader source, ITokenMatcher tokenMatcher, String uri) {
+        return parse(new TokenScanner(source), tokenMatcher, uri);
     }
 
-    public T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher) {
-        builder.reset();
+    public T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher, String uri) {
+        builder.reset(uri);
         tokenMatcher.reset();
 
         ParserContext context = new ParserContext(
                 tokenScanner,
                 tokenMatcher,
-                new LinkedList<Token>(),
-                new ArrayList<ParserException>()
+                new LinkedList<>(),
+                new ArrayList<>()
         );
 
         startRule(context, RuleType.GherkinDocument);
@@ -4764,7 +4764,7 @@ public class Parser<T> {
         void startRule(RuleType ruleType);
         void endRule(RuleType ruleType);
         T getResult();
-        void reset();
+        void reset(String uri);
     }
 
     public interface ITokenScanner {

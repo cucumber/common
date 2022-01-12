@@ -13,6 +13,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Java] the `Parser.parse` methods now require an `uri` parameter to be passed in.
+
 ### Deprecated
 
 ### Removed

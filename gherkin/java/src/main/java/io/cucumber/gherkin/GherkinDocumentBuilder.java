@@ -29,21 +29,22 @@ import static io.cucumber.messages.Messages.TableRow;
 import static io.cucumber.messages.Messages.Tag;
 
 public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
+    private final List<Comment> comments = new ArrayList<>();
     private final IdGenerator idGenerator;
+    private String uri;
 
     private Deque<AstNode> stack;
-    private GherkinDocument gherkinDocument;
 
-    public GherkinDocumentBuilder(IdGenerator idGenerator) {
+    public GherkinDocumentBuilder(IdGenerator idGenerator, String uri) {
         this.idGenerator = idGenerator;
-        reset();
+        reset(uri);
     }
 
     @Override
-    public void reset() {
+    public void reset(String uri) {
+        this.uri = uri;
         stack = new ArrayDeque<>();
         stack.push(new AstNode(RuleType.None));
-        gherkinDocument = new GherkinDocument();
     }
 
     private AstNode currentNode() {
@@ -55,8 +56,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
         RuleType ruleType = RuleType.cast(token.matchedType);
         if (token.matchedType == TokenType.Comment) {
             Comment comment = new Comment(getLocation(token, 0), token.matchedText);
-            // TODO: Init list
-            gherkinDocument.getComments().add(comment);
+            comments.add(comment);
         } else {
             currentNode().add(ruleType, token);
         }
@@ -234,11 +234,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
             }
             case GherkinDocument: {
                 Feature feature = node.getSingle(RuleType.Feature, null);
-
-                if (feature != null)
-                    gherkinDocument.setFeature(feature);
-
-                return gherkinDocument;
+                return new GherkinDocument(uri, feature, comments);
             }
 
         }
