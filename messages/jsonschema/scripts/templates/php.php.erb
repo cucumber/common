@@ -5,25 +5,45 @@
  */
 
 namespace Cucumber\Messages;
+
+use \JsonSerializable;
 <% @schemas.sort.each do |key, schema| %>
 /**
- * Represents the <%= class_name(key) %> message in Cucumber's {message protocol}[https://github.com/cucumber/common/tree/main/messages#readme].
+ * Represents the <%= class_name(key) %> message in Cucumber's message protocol
+ * @see https://github.com/cucumber/common/tree/main/messages#readme
  *
-<%= format_description(schema['description'], indent_string: '') %>
- */
-final class <%= class_name(key) %>
+<%=- format_description(schema['description'], indent_string: '') -%> */
+final class <%= class_name(key) %> implements JsonSerializable
 {
-    public function __construct(
+	use JsonEncodingTrait;
+
+    private function __construct(
     <%- schema['properties'].each do |property_name, property| -%>
-        <%- if property['description'] -%>
+
+		<%- property_type = type_for(key, property_name, property) -%>
+		<%- if  property['description'] or property_type == 'array' -%>
         /**
-        <%= format_description(property['description']) %>
+        <%- if property['description'] -%>
+	    <%= format_description(property['description']) %>
+        <%- end -%>
+        <%- if property_type == 'array' -%>
+         * @param <%= is_nullable(property_name, schema) ? '?' : '' %>list<<%= array_contents_type(key, property_name, property) %>> $<%= property_name %>
+        <%- end -%>
          */
         <%- end -%>
-        public readonly <%= type_for(key, property_name, property) %> $<%= property_name %>,
-
+        public readonly <%= is_nullable(property_name, schema) ? '?' : '' %><%= property_type %> $<%= property_name %>,
     <%- end -%>
+
     ){}
+
+    public static function fromArray(array $arr) : self
+    {
+    	return new self(
+			<%- schema['properties'].each do |property_name, property| -%>
+			<%= constructor_for(key, property, property_name, schema, 'arr') %>,
+        	<%- end -%>
+    	);
+    }
 }
 
 <% end %>

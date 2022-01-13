@@ -1,0 +1,11 @@
+<%- namespaces = enum[:name].split('\\') -%>
+namespace Cucumber\Messages\<%= namespaces.slice(0,1)[0] %>;
+
+enum <%= namespaces[-1] %> : string
+{
+<%- enum[:values].each_with_index do |value, index| -%>
+  case <%= enum_constant(value) %> = '<%= value %>';
+<%- end -%>
+}
+
+<%# block to preserve linebreaks %>
