@@ -76,6 +76,7 @@ class Codegen
     type = property['type']
     items = property['items']
     enum = property['enum']
+
     if ref
       property_type_from_ref(property['$ref'])
     elsif type
@@ -84,8 +85,7 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
-          @enums.add({ name: enum_type_name, values: enum })
+          enum_type_name = enum_name(parent_type_name, property_name, enum)
           property_type_from_enum(enum_type_name)
         else
           @language_type_by_schema_type[type]
@@ -103,6 +103,12 @@ class Codegen
 
   def property_type_from_enum(enum)
     enum
+  end
+
+  def enum_name(parent_type_name, property_name, enum)
+    enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
+    @enums.add({ name: enum_type_name, values: enum })
+    enum_type_name
   end
 
   def class_name(ref)
@@ -294,6 +300,41 @@ class Markdown < Codegen
     "#{type_name}[]"
   end
 end
+
+class Php < Codegen
+  def initialize(paths)
+    template = File.read("#{TEMPLATES_DIRECTORY}/php.php.erb")
+    enum_template = File.read("#{TEMPLATES_DIRECTORY}/php.enum.php.erb")
+
+    language_type_by_schema_type = {
+      'string' => 'string',
+      'integer' => 'int',
+      'boolean' => 'bool',
+    }
+    super(paths, template, enum_template, language_type_by_schema_type)
+  end
+
+  def format_description(raw_description, indent_string: "        ")
+    return '' if raw_description.nil?
+
+    raw_description
+      .split("\n")
+      .map { |description_line| " * #{description_line}" }
+      .join("\n#{indent_string}")
+  end
+
+  def array_type_for(type_name)
+    "array"
+  end
+
+  def enum_name(parent_type_name, property_name, enum)
+    enum_type_name = "#{class_name(parent_type_name)}\\#{capitalize(property_name)}"
+    @enums.add({ name: enum_type_name, values: enum })
+    enum_type_name
+  end
+
+end
+
 
 clazz = Object.const_get(ARGV[0])
 path = ARGV[1]
