@@ -30,7 +30,7 @@
     "color": "4.2.0",
     "date-fns": "2.28.0",
     "elasticlunr": "0.9.5",
-    "hast-util-sanitize": "3.0.2",
+    "hast-util-sanitize": "4.0.0",
     "highlight-words": "1.2.0",
     "react-accessible-accordion": "4.0.0",
     "react-markdown": "6.0.3",
