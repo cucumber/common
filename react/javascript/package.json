@@ -35,7 +35,7 @@
     "react-accessible-accordion": "4.0.0",
     "react-markdown": "6.0.3",
     "rehype-raw": "5.1.0",
-    "rehype-sanitize": "4.0.0",
+    "rehype-sanitize": "5.0.1",
     "remark-gfm": "1.0.0"
   },
   "peerDependencies": {
