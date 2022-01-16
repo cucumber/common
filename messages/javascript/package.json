@@ -42,7 +42,7 @@
     "@types/mocha": "9.0.0",
     "@types/node": "16.11.19",
     "copyfiles": "2.4.1",
-    "mocha": "9.1.3",
+    "mocha": "9.1.4",
     "ts-node": "10.4.0",
     "typescript": "4.5.4"
   },
