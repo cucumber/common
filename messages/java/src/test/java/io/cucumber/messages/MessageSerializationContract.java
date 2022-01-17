@@ -20,11 +20,11 @@ abstract class MessageSerializationContract {
     void can_serialise_messages_over_a_stream() throws IOException {
         List<Envelope> outgoingMessages = new ArrayList<>();
         {
-            Envelope envelope = Envelope.from(new Source("hello.feature", "Feature: Hello", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+            Envelope envelope = new Envelope(new Source("hello.feature", "Feature: Hello", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
             outgoingMessages.add(envelope);
         }
         {
-            Envelope envelope = Envelope.from(
+            Envelope envelope = new Envelope(
                     new Attachment(
                             "the body",
                             AttachmentContentEncoding.IDENTITY,
@@ -46,7 +46,7 @@ abstract class MessageSerializationContract {
     void writes_empty_arrays_and_empty_strings() throws IOException {
         List<Envelope> outgoingMessages = new ArrayList<>();
         {
-            Envelope envelope = Envelope.from(
+            Envelope envelope = new Envelope(
                     new GherkinDocument(
                             "hello.feature",
                             new Feature(

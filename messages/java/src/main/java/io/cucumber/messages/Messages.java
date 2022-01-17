@@ -174,8 +174,8 @@ public class Messages {
         private final TestStepStarted testStepStarted;
         private final UndefinedParameterType undefinedParameterType;
 
-        public static Envelope from(Attachment attachment) {
-            return new Envelope(
+        public Envelope(Attachment attachment) {
+            this(
                 java.util.Objects.requireNonNull(attachment, "Envelope.attachment cannot be null"),
                 null,
                 null,
@@ -196,8 +196,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(GherkinDocument gherkinDocument) {
-            return new Envelope(
+        public Envelope(GherkinDocument gherkinDocument) {
+            this(
                 null,
                 java.util.Objects.requireNonNull(gherkinDocument, "Envelope.gherkinDocument cannot be null"),
                 null,
@@ -218,8 +218,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(Hook hook) {
-            return new Envelope(
+        public Envelope(Hook hook) {
+            this(
                 null,
                 null,
                 java.util.Objects.requireNonNull(hook, "Envelope.hook cannot be null"),
@@ -240,8 +240,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(Meta meta) {
-            return new Envelope(
+        public Envelope(Meta meta) {
+            this(
                 null,
                 null,
                 null,
@@ -262,8 +262,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(ParameterType parameterType) {
-            return new Envelope(
+        public Envelope(ParameterType parameterType) {
+            this(
                 null,
                 null,
                 null,
@@ -284,8 +284,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(ParseError parseError) {
-            return new Envelope(
+        public Envelope(ParseError parseError) {
+            this(
                 null,
                 null,
                 null,
@@ -306,8 +306,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(Pickle pickle) {
-            return new Envelope(
+        public Envelope(Pickle pickle) {
+            this(
                 null,
                 null,
                 null,
@@ -328,8 +328,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(Source source) {
-            return new Envelope(
+        public Envelope(Source source) {
+            this(
                 null,
                 null,
                 null,
@@ -350,8 +350,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(StepDefinition stepDefinition) {
-            return new Envelope(
+        public Envelope(StepDefinition stepDefinition) {
+            this(
                 null,
                 null,
                 null,
@@ -372,8 +372,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestCase testCase) {
-            return new Envelope(
+        public Envelope(TestCase testCase) {
+            this(
                 null,
                 null,
                 null,
@@ -394,8 +394,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestCaseFinished testCaseFinished) {
-            return new Envelope(
+        public Envelope(TestCaseFinished testCaseFinished) {
+            this(
                 null,
                 null,
                 null,
@@ -416,8 +416,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestCaseStarted testCaseStarted) {
-            return new Envelope(
+        public Envelope(TestCaseStarted testCaseStarted) {
+            this(
                 null,
                 null,
                 null,
@@ -438,8 +438,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestRunFinished testRunFinished) {
-            return new Envelope(
+        public Envelope(TestRunFinished testRunFinished) {
+            this(
                 null,
                 null,
                 null,
@@ -460,8 +460,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestRunStarted testRunStarted) {
-            return new Envelope(
+        public Envelope(TestRunStarted testRunStarted) {
+            this(
                 null,
                 null,
                 null,
@@ -482,8 +482,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestStepFinished testStepFinished) {
-            return new Envelope(
+        public Envelope(TestStepFinished testStepFinished) {
+            this(
                 null,
                 null,
                 null,
@@ -504,8 +504,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(TestStepStarted testStepStarted) {
-            return new Envelope(
+        public Envelope(TestStepStarted testStepStarted) {
+            this(
                 null,
                 null,
                 null,
@@ -526,8 +526,8 @@ public class Messages {
             );
         }
 
-        public static Envelope from(UndefinedParameterType undefinedParameterType) {
-            return new Envelope(
+        public Envelope(UndefinedParameterType undefinedParameterType) {
+            this(
                 null,
                 null,
                 null,
@@ -1240,24 +1240,24 @@ public class Messages {
         private final Background background;
         private final Scenario scenario;
 
-        public static FeatureChild from(Rule rule) {
-            return new FeatureChild(
+        public FeatureChild(Rule rule) {
+            this(
                 java.util.Objects.requireNonNull(rule, "FeatureChild.rule cannot be null"),
                 null,
                 null
             );
         }
 
-        public static FeatureChild from(Background background) {
-            return new FeatureChild(
+        public FeatureChild(Background background) {
+            this(
                 null,
                 java.util.Objects.requireNonNull(background, "FeatureChild.background cannot be null"),
                 null
             );
         }
 
-        public static FeatureChild from(Scenario scenario) {
-            return new FeatureChild(
+        public FeatureChild(Scenario scenario) {
+            this(
                 null,
                 null,
                 java.util.Objects.requireNonNull(scenario, "FeatureChild.scenario cannot be null")
@@ -1417,15 +1417,15 @@ public class Messages {
         private final Background background;
         private final Scenario scenario;
 
-        public static RuleChild from(Background background) {
-            return new RuleChild(
+        public RuleChild(Background background) {
+            this(
                 java.util.Objects.requireNonNull(background, "RuleChild.background cannot be null"),
                 null
             );
         }
 
-        public static RuleChild from(Scenario scenario) {
-            return new RuleChild(
+        public RuleChild(Scenario scenario) {
+            this(
                 null,
                 java.util.Objects.requireNonNull(scenario, "RuleChild.scenario cannot be null")
             );
@@ -2540,15 +2540,15 @@ public class Messages {
         private final PickleDocString docString;
         private final PickleTable dataTable;
 
-        public static PickleStepArgument from(PickleDocString docString) {
-            return new PickleStepArgument(
+        public PickleStepArgument(PickleDocString docString) {
+            this(
                 java.util.Objects.requireNonNull(docString, "PickleStepArgument.docString cannot be null"),
                 null
             );
         }
 
-        public static PickleStepArgument from(PickleTable dataTable) {
-            return new PickleStepArgument(
+        public PickleStepArgument(PickleTable dataTable) {
+            this(
                 null,
                 java.util.Objects.requireNonNull(dataTable, "PickleStepArgument.dataTable cannot be null")
             );
@@ -2818,8 +2818,8 @@ public class Messages {
         private final JavaStackTraceElement javaStackTraceElement;
         private final Location location;
 
-        public static SourceReference from(String uri) {
-            return new SourceReference(
+        public SourceReference(String uri) {
+            this(
                 java.util.Objects.requireNonNull(uri, "SourceReference.uri cannot be null"),
                 null,
                 null,
@@ -2827,8 +2827,8 @@ public class Messages {
             );
         }
 
-        public static SourceReference from(JavaMethod javaMethod) {
-            return new SourceReference(
+        public SourceReference(JavaMethod javaMethod) {
+            this(
                 null,
                 java.util.Objects.requireNonNull(javaMethod, "SourceReference.javaMethod cannot be null"),
                 null,
@@ -2836,8 +2836,8 @@ public class Messages {
             );
         }
 
-        public static SourceReference from(JavaStackTraceElement javaStackTraceElement) {
-            return new SourceReference(
+        public SourceReference(JavaStackTraceElement javaStackTraceElement) {
+            this(
                 null,
                 null,
                 java.util.Objects.requireNonNull(javaStackTraceElement, "SourceReference.javaStackTraceElement cannot be null"),
@@ -2845,8 +2845,8 @@ public class Messages {
             );
         }
 
-        public static SourceReference from(Location location) {
-            return new SourceReference(
+        public SourceReference(Location location) {
+            this(
                 null,
                 null,
                 null,

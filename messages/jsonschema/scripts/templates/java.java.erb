@@ -6,8 +6,8 @@
       <%- if (schema['required'] || []).empty? -%>
       <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
 
-        public static <%= class_name(key) %> from(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
-            return new <%= class_name(key) %>(
+        public <%= class_name(key) %>(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
+            this(
             <%- schema['properties'].each_with_index do |(property_name_2, property_2), index_2| -%>
               <%- if property_name_2 == property_name -%>
                 <%- if property['items'] -%>
