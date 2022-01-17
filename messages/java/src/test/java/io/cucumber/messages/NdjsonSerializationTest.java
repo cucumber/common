@@ -42,7 +42,25 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     void does_not_serialize_null_fields() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        JSON.writeValue(writer, new Envelope());
+        JSON.writeValue(writer, new Envelope(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        ));
         writer.flush();
         assertEquals("{}", new String(output.toByteArray(), UTF_8));
     }
@@ -54,7 +72,25 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
         Envelope envelope = iterator.next();
-        assertEquals(new Envelope(), envelope);
+        assertEquals(new Envelope(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        ), envelope);
         assertFalse(iterator.hasNext());
     }
 
@@ -66,7 +102,25 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         for (int i = 0; i < 3; i++) {
             assertTrue(iterator.hasNext());
             Envelope envelope = iterator.next();
-            assertEquals(new Envelope(), envelope);
+            assertEquals(new Envelope(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            ), envelope);
         }
         assertFalse(iterator.hasNext());
     }

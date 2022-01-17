@@ -14,6 +14,24 @@ public class MessagesTest {
 
     @Test
     void is_valid_when_no_required_fields_are_missing() {
-        new Messages.Envelope();
+        new Messages.Envelope(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
     }
 }
