@@ -1,6 +1,6 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.JSON;
+import io.cucumber.messages.Jackson;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -67,7 +67,7 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
             writer.write(",");
         }
 
-        JSON.writeValue(writer, envelope);
+        Jackson.OBJECT_MAPPER.writeValue(writer, envelope);
     }
 
     /**
