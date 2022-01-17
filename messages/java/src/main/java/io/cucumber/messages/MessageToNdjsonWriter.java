@@ -15,7 +15,7 @@ public final class MessageToNdjsonWriter implements MessageWriter {
 
     @Override
     public void write(Object message) throws IOException {
-        JSON.writeValue(out, message);
+        Jackson.OBJECT_MAPPER.writeValue(out, message);
         out.write("\n");
         out.flush();
     }

@@ -3947,8 +3947,8 @@ public class Messages {
         }
 
         public static SourceMediaType fromValue(String value) {
-            if ("TEXT_X_CUCUMBER_GHERKIN_PLAIN".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_PLAIN;
-            if ("TEXT_X_CUCUMBER_GHERKIN_MARKDOWN".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_MARKDOWN;
+            if ("text/x.cucumber.gherkin+plain".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_PLAIN;
+            if ("text/x.cucumber.gherkin+markdown".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_MARKDOWN;
             throw new IllegalArgumentException(value);
         }
     }

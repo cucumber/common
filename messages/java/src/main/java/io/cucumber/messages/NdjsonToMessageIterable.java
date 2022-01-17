@@ -1,8 +1,6 @@
 package io.cucumber.messages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,9 +17,6 @@ import static io.cucumber.messages.Messages.*;
  * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
 public final class NdjsonToMessageIterable implements Iterable<Envelope> {
-    private final ObjectMapper mapper = new ObjectMapper()
-            .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final BufferedReader input;
     private Envelope next;
 
@@ -41,7 +36,7 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope> {
                         return hasNext();
                     }
                     try {
-                        next = mapper.readValue(line, Envelope.class);
+                        next = Jackson.OBJECT_MAPPER.readValue(line, Envelope.class);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(String.format("Could not parse JSON: %s", line), e);
                     }

@@ -21,7 +21,7 @@
 
         public static <%= enum[:name] %> fromValue(String value) {
         <%- enum[:values].each do |value| -%>
-            if ("<%= enum_constant(value) %>".equals(value)) return <%= enum_constant(value) %>;
+            if ("<%= value %>".equals(value)) return <%= enum_constant(value) %>;
         <%- end -%>
             throw new IllegalArgumentException(value);
         }

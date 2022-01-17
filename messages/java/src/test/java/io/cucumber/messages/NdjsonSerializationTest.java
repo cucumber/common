@@ -42,7 +42,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     void does_not_serialize_null_fields() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         OutputStreamWriter writer = new OutputStreamWriter(output);
-        JSON.writeValue(writer, new Envelope(
+        Jackson.OBJECT_MAPPER.writeValue(writer, new Envelope(
                 null,
                 null,
                 null,
@@ -127,7 +127,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
 
     @Test
     void handles_enums() {
-        InputStream input = new ByteArrayInputStream("{\"attachment\":{\"contentEncoding\":\"BASE64\"}}\n".getBytes(UTF_8));
+        InputStream input = new ByteArrayInputStream("{\"attachment\":{\"contentEncoding\":\"BASE64\", \"body\":\"the-body\", \"mediaType\":\"text/plain\"}}\n".getBytes(UTF_8));
         Iterable<Envelope> incomingMessages = makeMessageIterable(input);
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
@@ -143,6 +143,6 @@ class NdjsonSerializationTest extends MessageSerializationContract {
         Iterator<Envelope> iterator = incomingMessages.iterator();
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> assertTrue(iterator.hasNext()));
-        assertEquals(exception.getMessage(), "Not JSON: BLA BLA");
+        assertEquals(exception.getMessage(), "Could not parse JSON: BLA BLA");
     }
 }
