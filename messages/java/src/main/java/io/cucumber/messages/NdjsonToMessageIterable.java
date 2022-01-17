@@ -43,7 +43,7 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope> {
                     try {
                         next = mapper.readValue(line, Envelope.class);
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(String.format("Not JSON: %s", line), e);
+                        throw new RuntimeException(String.format("Could not parse JSON: %s", line), e);
                     }
                     return true;
                 } catch (IOException e) {
