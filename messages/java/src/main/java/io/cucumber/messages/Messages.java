@@ -1,7 +1,6 @@
 package io.cucumber.messages;
 
 public class Messages {
-
     public static class Attachment {
         private final String body;
         private final AttachmentContentEncoding contentEncoding;
@@ -64,13 +63,6 @@ public class Messages {
             return java.util.Optional.ofNullable(url);
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(body, "Attachment.body cannot be null");
-            java.util.Objects.requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
-            java.util.Objects.requireNonNull(mediaType, "Attachment.mediaType cannot be null");
-            if (source != null) source.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -116,7 +108,6 @@ public class Messages {
         }
     }
 
-
     public static class Duration {
         private final Long seconds;
         private final Long nanos;
@@ -135,11 +126,6 @@ public class Messages {
 
         public Long getNanos() {
             return nanos;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(seconds, "Duration.seconds cannot be null");
-            java.util.Objects.requireNonNull(nanos, "Duration.nanos cannot be null");
         }
 
         @Override
@@ -168,7 +154,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Envelope {
         private final Attachment attachment;
@@ -669,26 +654,6 @@ public class Messages {
             return java.util.Optional.ofNullable(undefinedParameterType);
         }
 
-        private void validate() {
-            if (attachment != null) attachment.validate();
-            if (gherkinDocument != null) gherkinDocument.validate();
-            if (hook != null) hook.validate();
-            if (meta != null) meta.validate();
-            if (parameterType != null) parameterType.validate();
-            if (parseError != null) parseError.validate();
-            if (pickle != null) pickle.validate();
-            if (source != null) source.validate();
-            if (stepDefinition != null) stepDefinition.validate();
-            if (testCase != null) testCase.validate();
-            if (testCaseFinished != null) testCaseFinished.validate();
-            if (testCaseStarted != null) testCaseStarted.validate();
-            if (testRunFinished != null) testRunFinished.validate();
-            if (testRunStarted != null) testRunStarted.validate();
-            if (testStepFinished != null) testStepFinished.validate();
-            if (testStepStarted != null) testStepStarted.validate();
-            if (undefinedParameterType != null) undefinedParameterType.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -761,7 +726,6 @@ public class Messages {
         }
     }
 
-
     public static class GherkinDocument {
         private final String uri;
         private final Feature feature;
@@ -787,12 +751,6 @@ public class Messages {
 
         public java.util.List<Comment> getComments() {
             return comments;
-        }
-
-        private void validate() {
-            if (feature != null) feature.validate();
-            java.util.Objects.requireNonNull(comments, "GherkinDocument.comments cannot be null");
-            comments.forEach(Comment::validate);
         }
 
         @Override
@@ -824,7 +782,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Background {
         private final Location location;
@@ -874,17 +831,6 @@ public class Messages {
             return id;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Background.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(keyword, "Background.keyword cannot be null");
-            java.util.Objects.requireNonNull(name, "Background.name cannot be null");
-            java.util.Objects.requireNonNull(description, "Background.description cannot be null");
-            java.util.Objects.requireNonNull(steps, "Background.steps cannot be null");
-            steps.forEach(Step::validate);
-            java.util.Objects.requireNonNull(id, "Background.id cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -924,7 +870,6 @@ public class Messages {
         }
     }
 
-
     public static class Comment {
         private final Location location;
         private final String text;
@@ -943,12 +888,6 @@ public class Messages {
 
         public String getText() {
             return text;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Comment.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(text, "Comment.text cannot be null");
         }
 
         @Override
@@ -978,7 +917,6 @@ public class Messages {
         }
     }
 
-
     public static class DataTable {
         private final Location location;
         private final java.util.List<TableRow> rows;
@@ -997,13 +935,6 @@ public class Messages {
 
         public java.util.List<TableRow> getRows() {
             return rows;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "DataTable.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(rows, "DataTable.rows cannot be null");
-            rows.forEach(TableRow::validate);
         }
 
         @Override
@@ -1032,7 +963,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class DocString {
         private final Location location;
@@ -1068,13 +998,6 @@ public class Messages {
             return delimiter;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "DocString.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(content, "DocString.content cannot be null");
-            java.util.Objects.requireNonNull(delimiter, "DocString.delimiter cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1107,7 +1030,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Examples {
         private final Location location;
@@ -1171,20 +1093,6 @@ public class Messages {
             return id;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Examples.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(tags, "Examples.tags cannot be null");
-            tags.forEach(Tag::validate);
-            java.util.Objects.requireNonNull(keyword, "Examples.keyword cannot be null");
-            java.util.Objects.requireNonNull(name, "Examples.name cannot be null");
-            java.util.Objects.requireNonNull(description, "Examples.description cannot be null");
-            if (tableHeader != null) tableHeader.validate();
-            java.util.Objects.requireNonNull(tableBody, "Examples.tableBody cannot be null");
-            tableBody.forEach(TableRow::validate);
-            java.util.Objects.requireNonNull(id, "Examples.id cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1229,7 +1137,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Feature {
         private final Location location;
@@ -1286,19 +1193,6 @@ public class Messages {
             return children;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Feature.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(tags, "Feature.tags cannot be null");
-            tags.forEach(Tag::validate);
-            java.util.Objects.requireNonNull(language, "Feature.language cannot be null");
-            java.util.Objects.requireNonNull(keyword, "Feature.keyword cannot be null");
-            java.util.Objects.requireNonNull(name, "Feature.name cannot be null");
-            java.util.Objects.requireNonNull(description, "Feature.description cannot be null");
-            java.util.Objects.requireNonNull(children, "Feature.children cannot be null");
-            children.forEach(FeatureChild::validate);
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1340,7 +1234,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class FeatureChild {
         private final Rule rule;
@@ -1393,12 +1286,6 @@ public class Messages {
             return java.util.Optional.ofNullable(scenario);
         }
 
-        private void validate() {
-            if (rule != null) rule.validate();
-            if (background != null) background.validate();
-            if (scenario != null) scenario.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1428,7 +1315,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Rule {
         private final Location location;
@@ -1485,19 +1371,6 @@ public class Messages {
             return id;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Rule.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(tags, "Rule.tags cannot be null");
-            tags.forEach(Tag::validate);
-            java.util.Objects.requireNonNull(keyword, "Rule.keyword cannot be null");
-            java.util.Objects.requireNonNull(name, "Rule.name cannot be null");
-            java.util.Objects.requireNonNull(description, "Rule.description cannot be null");
-            java.util.Objects.requireNonNull(children, "Rule.children cannot be null");
-            children.forEach(RuleChild::validate);
-            java.util.Objects.requireNonNull(id, "Rule.id cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1540,7 +1413,6 @@ public class Messages {
         }
     }
 
-
     public static class RuleChild {
         private final Background background;
         private final Scenario scenario;
@@ -1575,11 +1447,6 @@ public class Messages {
             return java.util.Optional.ofNullable(scenario);
         }
 
-        private void validate() {
-            if (background != null) background.validate();
-            if (scenario != null) scenario.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1606,7 +1473,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Scenario {
         private final Location location;
@@ -1670,21 +1536,6 @@ public class Messages {
             return id;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Scenario.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(tags, "Scenario.tags cannot be null");
-            tags.forEach(Tag::validate);
-            java.util.Objects.requireNonNull(keyword, "Scenario.keyword cannot be null");
-            java.util.Objects.requireNonNull(name, "Scenario.name cannot be null");
-            java.util.Objects.requireNonNull(description, "Scenario.description cannot be null");
-            java.util.Objects.requireNonNull(steps, "Scenario.steps cannot be null");
-            steps.forEach(Step::validate);
-            java.util.Objects.requireNonNull(examples, "Scenario.examples cannot be null");
-            examples.forEach(Examples::validate);
-            java.util.Objects.requireNonNull(id, "Scenario.id cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1729,7 +1580,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Step {
         private final Location location;
@@ -1779,16 +1629,6 @@ public class Messages {
             return id;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Step.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(keyword, "Step.keyword cannot be null");
-            java.util.Objects.requireNonNull(text, "Step.text cannot be null");
-            if (docString != null) docString.validate();
-            if (dataTable != null) dataTable.validate();
-            java.util.Objects.requireNonNull(id, "Step.id cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -1828,7 +1668,6 @@ public class Messages {
         }
     }
 
-
     public static class TableCell {
         private final Location location;
         private final String value;
@@ -1847,12 +1686,6 @@ public class Messages {
 
         public String getValue() {
             return value;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "TableCell.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(value, "TableCell.value cannot be null");
         }
 
         @Override
@@ -1882,7 +1715,6 @@ public class Messages {
         }
     }
 
-
     public static class TableRow {
         private final Location location;
         private final java.util.List<TableCell> cells;
@@ -1908,14 +1740,6 @@ public class Messages {
 
         public String getId() {
             return id;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "TableRow.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(cells, "TableRow.cells cannot be null");
-            cells.forEach(TableCell::validate);
-            java.util.Objects.requireNonNull(id, "TableRow.id cannot be null");
         }
 
         @Override
@@ -1948,7 +1772,6 @@ public class Messages {
         }
     }
 
-
     public static class Tag {
         private final Location location;
         private final String name;
@@ -1974,13 +1797,6 @@ public class Messages {
 
         public String getId() {
             return id;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(location, "Tag.location cannot be null");
-            location.validate();
-            java.util.Objects.requireNonNull(name, "Tag.name cannot be null");
-            java.util.Objects.requireNonNull(id, "Tag.id cannot be null");
         }
 
         @Override
@@ -2013,7 +1829,6 @@ public class Messages {
         }
     }
 
-
     public static class Hook {
         private final String id;
         private final SourceReference sourceReference;
@@ -2039,12 +1854,6 @@ public class Messages {
 
         public java.util.Optional<String> getTagExpression() {
             return java.util.Optional.ofNullable(tagExpression);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(id, "Hook.id cannot be null");
-            java.util.Objects.requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
-            sourceReference.validate();
         }
 
         @Override
@@ -2077,7 +1886,6 @@ public class Messages {
         }
     }
 
-
     public static class Location {
         private final Long line;
         private final Long column;
@@ -2096,10 +1904,6 @@ public class Messages {
 
         public java.util.Optional<Long> getColumn() {
             return java.util.Optional.ofNullable(column);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(line, "Location.line cannot be null");
         }
 
         @Override
@@ -2128,7 +1932,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Meta {
         private final String protocolVersion;
@@ -2178,19 +1981,6 @@ public class Messages {
             return java.util.Optional.ofNullable(ci);
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
-            java.util.Objects.requireNonNull(implementation, "Meta.implementation cannot be null");
-            implementation.validate();
-            java.util.Objects.requireNonNull(runtime, "Meta.runtime cannot be null");
-            runtime.validate();
-            java.util.Objects.requireNonNull(os, "Meta.os cannot be null");
-            os.validate();
-            java.util.Objects.requireNonNull(cpu, "Meta.cpu cannot be null");
-            cpu.validate();
-            if (ci != null) ci.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -2230,7 +2020,6 @@ public class Messages {
         }
     }
 
-
     public static class Ci {
         private final String name;
         private final String url;
@@ -2263,11 +2052,6 @@ public class Messages {
 
         public java.util.Optional<Git> getGit() {
             return java.util.Optional.ofNullable(git);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(name, "Ci.name cannot be null");
-            if (git != null) git.validate();
         }
 
         @Override
@@ -2303,7 +2087,6 @@ public class Messages {
         }
     }
 
-
     public static class Git {
         private final String remote;
         private final String revision;
@@ -2336,11 +2119,6 @@ public class Messages {
 
         public java.util.Optional<String> getTag() {
             return java.util.Optional.ofNullable(tag);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(remote, "Git.remote cannot be null");
-            java.util.Objects.requireNonNull(revision, "Git.revision cannot be null");
         }
 
         @Override
@@ -2376,7 +2154,6 @@ public class Messages {
         }
     }
 
-
     public static class Product {
         private final String name;
         private final String version;
@@ -2395,10 +2172,6 @@ public class Messages {
 
         public java.util.Optional<String> getVersion() {
             return java.util.Optional.ofNullable(version);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(name, "Product.name cannot be null");
         }
 
         @Override
@@ -2427,7 +2200,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class ParameterType {
         private final String name;
@@ -2470,16 +2242,6 @@ public class Messages {
             return id;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
-            java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null");
-            regularExpressions.forEach(e -> java.util.Objects.requireNonNull(e, "ParameterType.regularExpressions elements cannot be null"));
-            if(regularExpressions.size() < 1) throw new IllegalArgumentException("ParameterType.regularExpressions must have at least 1 element");
-            java.util.Objects.requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
-            java.util.Objects.requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
-            java.util.Objects.requireNonNull(id, "ParameterType.id cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -2516,7 +2278,6 @@ public class Messages {
         }
     }
 
-
     public static class ParseError {
         private final SourceReference source;
         private final String message;
@@ -2535,12 +2296,6 @@ public class Messages {
 
         public String getMessage() {
             return message;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(source, "ParseError.source cannot be null");
-            source.validate();
-            java.util.Objects.requireNonNull(message, "ParseError.message cannot be null");
         }
 
         @Override
@@ -2569,7 +2324,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class Pickle {
         private final String id;
@@ -2626,20 +2380,6 @@ public class Messages {
             return astNodeIds;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(id, "Pickle.id cannot be null");
-            java.util.Objects.requireNonNull(uri, "Pickle.uri cannot be null");
-            java.util.Objects.requireNonNull(name, "Pickle.name cannot be null");
-            java.util.Objects.requireNonNull(language, "Pickle.language cannot be null");
-            java.util.Objects.requireNonNull(steps, "Pickle.steps cannot be null");
-            steps.forEach(PickleStep::validate);
-            java.util.Objects.requireNonNull(tags, "Pickle.tags cannot be null");
-            tags.forEach(PickleTag::validate);
-            java.util.Objects.requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null");
-            astNodeIds.forEach(e -> java.util.Objects.requireNonNull(e, "Pickle.astNodeIds elements cannot be null"));
-            if(astNodeIds.size() < 1) throw new IllegalArgumentException("Pickle.astNodeIds must have at least 1 element");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -2682,7 +2422,6 @@ public class Messages {
         }
     }
 
-
     public static class PickleDocString {
         private final String mediaType;
         private final String content;
@@ -2701,10 +2440,6 @@ public class Messages {
 
         public String getContent() {
             return content;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(content, "PickleDocString.content cannot be null");
         }
 
         @Override
@@ -2733,7 +2468,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class PickleStep {
         private final PickleStepArgument argument;
@@ -2769,15 +2503,6 @@ public class Messages {
             return text;
         }
 
-        private void validate() {
-            if (argument != null) argument.validate();
-            java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null");
-            astNodeIds.forEach(e -> java.util.Objects.requireNonNull(e, "PickleStep.astNodeIds elements cannot be null"));
-            if(astNodeIds.size() < 1) throw new IllegalArgumentException("PickleStep.astNodeIds must have at least 1 element");
-            java.util.Objects.requireNonNull(id, "PickleStep.id cannot be null");
-            java.util.Objects.requireNonNull(text, "PickleStep.text cannot be null");
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -2810,7 +2535,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class PickleStepArgument {
         private final PickleDocString docString;
@@ -2846,11 +2570,6 @@ public class Messages {
             return java.util.Optional.ofNullable(dataTable);
         }
 
-        private void validate() {
-            if (docString != null) docString.validate();
-            if (dataTable != null) dataTable.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -2878,7 +2597,6 @@ public class Messages {
         }
     }
 
-
     public static class PickleTable {
         private final java.util.List<PickleTableRow> rows;
 
@@ -2890,11 +2608,6 @@ public class Messages {
 
         public java.util.List<PickleTableRow> getRows() {
             return rows;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(rows, "PickleTable.rows cannot be null");
-            rows.forEach(PickleTableRow::validate);
         }
 
         @Override
@@ -2921,7 +2634,6 @@ public class Messages {
         }
     }
 
-
     public static class PickleTableCell {
         private final String value;
 
@@ -2933,10 +2645,6 @@ public class Messages {
 
         public String getValue() {
             return value;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(value, "PickleTableCell.value cannot be null");
         }
 
         @Override
@@ -2963,7 +2671,6 @@ public class Messages {
         }
     }
 
-
     public static class PickleTableRow {
         private final java.util.List<PickleTableCell> cells;
 
@@ -2975,12 +2682,6 @@ public class Messages {
 
         public java.util.List<PickleTableCell> getCells() {
             return cells;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null");
-            cells.forEach(PickleTableCell::validate);
-            if(cells.size() < 1) throw new IllegalArgumentException("PickleTableRow.cells must have at least 1 element");
         }
 
         @Override
@@ -3007,7 +2708,6 @@ public class Messages {
         }
     }
 
-
     public static class PickleTag {
         private final String name;
         private final String astNodeId;
@@ -3026,11 +2726,6 @@ public class Messages {
 
         public String getAstNodeId() {
             return astNodeId;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(name, "PickleTag.name cannot be null");
-            java.util.Objects.requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
         }
 
         @Override
@@ -3060,7 +2755,6 @@ public class Messages {
         }
     }
 
-
     public static class Source {
         private final String uri;
         private final String data;
@@ -3086,12 +2780,6 @@ public class Messages {
 
         public SourceMediaType getMediaType() {
             return mediaType;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(uri, "Source.uri cannot be null");
-            java.util.Objects.requireNonNull(data, "Source.data cannot be null");
-            java.util.Objects.requireNonNull(mediaType, "Source.mediaType cannot be null");
         }
 
         @Override
@@ -3123,7 +2811,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class SourceReference {
         private final String uri;
@@ -3195,12 +2882,6 @@ public class Messages {
             return java.util.Optional.ofNullable(location);
         }
 
-        private void validate() {
-            if (javaMethod != null) javaMethod.validate();
-            if (javaStackTraceElement != null) javaStackTraceElement.validate();
-            if (location != null) location.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -3234,7 +2915,6 @@ public class Messages {
         }
     }
 
-
     public static class JavaMethod {
         private final String className;
         private final String methodName;
@@ -3260,13 +2940,6 @@ public class Messages {
 
         public java.util.List<String> getMethodParameterTypes() {
             return methodParameterTypes;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(className, "JavaMethod.className cannot be null");
-            java.util.Objects.requireNonNull(methodName, "JavaMethod.methodName cannot be null");
-            java.util.Objects.requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null");
-            methodParameterTypes.forEach(e -> java.util.Objects.requireNonNull(e, "JavaMethod.methodParameterTypes elements cannot be null"));
         }
 
         @Override
@@ -3299,7 +2972,6 @@ public class Messages {
         }
     }
 
-
     public static class JavaStackTraceElement {
         private final String className;
         private final String fileName;
@@ -3325,12 +2997,6 @@ public class Messages {
 
         public String getMethodName() {
             return methodName;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(className, "JavaStackTraceElement.className cannot be null");
-            java.util.Objects.requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
-            java.util.Objects.requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
         }
 
         @Override
@@ -3363,7 +3029,6 @@ public class Messages {
         }
     }
 
-
     public static class StepDefinition {
         private final String id;
         private final StepDefinitionPattern pattern;
@@ -3389,14 +3054,6 @@ public class Messages {
 
         public SourceReference getSourceReference() {
             return sourceReference;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(id, "StepDefinition.id cannot be null");
-            java.util.Objects.requireNonNull(pattern, "StepDefinition.pattern cannot be null");
-            pattern.validate();
-            java.util.Objects.requireNonNull(sourceReference, "StepDefinition.sourceReference cannot be null");
-            sourceReference.validate();
         }
 
         @Override
@@ -3429,7 +3086,6 @@ public class Messages {
         }
     }
 
-
     public static class StepDefinitionPattern {
         private final String source;
         private final StepDefinitionPatternType type;
@@ -3448,11 +3104,6 @@ public class Messages {
 
         public StepDefinitionPatternType getType() {
             return type;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(source, "StepDefinitionPattern.source cannot be null");
-            java.util.Objects.requireNonNull(type, "StepDefinitionPattern.type cannot be null");
         }
 
         @Override
@@ -3482,7 +3133,6 @@ public class Messages {
         }
     }
 
-
     public static class TestCase {
         private final String id;
         private final String pickleId;
@@ -3508,13 +3158,6 @@ public class Messages {
 
         public java.util.List<TestStep> getTestSteps() {
             return testSteps;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(id, "TestCase.id cannot be null");
-            java.util.Objects.requireNonNull(pickleId, "TestCase.pickleId cannot be null");
-            java.util.Objects.requireNonNull(testSteps, "TestCase.testSteps cannot be null");
-            testSteps.forEach(TestStep::validate);
         }
 
         @Override
@@ -3547,7 +3190,6 @@ public class Messages {
         }
     }
 
-
     public static class Group {
         private final java.util.List<Group> children;
         private final Long start;
@@ -3573,11 +3215,6 @@ public class Messages {
 
         public java.util.Optional<String> getValue() {
             return java.util.Optional.ofNullable(value);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(children, "Group.children cannot be null");
-            children.forEach(Group::validate);
         }
 
         @Override
@@ -3610,7 +3247,6 @@ public class Messages {
         }
     }
 
-
     public static class StepMatchArgument {
         private final Group group;
         private final String parameterTypeName;
@@ -3629,11 +3265,6 @@ public class Messages {
 
         public java.util.Optional<String> getParameterTypeName() {
             return java.util.Optional.ofNullable(parameterTypeName);
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(group, "StepMatchArgument.group cannot be null");
-            group.validate();
         }
 
         @Override
@@ -3663,7 +3294,6 @@ public class Messages {
         }
     }
 
-
     public static class StepMatchArgumentsList {
         private final java.util.List<StepMatchArgument> stepMatchArguments;
 
@@ -3675,11 +3305,6 @@ public class Messages {
 
         public java.util.List<StepMatchArgument> getStepMatchArguments() {
             return stepMatchArguments;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null");
-            stepMatchArguments.forEach(StepMatchArgument::validate);
         }
 
         @Override
@@ -3705,7 +3330,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class TestStep {
         private final String hookId;
@@ -3748,12 +3372,6 @@ public class Messages {
             return java.util.Optional.ofNullable(stepMatchArgumentsLists);
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(id, "TestStep.id cannot be null");
-            if (stepDefinitionIds != null) stepDefinitionIds.forEach(e -> java.util.Objects.requireNonNull(e, "TestStep.stepDefinitionIds elements cannot be null"));
-            if (stepMatchArgumentsLists != null) stepMatchArgumentsLists.forEach(StepMatchArgumentsList::validate);
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -3790,7 +3408,6 @@ public class Messages {
         }
     }
 
-
     public static class TestCaseFinished {
         private final String testCaseStartedId;
         private final Timestamp timestamp;
@@ -3816,13 +3433,6 @@ public class Messages {
 
         public Boolean getWillBeRetried() {
             return willBeRetried;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
-            java.util.Objects.requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
-            timestamp.validate();
-            java.util.Objects.requireNonNull(willBeRetried, "TestCaseFinished.willBeRetried cannot be null");
         }
 
         @Override
@@ -3854,7 +3464,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class TestCaseStarted {
         private final Long attempt;
@@ -3890,14 +3499,6 @@ public class Messages {
             return timestamp;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
-            java.util.Objects.requireNonNull(id, "TestCaseStarted.id cannot be null");
-            java.util.Objects.requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
-            java.util.Objects.requireNonNull(timestamp, "TestCaseStarted.timestamp cannot be null");
-            timestamp.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -3931,7 +3532,6 @@ public class Messages {
         }
     }
 
-
     public static class TestRunFinished {
         private final String message;
         private final Boolean success;
@@ -3957,12 +3557,6 @@ public class Messages {
 
         public Timestamp getTimestamp() {
             return timestamp;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(success, "TestRunFinished.success cannot be null");
-            java.util.Objects.requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
-            timestamp.validate();
         }
 
         @Override
@@ -3995,7 +3589,6 @@ public class Messages {
         }
     }
 
-
     public static class TestRunStarted {
         private final Timestamp timestamp;
 
@@ -4007,11 +3600,6 @@ public class Messages {
 
         public Timestamp getTimestamp() {
             return timestamp;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
-            timestamp.validate();
         }
 
         @Override
@@ -4037,7 +3625,6 @@ public class Messages {
                 '}';
         }
     }
-
 
     public static class TestStepFinished {
         private final String testCaseStartedId;
@@ -4073,15 +3660,6 @@ public class Messages {
             return timestamp;
         }
 
-        private void validate() {
-            java.util.Objects.requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
-            java.util.Objects.requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
-            java.util.Objects.requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
-            testStepResult.validate();
-            java.util.Objects.requireNonNull(timestamp, "TestStepFinished.timestamp cannot be null");
-            timestamp.validate();
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -4115,7 +3693,6 @@ public class Messages {
         }
     }
 
-
     public static class TestStepResult {
         private final Duration duration;
         private final String message;
@@ -4141,12 +3718,6 @@ public class Messages {
 
         public TestStepResultStatus getStatus() {
             return status;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(duration, "TestStepResult.duration cannot be null");
-            duration.validate();
-            java.util.Objects.requireNonNull(status, "TestStepResult.status cannot be null");
         }
 
         @Override
@@ -4179,7 +3750,6 @@ public class Messages {
         }
     }
 
-
     public static class TestStepStarted {
         private final String testCaseStartedId;
         private final String testStepId;
@@ -4205,13 +3775,6 @@ public class Messages {
 
         public Timestamp getTimestamp() {
             return timestamp;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
-            java.util.Objects.requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
-            java.util.Objects.requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
-            timestamp.validate();
         }
 
         @Override
@@ -4244,7 +3807,6 @@ public class Messages {
         }
     }
 
-
     public static class Timestamp {
         private final Long seconds;
         private final Long nanos;
@@ -4263,11 +3825,6 @@ public class Messages {
 
         public Long getNanos() {
             return nanos;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(seconds, "Timestamp.seconds cannot be null");
-            java.util.Objects.requireNonNull(nanos, "Timestamp.nanos cannot be null");
         }
 
         @Override
@@ -4297,7 +3854,6 @@ public class Messages {
         }
     }
 
-
     public static class UndefinedParameterType {
         private final String expression;
         private final String name;
@@ -4316,11 +3872,6 @@ public class Messages {
 
         public String getName() {
             return name;
-        }
-
-        private void validate() {
-            java.util.Objects.requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
-            java.util.Objects.requireNonNull(name, "UndefinedParameterType.name cannot be null");
         }
 
         @Override

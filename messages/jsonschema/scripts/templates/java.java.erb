@@ -1,4 +1,4 @@
-<% @schemas.each do |key, schema| %>
+<%- @schemas.each do |key, schema| -%>
     public static class <%= class_name(key) %> {
       <%- schema['properties'].each do |property_name, property| -%>
         private final <%= type_for(class_name(key), property_name, property) -%> <%= property_name %>;
@@ -60,28 +60,6 @@
         }
         <%- end -%>
       <%- end -%>
-
-        private void validate() {
-        <%- schema['properties'].each do |property_name, property|
-          required = (schema['required'] || []).index(property_name)
-        -%>
-          <%- if required -%>
-            java.util.Objects.requireNonNull(<%= property_name -%>, "<%= class_name(key) %>.<%= property_name %> cannot be null");
-          <%- end -%>
-          <%- if property['type'] == 'array' -%>
-            <%- if property['items']['type'] -%>
-            <% if !required %>if (<%= property_name %> != null) <%- end %><%= property_name %>.forEach(e -> java.util.Objects.requireNonNull(e, "<%= class_name(key) %>.<%= property_name %> elements cannot be null"));
-            <%- else -%>
-            <% if !required %>if (<%= property_name %> != null) <%- end %><%= property_name %>.forEach(<%= type_for(key, nil, property['items']) %>::validate);
-            <%- end -%>
-            <%- if property['minItems'] -%>
-            <% if !required %>if (<%= property_name %> != null) <%- end %>if(<%= property_name %>.size() < <%= property['minItems'] %>) throw new IllegalArgumentException("<%= class_name(key) %>.<%= property_name %> must have at least <%= property['minItems'] %> element<%= property['minItems'] > 1 ? 's' : '' %>");
-            <%- end -%>
-          <%- elsif property['$ref'] -%>
-            <% if !required %>if (<%= property_name %> != null) <%- end %><%= property_name %>.validate();
-          <%- end -%>
-        <%- end -%>
-        }
 
         @Override
         public boolean equals(Object o) {
