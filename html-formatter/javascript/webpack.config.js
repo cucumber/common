@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin').default;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: './dist/src/main.js',
