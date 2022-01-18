@@ -5,14 +5,23 @@ import io.cucumber.messages.MessageToNdjsonWriter;
 import io.cucumber.messages.MessageWriter;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 import static io.cucumber.messages.Messages.Envelope;
 import static java.util.Arrays.asList;
 
 public class Main {
+    private static final BiConsumer<Writer, Envelope> SERIALIZER = (writer, envelope) -> {
+        try {
+            Jackson.OBJECT_MAPPER.writeValue(writer, envelope);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    };
 
     public static void main(String[] argv) {
         List<String> args = new ArrayList<>(asList(argv));
@@ -48,13 +57,13 @@ public class Main {
             idGenerator = new IdGenerator.UUID();
         }
 
-        MessageWriter messageWriter = makeMessageWriter();
+        MessageWriter<Envelope> messageWriter = makeMessageWriter();
 
         Stream<Envelope> messages = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
         printMessages(messageWriter, messages);
     }
 
-    private static void printMessages(MessageWriter messageWriter, Stream<Envelope> messages) {
+    private static void printMessages(MessageWriter<Envelope> messageWriter, Stream<Envelope> messages) {
         messages.forEach(envelope -> {
             try {
                 messageWriter.write(envelope);
@@ -64,7 +73,7 @@ public class Main {
         });
     }
 
-    private static MessageWriter makeMessageWriter() {
-        return new MessageToNdjsonWriter(System.out);
+    private static MessageWriter<Envelope> makeMessageWriter() {
+        return new MessageToNdjsonWriter<>(System.out, SERIALIZER);
     }
 }

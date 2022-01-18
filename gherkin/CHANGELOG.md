@@ -19,6 +19,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 
+- [Java] the `io.cucumber.gherkin.Main` class is no longer part of the jar.
+
 ### Fixed
 
 ## [22.0.0] - 2021-09-23
