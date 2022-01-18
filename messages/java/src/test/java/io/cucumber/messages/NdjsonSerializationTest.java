@@ -152,7 +152,7 @@ class NdjsonSerializationTest {
     }
 
     @Test
-    void handles_timestamp() {
+    void handles_single_argument_constructors() {
         InputStream input = new ByteArrayInputStream("{\"timestamp\":{\"nanos\":0,\"seconds\":0}}\n".getBytes(UTF_8));
         Iterable<TestRunStarted> incomingMessages = makeMessageIterable(input, TestRunStarted.class);
         Iterator<TestRunStarted> iterator = incomingMessages.iterator();
