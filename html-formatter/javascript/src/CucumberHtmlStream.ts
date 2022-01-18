@@ -46,7 +46,6 @@ export default class CucumberHtmlStream extends Transform {
         if (err) return callback(err)
         this.writeTemplateBetween('{{css}}', '{{messages}}', (err) => {
           if (err) return callback(err)
-          // this.writeResource("cucumber-react.css", callback);
           callback()
         })
       })

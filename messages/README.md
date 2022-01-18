@@ -64,7 +64,7 @@ However, it does not contain the following information (but Cucumber Messages do
 * Parameter types
 
 This kind of information is required to produce rich reports and analytics, and is
-used in [@cucumber/react](../react/javascript) and [Cucumber Reports](https://reports.cucumber.io/).
+used in [@cucumber/react](https://github.com/cucumber/cucumber-react) and [Cucumber Reports](https://reports.cucumber.io/).
 
 ## Message Overview
 
@@ -103,5 +103,5 @@ You will find examples of Cucumber Messages in the [compatibility-kit](../compat
 
 * [json-formatter](../json-formatter) - produce legacy JSON from Cucumber Messages
 * [json-to-messages](../json-to-messages) - produce Cucumber Messages from legacy JSON
-* [@cucumber/react](../react) - React component that renders Cucumber Messages nicely
+* [@cucumber/react](https://github.com/cucumber/cucumber-react) - React component that renders Cucumber Messages nicely
   * Used internally by [Cucumber Reports](https://reports.cucumber.io/).
