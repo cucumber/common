@@ -7,7 +7,7 @@ HTML_REPORTS = $(patsubst ../../compatibility-kit/javascript/features/%.ndjson,a
 
 acceptance/%.html: ../../compatibility-kit/javascript/features/%.ndjson .built
 	mkdir -p $(@D)
-	cat $< | mvn --quiet --batch-mode exec:java -Dexec.mainClass=io.cucumber.htmlformatter.Main > $@
+	cat $< | mvn --quiet --batch-mode exec:java -Dexec.classpathScope=test -Dexec.mainClass=io.cucumber.htmlformatter.Main > $@
 
 .deps: target/classes/io/cucumber/htmlformatter/cucumber-html.css target/classes/io/cucumber/htmlformatter/cucumber-html.js target/classes/io/cucumber/htmlformatter/index.mustache.html
 

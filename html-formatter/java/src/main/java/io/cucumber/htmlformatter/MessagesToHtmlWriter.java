@@ -1,15 +1,16 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.Jackson;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.function.BiConsumer;
 
 import static io.cucumber.messages.Messages.Envelope;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -19,17 +20,21 @@ import static java.util.Objects.requireNonNull;
  * Writes the message output of a test run as single page html report.
  */
 public final class MessagesToHtmlWriter implements AutoCloseable {
-
     private final String template;
-
     private final Writer writer;
+    private final BiConsumer<Writer, Envelope> serializer;
     private boolean preMessageWritten = false;
     private boolean postMessageWritten = false;
     private boolean firstMessageWritten = false;
     private boolean streamClosed = false;
 
-    public MessagesToHtmlWriter(Writer writer) throws IOException {
+    public MessagesToHtmlWriter(OutputStream outputStream, BiConsumer<Writer, Envelope> serializer) throws IOException {
+        this(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), serializer);
+    }
+
+    public MessagesToHtmlWriter(Writer writer, BiConsumer<Writer, Envelope> serializer) throws IOException {
         this.writer = writer;
+        this.serializer = serializer;
         this.template = readResource("index.mustache.html");
     }
 
@@ -67,7 +72,7 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
             writer.write(",");
         }
 
-        Jackson.OBJECT_MAPPER.writeValue(writer, envelope);
+        serializer.accept(writer, envelope);
     }
 
     /**

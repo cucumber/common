@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+- [Java] the `io.cucumber.htmlformatter.Main` class is no longer part of the jar.
+
 ### Fixed
 
 ## [17.0.0] - 2021-09-02

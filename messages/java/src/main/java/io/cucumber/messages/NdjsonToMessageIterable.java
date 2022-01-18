@@ -1,43 +1,53 @@
 package io.cucumber.messages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-
-import static io.cucumber.messages.Messages.*;
+import java.util.function.BiFunction;
 
 /**
  * Iterates over messages read from a stream. Client code should not depend on this class
  * directly, but rather on a {@code Iterable<Messages.Envelope>} object.
  * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
  */
-public final class NdjsonToMessageIterable implements Iterable<Envelope> {
-    private final BufferedReader input;
-    private Envelope next;
+public final class NdjsonToMessageIterable<T> implements Iterable<T>, AutoCloseable {
+    private final BufferedReader reader;
+    private final Class<T> klass;
+    private final BiFunction<String, Class<T>, T> deserializer;
+    private T next;
 
-    public NdjsonToMessageIterable(InputStream input) {
-        this.input = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
+    public NdjsonToMessageIterable(InputStream inputStream, Class<T> klass, BiFunction<String, Class<T>, T> deserializer) {
+        this(new InputStreamReader(inputStream, StandardCharsets.UTF_8), klass, deserializer);
+    }
+
+    public NdjsonToMessageIterable(Reader reader, Class<T> klass, BiFunction<String, Class<T>, T> deserializer) {
+        this(new BufferedReader(reader), klass, deserializer);
+    }
+
+    public NdjsonToMessageIterable(BufferedReader reader, Class<T> klass, BiFunction<String, Class<T>, T> deserializer) {
+        this.reader = reader;
+        this.klass = klass;
+        this.deserializer = deserializer;
     }
 
     @Override
-    public Iterator<Envelope> iterator() {
-        return new Iterator<Envelope>() {
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
             @Override
             public boolean hasNext() {
                 try {
-                    String line = input.readLine();
+                    String line = reader.readLine();
                     if (line == null) return false;
                     if (line.trim().equals("")) {
                         return hasNext();
                     }
                     try {
-                        next = Jackson.OBJECT_MAPPER.readValue(line, Envelope.class);
-                    } catch (JsonProcessingException e) {
+                        next = deserializer.apply(line, klass);
+                    } catch (Exception e) {
                         throw new RuntimeException(String.format("Could not parse JSON: %s", line), e);
                     }
                     return true;
@@ -47,7 +57,7 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope> {
             }
 
             @Override
-            public Envelope next() {
+            public T next() {
                 if (next == null) {
                     throw new IllegalStateException("next() should only be called after a call to hasNext() that returns true");
                 }
@@ -59,5 +69,10 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope> {
                 throw new UnsupportedOperationException();
             }
         };
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.reader.close();
     }
 }

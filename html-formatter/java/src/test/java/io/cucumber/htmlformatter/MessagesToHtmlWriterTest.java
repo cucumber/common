@@ -7,7 +7,9 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.time.Instant;
+import java.util.function.BiConsumer;
 
 import static io.cucumber.messages.Messages.Envelope;
 import static io.cucumber.messages.Messages.TestRunFinished;
@@ -20,6 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MessagesToHtmlWriterTest {
+
+    private static final BiConsumer<Writer, Envelope> SERIALIZER = (writer, message) -> {
+        try {
+            Jackson.OBJECT_MAPPER.writeValue(writer, message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    };
 
     @Test
     void it_writes_one_message_to_html() throws IOException {
@@ -42,7 +52,7 @@ class MessagesToHtmlWriterTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
         BufferedWriter bw = new BufferedWriter(osw);
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, SERIALIZER);
         messagesToHtmlWriter.close();
         assertThrows(IOException.class, () -> messagesToHtmlWriter.write(null));
     }
@@ -52,7 +62,7 @@ class MessagesToHtmlWriterTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
         BufferedWriter bw = new BufferedWriter(osw);
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, SERIALIZER);
         messagesToHtmlWriter.close();
         assertDoesNotThrow(messagesToHtmlWriter::close);
     }
@@ -68,7 +78,7 @@ class MessagesToHtmlWriterTest {
                 throw new IOException("Can't close this");
             }
         };
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, SERIALIZER);
         assertThrows(IOException.class, messagesToHtmlWriter::close);
         byte[] before = bytes.toByteArray();
         assertThrows(IOException.class, messagesToHtmlWriter::close);
@@ -92,7 +102,7 @@ class MessagesToHtmlWriterTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
         BufferedWriter bw = new BufferedWriter(osw);
-        try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw)) {
+        try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, SERIALIZER)) {
             for (Envelope message : messages) {
                 messagesToHtmlWriter.write(message);
             }

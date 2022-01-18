@@ -11,28 +11,43 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
-import static io.cucumber.messages.Messages.*;
+import static io.cucumber.messages.Messages.AttachmentContentEncoding;
+import static io.cucumber.messages.Messages.Envelope;
+import static io.cucumber.messages.Messages.Source;
+import static io.cucumber.messages.Messages.SourceMediaType;
+import static io.cucumber.messages.Messages.TestRunStarted;
+import static io.cucumber.messages.Messages.Timestamp;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class NdjsonSerializationTest extends MessageSerializationContract {
-    @Override
-    protected MessageWriter makeMessageWriter(OutputStream output) {
-        return new MessageToNdjsonWriter(output);
+class NdjsonSerializationTest {
+    protected static <T> MessageWriter<T> makeMessageWriter(OutputStream output) {
+        return new MessageToNdjsonWriter<>(output, (writer, envelope) -> {
+            try {
+                Jackson.OBJECT_MAPPER.writeValue(writer, envelope);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    @Override
-    protected Iterable<Messages.Envelope> makeMessageIterable(InputStream input) {
-        return new NdjsonToMessageIterable(input);
+    protected static <T> Iterable<T> makeMessageIterable(InputStream input, Class<T> klass) {
+        return new NdjsonToMessageIterable<T>(input, klass, (json, clazz) -> {
+            try {
+                return Jackson.OBJECT_MAPPER.readValue(json, clazz);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Test
     void writes_source_envelope() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        MessageWriter writer = makeMessageWriter(output);
+        MessageWriter<Source> writer = makeMessageWriter(output);
         writer.write(new Source("uri", "data", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
         String json = new String(output.toByteArray(), StandardCharsets.UTF_8);
         assertEquals("{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}\n", json);
@@ -41,7 +56,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     @Test
     void does_not_serialize_null_fields() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        OutputStreamWriter writer = new OutputStreamWriter(output);
+        OutputStreamWriter writer = new OutputStreamWriter(output, StandardCharsets.UTF_8);
         Jackson.OBJECT_MAPPER.writeValue(writer, new Envelope(
                 null,
                 null,
@@ -68,7 +83,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     @Test
     void ignores_missing_fields() {
         InputStream input = new ByteArrayInputStream("{\"unused\": 99}\n".getBytes(UTF_8));
-        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input, Envelope.class);
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
         Envelope envelope = iterator.next();
@@ -97,7 +112,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     @Test
     void ignores_empty_lines() {
         InputStream input = new ByteArrayInputStream("{}\n{}\n\n{}\n".getBytes(UTF_8));
-        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input, Envelope.class);
         Iterator<Envelope> iterator = incomingMessages.iterator();
         for (int i = 0; i < 3; i++) {
             assertTrue(iterator.hasNext());
@@ -128,7 +143,7 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     @Test
     void handles_enums() {
         InputStream input = new ByteArrayInputStream("{\"attachment\":{\"contentEncoding\":\"BASE64\", \"body\":\"the-body\", \"mediaType\":\"text/plain\"}}\n".getBytes(UTF_8));
-        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input, Envelope.class);
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
         Envelope envelope = iterator.next();
@@ -137,9 +152,21 @@ class NdjsonSerializationTest extends MessageSerializationContract {
     }
 
     @Test
+    void handles_timestamp() {
+        InputStream input = new ByteArrayInputStream("{\"timestamp\":{\"nanos\":0,\"seconds\":0}}\n".getBytes(UTF_8));
+        Iterable<TestRunStarted> incomingMessages = makeMessageIterable(input, TestRunStarted.class);
+        Iterator<TestRunStarted> iterator = incomingMessages.iterator();
+        assertTrue(iterator.hasNext());
+        TestRunStarted testRunStarted = iterator.next();
+        TestRunStarted expected = new TestRunStarted(new Timestamp(0L, 0L));
+        assertEquals(expected, testRunStarted);
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
     void includes_offending_line_in_error_message() {
         InputStream input = new ByteArrayInputStream("BLA BLA".getBytes(UTF_8));
-        Iterable<Envelope> incomingMessages = makeMessageIterable(input);
+        Iterable<Envelope> incomingMessages = makeMessageIterable(input, Envelope.class);
         Iterator<Envelope> iterator = incomingMessages.iterator();
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> assertTrue(iterator.hasNext()));

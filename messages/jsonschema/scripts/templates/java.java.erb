@@ -1,5 +1,5 @@
 <%- @schemas.each do |key, schema| -%>
-    public static class <%= class_name(key) %> {
+    public static final class <%= class_name(key) %> {
       <%- schema['properties'].each do |property_name, property| -%>
         private final <%= type_for(class_name(key), property_name, property) -%> <%= property_name %>;
       <%- end -%>
@@ -24,6 +24,7 @@
       <%- end -%>
       <%- end -%>
 
+        @JsonCreator
         public <%= class_name(key) %>(
         <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
             <%= type_for(class_name(key), property_name, property) -%> <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>

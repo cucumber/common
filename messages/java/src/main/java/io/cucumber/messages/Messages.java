@@ -1,7 +1,12 @@
 package io.cucumber.messages;
 
-public class Messages {
-    public static class Attachment {
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+public final class Messages {
+
+    private Messages() {}
+
+    public static final class Attachment {
         private final String body;
         private final AttachmentContentEncoding contentEncoding;
         private final String fileName;
@@ -11,6 +16,7 @@ public class Messages {
         private final String testStepId;
         private final String url;
 
+        @JsonCreator
         public Attachment(
             String body,
             AttachmentContentEncoding contentEncoding,
@@ -108,10 +114,11 @@ public class Messages {
         }
     }
 
-    public static class Duration {
+    public static final class Duration {
         private final Long seconds;
         private final Long nanos;
 
+        @JsonCreator
         public Duration(
             Long seconds,
             Long nanos
@@ -155,7 +162,7 @@ public class Messages {
         }
     }
 
-    public static class Envelope {
+    public static final class Envelope {
         private final Attachment attachment;
         private final GherkinDocument gherkinDocument;
         private final Hook hook;
@@ -548,6 +555,7 @@ public class Messages {
             );
         }
 
+        @JsonCreator
         public Envelope(
             Attachment attachment,
             GherkinDocument gherkinDocument,
@@ -726,11 +734,12 @@ public class Messages {
         }
     }
 
-    public static class GherkinDocument {
+    public static final class GherkinDocument {
         private final String uri;
         private final Feature feature;
         private final java.util.List<Comment> comments;
 
+        @JsonCreator
         public GherkinDocument(
             String uri,
             Feature feature,
@@ -783,7 +792,7 @@ public class Messages {
         }
     }
 
-    public static class Background {
+    public static final class Background {
         private final Location location;
         private final String keyword;
         private final String name;
@@ -791,6 +800,7 @@ public class Messages {
         private final java.util.List<Step> steps;
         private final String id;
 
+        @JsonCreator
         public Background(
             Location location,
             String keyword,
@@ -870,10 +880,11 @@ public class Messages {
         }
     }
 
-    public static class Comment {
+    public static final class Comment {
         private final Location location;
         private final String text;
 
+        @JsonCreator
         public Comment(
             Location location,
             String text
@@ -917,10 +928,11 @@ public class Messages {
         }
     }
 
-    public static class DataTable {
+    public static final class DataTable {
         private final Location location;
         private final java.util.List<TableRow> rows;
 
+        @JsonCreator
         public DataTable(
             Location location,
             java.util.List<TableRow> rows
@@ -964,12 +976,13 @@ public class Messages {
         }
     }
 
-    public static class DocString {
+    public static final class DocString {
         private final Location location;
         private final String mediaType;
         private final String content;
         private final String delimiter;
 
+        @JsonCreator
         public DocString(
             Location location,
             String mediaType,
@@ -1031,7 +1044,7 @@ public class Messages {
         }
     }
 
-    public static class Examples {
+    public static final class Examples {
         private final Location location;
         private final java.util.List<Tag> tags;
         private final String keyword;
@@ -1041,6 +1054,7 @@ public class Messages {
         private final java.util.List<TableRow> tableBody;
         private final String id;
 
+        @JsonCreator
         public Examples(
             Location location,
             java.util.List<Tag> tags,
@@ -1138,7 +1152,7 @@ public class Messages {
         }
     }
 
-    public static class Feature {
+    public static final class Feature {
         private final Location location;
         private final java.util.List<Tag> tags;
         private final String language;
@@ -1147,6 +1161,7 @@ public class Messages {
         private final String description;
         private final java.util.List<FeatureChild> children;
 
+        @JsonCreator
         public Feature(
             Location location,
             java.util.List<Tag> tags,
@@ -1235,7 +1250,7 @@ public class Messages {
         }
     }
 
-    public static class FeatureChild {
+    public static final class FeatureChild {
         private final Rule rule;
         private final Background background;
         private final Scenario scenario;
@@ -1264,6 +1279,7 @@ public class Messages {
             );
         }
 
+        @JsonCreator
         public FeatureChild(
             Rule rule,
             Background background,
@@ -1316,7 +1332,7 @@ public class Messages {
         }
     }
 
-    public static class Rule {
+    public static final class Rule {
         private final Location location;
         private final java.util.List<Tag> tags;
         private final String keyword;
@@ -1325,6 +1341,7 @@ public class Messages {
         private final java.util.List<RuleChild> children;
         private final String id;
 
+        @JsonCreator
         public Rule(
             Location location,
             java.util.List<Tag> tags,
@@ -1413,7 +1430,7 @@ public class Messages {
         }
     }
 
-    public static class RuleChild {
+    public static final class RuleChild {
         private final Background background;
         private final Scenario scenario;
 
@@ -1431,6 +1448,7 @@ public class Messages {
             );
         }
 
+        @JsonCreator
         public RuleChild(
             Background background,
             Scenario scenario
@@ -1474,7 +1492,7 @@ public class Messages {
         }
     }
 
-    public static class Scenario {
+    public static final class Scenario {
         private final Location location;
         private final java.util.List<Tag> tags;
         private final String keyword;
@@ -1484,6 +1502,7 @@ public class Messages {
         private final java.util.List<Examples> examples;
         private final String id;
 
+        @JsonCreator
         public Scenario(
             Location location,
             java.util.List<Tag> tags,
@@ -1581,7 +1600,7 @@ public class Messages {
         }
     }
 
-    public static class Step {
+    public static final class Step {
         private final Location location;
         private final String keyword;
         private final String text;
@@ -1589,6 +1608,7 @@ public class Messages {
         private final DataTable dataTable;
         private final String id;
 
+        @JsonCreator
         public Step(
             Location location,
             String keyword,
@@ -1668,10 +1688,11 @@ public class Messages {
         }
     }
 
-    public static class TableCell {
+    public static final class TableCell {
         private final Location location;
         private final String value;
 
+        @JsonCreator
         public TableCell(
             Location location,
             String value
@@ -1715,11 +1736,12 @@ public class Messages {
         }
     }
 
-    public static class TableRow {
+    public static final class TableRow {
         private final Location location;
         private final java.util.List<TableCell> cells;
         private final String id;
 
+        @JsonCreator
         public TableRow(
             Location location,
             java.util.List<TableCell> cells,
@@ -1772,11 +1794,12 @@ public class Messages {
         }
     }
 
-    public static class Tag {
+    public static final class Tag {
         private final Location location;
         private final String name;
         private final String id;
 
+        @JsonCreator
         public Tag(
             Location location,
             String name,
@@ -1829,11 +1852,12 @@ public class Messages {
         }
     }
 
-    public static class Hook {
+    public static final class Hook {
         private final String id;
         private final SourceReference sourceReference;
         private final String tagExpression;
 
+        @JsonCreator
         public Hook(
             String id,
             SourceReference sourceReference,
@@ -1886,10 +1910,11 @@ public class Messages {
         }
     }
 
-    public static class Location {
+    public static final class Location {
         private final Long line;
         private final Long column;
 
+        @JsonCreator
         public Location(
             Long line,
             Long column
@@ -1933,7 +1958,7 @@ public class Messages {
         }
     }
 
-    public static class Meta {
+    public static final class Meta {
         private final String protocolVersion;
         private final Product implementation;
         private final Product runtime;
@@ -1941,6 +1966,7 @@ public class Messages {
         private final Product cpu;
         private final Ci ci;
 
+        @JsonCreator
         public Meta(
             String protocolVersion,
             Product implementation,
@@ -2020,12 +2046,13 @@ public class Messages {
         }
     }
 
-    public static class Ci {
+    public static final class Ci {
         private final String name;
         private final String url;
         private final String buildNumber;
         private final Git git;
 
+        @JsonCreator
         public Ci(
             String name,
             String url,
@@ -2087,12 +2114,13 @@ public class Messages {
         }
     }
 
-    public static class Git {
+    public static final class Git {
         private final String remote;
         private final String revision;
         private final String branch;
         private final String tag;
 
+        @JsonCreator
         public Git(
             String remote,
             String revision,
@@ -2154,10 +2182,11 @@ public class Messages {
         }
     }
 
-    public static class Product {
+    public static final class Product {
         private final String name;
         private final String version;
 
+        @JsonCreator
         public Product(
             String name,
             String version
@@ -2201,13 +2230,14 @@ public class Messages {
         }
     }
 
-    public static class ParameterType {
+    public static final class ParameterType {
         private final String name;
         private final java.util.List<String> regularExpressions;
         private final Boolean preferForRegularExpressionMatch;
         private final Boolean useForSnippets;
         private final String id;
 
+        @JsonCreator
         public ParameterType(
             String name,
             java.util.List<String> regularExpressions,
@@ -2278,10 +2308,11 @@ public class Messages {
         }
     }
 
-    public static class ParseError {
+    public static final class ParseError {
         private final SourceReference source;
         private final String message;
 
+        @JsonCreator
         public ParseError(
             SourceReference source,
             String message
@@ -2325,7 +2356,7 @@ public class Messages {
         }
     }
 
-    public static class Pickle {
+    public static final class Pickle {
         private final String id;
         private final String uri;
         private final String name;
@@ -2334,6 +2365,7 @@ public class Messages {
         private final java.util.List<PickleTag> tags;
         private final java.util.List<String> astNodeIds;
 
+        @JsonCreator
         public Pickle(
             String id,
             String uri,
@@ -2422,10 +2454,11 @@ public class Messages {
         }
     }
 
-    public static class PickleDocString {
+    public static final class PickleDocString {
         private final String mediaType;
         private final String content;
 
+        @JsonCreator
         public PickleDocString(
             String mediaType,
             String content
@@ -2469,12 +2502,13 @@ public class Messages {
         }
     }
 
-    public static class PickleStep {
+    public static final class PickleStep {
         private final PickleStepArgument argument;
         private final java.util.List<String> astNodeIds;
         private final String id;
         private final String text;
 
+        @JsonCreator
         public PickleStep(
             PickleStepArgument argument,
             java.util.List<String> astNodeIds,
@@ -2536,7 +2570,7 @@ public class Messages {
         }
     }
 
-    public static class PickleStepArgument {
+    public static final class PickleStepArgument {
         private final PickleDocString docString;
         private final PickleTable dataTable;
 
@@ -2554,6 +2588,7 @@ public class Messages {
             );
         }
 
+        @JsonCreator
         public PickleStepArgument(
             PickleDocString docString,
             PickleTable dataTable
@@ -2597,9 +2632,10 @@ public class Messages {
         }
     }
 
-    public static class PickleTable {
+    public static final class PickleTable {
         private final java.util.List<PickleTableRow> rows;
 
+        @JsonCreator
         public PickleTable(
             java.util.List<PickleTableRow> rows
         ) {
@@ -2634,9 +2670,10 @@ public class Messages {
         }
     }
 
-    public static class PickleTableCell {
+    public static final class PickleTableCell {
         private final String value;
 
+        @JsonCreator
         public PickleTableCell(
             String value
         ) {
@@ -2671,9 +2708,10 @@ public class Messages {
         }
     }
 
-    public static class PickleTableRow {
+    public static final class PickleTableRow {
         private final java.util.List<PickleTableCell> cells;
 
+        @JsonCreator
         public PickleTableRow(
             java.util.List<PickleTableCell> cells
         ) {
@@ -2708,10 +2746,11 @@ public class Messages {
         }
     }
 
-    public static class PickleTag {
+    public static final class PickleTag {
         private final String name;
         private final String astNodeId;
 
+        @JsonCreator
         public PickleTag(
             String name,
             String astNodeId
@@ -2755,11 +2794,12 @@ public class Messages {
         }
     }
 
-    public static class Source {
+    public static final class Source {
         private final String uri;
         private final String data;
         private final SourceMediaType mediaType;
 
+        @JsonCreator
         public Source(
             String uri,
             String data,
@@ -2812,7 +2852,7 @@ public class Messages {
         }
     }
 
-    public static class SourceReference {
+    public static final class SourceReference {
         private final String uri;
         private final JavaMethod javaMethod;
         private final JavaStackTraceElement javaStackTraceElement;
@@ -2854,6 +2894,7 @@ public class Messages {
             );
         }
 
+        @JsonCreator
         public SourceReference(
             String uri,
             JavaMethod javaMethod,
@@ -2915,11 +2956,12 @@ public class Messages {
         }
     }
 
-    public static class JavaMethod {
+    public static final class JavaMethod {
         private final String className;
         private final String methodName;
         private final java.util.List<String> methodParameterTypes;
 
+        @JsonCreator
         public JavaMethod(
             String className,
             String methodName,
@@ -2972,11 +3014,12 @@ public class Messages {
         }
     }
 
-    public static class JavaStackTraceElement {
+    public static final class JavaStackTraceElement {
         private final String className;
         private final String fileName;
         private final String methodName;
 
+        @JsonCreator
         public JavaStackTraceElement(
             String className,
             String fileName,
@@ -3029,11 +3072,12 @@ public class Messages {
         }
     }
 
-    public static class StepDefinition {
+    public static final class StepDefinition {
         private final String id;
         private final StepDefinitionPattern pattern;
         private final SourceReference sourceReference;
 
+        @JsonCreator
         public StepDefinition(
             String id,
             StepDefinitionPattern pattern,
@@ -3086,10 +3130,11 @@ public class Messages {
         }
     }
 
-    public static class StepDefinitionPattern {
+    public static final class StepDefinitionPattern {
         private final String source;
         private final StepDefinitionPatternType type;
 
+        @JsonCreator
         public StepDefinitionPattern(
             String source,
             StepDefinitionPatternType type
@@ -3133,11 +3178,12 @@ public class Messages {
         }
     }
 
-    public static class TestCase {
+    public static final class TestCase {
         private final String id;
         private final String pickleId;
         private final java.util.List<TestStep> testSteps;
 
+        @JsonCreator
         public TestCase(
             String id,
             String pickleId,
@@ -3190,11 +3236,12 @@ public class Messages {
         }
     }
 
-    public static class Group {
+    public static final class Group {
         private final java.util.List<Group> children;
         private final Long start;
         private final String value;
 
+        @JsonCreator
         public Group(
             java.util.List<Group> children,
             Long start,
@@ -3247,10 +3294,11 @@ public class Messages {
         }
     }
 
-    public static class StepMatchArgument {
+    public static final class StepMatchArgument {
         private final Group group;
         private final String parameterTypeName;
 
+        @JsonCreator
         public StepMatchArgument(
             Group group,
             String parameterTypeName
@@ -3294,9 +3342,10 @@ public class Messages {
         }
     }
 
-    public static class StepMatchArgumentsList {
+    public static final class StepMatchArgumentsList {
         private final java.util.List<StepMatchArgument> stepMatchArguments;
 
+        @JsonCreator
         public StepMatchArgumentsList(
             java.util.List<StepMatchArgument> stepMatchArguments
         ) {
@@ -3331,13 +3380,14 @@ public class Messages {
         }
     }
 
-    public static class TestStep {
+    public static final class TestStep {
         private final String hookId;
         private final String id;
         private final String pickleStepId;
         private final java.util.List<String> stepDefinitionIds;
         private final java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists;
 
+        @JsonCreator
         public TestStep(
             String hookId,
             String id,
@@ -3408,11 +3458,12 @@ public class Messages {
         }
     }
 
-    public static class TestCaseFinished {
+    public static final class TestCaseFinished {
         private final String testCaseStartedId;
         private final Timestamp timestamp;
         private final Boolean willBeRetried;
 
+        @JsonCreator
         public TestCaseFinished(
             String testCaseStartedId,
             Timestamp timestamp,
@@ -3465,12 +3516,13 @@ public class Messages {
         }
     }
 
-    public static class TestCaseStarted {
+    public static final class TestCaseStarted {
         private final Long attempt;
         private final String id;
         private final String testCaseId;
         private final Timestamp timestamp;
 
+        @JsonCreator
         public TestCaseStarted(
             Long attempt,
             String id,
@@ -3532,11 +3584,12 @@ public class Messages {
         }
     }
 
-    public static class TestRunFinished {
+    public static final class TestRunFinished {
         private final String message;
         private final Boolean success;
         private final Timestamp timestamp;
 
+        @JsonCreator
         public TestRunFinished(
             String message,
             Boolean success,
@@ -3589,9 +3642,10 @@ public class Messages {
         }
     }
 
-    public static class TestRunStarted {
+    public static final class TestRunStarted {
         private final Timestamp timestamp;
 
+        @JsonCreator
         public TestRunStarted(
             Timestamp timestamp
         ) {
@@ -3626,12 +3680,13 @@ public class Messages {
         }
     }
 
-    public static class TestStepFinished {
+    public static final class TestStepFinished {
         private final String testCaseStartedId;
         private final String testStepId;
         private final TestStepResult testStepResult;
         private final Timestamp timestamp;
 
+        @JsonCreator
         public TestStepFinished(
             String testCaseStartedId,
             String testStepId,
@@ -3693,11 +3748,12 @@ public class Messages {
         }
     }
 
-    public static class TestStepResult {
+    public static final class TestStepResult {
         private final Duration duration;
         private final String message;
         private final TestStepResultStatus status;
 
+        @JsonCreator
         public TestStepResult(
             Duration duration,
             String message,
@@ -3750,11 +3806,12 @@ public class Messages {
         }
     }
 
-    public static class TestStepStarted {
+    public static final class TestStepStarted {
         private final String testCaseStartedId;
         private final String testStepId;
         private final Timestamp timestamp;
 
+        @JsonCreator
         public TestStepStarted(
             String testCaseStartedId,
             String testStepId,
@@ -3807,10 +3864,11 @@ public class Messages {
         }
     }
 
-    public static class Timestamp {
+    public static final class Timestamp {
         private final Long seconds;
         private final Long nanos;
 
+        @JsonCreator
         public Timestamp(
             Long seconds,
             Long nanos
@@ -3854,10 +3912,11 @@ public class Messages {
         }
     }
 
-    public static class UndefinedParameterType {
+    public static final class UndefinedParameterType {
         private final String expression;
         private final String name;
 
+        @JsonCreator
         public UndefinedParameterType(
             String expression,
             String name
