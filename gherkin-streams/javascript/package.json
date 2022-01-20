@@ -29,7 +29,7 @@
     "@types/node": "16.11.21",
     "mocha": "9.1.4",
     "nyc": "15.1.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.5"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
