@@ -26,7 +26,7 @@
     "@cucumber/gherkin": "^22.0.0",
     "@cucumber/gherkin-streams": "^4.0.0",
     "@cucumber/gherkin-utils": "^7.0.0",
-    "@types/mocha": "9.0.0",
+    "@types/mocha": "9.1.0",
     "@types/node": "16.11.21",
     "mocha": "9.1.4",
     "ts-node": "10.4.0",
