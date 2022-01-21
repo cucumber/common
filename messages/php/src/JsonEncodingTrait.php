@@ -4,21 +4,34 @@ namespace Cucumber\Messages;
 
 trait JsonEncodingTrait
 {
+    /**
+     * @throws DecodingException
+     */
     public static function fromJson(string $json) : self
     {
-        $data = json_decode($json, true, JSON_THROW_ON_ERROR);
-        assert(is_array($data));
+        try {
+            $data = json_decode($json, true, JSON_THROW_ON_ERROR);
+        }
+        catch(\Throwable $t) {
+            throw new UnknownDecodingException('Unknown decoding error', previous: $t);
+        }
+
+        if (!is_array($data)) {
+            throw new SchemaViolationException('Provided JSON did not decode as an array');
+        }
 
         return self::fromArray($data);
     }
 
     public function asJson() : string
     {
-        return json_encode($this);
+        return json_encode($this, JSON_THROW_ON_ERROR);
     }
 
     /**
      * Ensures the JSON serialized version does not contain null fields
+     *
+     * @internal Use asJson()
      *
      * @see https://www.php.net/manual/en/jsonserializable.jsonserialize.php
      */

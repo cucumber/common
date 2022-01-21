@@ -36,14 +36,56 @@ final class <%= class_name(key) %> implements JsonSerializable
 
     ){}
 
+    /**
+     * @throws SchemaViolationException
+     *
+     * @internal
+     */
     public static function fromArray(array $arr) : self
     {
+		<%- schema['properties'].each do |property_name, property| -%>
+			<%- if (!is_nullable(property_name, schema) || !is_scalar(property)) -%>
+		self::ensure<%= capitalize(property_name)%>($arr);
+			<%- end -%>
+		<%- end -%>
+
     	return new self(
 			<%- schema['properties'].each do |property_name, property| -%>
 			<%= constructor_for(key, property, property_name, schema, 'arr') %>,
         	<%- end -%>
     	);
     }
+	<%- schema['properties'].each do |property_name, property| -%>
+		<%- if (!is_nullable(property_name, schema) || !is_scalar(property)) -%>
+
+	/**
+	 * Check that the type of '<%= property_name %>' matches expectations
+	 *
+	 		<%- if (!is_nullable(property_name, schema)) -%>
+	 			<%- if is_scalar(property) -%>
+	 * @psalm-assert array{<%= property_name %>: mixed} $arr
+	 			<%- else -%>
+	 * @psalm-assert array{<%= property_name %>: array} $arr
+	 			<%- end -%>
+	 		<%- else -%>
+	 * @psalm-assert array{<%= property_name %>?: array} $arr
+	 		<%- end -%>
+	 */
+	private static function ensure<%= capitalize(property_name)%>(array $arr): void
+	{
+	    	<%- if (!is_nullable(property_name, schema)) -%>
+		if (!array_key_exists('<%= property_name %>', $arr)) {
+			throw new SchemaViolationException('Property \'<%= property_name %>\' is required but was not found');
+		}
+			<%- end -%>
+			<%- if(!is_scalar(property)) -%>
+		if (array_key_exists('<%= property_name %>', $arr) && !is_array($arr['<%= property_name %>'])) {
+			throw new SchemaViolationException('Property \'<%= property_name %>\' was not array');
+		}
+			<%- end -%>
+	}
+		<%- end -%>
+	<%- end -%>
 }
 
 <% end %>
