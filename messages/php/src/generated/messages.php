@@ -25,19 +25,19 @@ use \JsonSerializable;
  * is captured in `TestResult`. */
 final class Attachment implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
+         * The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
          * is simply the string. If it's `BASE64`, the string should be Base64 decoded to
          * obtain the attachment.
          */
         public readonly string $body,
 
         /**
-	     * Whether to interpret `body` "as-is" (IDENTITY) or if it needs to be Base64-decoded (BASE64).
+         * Whether to interpret `body` "as-is" (IDENTITY) or if it needs to be Base64-decoded (BASE64).
          * 
          * Content encoding is *not* determined by the media type, but rather by the type
          * of the object being attached:
@@ -49,12 +49,12 @@ final class Attachment implements JsonSerializable
         public readonly Attachment\ContentEncoding $contentEncoding,
 
         /**
-	     * Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
+         * Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
          */
         public readonly ?string $fileName,
 
         /**
-	     * The media type of the data. This can be any valid
+         * The media type of the data. This can be any valid
          * [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
          * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
          * and `text/x.cucumber.stacktrace+plain`
@@ -68,7 +68,7 @@ final class Attachment implements JsonSerializable
         public readonly ?string $testStepId,
 
         /**
-	     * A URL where the attachment can be retrieved. This field should not be set by Cucumber.
+         * A URL where the attachment can be retrieved. This field should not be set by Cucumber.
          * It should be set by a program that reads a message stream and does the following for
          * each Attachment message:
          * 
@@ -91,70 +91,70 @@ final class Attachment implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureBody($arr);
-		self::ensureContentEncoding($arr);
-		self::ensureMediaType($arr);
-		self::ensureSource($arr);
+        self::ensureBody($arr);
+        self::ensureContentEncoding($arr);
+        self::ensureMediaType($arr);
+        self::ensureSource($arr);
 
-    	return new self(
-			(string) $arr['body'],
-			Attachment\ContentEncoding::from((string) $arr['contentEncoding']),
-			isset($arr['fileName']) ? (string) $arr['fileName'] : null,
-			(string) $arr['mediaType'],
-			isset($arr['source']) ? Source::fromArray($arr['source']) : null,
-			isset($arr['testCaseStartedId']) ? (string) $arr['testCaseStartedId'] : null,
-			isset($arr['testStepId']) ? (string) $arr['testStepId'] : null,
-			isset($arr['url']) ? (string) $arr['url'] : null,
-    	);
+        return new self(
+            (string) $arr['body'],
+            Attachment\ContentEncoding::from((string) $arr['contentEncoding']),
+            isset($arr['fileName']) ? (string) $arr['fileName'] : null,
+            (string) $arr['mediaType'],
+            isset($arr['source']) ? Source::fromArray($arr['source']) : null,
+            isset($arr['testCaseStartedId']) ? (string) $arr['testCaseStartedId'] : null,
+            isset($arr['testStepId']) ? (string) $arr['testStepId'] : null,
+            isset($arr['url']) ? (string) $arr['url'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'body' matches expectations
-	 *
-	 * @psalm-assert array{body: mixed} $arr
-	 */
-	private static function ensureBody(array $arr): void
-	{
-		if (!array_key_exists('body', $arr)) {
-			throw new SchemaViolationException('Property \'body\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'body' matches expectations
+     *
+     * @psalm-assert array{body: mixed} $arr
+     */
+    private static function ensureBody(array $arr): void
+    {
+        if (!array_key_exists('body', $arr)) {
+            throw new SchemaViolationException('Property \'body\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'contentEncoding' matches expectations
-	 *
-	 * @psalm-assert array{contentEncoding: mixed} $arr
-	 */
-	private static function ensureContentEncoding(array $arr): void
-	{
-		if (!array_key_exists('contentEncoding', $arr)) {
-			throw new SchemaViolationException('Property \'contentEncoding\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'contentEncoding' matches expectations
+     *
+     * @psalm-assert array{contentEncoding: mixed} $arr
+     */
+    private static function ensureContentEncoding(array $arr): void
+    {
+        if (!array_key_exists('contentEncoding', $arr)) {
+            throw new SchemaViolationException('Property \'contentEncoding\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'mediaType' matches expectations
-	 *
-	 * @psalm-assert array{mediaType: mixed} $arr
-	 */
-	private static function ensureMediaType(array $arr): void
-	{
-		if (!array_key_exists('mediaType', $arr)) {
-			throw new SchemaViolationException('Property \'mediaType\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'mediaType' matches expectations
+     *
+     * @psalm-assert array{mediaType: mixed} $arr
+     */
+    private static function ensureMediaType(array $arr): void
+    {
+        if (!array_key_exists('mediaType', $arr)) {
+            throw new SchemaViolationException('Property \'mediaType\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'source' matches expectations
-	 *
-	 * @psalm-assert array{source?: array} $arr
-	 */
-	private static function ensureSource(array $arr): void
-	{
-		if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
-			throw new SchemaViolationException('Property \'source\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'source' matches expectations
+     *
+     * @psalm-assert array{source?: array} $arr
+     */
+    private static function ensureSource(array $arr): void
+    {
+        if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
+            throw new SchemaViolationException('Property \'source\' was not array');
+        }
+    }
 }
 
 
@@ -166,14 +166,14 @@ final class Attachment implements JsonSerializable
  * of message is used. */
 final class Duration implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         public readonly int $seconds,
 
         /**
-	     * Non-negative fractions of a second at nanosecond resolution. Negative
+         * Non-negative fractions of a second at nanosecond resolution. Negative
          * second values with fractions must still have non-negative nanos values
          * that count forward in time. Must be from 0 to 999,999,999
          * inclusive.
@@ -189,38 +189,38 @@ final class Duration implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureSeconds($arr);
-		self::ensureNanos($arr);
+        self::ensureSeconds($arr);
+        self::ensureNanos($arr);
 
-    	return new self(
-			(int) $arr['seconds'],
-			(int) $arr['nanos'],
-    	);
+        return new self(
+            (int) $arr['seconds'],
+            (int) $arr['nanos'],
+        );
     }
 
-	/**
-	 * Check that the type of 'seconds' matches expectations
-	 *
-	 * @psalm-assert array{seconds: mixed} $arr
-	 */
-	private static function ensureSeconds(array $arr): void
-	{
-		if (!array_key_exists('seconds', $arr)) {
-			throw new SchemaViolationException('Property \'seconds\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'seconds' matches expectations
+     *
+     * @psalm-assert array{seconds: mixed} $arr
+     */
+    private static function ensureSeconds(array $arr): void
+    {
+        if (!array_key_exists('seconds', $arr)) {
+            throw new SchemaViolationException('Property \'seconds\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'nanos' matches expectations
-	 *
-	 * @psalm-assert array{nanos: mixed} $arr
-	 */
-	private static function ensureNanos(array $arr): void
-	{
-		if (!array_key_exists('nanos', $arr)) {
-			throw new SchemaViolationException('Property \'nanos\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'nanos' matches expectations
+     *
+     * @psalm-assert array{nanos: mixed} $arr
+     */
+    private static function ensureNanos(array $arr): void
+    {
+        if (!array_key_exists('nanos', $arr)) {
+            throw new SchemaViolationException('Property \'nanos\' is required but was not found');
+        }
+    }
 }
 
 
@@ -236,7 +236,7 @@ final class Duration implements JsonSerializable
  * messages. */
 final class Envelope implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -283,248 +283,248 @@ final class Envelope implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureAttachment($arr);
-		self::ensureGherkinDocument($arr);
-		self::ensureHook($arr);
-		self::ensureMeta($arr);
-		self::ensureParameterType($arr);
-		self::ensureParseError($arr);
-		self::ensurePickle($arr);
-		self::ensureSource($arr);
-		self::ensureStepDefinition($arr);
-		self::ensureTestCase($arr);
-		self::ensureTestCaseFinished($arr);
-		self::ensureTestCaseStarted($arr);
-		self::ensureTestRunFinished($arr);
-		self::ensureTestRunStarted($arr);
-		self::ensureTestStepFinished($arr);
-		self::ensureTestStepStarted($arr);
-		self::ensureUndefinedParameterType($arr);
+        self::ensureAttachment($arr);
+        self::ensureGherkinDocument($arr);
+        self::ensureHook($arr);
+        self::ensureMeta($arr);
+        self::ensureParameterType($arr);
+        self::ensureParseError($arr);
+        self::ensurePickle($arr);
+        self::ensureSource($arr);
+        self::ensureStepDefinition($arr);
+        self::ensureTestCase($arr);
+        self::ensureTestCaseFinished($arr);
+        self::ensureTestCaseStarted($arr);
+        self::ensureTestRunFinished($arr);
+        self::ensureTestRunStarted($arr);
+        self::ensureTestStepFinished($arr);
+        self::ensureTestStepStarted($arr);
+        self::ensureUndefinedParameterType($arr);
 
-    	return new self(
-			isset($arr['attachment']) ? Attachment::fromArray($arr['attachment']) : null,
-			isset($arr['gherkinDocument']) ? GherkinDocument::fromArray($arr['gherkinDocument']) : null,
-			isset($arr['hook']) ? Hook::fromArray($arr['hook']) : null,
-			isset($arr['meta']) ? Meta::fromArray($arr['meta']) : null,
-			isset($arr['parameterType']) ? ParameterType::fromArray($arr['parameterType']) : null,
-			isset($arr['parseError']) ? ParseError::fromArray($arr['parseError']) : null,
-			isset($arr['pickle']) ? Pickle::fromArray($arr['pickle']) : null,
-			isset($arr['source']) ? Source::fromArray($arr['source']) : null,
-			isset($arr['stepDefinition']) ? StepDefinition::fromArray($arr['stepDefinition']) : null,
-			isset($arr['testCase']) ? TestCase::fromArray($arr['testCase']) : null,
-			isset($arr['testCaseFinished']) ? TestCaseFinished::fromArray($arr['testCaseFinished']) : null,
-			isset($arr['testCaseStarted']) ? TestCaseStarted::fromArray($arr['testCaseStarted']) : null,
-			isset($arr['testRunFinished']) ? TestRunFinished::fromArray($arr['testRunFinished']) : null,
-			isset($arr['testRunStarted']) ? TestRunStarted::fromArray($arr['testRunStarted']) : null,
-			isset($arr['testStepFinished']) ? TestStepFinished::fromArray($arr['testStepFinished']) : null,
-			isset($arr['testStepStarted']) ? TestStepStarted::fromArray($arr['testStepStarted']) : null,
-			isset($arr['undefinedParameterType']) ? UndefinedParameterType::fromArray($arr['undefinedParameterType']) : null,
-    	);
+        return new self(
+            isset($arr['attachment']) ? Attachment::fromArray($arr['attachment']) : null,
+            isset($arr['gherkinDocument']) ? GherkinDocument::fromArray($arr['gherkinDocument']) : null,
+            isset($arr['hook']) ? Hook::fromArray($arr['hook']) : null,
+            isset($arr['meta']) ? Meta::fromArray($arr['meta']) : null,
+            isset($arr['parameterType']) ? ParameterType::fromArray($arr['parameterType']) : null,
+            isset($arr['parseError']) ? ParseError::fromArray($arr['parseError']) : null,
+            isset($arr['pickle']) ? Pickle::fromArray($arr['pickle']) : null,
+            isset($arr['source']) ? Source::fromArray($arr['source']) : null,
+            isset($arr['stepDefinition']) ? StepDefinition::fromArray($arr['stepDefinition']) : null,
+            isset($arr['testCase']) ? TestCase::fromArray($arr['testCase']) : null,
+            isset($arr['testCaseFinished']) ? TestCaseFinished::fromArray($arr['testCaseFinished']) : null,
+            isset($arr['testCaseStarted']) ? TestCaseStarted::fromArray($arr['testCaseStarted']) : null,
+            isset($arr['testRunFinished']) ? TestRunFinished::fromArray($arr['testRunFinished']) : null,
+            isset($arr['testRunStarted']) ? TestRunStarted::fromArray($arr['testRunStarted']) : null,
+            isset($arr['testStepFinished']) ? TestStepFinished::fromArray($arr['testStepFinished']) : null,
+            isset($arr['testStepStarted']) ? TestStepStarted::fromArray($arr['testStepStarted']) : null,
+            isset($arr['undefinedParameterType']) ? UndefinedParameterType::fromArray($arr['undefinedParameterType']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'attachment' matches expectations
-	 *
-	 * @psalm-assert array{attachment?: array} $arr
-	 */
-	private static function ensureAttachment(array $arr): void
-	{
-		if (array_key_exists('attachment', $arr) && !is_array($arr['attachment'])) {
-			throw new SchemaViolationException('Property \'attachment\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'attachment' matches expectations
+     *
+     * @psalm-assert array{attachment?: array} $arr
+     */
+    private static function ensureAttachment(array $arr): void
+    {
+        if (array_key_exists('attachment', $arr) && !is_array($arr['attachment'])) {
+            throw new SchemaViolationException('Property \'attachment\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'gherkinDocument' matches expectations
-	 *
-	 * @psalm-assert array{gherkinDocument?: array} $arr
-	 */
-	private static function ensureGherkinDocument(array $arr): void
-	{
-		if (array_key_exists('gherkinDocument', $arr) && !is_array($arr['gherkinDocument'])) {
-			throw new SchemaViolationException('Property \'gherkinDocument\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'gherkinDocument' matches expectations
+     *
+     * @psalm-assert array{gherkinDocument?: array} $arr
+     */
+    private static function ensureGherkinDocument(array $arr): void
+    {
+        if (array_key_exists('gherkinDocument', $arr) && !is_array($arr['gherkinDocument'])) {
+            throw new SchemaViolationException('Property \'gherkinDocument\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'hook' matches expectations
-	 *
-	 * @psalm-assert array{hook?: array} $arr
-	 */
-	private static function ensureHook(array $arr): void
-	{
-		if (array_key_exists('hook', $arr) && !is_array($arr['hook'])) {
-			throw new SchemaViolationException('Property \'hook\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'hook' matches expectations
+     *
+     * @psalm-assert array{hook?: array} $arr
+     */
+    private static function ensureHook(array $arr): void
+    {
+        if (array_key_exists('hook', $arr) && !is_array($arr['hook'])) {
+            throw new SchemaViolationException('Property \'hook\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'meta' matches expectations
-	 *
-	 * @psalm-assert array{meta?: array} $arr
-	 */
-	private static function ensureMeta(array $arr): void
-	{
-		if (array_key_exists('meta', $arr) && !is_array($arr['meta'])) {
-			throw new SchemaViolationException('Property \'meta\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'meta' matches expectations
+     *
+     * @psalm-assert array{meta?: array} $arr
+     */
+    private static function ensureMeta(array $arr): void
+    {
+        if (array_key_exists('meta', $arr) && !is_array($arr['meta'])) {
+            throw new SchemaViolationException('Property \'meta\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'parameterType' matches expectations
-	 *
-	 * @psalm-assert array{parameterType?: array} $arr
-	 */
-	private static function ensureParameterType(array $arr): void
-	{
-		if (array_key_exists('parameterType', $arr) && !is_array($arr['parameterType'])) {
-			throw new SchemaViolationException('Property \'parameterType\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'parameterType' matches expectations
+     *
+     * @psalm-assert array{parameterType?: array} $arr
+     */
+    private static function ensureParameterType(array $arr): void
+    {
+        if (array_key_exists('parameterType', $arr) && !is_array($arr['parameterType'])) {
+            throw new SchemaViolationException('Property \'parameterType\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'parseError' matches expectations
-	 *
-	 * @psalm-assert array{parseError?: array} $arr
-	 */
-	private static function ensureParseError(array $arr): void
-	{
-		if (array_key_exists('parseError', $arr) && !is_array($arr['parseError'])) {
-			throw new SchemaViolationException('Property \'parseError\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'parseError' matches expectations
+     *
+     * @psalm-assert array{parseError?: array} $arr
+     */
+    private static function ensureParseError(array $arr): void
+    {
+        if (array_key_exists('parseError', $arr) && !is_array($arr['parseError'])) {
+            throw new SchemaViolationException('Property \'parseError\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'pickle' matches expectations
-	 *
-	 * @psalm-assert array{pickle?: array} $arr
-	 */
-	private static function ensurePickle(array $arr): void
-	{
-		if (array_key_exists('pickle', $arr) && !is_array($arr['pickle'])) {
-			throw new SchemaViolationException('Property \'pickle\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'pickle' matches expectations
+     *
+     * @psalm-assert array{pickle?: array} $arr
+     */
+    private static function ensurePickle(array $arr): void
+    {
+        if (array_key_exists('pickle', $arr) && !is_array($arr['pickle'])) {
+            throw new SchemaViolationException('Property \'pickle\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'source' matches expectations
-	 *
-	 * @psalm-assert array{source?: array} $arr
-	 */
-	private static function ensureSource(array $arr): void
-	{
-		if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
-			throw new SchemaViolationException('Property \'source\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'source' matches expectations
+     *
+     * @psalm-assert array{source?: array} $arr
+     */
+    private static function ensureSource(array $arr): void
+    {
+        if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
+            throw new SchemaViolationException('Property \'source\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'stepDefinition' matches expectations
-	 *
-	 * @psalm-assert array{stepDefinition?: array} $arr
-	 */
-	private static function ensureStepDefinition(array $arr): void
-	{
-		if (array_key_exists('stepDefinition', $arr) && !is_array($arr['stepDefinition'])) {
-			throw new SchemaViolationException('Property \'stepDefinition\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'stepDefinition' matches expectations
+     *
+     * @psalm-assert array{stepDefinition?: array} $arr
+     */
+    private static function ensureStepDefinition(array $arr): void
+    {
+        if (array_key_exists('stepDefinition', $arr) && !is_array($arr['stepDefinition'])) {
+            throw new SchemaViolationException('Property \'stepDefinition\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testCase' matches expectations
-	 *
-	 * @psalm-assert array{testCase?: array} $arr
-	 */
-	private static function ensureTestCase(array $arr): void
-	{
-		if (array_key_exists('testCase', $arr) && !is_array($arr['testCase'])) {
-			throw new SchemaViolationException('Property \'testCase\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testCase' matches expectations
+     *
+     * @psalm-assert array{testCase?: array} $arr
+     */
+    private static function ensureTestCase(array $arr): void
+    {
+        if (array_key_exists('testCase', $arr) && !is_array($arr['testCase'])) {
+            throw new SchemaViolationException('Property \'testCase\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testCaseFinished' matches expectations
-	 *
-	 * @psalm-assert array{testCaseFinished?: array} $arr
-	 */
-	private static function ensureTestCaseFinished(array $arr): void
-	{
-		if (array_key_exists('testCaseFinished', $arr) && !is_array($arr['testCaseFinished'])) {
-			throw new SchemaViolationException('Property \'testCaseFinished\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testCaseFinished' matches expectations
+     *
+     * @psalm-assert array{testCaseFinished?: array} $arr
+     */
+    private static function ensureTestCaseFinished(array $arr): void
+    {
+        if (array_key_exists('testCaseFinished', $arr) && !is_array($arr['testCaseFinished'])) {
+            throw new SchemaViolationException('Property \'testCaseFinished\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testCaseStarted' matches expectations
-	 *
-	 * @psalm-assert array{testCaseStarted?: array} $arr
-	 */
-	private static function ensureTestCaseStarted(array $arr): void
-	{
-		if (array_key_exists('testCaseStarted', $arr) && !is_array($arr['testCaseStarted'])) {
-			throw new SchemaViolationException('Property \'testCaseStarted\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testCaseStarted' matches expectations
+     *
+     * @psalm-assert array{testCaseStarted?: array} $arr
+     */
+    private static function ensureTestCaseStarted(array $arr): void
+    {
+        if (array_key_exists('testCaseStarted', $arr) && !is_array($arr['testCaseStarted'])) {
+            throw new SchemaViolationException('Property \'testCaseStarted\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testRunFinished' matches expectations
-	 *
-	 * @psalm-assert array{testRunFinished?: array} $arr
-	 */
-	private static function ensureTestRunFinished(array $arr): void
-	{
-		if (array_key_exists('testRunFinished', $arr) && !is_array($arr['testRunFinished'])) {
-			throw new SchemaViolationException('Property \'testRunFinished\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testRunFinished' matches expectations
+     *
+     * @psalm-assert array{testRunFinished?: array} $arr
+     */
+    private static function ensureTestRunFinished(array $arr): void
+    {
+        if (array_key_exists('testRunFinished', $arr) && !is_array($arr['testRunFinished'])) {
+            throw new SchemaViolationException('Property \'testRunFinished\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testRunStarted' matches expectations
-	 *
-	 * @psalm-assert array{testRunStarted?: array} $arr
-	 */
-	private static function ensureTestRunStarted(array $arr): void
-	{
-		if (array_key_exists('testRunStarted', $arr) && !is_array($arr['testRunStarted'])) {
-			throw new SchemaViolationException('Property \'testRunStarted\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testRunStarted' matches expectations
+     *
+     * @psalm-assert array{testRunStarted?: array} $arr
+     */
+    private static function ensureTestRunStarted(array $arr): void
+    {
+        if (array_key_exists('testRunStarted', $arr) && !is_array($arr['testRunStarted'])) {
+            throw new SchemaViolationException('Property \'testRunStarted\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testStepFinished' matches expectations
-	 *
-	 * @psalm-assert array{testStepFinished?: array} $arr
-	 */
-	private static function ensureTestStepFinished(array $arr): void
-	{
-		if (array_key_exists('testStepFinished', $arr) && !is_array($arr['testStepFinished'])) {
-			throw new SchemaViolationException('Property \'testStepFinished\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testStepFinished' matches expectations
+     *
+     * @psalm-assert array{testStepFinished?: array} $arr
+     */
+    private static function ensureTestStepFinished(array $arr): void
+    {
+        if (array_key_exists('testStepFinished', $arr) && !is_array($arr['testStepFinished'])) {
+            throw new SchemaViolationException('Property \'testStepFinished\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testStepStarted' matches expectations
-	 *
-	 * @psalm-assert array{testStepStarted?: array} $arr
-	 */
-	private static function ensureTestStepStarted(array $arr): void
-	{
-		if (array_key_exists('testStepStarted', $arr) && !is_array($arr['testStepStarted'])) {
-			throw new SchemaViolationException('Property \'testStepStarted\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testStepStarted' matches expectations
+     *
+     * @psalm-assert array{testStepStarted?: array} $arr
+     */
+    private static function ensureTestStepStarted(array $arr): void
+    {
+        if (array_key_exists('testStepStarted', $arr) && !is_array($arr['testStepStarted'])) {
+            throw new SchemaViolationException('Property \'testStepStarted\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'undefinedParameterType' matches expectations
-	 *
-	 * @psalm-assert array{undefinedParameterType?: array} $arr
-	 */
-	private static function ensureUndefinedParameterType(array $arr): void
-	{
-		if (array_key_exists('undefinedParameterType', $arr) && !is_array($arr['undefinedParameterType'])) {
-			throw new SchemaViolationException('Property \'undefinedParameterType\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'undefinedParameterType' matches expectations
+     *
+     * @psalm-assert array{undefinedParameterType?: array} $arr
+     */
+    private static function ensureUndefinedParameterType(array $arr): void
+    {
+        if (array_key_exists('undefinedParameterType', $arr) && !is_array($arr['undefinedParameterType'])) {
+            throw new SchemaViolationException('Property \'undefinedParameterType\' was not array');
+        }
+    }
 }
 
 
@@ -540,12 +540,12 @@ final class Envelope implements JsonSerializable
  * "rich" output, resembling the original Gherkin document. */
 final class GherkinDocument implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+         * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
          * of the source, typically a file path relative to the root directory
          */
         public readonly ?string $uri,
@@ -553,7 +553,7 @@ final class GherkinDocument implements JsonSerializable
         public readonly ?Feature $feature,
 
         /**
-	     * All the comments in the Gherkin document
+         * All the comments in the Gherkin document
          * @param list<Comment> $comments
          */
         public readonly array $comments,
@@ -567,42 +567,42 @@ final class GherkinDocument implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureFeature($arr);
-		self::ensureComments($arr);
+        self::ensureFeature($arr);
+        self::ensureComments($arr);
 
-    	return new self(
-			isset($arr['uri']) ? (string) $arr['uri'] : null,
-			isset($arr['feature']) ? Feature::fromArray($arr['feature']) : null,
-			array_map(fn(array $member) => Comment::fromArray($member) , $arr['comments']),
-    	);
+        return new self(
+            isset($arr['uri']) ? (string) $arr['uri'] : null,
+            isset($arr['feature']) ? Feature::fromArray($arr['feature']) : null,
+            array_map(fn(array $member) => Comment::fromArray($member) , $arr['comments']),
+        );
     }
 
-	/**
-	 * Check that the type of 'feature' matches expectations
-	 *
-	 * @psalm-assert array{feature?: array} $arr
-	 */
-	private static function ensureFeature(array $arr): void
-	{
-		if (array_key_exists('feature', $arr) && !is_array($arr['feature'])) {
-			throw new SchemaViolationException('Property \'feature\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'feature' matches expectations
+     *
+     * @psalm-assert array{feature?: array} $arr
+     */
+    private static function ensureFeature(array $arr): void
+    {
+        if (array_key_exists('feature', $arr) && !is_array($arr['feature'])) {
+            throw new SchemaViolationException('Property \'feature\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'comments' matches expectations
-	 *
-	 * @psalm-assert array{comments: array} $arr
-	 */
-	private static function ensureComments(array $arr): void
-	{
-		if (!array_key_exists('comments', $arr)) {
-			throw new SchemaViolationException('Property \'comments\' is required but was not found');
-		}
-		if (array_key_exists('comments', $arr) && !is_array($arr['comments'])) {
-			throw new SchemaViolationException('Property \'comments\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'comments' matches expectations
+     *
+     * @psalm-assert array{comments: array} $arr
+     */
+    private static function ensureComments(array $arr): void
+    {
+        if (!array_key_exists('comments', $arr)) {
+            throw new SchemaViolationException('Property \'comments\' is required but was not found');
+        }
+        if (array_key_exists('comments', $arr) && !is_array($arr['comments'])) {
+            throw new SchemaViolationException('Property \'comments\' was not array');
+        }
+    }
 }
 
 
@@ -613,12 +613,12 @@ final class GherkinDocument implements JsonSerializable
  */
 final class Background implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the `Background` keyword
+         * The location of the `Background` keyword
          */
         public readonly Location $location,
 
@@ -644,100 +644,100 @@ final class Background implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureKeyword($arr);
-		self::ensureName($arr);
-		self::ensureDescription($arr);
-		self::ensureSteps($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureKeyword($arr);
+        self::ensureName($arr);
+        self::ensureDescription($arr);
+        self::ensureSteps($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			(string) $arr['keyword'],
-			(string) $arr['name'],
-			(string) $arr['description'],
-			array_map(fn(array $member) => Step::fromArray($member) , $arr['steps']),
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            (string) $arr['keyword'],
+            (string) $arr['name'],
+            (string) $arr['description'],
+            array_map(fn(array $member) => Step::fromArray($member) , $arr['steps']),
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'keyword' matches expectations
-	 *
-	 * @psalm-assert array{keyword: mixed} $arr
-	 */
-	private static function ensureKeyword(array $arr): void
-	{
-		if (!array_key_exists('keyword', $arr)) {
-			throw new SchemaViolationException('Property \'keyword\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'keyword' matches expectations
+     *
+     * @psalm-assert array{keyword: mixed} $arr
+     */
+    private static function ensureKeyword(array $arr): void
+    {
+        if (!array_key_exists('keyword', $arr)) {
+            throw new SchemaViolationException('Property \'keyword\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'description' matches expectations
-	 *
-	 * @psalm-assert array{description: mixed} $arr
-	 */
-	private static function ensureDescription(array $arr): void
-	{
-		if (!array_key_exists('description', $arr)) {
-			throw new SchemaViolationException('Property \'description\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'description' matches expectations
+     *
+     * @psalm-assert array{description: mixed} $arr
+     */
+    private static function ensureDescription(array $arr): void
+    {
+        if (!array_key_exists('description', $arr)) {
+            throw new SchemaViolationException('Property \'description\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'steps' matches expectations
-	 *
-	 * @psalm-assert array{steps: array} $arr
-	 */
-	private static function ensureSteps(array $arr): void
-	{
-		if (!array_key_exists('steps', $arr)) {
-			throw new SchemaViolationException('Property \'steps\' is required but was not found');
-		}
-		if (array_key_exists('steps', $arr) && !is_array($arr['steps'])) {
-			throw new SchemaViolationException('Property \'steps\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'steps' matches expectations
+     *
+     * @psalm-assert array{steps: array} $arr
+     */
+    private static function ensureSteps(array $arr): void
+    {
+        if (!array_key_exists('steps', $arr)) {
+            throw new SchemaViolationException('Property \'steps\' is required but was not found');
+        }
+        if (array_key_exists('steps', $arr) && !is_array($arr['steps'])) {
+            throw new SchemaViolationException('Property \'steps\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -748,17 +748,17 @@ final class Background implements JsonSerializable
  * A comment in a Gherkin document */
 final class Comment implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the comment
+         * The location of the comment
          */
         public readonly Location $location,
 
         /**
-	     * The text of the comment
+         * The text of the comment
          */
         public readonly string $text,
 
@@ -771,41 +771,41 @@ final class Comment implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureText($arr);
+        self::ensureLocation($arr);
+        self::ensureText($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			(string) $arr['text'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            (string) $arr['text'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'text' matches expectations
-	 *
-	 * @psalm-assert array{text: mixed} $arr
-	 */
-	private static function ensureText(array $arr): void
-	{
-		if (!array_key_exists('text', $arr)) {
-			throw new SchemaViolationException('Property \'text\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'text' matches expectations
+     *
+     * @psalm-assert array{text: mixed} $arr
+     */
+    private static function ensureText(array $arr): void
+    {
+        if (!array_key_exists('text', $arr)) {
+            throw new SchemaViolationException('Property \'text\' is required but was not found');
+        }
+    }
 }
 
 
@@ -816,7 +816,7 @@ final class Comment implements JsonSerializable
  */
 final class DataTable implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -836,44 +836,44 @@ final class DataTable implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureRows($arr);
+        self::ensureLocation($arr);
+        self::ensureRows($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			array_map(fn(array $member) => TableRow::fromArray($member) , $arr['rows']),
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            array_map(fn(array $member) => TableRow::fromArray($member) , $arr['rows']),
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'rows' matches expectations
-	 *
-	 * @psalm-assert array{rows: array} $arr
-	 */
-	private static function ensureRows(array $arr): void
-	{
-		if (!array_key_exists('rows', $arr)) {
-			throw new SchemaViolationException('Property \'rows\' is required but was not found');
-		}
-		if (array_key_exists('rows', $arr) && !is_array($arr['rows'])) {
-			throw new SchemaViolationException('Property \'rows\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'rows' matches expectations
+     *
+     * @psalm-assert array{rows: array} $arr
+     */
+    private static function ensureRows(array $arr): void
+    {
+        if (!array_key_exists('rows', $arr)) {
+            throw new SchemaViolationException('Property \'rows\' is required but was not found');
+        }
+        if (array_key_exists('rows', $arr) && !is_array($arr['rows'])) {
+            throw new SchemaViolationException('Property \'rows\' was not array');
+        }
+    }
 }
 
 
@@ -884,7 +884,7 @@ final class DataTable implements JsonSerializable
  */
 final class DocString implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -905,56 +905,56 @@ final class DocString implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureContent($arr);
-		self::ensureDelimiter($arr);
+        self::ensureLocation($arr);
+        self::ensureContent($arr);
+        self::ensureDelimiter($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			isset($arr['mediaType']) ? (string) $arr['mediaType'] : null,
-			(string) $arr['content'],
-			(string) $arr['delimiter'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            isset($arr['mediaType']) ? (string) $arr['mediaType'] : null,
+            (string) $arr['content'],
+            (string) $arr['delimiter'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'content' matches expectations
-	 *
-	 * @psalm-assert array{content: mixed} $arr
-	 */
-	private static function ensureContent(array $arr): void
-	{
-		if (!array_key_exists('content', $arr)) {
-			throw new SchemaViolationException('Property \'content\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'content' matches expectations
+     *
+     * @psalm-assert array{content: mixed} $arr
+     */
+    private static function ensureContent(array $arr): void
+    {
+        if (!array_key_exists('content', $arr)) {
+            throw new SchemaViolationException('Property \'content\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'delimiter' matches expectations
-	 *
-	 * @psalm-assert array{delimiter: mixed} $arr
-	 */
-	private static function ensureDelimiter(array $arr): void
-	{
-		if (!array_key_exists('delimiter', $arr)) {
-			throw new SchemaViolationException('Property \'delimiter\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'delimiter' matches expectations
+     *
+     * @psalm-assert array{delimiter: mixed} $arr
+     */
+    private static function ensureDelimiter(array $arr): void
+    {
+        if (!array_key_exists('delimiter', $arr)) {
+            throw new SchemaViolationException('Property \'delimiter\' is required but was not found');
+        }
+    }
 }
 
 
@@ -965,12 +965,12 @@ final class DocString implements JsonSerializable
  */
 final class Examples implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the `Examples` keyword
+         * The location of the `Examples` keyword
          */
         public readonly Location $location,
 
@@ -1003,131 +1003,131 @@ final class Examples implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureTags($arr);
-		self::ensureKeyword($arr);
-		self::ensureName($arr);
-		self::ensureDescription($arr);
-		self::ensureTableHeader($arr);
-		self::ensureTableBody($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureTags($arr);
+        self::ensureKeyword($arr);
+        self::ensureName($arr);
+        self::ensureDescription($arr);
+        self::ensureTableHeader($arr);
+        self::ensureTableBody($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
-			(string) $arr['keyword'],
-			(string) $arr['name'],
-			(string) $arr['description'],
-			isset($arr['tableHeader']) ? TableRow::fromArray($arr['tableHeader']) : null,
-			array_map(fn(array $member) => TableRow::fromArray($member) , $arr['tableBody']),
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
+            (string) $arr['keyword'],
+            (string) $arr['name'],
+            (string) $arr['description'],
+            isset($arr['tableHeader']) ? TableRow::fromArray($arr['tableHeader']) : null,
+            array_map(fn(array $member) => TableRow::fromArray($member) , $arr['tableBody']),
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tags' matches expectations
-	 *
-	 * @psalm-assert array{tags: array} $arr
-	 */
-	private static function ensureTags(array $arr): void
-	{
-		if (!array_key_exists('tags', $arr)) {
-			throw new SchemaViolationException('Property \'tags\' is required but was not found');
-		}
-		if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
-			throw new SchemaViolationException('Property \'tags\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tags' matches expectations
+     *
+     * @psalm-assert array{tags: array} $arr
+     */
+    private static function ensureTags(array $arr): void
+    {
+        if (!array_key_exists('tags', $arr)) {
+            throw new SchemaViolationException('Property \'tags\' is required but was not found');
+        }
+        if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
+            throw new SchemaViolationException('Property \'tags\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'keyword' matches expectations
-	 *
-	 * @psalm-assert array{keyword: mixed} $arr
-	 */
-	private static function ensureKeyword(array $arr): void
-	{
-		if (!array_key_exists('keyword', $arr)) {
-			throw new SchemaViolationException('Property \'keyword\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'keyword' matches expectations
+     *
+     * @psalm-assert array{keyword: mixed} $arr
+     */
+    private static function ensureKeyword(array $arr): void
+    {
+        if (!array_key_exists('keyword', $arr)) {
+            throw new SchemaViolationException('Property \'keyword\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'description' matches expectations
-	 *
-	 * @psalm-assert array{description: mixed} $arr
-	 */
-	private static function ensureDescription(array $arr): void
-	{
-		if (!array_key_exists('description', $arr)) {
-			throw new SchemaViolationException('Property \'description\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'description' matches expectations
+     *
+     * @psalm-assert array{description: mixed} $arr
+     */
+    private static function ensureDescription(array $arr): void
+    {
+        if (!array_key_exists('description', $arr)) {
+            throw new SchemaViolationException('Property \'description\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tableHeader' matches expectations
-	 *
-	 * @psalm-assert array{tableHeader?: array} $arr
-	 */
-	private static function ensureTableHeader(array $arr): void
-	{
-		if (array_key_exists('tableHeader', $arr) && !is_array($arr['tableHeader'])) {
-			throw new SchemaViolationException('Property \'tableHeader\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tableHeader' matches expectations
+     *
+     * @psalm-assert array{tableHeader?: array} $arr
+     */
+    private static function ensureTableHeader(array $arr): void
+    {
+        if (array_key_exists('tableHeader', $arr) && !is_array($arr['tableHeader'])) {
+            throw new SchemaViolationException('Property \'tableHeader\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tableBody' matches expectations
-	 *
-	 * @psalm-assert array{tableBody: array} $arr
-	 */
-	private static function ensureTableBody(array $arr): void
-	{
-		if (!array_key_exists('tableBody', $arr)) {
-			throw new SchemaViolationException('Property \'tableBody\' is required but was not found');
-		}
-		if (array_key_exists('tableBody', $arr) && !is_array($arr['tableBody'])) {
-			throw new SchemaViolationException('Property \'tableBody\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tableBody' matches expectations
+     *
+     * @psalm-assert array{tableBody: array} $arr
+     */
+    private static function ensureTableBody(array $arr): void
+    {
+        if (!array_key_exists('tableBody', $arr)) {
+            throw new SchemaViolationException('Property \'tableBody\' is required but was not found');
+        }
+        if (array_key_exists('tableBody', $arr) && !is_array($arr['tableBody'])) {
+            throw new SchemaViolationException('Property \'tableBody\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -1138,43 +1138,43 @@ final class Examples implements JsonSerializable
  */
 final class Feature implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the `Feature` keyword
+         * The location of the `Feature` keyword
          */
         public readonly Location $location,
 
         /**
-	     * All the tags placed above the `Feature` keyword
+         * All the tags placed above the `Feature` keyword
          * @param list<Tag> $tags
          */
         public readonly array $tags,
 
         /**
-	     * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
+         * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
          */
         public readonly string $language,
 
         /**
-	     * The text of the `Feature` keyword (in the language specified by `language`)
+         * The text of the `Feature` keyword (in the language specified by `language`)
          */
         public readonly string $keyword,
 
         /**
-	     * The name of the feature (the text following the `keyword`)
+         * The name of the feature (the text following the `keyword`)
          */
         public readonly string $name,
 
         /**
-	     * The line(s) underneath the line with the `keyword` that are used as description
+         * The line(s) underneath the line with the `keyword` that are used as description
          */
         public readonly string $description,
 
         /**
-	     * Zero or more children
+         * Zero or more children
          * @param list<FeatureChild> $children
          */
         public readonly array $children,
@@ -1188,117 +1188,117 @@ final class Feature implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureTags($arr);
-		self::ensureLanguage($arr);
-		self::ensureKeyword($arr);
-		self::ensureName($arr);
-		self::ensureDescription($arr);
-		self::ensureChildren($arr);
+        self::ensureLocation($arr);
+        self::ensureTags($arr);
+        self::ensureLanguage($arr);
+        self::ensureKeyword($arr);
+        self::ensureName($arr);
+        self::ensureDescription($arr);
+        self::ensureChildren($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
-			(string) $arr['language'],
-			(string) $arr['keyword'],
-			(string) $arr['name'],
-			(string) $arr['description'],
-			array_map(fn(array $member) => FeatureChild::fromArray($member) , $arr['children']),
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
+            (string) $arr['language'],
+            (string) $arr['keyword'],
+            (string) $arr['name'],
+            (string) $arr['description'],
+            array_map(fn(array $member) => FeatureChild::fromArray($member) , $arr['children']),
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tags' matches expectations
-	 *
-	 * @psalm-assert array{tags: array} $arr
-	 */
-	private static function ensureTags(array $arr): void
-	{
-		if (!array_key_exists('tags', $arr)) {
-			throw new SchemaViolationException('Property \'tags\' is required but was not found');
-		}
-		if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
-			throw new SchemaViolationException('Property \'tags\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tags' matches expectations
+     *
+     * @psalm-assert array{tags: array} $arr
+     */
+    private static function ensureTags(array $arr): void
+    {
+        if (!array_key_exists('tags', $arr)) {
+            throw new SchemaViolationException('Property \'tags\' is required but was not found');
+        }
+        if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
+            throw new SchemaViolationException('Property \'tags\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'language' matches expectations
-	 *
-	 * @psalm-assert array{language: mixed} $arr
-	 */
-	private static function ensureLanguage(array $arr): void
-	{
-		if (!array_key_exists('language', $arr)) {
-			throw new SchemaViolationException('Property \'language\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'language' matches expectations
+     *
+     * @psalm-assert array{language: mixed} $arr
+     */
+    private static function ensureLanguage(array $arr): void
+    {
+        if (!array_key_exists('language', $arr)) {
+            throw new SchemaViolationException('Property \'language\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'keyword' matches expectations
-	 *
-	 * @psalm-assert array{keyword: mixed} $arr
-	 */
-	private static function ensureKeyword(array $arr): void
-	{
-		if (!array_key_exists('keyword', $arr)) {
-			throw new SchemaViolationException('Property \'keyword\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'keyword' matches expectations
+     *
+     * @psalm-assert array{keyword: mixed} $arr
+     */
+    private static function ensureKeyword(array $arr): void
+    {
+        if (!array_key_exists('keyword', $arr)) {
+            throw new SchemaViolationException('Property \'keyword\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'description' matches expectations
-	 *
-	 * @psalm-assert array{description: mixed} $arr
-	 */
-	private static function ensureDescription(array $arr): void
-	{
-		if (!array_key_exists('description', $arr)) {
-			throw new SchemaViolationException('Property \'description\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'description' matches expectations
+     *
+     * @psalm-assert array{description: mixed} $arr
+     */
+    private static function ensureDescription(array $arr): void
+    {
+        if (!array_key_exists('description', $arr)) {
+            throw new SchemaViolationException('Property \'description\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'children' matches expectations
-	 *
-	 * @psalm-assert array{children: array} $arr
-	 */
-	private static function ensureChildren(array $arr): void
-	{
-		if (!array_key_exists('children', $arr)) {
-			throw new SchemaViolationException('Property \'children\' is required but was not found');
-		}
-		if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
-			throw new SchemaViolationException('Property \'children\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'children' matches expectations
+     *
+     * @psalm-assert array{children: array} $arr
+     */
+    private static function ensureChildren(array $arr): void
+    {
+        if (!array_key_exists('children', $arr)) {
+            throw new SchemaViolationException('Property \'children\' is required but was not found');
+        }
+        if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
+            throw new SchemaViolationException('Property \'children\' was not array');
+        }
+    }
 }
 
 
@@ -1309,7 +1309,7 @@ final class Feature implements JsonSerializable
  * A child node of a `Feature` node */
 final class FeatureChild implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -1328,52 +1328,52 @@ final class FeatureChild implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureRule($arr);
-		self::ensureBackground($arr);
-		self::ensureScenario($arr);
+        self::ensureRule($arr);
+        self::ensureBackground($arr);
+        self::ensureScenario($arr);
 
-    	return new self(
-			isset($arr['rule']) ? Rule::fromArray($arr['rule']) : null,
-			isset($arr['background']) ? Background::fromArray($arr['background']) : null,
-			isset($arr['scenario']) ? Scenario::fromArray($arr['scenario']) : null,
-    	);
+        return new self(
+            isset($arr['rule']) ? Rule::fromArray($arr['rule']) : null,
+            isset($arr['background']) ? Background::fromArray($arr['background']) : null,
+            isset($arr['scenario']) ? Scenario::fromArray($arr['scenario']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'rule' matches expectations
-	 *
-	 * @psalm-assert array{rule?: array} $arr
-	 */
-	private static function ensureRule(array $arr): void
-	{
-		if (array_key_exists('rule', $arr) && !is_array($arr['rule'])) {
-			throw new SchemaViolationException('Property \'rule\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'rule' matches expectations
+     *
+     * @psalm-assert array{rule?: array} $arr
+     */
+    private static function ensureRule(array $arr): void
+    {
+        if (array_key_exists('rule', $arr) && !is_array($arr['rule'])) {
+            throw new SchemaViolationException('Property \'rule\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'background' matches expectations
-	 *
-	 * @psalm-assert array{background?: array} $arr
-	 */
-	private static function ensureBackground(array $arr): void
-	{
-		if (array_key_exists('background', $arr) && !is_array($arr['background'])) {
-			throw new SchemaViolationException('Property \'background\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'background' matches expectations
+     *
+     * @psalm-assert array{background?: array} $arr
+     */
+    private static function ensureBackground(array $arr): void
+    {
+        if (array_key_exists('background', $arr) && !is_array($arr['background'])) {
+            throw new SchemaViolationException('Property \'background\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'scenario' matches expectations
-	 *
-	 * @psalm-assert array{scenario?: array} $arr
-	 */
-	private static function ensureScenario(array $arr): void
-	{
-		if (array_key_exists('scenario', $arr) && !is_array($arr['scenario'])) {
-			throw new SchemaViolationException('Property \'scenario\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'scenario' matches expectations
+     *
+     * @psalm-assert array{scenario?: array} $arr
+     */
+    private static function ensureScenario(array $arr): void
+    {
+        if (array_key_exists('scenario', $arr) && !is_array($arr['scenario'])) {
+            throw new SchemaViolationException('Property \'scenario\' was not array');
+        }
+    }
 }
 
 
@@ -1384,17 +1384,17 @@ final class FeatureChild implements JsonSerializable
  */
 final class Rule implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the `Rule` keyword
+         * The location of the `Rule` keyword
          */
         public readonly Location $location,
 
         /**
-	     * All the tags placed above the `Rule` keyword
+         * All the tags placed above the `Rule` keyword
          * @param list<Tag> $tags
          */
         public readonly array $tags,
@@ -1421,117 +1421,117 @@ final class Rule implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureTags($arr);
-		self::ensureKeyword($arr);
-		self::ensureName($arr);
-		self::ensureDescription($arr);
-		self::ensureChildren($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureTags($arr);
+        self::ensureKeyword($arr);
+        self::ensureName($arr);
+        self::ensureDescription($arr);
+        self::ensureChildren($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
-			(string) $arr['keyword'],
-			(string) $arr['name'],
-			(string) $arr['description'],
-			array_map(fn(array $member) => RuleChild::fromArray($member) , $arr['children']),
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
+            (string) $arr['keyword'],
+            (string) $arr['name'],
+            (string) $arr['description'],
+            array_map(fn(array $member) => RuleChild::fromArray($member) , $arr['children']),
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tags' matches expectations
-	 *
-	 * @psalm-assert array{tags: array} $arr
-	 */
-	private static function ensureTags(array $arr): void
-	{
-		if (!array_key_exists('tags', $arr)) {
-			throw new SchemaViolationException('Property \'tags\' is required but was not found');
-		}
-		if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
-			throw new SchemaViolationException('Property \'tags\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tags' matches expectations
+     *
+     * @psalm-assert array{tags: array} $arr
+     */
+    private static function ensureTags(array $arr): void
+    {
+        if (!array_key_exists('tags', $arr)) {
+            throw new SchemaViolationException('Property \'tags\' is required but was not found');
+        }
+        if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
+            throw new SchemaViolationException('Property \'tags\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'keyword' matches expectations
-	 *
-	 * @psalm-assert array{keyword: mixed} $arr
-	 */
-	private static function ensureKeyword(array $arr): void
-	{
-		if (!array_key_exists('keyword', $arr)) {
-			throw new SchemaViolationException('Property \'keyword\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'keyword' matches expectations
+     *
+     * @psalm-assert array{keyword: mixed} $arr
+     */
+    private static function ensureKeyword(array $arr): void
+    {
+        if (!array_key_exists('keyword', $arr)) {
+            throw new SchemaViolationException('Property \'keyword\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'description' matches expectations
-	 *
-	 * @psalm-assert array{description: mixed} $arr
-	 */
-	private static function ensureDescription(array $arr): void
-	{
-		if (!array_key_exists('description', $arr)) {
-			throw new SchemaViolationException('Property \'description\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'description' matches expectations
+     *
+     * @psalm-assert array{description: mixed} $arr
+     */
+    private static function ensureDescription(array $arr): void
+    {
+        if (!array_key_exists('description', $arr)) {
+            throw new SchemaViolationException('Property \'description\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'children' matches expectations
-	 *
-	 * @psalm-assert array{children: array} $arr
-	 */
-	private static function ensureChildren(array $arr): void
-	{
-		if (!array_key_exists('children', $arr)) {
-			throw new SchemaViolationException('Property \'children\' is required but was not found');
-		}
-		if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
-			throw new SchemaViolationException('Property \'children\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'children' matches expectations
+     *
+     * @psalm-assert array{children: array} $arr
+     */
+    private static function ensureChildren(array $arr): void
+    {
+        if (!array_key_exists('children', $arr)) {
+            throw new SchemaViolationException('Property \'children\' is required but was not found');
+        }
+        if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
+            throw new SchemaViolationException('Property \'children\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -1542,7 +1542,7 @@ final class Rule implements JsonSerializable
  * A child node of a `Rule` node */
 final class RuleChild implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -1559,38 +1559,38 @@ final class RuleChild implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureBackground($arr);
-		self::ensureScenario($arr);
+        self::ensureBackground($arr);
+        self::ensureScenario($arr);
 
-    	return new self(
-			isset($arr['background']) ? Background::fromArray($arr['background']) : null,
-			isset($arr['scenario']) ? Scenario::fromArray($arr['scenario']) : null,
-    	);
+        return new self(
+            isset($arr['background']) ? Background::fromArray($arr['background']) : null,
+            isset($arr['scenario']) ? Scenario::fromArray($arr['scenario']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'background' matches expectations
-	 *
-	 * @psalm-assert array{background?: array} $arr
-	 */
-	private static function ensureBackground(array $arr): void
-	{
-		if (array_key_exists('background', $arr) && !is_array($arr['background'])) {
-			throw new SchemaViolationException('Property \'background\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'background' matches expectations
+     *
+     * @psalm-assert array{background?: array} $arr
+     */
+    private static function ensureBackground(array $arr): void
+    {
+        if (array_key_exists('background', $arr) && !is_array($arr['background'])) {
+            throw new SchemaViolationException('Property \'background\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'scenario' matches expectations
-	 *
-	 * @psalm-assert array{scenario?: array} $arr
-	 */
-	private static function ensureScenario(array $arr): void
-	{
-		if (array_key_exists('scenario', $arr) && !is_array($arr['scenario'])) {
-			throw new SchemaViolationException('Property \'scenario\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'scenario' matches expectations
+     *
+     * @psalm-assert array{scenario?: array} $arr
+     */
+    private static function ensureScenario(array $arr): void
+    {
+        if (array_key_exists('scenario', $arr) && !is_array($arr['scenario'])) {
+            throw new SchemaViolationException('Property \'scenario\' was not array');
+        }
+    }
 }
 
 
@@ -1601,12 +1601,12 @@ final class RuleChild implements JsonSerializable
  */
 final class Scenario implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the `Scenario` keyword
+         * The location of the `Scenario` keyword
          */
         public readonly Location $location,
 
@@ -1642,134 +1642,134 @@ final class Scenario implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureTags($arr);
-		self::ensureKeyword($arr);
-		self::ensureName($arr);
-		self::ensureDescription($arr);
-		self::ensureSteps($arr);
-		self::ensureExamples($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureTags($arr);
+        self::ensureKeyword($arr);
+        self::ensureName($arr);
+        self::ensureDescription($arr);
+        self::ensureSteps($arr);
+        self::ensureExamples($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
-			(string) $arr['keyword'],
-			(string) $arr['name'],
-			(string) $arr['description'],
-			array_map(fn(array $member) => Step::fromArray($member) , $arr['steps']),
-			array_map(fn(array $member) => Examples::fromArray($member) , $arr['examples']),
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            array_map(fn(array $member) => Tag::fromArray($member) , $arr['tags']),
+            (string) $arr['keyword'],
+            (string) $arr['name'],
+            (string) $arr['description'],
+            array_map(fn(array $member) => Step::fromArray($member) , $arr['steps']),
+            array_map(fn(array $member) => Examples::fromArray($member) , $arr['examples']),
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tags' matches expectations
-	 *
-	 * @psalm-assert array{tags: array} $arr
-	 */
-	private static function ensureTags(array $arr): void
-	{
-		if (!array_key_exists('tags', $arr)) {
-			throw new SchemaViolationException('Property \'tags\' is required but was not found');
-		}
-		if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
-			throw new SchemaViolationException('Property \'tags\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tags' matches expectations
+     *
+     * @psalm-assert array{tags: array} $arr
+     */
+    private static function ensureTags(array $arr): void
+    {
+        if (!array_key_exists('tags', $arr)) {
+            throw new SchemaViolationException('Property \'tags\' is required but was not found');
+        }
+        if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
+            throw new SchemaViolationException('Property \'tags\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'keyword' matches expectations
-	 *
-	 * @psalm-assert array{keyword: mixed} $arr
-	 */
-	private static function ensureKeyword(array $arr): void
-	{
-		if (!array_key_exists('keyword', $arr)) {
-			throw new SchemaViolationException('Property \'keyword\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'keyword' matches expectations
+     *
+     * @psalm-assert array{keyword: mixed} $arr
+     */
+    private static function ensureKeyword(array $arr): void
+    {
+        if (!array_key_exists('keyword', $arr)) {
+            throw new SchemaViolationException('Property \'keyword\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'description' matches expectations
-	 *
-	 * @psalm-assert array{description: mixed} $arr
-	 */
-	private static function ensureDescription(array $arr): void
-	{
-		if (!array_key_exists('description', $arr)) {
-			throw new SchemaViolationException('Property \'description\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'description' matches expectations
+     *
+     * @psalm-assert array{description: mixed} $arr
+     */
+    private static function ensureDescription(array $arr): void
+    {
+        if (!array_key_exists('description', $arr)) {
+            throw new SchemaViolationException('Property \'description\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'steps' matches expectations
-	 *
-	 * @psalm-assert array{steps: array} $arr
-	 */
-	private static function ensureSteps(array $arr): void
-	{
-		if (!array_key_exists('steps', $arr)) {
-			throw new SchemaViolationException('Property \'steps\' is required but was not found');
-		}
-		if (array_key_exists('steps', $arr) && !is_array($arr['steps'])) {
-			throw new SchemaViolationException('Property \'steps\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'steps' matches expectations
+     *
+     * @psalm-assert array{steps: array} $arr
+     */
+    private static function ensureSteps(array $arr): void
+    {
+        if (!array_key_exists('steps', $arr)) {
+            throw new SchemaViolationException('Property \'steps\' is required but was not found');
+        }
+        if (array_key_exists('steps', $arr) && !is_array($arr['steps'])) {
+            throw new SchemaViolationException('Property \'steps\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'examples' matches expectations
-	 *
-	 * @psalm-assert array{examples: array} $arr
-	 */
-	private static function ensureExamples(array $arr): void
-	{
-		if (!array_key_exists('examples', $arr)) {
-			throw new SchemaViolationException('Property \'examples\' is required but was not found');
-		}
-		if (array_key_exists('examples', $arr) && !is_array($arr['examples'])) {
-			throw new SchemaViolationException('Property \'examples\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'examples' matches expectations
+     *
+     * @psalm-assert array{examples: array} $arr
+     */
+    private static function ensureExamples(array $arr): void
+    {
+        if (!array_key_exists('examples', $arr)) {
+            throw new SchemaViolationException('Property \'examples\' is required but was not found');
+        }
+        if (array_key_exists('examples', $arr) && !is_array($arr['examples'])) {
+            throw new SchemaViolationException('Property \'examples\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -1780,12 +1780,12 @@ final class Scenario implements JsonSerializable
  * A step */
 final class Step implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the steps' `keyword`
+         * The location of the steps' `keyword`
          */
         public readonly Location $location,
 
@@ -1798,7 +1798,7 @@ final class Step implements JsonSerializable
         public readonly ?DataTable $dataTable,
 
         /**
-	     * Unique ID to be able to reference the Step from PickleStep
+         * Unique ID to be able to reference the Step from PickleStep
          */
         public readonly string $id,
 
@@ -1811,97 +1811,97 @@ final class Step implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureKeyword($arr);
-		self::ensureText($arr);
-		self::ensureDocString($arr);
-		self::ensureDataTable($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureKeyword($arr);
+        self::ensureText($arr);
+        self::ensureDocString($arr);
+        self::ensureDataTable($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			(string) $arr['keyword'],
-			(string) $arr['text'],
-			isset($arr['docString']) ? DocString::fromArray($arr['docString']) : null,
-			isset($arr['dataTable']) ? DataTable::fromArray($arr['dataTable']) : null,
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            (string) $arr['keyword'],
+            (string) $arr['text'],
+            isset($arr['docString']) ? DocString::fromArray($arr['docString']) : null,
+            isset($arr['dataTable']) ? DataTable::fromArray($arr['dataTable']) : null,
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'keyword' matches expectations
-	 *
-	 * @psalm-assert array{keyword: mixed} $arr
-	 */
-	private static function ensureKeyword(array $arr): void
-	{
-		if (!array_key_exists('keyword', $arr)) {
-			throw new SchemaViolationException('Property \'keyword\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'keyword' matches expectations
+     *
+     * @psalm-assert array{keyword: mixed} $arr
+     */
+    private static function ensureKeyword(array $arr): void
+    {
+        if (!array_key_exists('keyword', $arr)) {
+            throw new SchemaViolationException('Property \'keyword\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'text' matches expectations
-	 *
-	 * @psalm-assert array{text: mixed} $arr
-	 */
-	private static function ensureText(array $arr): void
-	{
-		if (!array_key_exists('text', $arr)) {
-			throw new SchemaViolationException('Property \'text\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'text' matches expectations
+     *
+     * @psalm-assert array{text: mixed} $arr
+     */
+    private static function ensureText(array $arr): void
+    {
+        if (!array_key_exists('text', $arr)) {
+            throw new SchemaViolationException('Property \'text\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'docString' matches expectations
-	 *
-	 * @psalm-assert array{docString?: array} $arr
-	 */
-	private static function ensureDocString(array $arr): void
-	{
-		if (array_key_exists('docString', $arr) && !is_array($arr['docString'])) {
-			throw new SchemaViolationException('Property \'docString\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'docString' matches expectations
+     *
+     * @psalm-assert array{docString?: array} $arr
+     */
+    private static function ensureDocString(array $arr): void
+    {
+        if (array_key_exists('docString', $arr) && !is_array($arr['docString'])) {
+            throw new SchemaViolationException('Property \'docString\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'dataTable' matches expectations
-	 *
-	 * @psalm-assert array{dataTable?: array} $arr
-	 */
-	private static function ensureDataTable(array $arr): void
-	{
-		if (array_key_exists('dataTable', $arr) && !is_array($arr['dataTable'])) {
-			throw new SchemaViolationException('Property \'dataTable\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'dataTable' matches expectations
+     *
+     * @psalm-assert array{dataTable?: array} $arr
+     */
+    private static function ensureDataTable(array $arr): void
+    {
+        if (array_key_exists('dataTable', $arr) && !is_array($arr['dataTable'])) {
+            throw new SchemaViolationException('Property \'dataTable\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -1912,17 +1912,17 @@ final class Step implements JsonSerializable
  * A cell in a `TableRow` */
 final class TableCell implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the cell
+         * The location of the cell
          */
         public readonly Location $location,
 
         /**
-	     * The value of the cell
+         * The value of the cell
          */
         public readonly string $value,
 
@@ -1935,41 +1935,41 @@ final class TableCell implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureValue($arr);
+        self::ensureLocation($arr);
+        self::ensureValue($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			(string) $arr['value'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            (string) $arr['value'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'value' matches expectations
-	 *
-	 * @psalm-assert array{value: mixed} $arr
-	 */
-	private static function ensureValue(array $arr): void
-	{
-		if (!array_key_exists('value', $arr)) {
-			throw new SchemaViolationException('Property \'value\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'value' matches expectations
+     *
+     * @psalm-assert array{value: mixed} $arr
+     */
+    private static function ensureValue(array $arr): void
+    {
+        if (!array_key_exists('value', $arr)) {
+            throw new SchemaViolationException('Property \'value\' is required but was not found');
+        }
+    }
 }
 
 
@@ -1980,17 +1980,17 @@ final class TableCell implements JsonSerializable
  * A row in a table */
 final class TableRow implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The location of the first cell in the row
+         * The location of the first cell in the row
          */
         public readonly Location $location,
 
         /**
-	     * Cells in the row
+         * Cells in the row
          * @param list<TableCell> $cells
          */
         public readonly array $cells,
@@ -2006,58 +2006,58 @@ final class TableRow implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureCells($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureCells($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			array_map(fn(array $member) => TableCell::fromArray($member) , $arr['cells']),
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            array_map(fn(array $member) => TableCell::fromArray($member) , $arr['cells']),
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'cells' matches expectations
-	 *
-	 * @psalm-assert array{cells: array} $arr
-	 */
-	private static function ensureCells(array $arr): void
-	{
-		if (!array_key_exists('cells', $arr)) {
-			throw new SchemaViolationException('Property \'cells\' is required but was not found');
-		}
-		if (array_key_exists('cells', $arr) && !is_array($arr['cells'])) {
-			throw new SchemaViolationException('Property \'cells\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'cells' matches expectations
+     *
+     * @psalm-assert array{cells: array} $arr
+     */
+    private static function ensureCells(array $arr): void
+    {
+        if (!array_key_exists('cells', $arr)) {
+            throw new SchemaViolationException('Property \'cells\' is required but was not found');
+        }
+        if (array_key_exists('cells', $arr) && !is_array($arr['cells'])) {
+            throw new SchemaViolationException('Property \'cells\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2068,22 +2068,22 @@ final class TableRow implements JsonSerializable
  * A tag */
 final class Tag implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * Location of the tag
+         * Location of the tag
          */
         public readonly Location $location,
 
         /**
-	     * The name of the tag (including the leading `@`)
+         * The name of the tag (including the leading `@`)
          */
         public readonly string $name,
 
         /**
-	     * Unique ID to be able to reference the Tag from PickleTag
+         * Unique ID to be able to reference the Tag from PickleTag
          */
         public readonly string $id,
 
@@ -2096,55 +2096,55 @@ final class Tag implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLocation($arr);
-		self::ensureName($arr);
-		self::ensureId($arr);
+        self::ensureLocation($arr);
+        self::ensureName($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			Location::fromArray($arr['location']),
-			(string) $arr['name'],
-			(string) $arr['id'],
-    	);
+        return new self(
+            Location::fromArray($arr['location']),
+            (string) $arr['name'],
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (!array_key_exists('location', $arr)) {
-			throw new SchemaViolationException('Property \'location\' is required but was not found');
-		}
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (!array_key_exists('location', $arr)) {
+            throw new SchemaViolationException('Property \'location\' is required but was not found');
+        }
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2155,7 +2155,7 @@ final class Tag implements JsonSerializable
  */
 final class Hook implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -2174,42 +2174,42 @@ final class Hook implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureId($arr);
-		self::ensureSourceReference($arr);
+        self::ensureId($arr);
+        self::ensureSourceReference($arr);
 
-    	return new self(
-			(string) $arr['id'],
-			SourceReference::fromArray($arr['sourceReference']),
-			isset($arr['tagExpression']) ? (string) $arr['tagExpression'] : null,
-    	);
+        return new self(
+            (string) $arr['id'],
+            SourceReference::fromArray($arr['sourceReference']),
+            isset($arr['tagExpression']) ? (string) $arr['tagExpression'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'sourceReference' matches expectations
-	 *
-	 * @psalm-assert array{sourceReference: array} $arr
-	 */
-	private static function ensureSourceReference(array $arr): void
-	{
-		if (!array_key_exists('sourceReference', $arr)) {
-			throw new SchemaViolationException('Property \'sourceReference\' is required but was not found');
-		}
-		if (array_key_exists('sourceReference', $arr) && !is_array($arr['sourceReference'])) {
-			throw new SchemaViolationException('Property \'sourceReference\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'sourceReference' matches expectations
+     *
+     * @psalm-assert array{sourceReference: array} $arr
+     */
+    private static function ensureSourceReference(array $arr): void
+    {
+        if (!array_key_exists('sourceReference', $arr)) {
+            throw new SchemaViolationException('Property \'sourceReference\' is required but was not found');
+        }
+        if (array_key_exists('sourceReference', $arr) && !is_array($arr['sourceReference'])) {
+            throw new SchemaViolationException('Property \'sourceReference\' was not array');
+        }
+    }
 }
 
 
@@ -2220,7 +2220,7 @@ final class Hook implements JsonSerializable
  * Points to a line and a column in a text file */
 final class Location implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -2237,25 +2237,25 @@ final class Location implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureLine($arr);
+        self::ensureLine($arr);
 
-    	return new self(
-			(int) $arr['line'],
-			isset($arr['column']) ? (int) $arr['column'] : null,
-    	);
+        return new self(
+            (int) $arr['line'],
+            isset($arr['column']) ? (int) $arr['column'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'line' matches expectations
-	 *
-	 * @psalm-assert array{line: mixed} $arr
-	 */
-	private static function ensureLine(array $arr): void
-	{
-		if (!array_key_exists('line', $arr)) {
-			throw new SchemaViolationException('Property \'line\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'line' matches expectations
+     *
+     * @psalm-assert array{line: mixed} $arr
+     */
+    private static function ensureLine(array $arr): void
+    {
+        if (!array_key_exists('line', $arr)) {
+            throw new SchemaViolationException('Property \'line\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2267,32 +2267,32 @@ final class Location implements JsonSerializable
  * this for various purposes. */
 final class Meta implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The [SEMVER](https://semver.org/) version number of the protocol
+         * The [SEMVER](https://semver.org/) version number of the protocol
          */
         public readonly string $protocolVersion,
 
         /**
-	     * SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.
+         * SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.
          */
         public readonly Product $implementation,
 
         /**
-	     * Java, Ruby, Node.js etc
+         * Java, Ruby, Node.js etc
          */
         public readonly Product $runtime,
 
         /**
-	     * Windows, Linux, MacOS etc
+         * Windows, Linux, MacOS etc
          */
         public readonly Product $os,
 
         /**
-	     * 386, arm, amd64 etc
+         * 386, arm, amd64 etc
          */
         public readonly Product $cpu,
 
@@ -2307,106 +2307,106 @@ final class Meta implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureProtocolVersion($arr);
-		self::ensureImplementation($arr);
-		self::ensureRuntime($arr);
-		self::ensureOs($arr);
-		self::ensureCpu($arr);
-		self::ensureCi($arr);
+        self::ensureProtocolVersion($arr);
+        self::ensureImplementation($arr);
+        self::ensureRuntime($arr);
+        self::ensureOs($arr);
+        self::ensureCpu($arr);
+        self::ensureCi($arr);
 
-    	return new self(
-			(string) $arr['protocolVersion'],
-			Product::fromArray($arr['implementation']),
-			Product::fromArray($arr['runtime']),
-			Product::fromArray($arr['os']),
-			Product::fromArray($arr['cpu']),
-			isset($arr['ci']) ? Ci::fromArray($arr['ci']) : null,
-    	);
+        return new self(
+            (string) $arr['protocolVersion'],
+            Product::fromArray($arr['implementation']),
+            Product::fromArray($arr['runtime']),
+            Product::fromArray($arr['os']),
+            Product::fromArray($arr['cpu']),
+            isset($arr['ci']) ? Ci::fromArray($arr['ci']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'protocolVersion' matches expectations
-	 *
-	 * @psalm-assert array{protocolVersion: mixed} $arr
-	 */
-	private static function ensureProtocolVersion(array $arr): void
-	{
-		if (!array_key_exists('protocolVersion', $arr)) {
-			throw new SchemaViolationException('Property \'protocolVersion\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'protocolVersion' matches expectations
+     *
+     * @psalm-assert array{protocolVersion: mixed} $arr
+     */
+    private static function ensureProtocolVersion(array $arr): void
+    {
+        if (!array_key_exists('protocolVersion', $arr)) {
+            throw new SchemaViolationException('Property \'protocolVersion\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'implementation' matches expectations
-	 *
-	 * @psalm-assert array{implementation: array} $arr
-	 */
-	private static function ensureImplementation(array $arr): void
-	{
-		if (!array_key_exists('implementation', $arr)) {
-			throw new SchemaViolationException('Property \'implementation\' is required but was not found');
-		}
-		if (array_key_exists('implementation', $arr) && !is_array($arr['implementation'])) {
-			throw new SchemaViolationException('Property \'implementation\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'implementation' matches expectations
+     *
+     * @psalm-assert array{implementation: array} $arr
+     */
+    private static function ensureImplementation(array $arr): void
+    {
+        if (!array_key_exists('implementation', $arr)) {
+            throw new SchemaViolationException('Property \'implementation\' is required but was not found');
+        }
+        if (array_key_exists('implementation', $arr) && !is_array($arr['implementation'])) {
+            throw new SchemaViolationException('Property \'implementation\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'runtime' matches expectations
-	 *
-	 * @psalm-assert array{runtime: array} $arr
-	 */
-	private static function ensureRuntime(array $arr): void
-	{
-		if (!array_key_exists('runtime', $arr)) {
-			throw new SchemaViolationException('Property \'runtime\' is required but was not found');
-		}
-		if (array_key_exists('runtime', $arr) && !is_array($arr['runtime'])) {
-			throw new SchemaViolationException('Property \'runtime\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'runtime' matches expectations
+     *
+     * @psalm-assert array{runtime: array} $arr
+     */
+    private static function ensureRuntime(array $arr): void
+    {
+        if (!array_key_exists('runtime', $arr)) {
+            throw new SchemaViolationException('Property \'runtime\' is required but was not found');
+        }
+        if (array_key_exists('runtime', $arr) && !is_array($arr['runtime'])) {
+            throw new SchemaViolationException('Property \'runtime\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'os' matches expectations
-	 *
-	 * @psalm-assert array{os: array} $arr
-	 */
-	private static function ensureOs(array $arr): void
-	{
-		if (!array_key_exists('os', $arr)) {
-			throw new SchemaViolationException('Property \'os\' is required but was not found');
-		}
-		if (array_key_exists('os', $arr) && !is_array($arr['os'])) {
-			throw new SchemaViolationException('Property \'os\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'os' matches expectations
+     *
+     * @psalm-assert array{os: array} $arr
+     */
+    private static function ensureOs(array $arr): void
+    {
+        if (!array_key_exists('os', $arr)) {
+            throw new SchemaViolationException('Property \'os\' is required but was not found');
+        }
+        if (array_key_exists('os', $arr) && !is_array($arr['os'])) {
+            throw new SchemaViolationException('Property \'os\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'cpu' matches expectations
-	 *
-	 * @psalm-assert array{cpu: array} $arr
-	 */
-	private static function ensureCpu(array $arr): void
-	{
-		if (!array_key_exists('cpu', $arr)) {
-			throw new SchemaViolationException('Property \'cpu\' is required but was not found');
-		}
-		if (array_key_exists('cpu', $arr) && !is_array($arr['cpu'])) {
-			throw new SchemaViolationException('Property \'cpu\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'cpu' matches expectations
+     *
+     * @psalm-assert array{cpu: array} $arr
+     */
+    private static function ensureCpu(array $arr): void
+    {
+        if (!array_key_exists('cpu', $arr)) {
+            throw new SchemaViolationException('Property \'cpu\' is required but was not found');
+        }
+        if (array_key_exists('cpu', $arr) && !is_array($arr['cpu'])) {
+            throw new SchemaViolationException('Property \'cpu\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'ci' matches expectations
-	 *
-	 * @psalm-assert array{ci?: array} $arr
-	 */
-	private static function ensureCi(array $arr): void
-	{
-		if (array_key_exists('ci', $arr) && !is_array($arr['ci'])) {
-			throw new SchemaViolationException('Property \'ci\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'ci' matches expectations
+     *
+     * @psalm-assert array{ci?: array} $arr
+     */
+    private static function ensureCi(array $arr): void
+    {
+        if (array_key_exists('ci', $arr) && !is_array($arr['ci'])) {
+            throw new SchemaViolationException('Property \'ci\' was not array');
+        }
+    }
 }
 
 
@@ -2417,22 +2417,22 @@ final class Meta implements JsonSerializable
  * CI environment */
 final class Ci implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * Name of the CI product, e.g. "Jenkins", "CircleCI" etc.
+         * Name of the CI product, e.g. "Jenkins", "CircleCI" etc.
          */
         public readonly string $name,
 
         /**
-	     * Link to the build
+         * Link to the build
          */
         public readonly ?string $url,
 
         /**
-	     * The build number. Some CI servers use non-numeric build numbers, which is why this is a string
+         * The build number. Some CI servers use non-numeric build numbers, which is why this is a string
          */
         public readonly ?string $buildNumber,
 
@@ -2447,40 +2447,40 @@ final class Ci implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureName($arr);
-		self::ensureGit($arr);
+        self::ensureName($arr);
+        self::ensureGit($arr);
 
-    	return new self(
-			(string) $arr['name'],
-			isset($arr['url']) ? (string) $arr['url'] : null,
-			isset($arr['buildNumber']) ? (string) $arr['buildNumber'] : null,
-			isset($arr['git']) ? Git::fromArray($arr['git']) : null,
-    	);
+        return new self(
+            (string) $arr['name'],
+            isset($arr['url']) ? (string) $arr['url'] : null,
+            isset($arr['buildNumber']) ? (string) $arr['buildNumber'] : null,
+            isset($arr['git']) ? Git::fromArray($arr['git']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'git' matches expectations
-	 *
-	 * @psalm-assert array{git?: array} $arr
-	 */
-	private static function ensureGit(array $arr): void
-	{
-		if (array_key_exists('git', $arr) && !is_array($arr['git'])) {
-			throw new SchemaViolationException('Property \'git\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'git' matches expectations
+     *
+     * @psalm-assert array{git?: array} $arr
+     */
+    private static function ensureGit(array $arr): void
+    {
+        if (array_key_exists('git', $arr) && !is_array($arr['git'])) {
+            throw new SchemaViolationException('Property \'git\' was not array');
+        }
+    }
 }
 
 
@@ -2492,7 +2492,7 @@ final class Ci implements JsonSerializable
  * variables. */
 final class Git implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -2513,40 +2513,40 @@ final class Git implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureRemote($arr);
-		self::ensureRevision($arr);
+        self::ensureRemote($arr);
+        self::ensureRevision($arr);
 
-    	return new self(
-			(string) $arr['remote'],
-			(string) $arr['revision'],
-			isset($arr['branch']) ? (string) $arr['branch'] : null,
-			isset($arr['tag']) ? (string) $arr['tag'] : null,
-    	);
+        return new self(
+            (string) $arr['remote'],
+            (string) $arr['revision'],
+            isset($arr['branch']) ? (string) $arr['branch'] : null,
+            isset($arr['tag']) ? (string) $arr['tag'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'remote' matches expectations
-	 *
-	 * @psalm-assert array{remote: mixed} $arr
-	 */
-	private static function ensureRemote(array $arr): void
-	{
-		if (!array_key_exists('remote', $arr)) {
-			throw new SchemaViolationException('Property \'remote\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'remote' matches expectations
+     *
+     * @psalm-assert array{remote: mixed} $arr
+     */
+    private static function ensureRemote(array $arr): void
+    {
+        if (!array_key_exists('remote', $arr)) {
+            throw new SchemaViolationException('Property \'remote\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'revision' matches expectations
-	 *
-	 * @psalm-assert array{revision: mixed} $arr
-	 */
-	private static function ensureRevision(array $arr): void
-	{
-		if (!array_key_exists('revision', $arr)) {
-			throw new SchemaViolationException('Property \'revision\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'revision' matches expectations
+     *
+     * @psalm-assert array{revision: mixed} $arr
+     */
+    private static function ensureRevision(array $arr): void
+    {
+        if (!array_key_exists('revision', $arr)) {
+            throw new SchemaViolationException('Property \'revision\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2557,17 +2557,17 @@ final class Git implements JsonSerializable
  * Used to describe various properties of Meta */
 final class Product implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The product name
+         * The product name
          */
         public readonly string $name,
 
         /**
-	     * The product version
+         * The product version
          */
         public readonly ?string $version,
 
@@ -2580,25 +2580,25 @@ final class Product implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureName($arr);
+        self::ensureName($arr);
 
-    	return new self(
-			(string) $arr['name'],
-			isset($arr['version']) ? (string) $arr['version'] : null,
-    	);
+        return new self(
+            (string) $arr['name'],
+            isset($arr['version']) ? (string) $arr['version'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2609,12 +2609,12 @@ final class Product implements JsonSerializable
  */
 final class ParameterType implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The name is unique, so we don't need an id.
+         * The name is unique, so we don't need an id.
          */
         public readonly string $name,
 
@@ -2638,83 +2638,83 @@ final class ParameterType implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureName($arr);
-		self::ensureRegularExpressions($arr);
-		self::ensurePreferForRegularExpressionMatch($arr);
-		self::ensureUseForSnippets($arr);
-		self::ensureId($arr);
+        self::ensureName($arr);
+        self::ensureRegularExpressions($arr);
+        self::ensurePreferForRegularExpressionMatch($arr);
+        self::ensureUseForSnippets($arr);
+        self::ensureId($arr);
 
-    	return new self(
-			(string) $arr['name'],
-			array_map(fn(mixed $member) => (string) $member , $arr['regularExpressions']),
-			(bool) $arr['preferForRegularExpressionMatch'],
-			(bool) $arr['useForSnippets'],
-			(string) $arr['id'],
-    	);
+        return new self(
+            (string) $arr['name'],
+            array_map(fn(mixed $member) => (string) $member , $arr['regularExpressions']),
+            (bool) $arr['preferForRegularExpressionMatch'],
+            (bool) $arr['useForSnippets'],
+            (string) $arr['id'],
+        );
     }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'regularExpressions' matches expectations
-	 *
-	 * @psalm-assert array{regularExpressions: array} $arr
-	 */
-	private static function ensureRegularExpressions(array $arr): void
-	{
-		if (!array_key_exists('regularExpressions', $arr)) {
-			throw new SchemaViolationException('Property \'regularExpressions\' is required but was not found');
-		}
-		if (array_key_exists('regularExpressions', $arr) && !is_array($arr['regularExpressions'])) {
-			throw new SchemaViolationException('Property \'regularExpressions\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'regularExpressions' matches expectations
+     *
+     * @psalm-assert array{regularExpressions: array} $arr
+     */
+    private static function ensureRegularExpressions(array $arr): void
+    {
+        if (!array_key_exists('regularExpressions', $arr)) {
+            throw new SchemaViolationException('Property \'regularExpressions\' is required but was not found');
+        }
+        if (array_key_exists('regularExpressions', $arr) && !is_array($arr['regularExpressions'])) {
+            throw new SchemaViolationException('Property \'regularExpressions\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'preferForRegularExpressionMatch' matches expectations
-	 *
-	 * @psalm-assert array{preferForRegularExpressionMatch: mixed} $arr
-	 */
-	private static function ensurePreferForRegularExpressionMatch(array $arr): void
-	{
-		if (!array_key_exists('preferForRegularExpressionMatch', $arr)) {
-			throw new SchemaViolationException('Property \'preferForRegularExpressionMatch\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'preferForRegularExpressionMatch' matches expectations
+     *
+     * @psalm-assert array{preferForRegularExpressionMatch: mixed} $arr
+     */
+    private static function ensurePreferForRegularExpressionMatch(array $arr): void
+    {
+        if (!array_key_exists('preferForRegularExpressionMatch', $arr)) {
+            throw new SchemaViolationException('Property \'preferForRegularExpressionMatch\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'useForSnippets' matches expectations
-	 *
-	 * @psalm-assert array{useForSnippets: mixed} $arr
-	 */
-	private static function ensureUseForSnippets(array $arr): void
-	{
-		if (!array_key_exists('useForSnippets', $arr)) {
-			throw new SchemaViolationException('Property \'useForSnippets\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'useForSnippets' matches expectations
+     *
+     * @psalm-assert array{useForSnippets: mixed} $arr
+     */
+    private static function ensureUseForSnippets(array $arr): void
+    {
+        if (!array_key_exists('useForSnippets', $arr)) {
+            throw new SchemaViolationException('Property \'useForSnippets\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2725,7 +2725,7 @@ final class ParameterType implements JsonSerializable
  */
 final class ParseError implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -2742,41 +2742,41 @@ final class ParseError implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureSource($arr);
-		self::ensureMessage($arr);
+        self::ensureSource($arr);
+        self::ensureMessage($arr);
 
-    	return new self(
-			SourceReference::fromArray($arr['source']),
-			(string) $arr['message'],
-    	);
+        return new self(
+            SourceReference::fromArray($arr['source']),
+            (string) $arr['message'],
+        );
     }
 
-	/**
-	 * Check that the type of 'source' matches expectations
-	 *
-	 * @psalm-assert array{source: array} $arr
-	 */
-	private static function ensureSource(array $arr): void
-	{
-		if (!array_key_exists('source', $arr)) {
-			throw new SchemaViolationException('Property \'source\' is required but was not found');
-		}
-		if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
-			throw new SchemaViolationException('Property \'source\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'source' matches expectations
+     *
+     * @psalm-assert array{source: array} $arr
+     */
+    private static function ensureSource(array $arr): void
+    {
+        if (!array_key_exists('source', $arr)) {
+            throw new SchemaViolationException('Property \'source\' is required but was not found');
+        }
+        if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
+            throw new SchemaViolationException('Property \'source\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'message' matches expectations
-	 *
-	 * @psalm-assert array{message: mixed} $arr
-	 */
-	private static function ensureMessage(array $arr): void
-	{
-		if (!array_key_exists('message', $arr)) {
-			throw new SchemaViolationException('Property \'message\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'message' matches expectations
+     *
+     * @psalm-assert array{message: mixed} $arr
+     */
+    private static function ensureMessage(array $arr): void
+    {
+        if (!array_key_exists('message', $arr)) {
+            throw new SchemaViolationException('Property \'message\' is required but was not found');
+        }
+    }
 }
 
 
@@ -2798,47 +2798,47 @@ final class ParseError implements JsonSerializable
  * Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase` */
 final class Pickle implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
+         * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
          * from the source data and the `locations` of the pickle.
          * This ID will change if source the file is modified.
          */
         public readonly string $id,
 
         /**
-	     * The uri of the source file
+         * The uri of the source file
          */
         public readonly string $uri,
 
         /**
-	     * The name of the pickle
+         * The name of the pickle
          */
         public readonly string $name,
 
         /**
-	     * The language of the pickle
+         * The language of the pickle
          */
         public readonly string $language,
 
         /**
-	     * One or more steps
+         * One or more steps
          * @param list<PickleStep> $steps
          */
         public readonly array $steps,
 
         /**
-	     * One or more tags. If this pickle is constructed from a Gherkin document,
+         * One or more tags. If this pickle is constructed from a Gherkin document,
          * It includes inherited tags from the `Feature` as well.
          * @param list<PickleTag> $tags
          */
         public readonly array $tags,
 
         /**
-	     * Points to the AST node locations of the pickle. The last one represents the unique
+         * Points to the AST node locations of the pickle. The last one represents the unique
          * id of the pickle. A pickle constructed from `Examples` will have the first
          * id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
          * @param list<string> $astNodeIds
@@ -2854,117 +2854,117 @@ final class Pickle implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureId($arr);
-		self::ensureUri($arr);
-		self::ensureName($arr);
-		self::ensureLanguage($arr);
-		self::ensureSteps($arr);
-		self::ensureTags($arr);
-		self::ensureAstNodeIds($arr);
+        self::ensureId($arr);
+        self::ensureUri($arr);
+        self::ensureName($arr);
+        self::ensureLanguage($arr);
+        self::ensureSteps($arr);
+        self::ensureTags($arr);
+        self::ensureAstNodeIds($arr);
 
-    	return new self(
-			(string) $arr['id'],
-			(string) $arr['uri'],
-			(string) $arr['name'],
-			(string) $arr['language'],
-			array_map(fn(array $member) => PickleStep::fromArray($member) , $arr['steps']),
-			array_map(fn(array $member) => PickleTag::fromArray($member) , $arr['tags']),
-			array_map(fn(mixed $member) => (string) $member , $arr['astNodeIds']),
-    	);
+        return new self(
+            (string) $arr['id'],
+            (string) $arr['uri'],
+            (string) $arr['name'],
+            (string) $arr['language'],
+            array_map(fn(array $member) => PickleStep::fromArray($member) , $arr['steps']),
+            array_map(fn(array $member) => PickleTag::fromArray($member) , $arr['tags']),
+            array_map(fn(mixed $member) => (string) $member , $arr['astNodeIds']),
+        );
     }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'uri' matches expectations
-	 *
-	 * @psalm-assert array{uri: mixed} $arr
-	 */
-	private static function ensureUri(array $arr): void
-	{
-		if (!array_key_exists('uri', $arr)) {
-			throw new SchemaViolationException('Property \'uri\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'uri' matches expectations
+     *
+     * @psalm-assert array{uri: mixed} $arr
+     */
+    private static function ensureUri(array $arr): void
+    {
+        if (!array_key_exists('uri', $arr)) {
+            throw new SchemaViolationException('Property \'uri\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'language' matches expectations
-	 *
-	 * @psalm-assert array{language: mixed} $arr
-	 */
-	private static function ensureLanguage(array $arr): void
-	{
-		if (!array_key_exists('language', $arr)) {
-			throw new SchemaViolationException('Property \'language\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'language' matches expectations
+     *
+     * @psalm-assert array{language: mixed} $arr
+     */
+    private static function ensureLanguage(array $arr): void
+    {
+        if (!array_key_exists('language', $arr)) {
+            throw new SchemaViolationException('Property \'language\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'steps' matches expectations
-	 *
-	 * @psalm-assert array{steps: array} $arr
-	 */
-	private static function ensureSteps(array $arr): void
-	{
-		if (!array_key_exists('steps', $arr)) {
-			throw new SchemaViolationException('Property \'steps\' is required but was not found');
-		}
-		if (array_key_exists('steps', $arr) && !is_array($arr['steps'])) {
-			throw new SchemaViolationException('Property \'steps\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'steps' matches expectations
+     *
+     * @psalm-assert array{steps: array} $arr
+     */
+    private static function ensureSteps(array $arr): void
+    {
+        if (!array_key_exists('steps', $arr)) {
+            throw new SchemaViolationException('Property \'steps\' is required but was not found');
+        }
+        if (array_key_exists('steps', $arr) && !is_array($arr['steps'])) {
+            throw new SchemaViolationException('Property \'steps\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'tags' matches expectations
-	 *
-	 * @psalm-assert array{tags: array} $arr
-	 */
-	private static function ensureTags(array $arr): void
-	{
-		if (!array_key_exists('tags', $arr)) {
-			throw new SchemaViolationException('Property \'tags\' is required but was not found');
-		}
-		if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
-			throw new SchemaViolationException('Property \'tags\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'tags' matches expectations
+     *
+     * @psalm-assert array{tags: array} $arr
+     */
+    private static function ensureTags(array $arr): void
+    {
+        if (!array_key_exists('tags', $arr)) {
+            throw new SchemaViolationException('Property \'tags\' is required but was not found');
+        }
+        if (array_key_exists('tags', $arr) && !is_array($arr['tags'])) {
+            throw new SchemaViolationException('Property \'tags\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'astNodeIds' matches expectations
-	 *
-	 * @psalm-assert array{astNodeIds: array} $arr
-	 */
-	private static function ensureAstNodeIds(array $arr): void
-	{
-		if (!array_key_exists('astNodeIds', $arr)) {
-			throw new SchemaViolationException('Property \'astNodeIds\' is required but was not found');
-		}
-		if (array_key_exists('astNodeIds', $arr) && !is_array($arr['astNodeIds'])) {
-			throw new SchemaViolationException('Property \'astNodeIds\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'astNodeIds' matches expectations
+     *
+     * @psalm-assert array{astNodeIds: array} $arr
+     */
+    private static function ensureAstNodeIds(array $arr): void
+    {
+        if (!array_key_exists('astNodeIds', $arr)) {
+            throw new SchemaViolationException('Property \'astNodeIds\' is required but was not found');
+        }
+        if (array_key_exists('astNodeIds', $arr) && !is_array($arr['astNodeIds'])) {
+            throw new SchemaViolationException('Property \'astNodeIds\' was not array');
+        }
+    }
 }
 
 
@@ -2975,7 +2975,7 @@ final class Pickle implements JsonSerializable
  */
 final class PickleDocString implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -2992,25 +2992,25 @@ final class PickleDocString implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureContent($arr);
+        self::ensureContent($arr);
 
-    	return new self(
-			isset($arr['mediaType']) ? (string) $arr['mediaType'] : null,
-			(string) $arr['content'],
-    	);
+        return new self(
+            isset($arr['mediaType']) ? (string) $arr['mediaType'] : null,
+            (string) $arr['content'],
+        );
     }
 
-	/**
-	 * Check that the type of 'content' matches expectations
-	 *
-	 * @psalm-assert array{content: mixed} $arr
-	 */
-	private static function ensureContent(array $arr): void
-	{
-		if (!array_key_exists('content', $arr)) {
-			throw new SchemaViolationException('Property \'content\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'content' matches expectations
+     *
+     * @psalm-assert array{content: mixed} $arr
+     */
+    private static function ensureContent(array $arr): void
+    {
+        if (!array_key_exists('content', $arr)) {
+            throw new SchemaViolationException('Property \'content\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3021,21 +3021,21 @@ final class PickleDocString implements JsonSerializable
  * An executable step */
 final class PickleStep implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         public readonly ?PickleStepArgument $argument,
 
         /**
-	     * References the IDs of the source of the step. For Gherkin, this can be
+         * References the IDs of the source of the step. For Gherkin, this can be
          * the ID of a Step, and possibly also the ID of a TableRow
          * @param list<string> $astNodeIds
          */
         public readonly array $astNodeIds,
 
         /**
-	     * A unique ID for the PickleStep
+         * A unique ID for the PickleStep
          */
         public readonly string $id,
 
@@ -3050,69 +3050,69 @@ final class PickleStep implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureArgument($arr);
-		self::ensureAstNodeIds($arr);
-		self::ensureId($arr);
-		self::ensureText($arr);
+        self::ensureArgument($arr);
+        self::ensureAstNodeIds($arr);
+        self::ensureId($arr);
+        self::ensureText($arr);
 
-    	return new self(
-			isset($arr['argument']) ? PickleStepArgument::fromArray($arr['argument']) : null,
-			array_map(fn(mixed $member) => (string) $member , $arr['astNodeIds']),
-			(string) $arr['id'],
-			(string) $arr['text'],
-    	);
+        return new self(
+            isset($arr['argument']) ? PickleStepArgument::fromArray($arr['argument']) : null,
+            array_map(fn(mixed $member) => (string) $member , $arr['astNodeIds']),
+            (string) $arr['id'],
+            (string) $arr['text'],
+        );
     }
 
-	/**
-	 * Check that the type of 'argument' matches expectations
-	 *
-	 * @psalm-assert array{argument?: array} $arr
-	 */
-	private static function ensureArgument(array $arr): void
-	{
-		if (array_key_exists('argument', $arr) && !is_array($arr['argument'])) {
-			throw new SchemaViolationException('Property \'argument\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'argument' matches expectations
+     *
+     * @psalm-assert array{argument?: array} $arr
+     */
+    private static function ensureArgument(array $arr): void
+    {
+        if (array_key_exists('argument', $arr) && !is_array($arr['argument'])) {
+            throw new SchemaViolationException('Property \'argument\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'astNodeIds' matches expectations
-	 *
-	 * @psalm-assert array{astNodeIds: array} $arr
-	 */
-	private static function ensureAstNodeIds(array $arr): void
-	{
-		if (!array_key_exists('astNodeIds', $arr)) {
-			throw new SchemaViolationException('Property \'astNodeIds\' is required but was not found');
-		}
-		if (array_key_exists('astNodeIds', $arr) && !is_array($arr['astNodeIds'])) {
-			throw new SchemaViolationException('Property \'astNodeIds\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'astNodeIds' matches expectations
+     *
+     * @psalm-assert array{astNodeIds: array} $arr
+     */
+    private static function ensureAstNodeIds(array $arr): void
+    {
+        if (!array_key_exists('astNodeIds', $arr)) {
+            throw new SchemaViolationException('Property \'astNodeIds\' is required but was not found');
+        }
+        if (array_key_exists('astNodeIds', $arr) && !is_array($arr['astNodeIds'])) {
+            throw new SchemaViolationException('Property \'astNodeIds\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'text' matches expectations
-	 *
-	 * @psalm-assert array{text: mixed} $arr
-	 */
-	private static function ensureText(array $arr): void
-	{
-		if (!array_key_exists('text', $arr)) {
-			throw new SchemaViolationException('Property \'text\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'text' matches expectations
+     *
+     * @psalm-assert array{text: mixed} $arr
+     */
+    private static function ensureText(array $arr): void
+    {
+        if (!array_key_exists('text', $arr)) {
+            throw new SchemaViolationException('Property \'text\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3123,7 +3123,7 @@ final class PickleStep implements JsonSerializable
  * An optional argument */
 final class PickleStepArgument implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3140,38 +3140,38 @@ final class PickleStepArgument implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureDocString($arr);
-		self::ensureDataTable($arr);
+        self::ensureDocString($arr);
+        self::ensureDataTable($arr);
 
-    	return new self(
-			isset($arr['docString']) ? PickleDocString::fromArray($arr['docString']) : null,
-			isset($arr['dataTable']) ? PickleTable::fromArray($arr['dataTable']) : null,
-    	);
+        return new self(
+            isset($arr['docString']) ? PickleDocString::fromArray($arr['docString']) : null,
+            isset($arr['dataTable']) ? PickleTable::fromArray($arr['dataTable']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'docString' matches expectations
-	 *
-	 * @psalm-assert array{docString?: array} $arr
-	 */
-	private static function ensureDocString(array $arr): void
-	{
-		if (array_key_exists('docString', $arr) && !is_array($arr['docString'])) {
-			throw new SchemaViolationException('Property \'docString\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'docString' matches expectations
+     *
+     * @psalm-assert array{docString?: array} $arr
+     */
+    private static function ensureDocString(array $arr): void
+    {
+        if (array_key_exists('docString', $arr) && !is_array($arr['docString'])) {
+            throw new SchemaViolationException('Property \'docString\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'dataTable' matches expectations
-	 *
-	 * @psalm-assert array{dataTable?: array} $arr
-	 */
-	private static function ensureDataTable(array $arr): void
-	{
-		if (array_key_exists('dataTable', $arr) && !is_array($arr['dataTable'])) {
-			throw new SchemaViolationException('Property \'dataTable\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'dataTable' matches expectations
+     *
+     * @psalm-assert array{dataTable?: array} $arr
+     */
+    private static function ensureDataTable(array $arr): void
+    {
+        if (array_key_exists('dataTable', $arr) && !is_array($arr['dataTable'])) {
+            throw new SchemaViolationException('Property \'dataTable\' was not array');
+        }
+    }
 }
 
 
@@ -3182,7 +3182,7 @@ final class PickleStepArgument implements JsonSerializable
  */
 final class PickleTable implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3200,27 +3200,27 @@ final class PickleTable implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureRows($arr);
+        self::ensureRows($arr);
 
-    	return new self(
-			array_map(fn(array $member) => PickleTableRow::fromArray($member) , $arr['rows']),
-    	);
+        return new self(
+            array_map(fn(array $member) => PickleTableRow::fromArray($member) , $arr['rows']),
+        );
     }
 
-	/**
-	 * Check that the type of 'rows' matches expectations
-	 *
-	 * @psalm-assert array{rows: array} $arr
-	 */
-	private static function ensureRows(array $arr): void
-	{
-		if (!array_key_exists('rows', $arr)) {
-			throw new SchemaViolationException('Property \'rows\' is required but was not found');
-		}
-		if (array_key_exists('rows', $arr) && !is_array($arr['rows'])) {
-			throw new SchemaViolationException('Property \'rows\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'rows' matches expectations
+     *
+     * @psalm-assert array{rows: array} $arr
+     */
+    private static function ensureRows(array $arr): void
+    {
+        if (!array_key_exists('rows', $arr)) {
+            throw new SchemaViolationException('Property \'rows\' is required but was not found');
+        }
+        if (array_key_exists('rows', $arr) && !is_array($arr['rows'])) {
+            throw new SchemaViolationException('Property \'rows\' was not array');
+        }
+    }
 }
 
 
@@ -3231,7 +3231,7 @@ final class PickleTable implements JsonSerializable
  */
 final class PickleTableCell implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3246,24 +3246,24 @@ final class PickleTableCell implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureValue($arr);
+        self::ensureValue($arr);
 
-    	return new self(
-			(string) $arr['value'],
-    	);
+        return new self(
+            (string) $arr['value'],
+        );
     }
 
-	/**
-	 * Check that the type of 'value' matches expectations
-	 *
-	 * @psalm-assert array{value: mixed} $arr
-	 */
-	private static function ensureValue(array $arr): void
-	{
-		if (!array_key_exists('value', $arr)) {
-			throw new SchemaViolationException('Property \'value\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'value' matches expectations
+     *
+     * @psalm-assert array{value: mixed} $arr
+     */
+    private static function ensureValue(array $arr): void
+    {
+        if (!array_key_exists('value', $arr)) {
+            throw new SchemaViolationException('Property \'value\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3274,7 +3274,7 @@ final class PickleTableCell implements JsonSerializable
  */
 final class PickleTableRow implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3292,27 +3292,27 @@ final class PickleTableRow implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureCells($arr);
+        self::ensureCells($arr);
 
-    	return new self(
-			array_map(fn(array $member) => PickleTableCell::fromArray($member) , $arr['cells']),
-    	);
+        return new self(
+            array_map(fn(array $member) => PickleTableCell::fromArray($member) , $arr['cells']),
+        );
     }
 
-	/**
-	 * Check that the type of 'cells' matches expectations
-	 *
-	 * @psalm-assert array{cells: array} $arr
-	 */
-	private static function ensureCells(array $arr): void
-	{
-		if (!array_key_exists('cells', $arr)) {
-			throw new SchemaViolationException('Property \'cells\' is required but was not found');
-		}
-		if (array_key_exists('cells', $arr) && !is_array($arr['cells'])) {
-			throw new SchemaViolationException('Property \'cells\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'cells' matches expectations
+     *
+     * @psalm-assert array{cells: array} $arr
+     */
+    private static function ensureCells(array $arr): void
+    {
+        if (!array_key_exists('cells', $arr)) {
+            throw new SchemaViolationException('Property \'cells\' is required but was not found');
+        }
+        if (array_key_exists('cells', $arr) && !is_array($arr['cells'])) {
+            throw new SchemaViolationException('Property \'cells\' was not array');
+        }
+    }
 }
 
 
@@ -3323,14 +3323,14 @@ final class PickleTableRow implements JsonSerializable
  * A tag */
 final class PickleTag implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         public readonly string $name,
 
         /**
-	     * Points to the AST node this was created from
+         * Points to the AST node this was created from
          */
         public readonly string $astNodeId,
 
@@ -3343,38 +3343,38 @@ final class PickleTag implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureName($arr);
-		self::ensureAstNodeId($arr);
+        self::ensureName($arr);
+        self::ensureAstNodeId($arr);
 
-    	return new self(
-			(string) $arr['name'],
-			(string) $arr['astNodeId'],
-    	);
+        return new self(
+            (string) $arr['name'],
+            (string) $arr['astNodeId'],
+        );
     }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'astNodeId' matches expectations
-	 *
-	 * @psalm-assert array{astNodeId: mixed} $arr
-	 */
-	private static function ensureAstNodeId(array $arr): void
-	{
-		if (!array_key_exists('astNodeId', $arr)) {
-			throw new SchemaViolationException('Property \'astNodeId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'astNodeId' matches expectations
+     *
+     * @psalm-assert array{astNodeId: mixed} $arr
+     */
+    private static function ensureAstNodeId(array $arr): void
+    {
+        if (!array_key_exists('astNodeId', $arr)) {
+            throw new SchemaViolationException('Property \'astNodeId\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3387,23 +3387,23 @@ final class PickleTag implements JsonSerializable
  * A source file, typically a Gherkin document or Java/Ruby/JavaScript source code */
 final class Source implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+         * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
          * of the source, typically a file path relative to the root directory
          */
         public readonly string $uri,
 
         /**
-	     * The contents of the file
+         * The contents of the file
          */
         public readonly string $data,
 
         /**
-	     * The media type of the file. Can be used to specify custom types, such as
+         * The media type of the file. Can be used to specify custom types, such as
          * text/x.cucumber.gherkin+plain
          */
         public readonly Source\MediaType $mediaType,
@@ -3417,52 +3417,52 @@ final class Source implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureUri($arr);
-		self::ensureData($arr);
-		self::ensureMediaType($arr);
+        self::ensureUri($arr);
+        self::ensureData($arr);
+        self::ensureMediaType($arr);
 
-    	return new self(
-			(string) $arr['uri'],
-			(string) $arr['data'],
-			Source\MediaType::from((string) $arr['mediaType']),
-    	);
+        return new self(
+            (string) $arr['uri'],
+            (string) $arr['data'],
+            Source\MediaType::from((string) $arr['mediaType']),
+        );
     }
 
-	/**
-	 * Check that the type of 'uri' matches expectations
-	 *
-	 * @psalm-assert array{uri: mixed} $arr
-	 */
-	private static function ensureUri(array $arr): void
-	{
-		if (!array_key_exists('uri', $arr)) {
-			throw new SchemaViolationException('Property \'uri\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'uri' matches expectations
+     *
+     * @psalm-assert array{uri: mixed} $arr
+     */
+    private static function ensureUri(array $arr): void
+    {
+        if (!array_key_exists('uri', $arr)) {
+            throw new SchemaViolationException('Property \'uri\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'data' matches expectations
-	 *
-	 * @psalm-assert array{data: mixed} $arr
-	 */
-	private static function ensureData(array $arr): void
-	{
-		if (!array_key_exists('data', $arr)) {
-			throw new SchemaViolationException('Property \'data\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'data' matches expectations
+     *
+     * @psalm-assert array{data: mixed} $arr
+     */
+    private static function ensureData(array $arr): void
+    {
+        if (!array_key_exists('data', $arr)) {
+            throw new SchemaViolationException('Property \'data\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'mediaType' matches expectations
-	 *
-	 * @psalm-assert array{mediaType: mixed} $arr
-	 */
-	private static function ensureMediaType(array $arr): void
-	{
-		if (!array_key_exists('mediaType', $arr)) {
-			throw new SchemaViolationException('Property \'mediaType\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'mediaType' matches expectations
+     *
+     * @psalm-assert array{mediaType: mixed} $arr
+     */
+    private static function ensureMediaType(array $arr): void
+    {
+        if (!array_key_exists('mediaType', $arr)) {
+            throw new SchemaViolationException('Property \'mediaType\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3474,7 +3474,7 @@ final class Source implements JsonSerializable
  * [Location](#io.cucumber.messages.Location) within that file. */
 final class SourceReference implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3495,53 +3495,53 @@ final class SourceReference implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureJavaMethod($arr);
-		self::ensureJavaStackTraceElement($arr);
-		self::ensureLocation($arr);
+        self::ensureJavaMethod($arr);
+        self::ensureJavaStackTraceElement($arr);
+        self::ensureLocation($arr);
 
-    	return new self(
-			isset($arr['uri']) ? (string) $arr['uri'] : null,
-			isset($arr['javaMethod']) ? JavaMethod::fromArray($arr['javaMethod']) : null,
-			isset($arr['javaStackTraceElement']) ? JavaStackTraceElement::fromArray($arr['javaStackTraceElement']) : null,
-			isset($arr['location']) ? Location::fromArray($arr['location']) : null,
-    	);
+        return new self(
+            isset($arr['uri']) ? (string) $arr['uri'] : null,
+            isset($arr['javaMethod']) ? JavaMethod::fromArray($arr['javaMethod']) : null,
+            isset($arr['javaStackTraceElement']) ? JavaStackTraceElement::fromArray($arr['javaStackTraceElement']) : null,
+            isset($arr['location']) ? Location::fromArray($arr['location']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'javaMethod' matches expectations
-	 *
-	 * @psalm-assert array{javaMethod?: array} $arr
-	 */
-	private static function ensureJavaMethod(array $arr): void
-	{
-		if (array_key_exists('javaMethod', $arr) && !is_array($arr['javaMethod'])) {
-			throw new SchemaViolationException('Property \'javaMethod\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'javaMethod' matches expectations
+     *
+     * @psalm-assert array{javaMethod?: array} $arr
+     */
+    private static function ensureJavaMethod(array $arr): void
+    {
+        if (array_key_exists('javaMethod', $arr) && !is_array($arr['javaMethod'])) {
+            throw new SchemaViolationException('Property \'javaMethod\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'javaStackTraceElement' matches expectations
-	 *
-	 * @psalm-assert array{javaStackTraceElement?: array} $arr
-	 */
-	private static function ensureJavaStackTraceElement(array $arr): void
-	{
-		if (array_key_exists('javaStackTraceElement', $arr) && !is_array($arr['javaStackTraceElement'])) {
-			throw new SchemaViolationException('Property \'javaStackTraceElement\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'javaStackTraceElement' matches expectations
+     *
+     * @psalm-assert array{javaStackTraceElement?: array} $arr
+     */
+    private static function ensureJavaStackTraceElement(array $arr): void
+    {
+        if (array_key_exists('javaStackTraceElement', $arr) && !is_array($arr['javaStackTraceElement'])) {
+            throw new SchemaViolationException('Property \'javaStackTraceElement\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'location' matches expectations
-	 *
-	 * @psalm-assert array{location?: array} $arr
-	 */
-	private static function ensureLocation(array $arr): void
-	{
-		if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
-			throw new SchemaViolationException('Property \'location\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'location' matches expectations
+     *
+     * @psalm-assert array{location?: array} $arr
+     */
+    private static function ensureLocation(array $arr): void
+    {
+        if (array_key_exists('location', $arr) && !is_array($arr['location'])) {
+            throw new SchemaViolationException('Property \'location\' was not array');
+        }
+    }
 }
 
 
@@ -3552,7 +3552,7 @@ final class SourceReference implements JsonSerializable
  */
 final class JavaMethod implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3574,55 +3574,55 @@ final class JavaMethod implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureClassName($arr);
-		self::ensureMethodName($arr);
-		self::ensureMethodParameterTypes($arr);
+        self::ensureClassName($arr);
+        self::ensureMethodName($arr);
+        self::ensureMethodParameterTypes($arr);
 
-    	return new self(
-			(string) $arr['className'],
-			(string) $arr['methodName'],
-			array_map(fn(mixed $member) => (string) $member , $arr['methodParameterTypes']),
-    	);
+        return new self(
+            (string) $arr['className'],
+            (string) $arr['methodName'],
+            array_map(fn(mixed $member) => (string) $member , $arr['methodParameterTypes']),
+        );
     }
 
-	/**
-	 * Check that the type of 'className' matches expectations
-	 *
-	 * @psalm-assert array{className: mixed} $arr
-	 */
-	private static function ensureClassName(array $arr): void
-	{
-		if (!array_key_exists('className', $arr)) {
-			throw new SchemaViolationException('Property \'className\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'className' matches expectations
+     *
+     * @psalm-assert array{className: mixed} $arr
+     */
+    private static function ensureClassName(array $arr): void
+    {
+        if (!array_key_exists('className', $arr)) {
+            throw new SchemaViolationException('Property \'className\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'methodName' matches expectations
-	 *
-	 * @psalm-assert array{methodName: mixed} $arr
-	 */
-	private static function ensureMethodName(array $arr): void
-	{
-		if (!array_key_exists('methodName', $arr)) {
-			throw new SchemaViolationException('Property \'methodName\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'methodName' matches expectations
+     *
+     * @psalm-assert array{methodName: mixed} $arr
+     */
+    private static function ensureMethodName(array $arr): void
+    {
+        if (!array_key_exists('methodName', $arr)) {
+            throw new SchemaViolationException('Property \'methodName\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'methodParameterTypes' matches expectations
-	 *
-	 * @psalm-assert array{methodParameterTypes: array} $arr
-	 */
-	private static function ensureMethodParameterTypes(array $arr): void
-	{
-		if (!array_key_exists('methodParameterTypes', $arr)) {
-			throw new SchemaViolationException('Property \'methodParameterTypes\' is required but was not found');
-		}
-		if (array_key_exists('methodParameterTypes', $arr) && !is_array($arr['methodParameterTypes'])) {
-			throw new SchemaViolationException('Property \'methodParameterTypes\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'methodParameterTypes' matches expectations
+     *
+     * @psalm-assert array{methodParameterTypes: array} $arr
+     */
+    private static function ensureMethodParameterTypes(array $arr): void
+    {
+        if (!array_key_exists('methodParameterTypes', $arr)) {
+            throw new SchemaViolationException('Property \'methodParameterTypes\' is required but was not found');
+        }
+        if (array_key_exists('methodParameterTypes', $arr) && !is_array($arr['methodParameterTypes'])) {
+            throw new SchemaViolationException('Property \'methodParameterTypes\' was not array');
+        }
+    }
 }
 
 
@@ -3633,7 +3633,7 @@ final class JavaMethod implements JsonSerializable
  */
 final class JavaStackTraceElement implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3652,52 +3652,52 @@ final class JavaStackTraceElement implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureClassName($arr);
-		self::ensureFileName($arr);
-		self::ensureMethodName($arr);
+        self::ensureClassName($arr);
+        self::ensureFileName($arr);
+        self::ensureMethodName($arr);
 
-    	return new self(
-			(string) $arr['className'],
-			(string) $arr['fileName'],
-			(string) $arr['methodName'],
-    	);
+        return new self(
+            (string) $arr['className'],
+            (string) $arr['fileName'],
+            (string) $arr['methodName'],
+        );
     }
 
-	/**
-	 * Check that the type of 'className' matches expectations
-	 *
-	 * @psalm-assert array{className: mixed} $arr
-	 */
-	private static function ensureClassName(array $arr): void
-	{
-		if (!array_key_exists('className', $arr)) {
-			throw new SchemaViolationException('Property \'className\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'className' matches expectations
+     *
+     * @psalm-assert array{className: mixed} $arr
+     */
+    private static function ensureClassName(array $arr): void
+    {
+        if (!array_key_exists('className', $arr)) {
+            throw new SchemaViolationException('Property \'className\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'fileName' matches expectations
-	 *
-	 * @psalm-assert array{fileName: mixed} $arr
-	 */
-	private static function ensureFileName(array $arr): void
-	{
-		if (!array_key_exists('fileName', $arr)) {
-			throw new SchemaViolationException('Property \'fileName\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'fileName' matches expectations
+     *
+     * @psalm-assert array{fileName: mixed} $arr
+     */
+    private static function ensureFileName(array $arr): void
+    {
+        if (!array_key_exists('fileName', $arr)) {
+            throw new SchemaViolationException('Property \'fileName\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'methodName' matches expectations
-	 *
-	 * @psalm-assert array{methodName: mixed} $arr
-	 */
-	private static function ensureMethodName(array $arr): void
-	{
-		if (!array_key_exists('methodName', $arr)) {
-			throw new SchemaViolationException('Property \'methodName\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'methodName' matches expectations
+     *
+     * @psalm-assert array{methodName: mixed} $arr
+     */
+    private static function ensureMethodName(array $arr): void
+    {
+        if (!array_key_exists('methodName', $arr)) {
+            throw new SchemaViolationException('Property \'methodName\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3708,7 +3708,7 @@ final class JavaStackTraceElement implements JsonSerializable
  */
 final class StepDefinition implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3727,58 +3727,58 @@ final class StepDefinition implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureId($arr);
-		self::ensurePattern($arr);
-		self::ensureSourceReference($arr);
+        self::ensureId($arr);
+        self::ensurePattern($arr);
+        self::ensureSourceReference($arr);
 
-    	return new self(
-			(string) $arr['id'],
-			StepDefinitionPattern::fromArray($arr['pattern']),
-			SourceReference::fromArray($arr['sourceReference']),
-    	);
+        return new self(
+            (string) $arr['id'],
+            StepDefinitionPattern::fromArray($arr['pattern']),
+            SourceReference::fromArray($arr['sourceReference']),
+        );
     }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'pattern' matches expectations
-	 *
-	 * @psalm-assert array{pattern: array} $arr
-	 */
-	private static function ensurePattern(array $arr): void
-	{
-		if (!array_key_exists('pattern', $arr)) {
-			throw new SchemaViolationException('Property \'pattern\' is required but was not found');
-		}
-		if (array_key_exists('pattern', $arr) && !is_array($arr['pattern'])) {
-			throw new SchemaViolationException('Property \'pattern\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'pattern' matches expectations
+     *
+     * @psalm-assert array{pattern: array} $arr
+     */
+    private static function ensurePattern(array $arr): void
+    {
+        if (!array_key_exists('pattern', $arr)) {
+            throw new SchemaViolationException('Property \'pattern\' is required but was not found');
+        }
+        if (array_key_exists('pattern', $arr) && !is_array($arr['pattern'])) {
+            throw new SchemaViolationException('Property \'pattern\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'sourceReference' matches expectations
-	 *
-	 * @psalm-assert array{sourceReference: array} $arr
-	 */
-	private static function ensureSourceReference(array $arr): void
-	{
-		if (!array_key_exists('sourceReference', $arr)) {
-			throw new SchemaViolationException('Property \'sourceReference\' is required but was not found');
-		}
-		if (array_key_exists('sourceReference', $arr) && !is_array($arr['sourceReference'])) {
-			throw new SchemaViolationException('Property \'sourceReference\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'sourceReference' matches expectations
+     *
+     * @psalm-assert array{sourceReference: array} $arr
+     */
+    private static function ensureSourceReference(array $arr): void
+    {
+        if (!array_key_exists('sourceReference', $arr)) {
+            throw new SchemaViolationException('Property \'sourceReference\' is required but was not found');
+        }
+        if (array_key_exists('sourceReference', $arr) && !is_array($arr['sourceReference'])) {
+            throw new SchemaViolationException('Property \'sourceReference\' was not array');
+        }
+    }
 }
 
 
@@ -3789,7 +3789,7 @@ final class StepDefinition implements JsonSerializable
  */
 final class StepDefinitionPattern implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3806,38 +3806,38 @@ final class StepDefinitionPattern implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureSource($arr);
-		self::ensureType($arr);
+        self::ensureSource($arr);
+        self::ensureType($arr);
 
-    	return new self(
-			(string) $arr['source'],
-			StepDefinitionPattern\Type::from((string) $arr['type']),
-    	);
+        return new self(
+            (string) $arr['source'],
+            StepDefinitionPattern\Type::from((string) $arr['type']),
+        );
     }
 
-	/**
-	 * Check that the type of 'source' matches expectations
-	 *
-	 * @psalm-assert array{source: mixed} $arr
-	 */
-	private static function ensureSource(array $arr): void
-	{
-		if (!array_key_exists('source', $arr)) {
-			throw new SchemaViolationException('Property \'source\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'source' matches expectations
+     *
+     * @psalm-assert array{source: mixed} $arr
+     */
+    private static function ensureSource(array $arr): void
+    {
+        if (!array_key_exists('source', $arr)) {
+            throw new SchemaViolationException('Property \'source\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'type' matches expectations
-	 *
-	 * @psalm-assert array{type: mixed} $arr
-	 */
-	private static function ensureType(array $arr): void
-	{
-		if (!array_key_exists('type', $arr)) {
-			throw new SchemaViolationException('Property \'type\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'type' matches expectations
+     *
+     * @psalm-assert array{type: mixed} $arr
+     */
+    private static function ensureType(array $arr): void
+    {
+        if (!array_key_exists('type', $arr)) {
+            throw new SchemaViolationException('Property \'type\' is required but was not found');
+        }
+    }
 }
 
 
@@ -3850,14 +3850,14 @@ final class StepDefinitionPattern implements JsonSerializable
  * A `TestCase` contains a sequence of `TestStep`s. */
 final class TestCase implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         public readonly string $id,
 
         /**
-	     * The ID of the `Pickle` this `TestCase` is derived from.
+         * The ID of the `Pickle` this `TestCase` is derived from.
          */
         public readonly string $pickleId,
 
@@ -3875,55 +3875,55 @@ final class TestCase implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureId($arr);
-		self::ensurePickleId($arr);
-		self::ensureTestSteps($arr);
+        self::ensureId($arr);
+        self::ensurePickleId($arr);
+        self::ensureTestSteps($arr);
 
-    	return new self(
-			(string) $arr['id'],
-			(string) $arr['pickleId'],
-			array_map(fn(array $member) => TestStep::fromArray($member) , $arr['testSteps']),
-    	);
+        return new self(
+            (string) $arr['id'],
+            (string) $arr['pickleId'],
+            array_map(fn(array $member) => TestStep::fromArray($member) , $arr['testSteps']),
+        );
     }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'pickleId' matches expectations
-	 *
-	 * @psalm-assert array{pickleId: mixed} $arr
-	 */
-	private static function ensurePickleId(array $arr): void
-	{
-		if (!array_key_exists('pickleId', $arr)) {
-			throw new SchemaViolationException('Property \'pickleId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'pickleId' matches expectations
+     *
+     * @psalm-assert array{pickleId: mixed} $arr
+     */
+    private static function ensurePickleId(array $arr): void
+    {
+        if (!array_key_exists('pickleId', $arr)) {
+            throw new SchemaViolationException('Property \'pickleId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testSteps' matches expectations
-	 *
-	 * @psalm-assert array{testSteps: array} $arr
-	 */
-	private static function ensureTestSteps(array $arr): void
-	{
-		if (!array_key_exists('testSteps', $arr)) {
-			throw new SchemaViolationException('Property \'testSteps\' is required but was not found');
-		}
-		if (array_key_exists('testSteps', $arr) && !is_array($arr['testSteps'])) {
-			throw new SchemaViolationException('Property \'testSteps\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testSteps' matches expectations
+     *
+     * @psalm-assert array{testSteps: array} $arr
+     */
+    private static function ensureTestSteps(array $arr): void
+    {
+        if (!array_key_exists('testSteps', $arr)) {
+            throw new SchemaViolationException('Property \'testSteps\' is required but was not found');
+        }
+        if (array_key_exists('testSteps', $arr) && !is_array($arr['testSteps'])) {
+            throw new SchemaViolationException('Property \'testSteps\' was not array');
+        }
+    }
 }
 
 
@@ -3934,7 +3934,7 @@ final class TestCase implements JsonSerializable
  */
 final class Group implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -3956,29 +3956,29 @@ final class Group implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureChildren($arr);
+        self::ensureChildren($arr);
 
-    	return new self(
-			array_map(fn(array $member) => Group::fromArray($member) , $arr['children']),
-			isset($arr['start']) ? (int) $arr['start'] : null,
-			isset($arr['value']) ? (string) $arr['value'] : null,
-    	);
+        return new self(
+            array_map(fn(array $member) => Group::fromArray($member) , $arr['children']),
+            isset($arr['start']) ? (int) $arr['start'] : null,
+            isset($arr['value']) ? (string) $arr['value'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'children' matches expectations
-	 *
-	 * @psalm-assert array{children: array} $arr
-	 */
-	private static function ensureChildren(array $arr): void
-	{
-		if (!array_key_exists('children', $arr)) {
-			throw new SchemaViolationException('Property \'children\' is required but was not found');
-		}
-		if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
-			throw new SchemaViolationException('Property \'children\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'children' matches expectations
+     *
+     * @psalm-assert array{children: array} $arr
+     */
+    private static function ensureChildren(array $arr): void
+    {
+        if (!array_key_exists('children', $arr)) {
+            throw new SchemaViolationException('Property \'children\' is required but was not found');
+        }
+        if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
+            throw new SchemaViolationException('Property \'children\' was not array');
+        }
+    }
 }
 
 
@@ -3994,12 +3994,12 @@ final class Group implements JsonSerializable
  * This message closely matches the `Argument` class in the `cucumber-expressions` library. */
 final class StepMatchArgument implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * Represents the outermost capture group of an argument. This message closely matches the
+         * Represents the outermost capture group of an argument. This message closely matches the
          * `Group` class in the `cucumber-expressions` library.
          */
         public readonly Group $group,
@@ -4015,28 +4015,28 @@ final class StepMatchArgument implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureGroup($arr);
+        self::ensureGroup($arr);
 
-    	return new self(
-			Group::fromArray($arr['group']),
-			isset($arr['parameterTypeName']) ? (string) $arr['parameterTypeName'] : null,
-    	);
+        return new self(
+            Group::fromArray($arr['group']),
+            isset($arr['parameterTypeName']) ? (string) $arr['parameterTypeName'] : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'group' matches expectations
-	 *
-	 * @psalm-assert array{group: array} $arr
-	 */
-	private static function ensureGroup(array $arr): void
-	{
-		if (!array_key_exists('group', $arr)) {
-			throw new SchemaViolationException('Property \'group\' is required but was not found');
-		}
-		if (array_key_exists('group', $arr) && !is_array($arr['group'])) {
-			throw new SchemaViolationException('Property \'group\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'group' matches expectations
+     *
+     * @psalm-assert array{group: array} $arr
+     */
+    private static function ensureGroup(array $arr): void
+    {
+        if (!array_key_exists('group', $arr)) {
+            throw new SchemaViolationException('Property \'group\' is required but was not found');
+        }
+        if (array_key_exists('group', $arr) && !is_array($arr['group'])) {
+            throw new SchemaViolationException('Property \'group\' was not array');
+        }
+    }
 }
 
 
@@ -4047,7 +4047,7 @@ final class StepMatchArgument implements JsonSerializable
  */
 final class StepMatchArgumentsList implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4065,27 +4065,27 @@ final class StepMatchArgumentsList implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureStepMatchArguments($arr);
+        self::ensureStepMatchArguments($arr);
 
-    	return new self(
-			array_map(fn(array $member) => StepMatchArgument::fromArray($member) , $arr['stepMatchArguments']),
-    	);
+        return new self(
+            array_map(fn(array $member) => StepMatchArgument::fromArray($member) , $arr['stepMatchArguments']),
+        );
     }
 
-	/**
-	 * Check that the type of 'stepMatchArguments' matches expectations
-	 *
-	 * @psalm-assert array{stepMatchArguments: array} $arr
-	 */
-	private static function ensureStepMatchArguments(array $arr): void
-	{
-		if (!array_key_exists('stepMatchArguments', $arr)) {
-			throw new SchemaViolationException('Property \'stepMatchArguments\' is required but was not found');
-		}
-		if (array_key_exists('stepMatchArguments', $arr) && !is_array($arr['stepMatchArguments'])) {
-			throw new SchemaViolationException('Property \'stepMatchArguments\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'stepMatchArguments' matches expectations
+     *
+     * @psalm-assert array{stepMatchArguments: array} $arr
+     */
+    private static function ensureStepMatchArguments(array $arr): void
+    {
+        if (!array_key_exists('stepMatchArguments', $arr)) {
+            throw new SchemaViolationException('Property \'stepMatchArguments\' is required but was not found');
+        }
+        if (array_key_exists('stepMatchArguments', $arr) && !is_array($arr['stepMatchArguments'])) {
+            throw new SchemaViolationException('Property \'stepMatchArguments\' was not array');
+        }
+    }
 }
 
 
@@ -4097,30 +4097,30 @@ final class StepMatchArgumentsList implements JsonSerializable
  * combined with a `StepDefinition`, or from a `Hook`. */
 final class TestStep implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * Pointer to the `Hook` (if derived from a Hook)
+         * Pointer to the `Hook` (if derived from a Hook)
          */
         public readonly ?string $hookId,
 
         public readonly string $id,
 
         /**
-	     * Pointer to the `PickleStep` (if derived from a `PickleStep`)
+         * Pointer to the `PickleStep` (if derived from a `PickleStep`)
          */
         public readonly ?string $pickleStepId,
 
         /**
-	     * Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)
+         * Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)
          * @param ?list<string> $stepDefinitionIds
          */
         public readonly ?array $stepDefinitionIds,
 
         /**
-	     * A list of list of StepMatchArgument (if derived from a `PickleStep`).
+         * A list of list of StepMatchArgument (if derived from a `PickleStep`).
          * Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
          * and a size of 2+ means `AMBIGUOUS`
          * @param ?list<StepMatchArgumentsList> $stepMatchArgumentsLists
@@ -4136,54 +4136,54 @@ final class TestStep implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureId($arr);
-		self::ensureStepDefinitionIds($arr);
-		self::ensureStepMatchArgumentsLists($arr);
+        self::ensureId($arr);
+        self::ensureStepDefinitionIds($arr);
+        self::ensureStepMatchArgumentsLists($arr);
 
-    	return new self(
-			isset($arr['hookId']) ? (string) $arr['hookId'] : null,
-			(string) $arr['id'],
-			isset($arr['pickleStepId']) ? (string) $arr['pickleStepId'] : null,
-			isset($arr['stepDefinitionIds']) ? array_map(fn(mixed $member) => (string) $member , $arr['stepDefinitionIds']) : null,
-			isset($arr['stepMatchArgumentsLists']) ? array_map(fn(array $member) => StepMatchArgumentsList::fromArray($member) , $arr['stepMatchArgumentsLists']) : null,
-    	);
+        return new self(
+            isset($arr['hookId']) ? (string) $arr['hookId'] : null,
+            (string) $arr['id'],
+            isset($arr['pickleStepId']) ? (string) $arr['pickleStepId'] : null,
+            isset($arr['stepDefinitionIds']) ? array_map(fn(mixed $member) => (string) $member , $arr['stepDefinitionIds']) : null,
+            isset($arr['stepMatchArgumentsLists']) ? array_map(fn(array $member) => StepMatchArgumentsList::fromArray($member) , $arr['stepMatchArgumentsLists']) : null,
+        );
     }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'stepDefinitionIds' matches expectations
-	 *
-	 * @psalm-assert array{stepDefinitionIds?: array} $arr
-	 */
-	private static function ensureStepDefinitionIds(array $arr): void
-	{
-		if (array_key_exists('stepDefinitionIds', $arr) && !is_array($arr['stepDefinitionIds'])) {
-			throw new SchemaViolationException('Property \'stepDefinitionIds\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'stepDefinitionIds' matches expectations
+     *
+     * @psalm-assert array{stepDefinitionIds?: array} $arr
+     */
+    private static function ensureStepDefinitionIds(array $arr): void
+    {
+        if (array_key_exists('stepDefinitionIds', $arr) && !is_array($arr['stepDefinitionIds'])) {
+            throw new SchemaViolationException('Property \'stepDefinitionIds\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'stepMatchArgumentsLists' matches expectations
-	 *
-	 * @psalm-assert array{stepMatchArgumentsLists?: array} $arr
-	 */
-	private static function ensureStepMatchArgumentsLists(array $arr): void
-	{
-		if (array_key_exists('stepMatchArgumentsLists', $arr) && !is_array($arr['stepMatchArgumentsLists'])) {
-			throw new SchemaViolationException('Property \'stepMatchArgumentsLists\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'stepMatchArgumentsLists' matches expectations
+     *
+     * @psalm-assert array{stepMatchArgumentsLists?: array} $arr
+     */
+    private static function ensureStepMatchArgumentsLists(array $arr): void
+    {
+        if (array_key_exists('stepMatchArgumentsLists', $arr) && !is_array($arr['stepMatchArgumentsLists'])) {
+            throw new SchemaViolationException('Property \'stepMatchArgumentsLists\' was not array');
+        }
+    }
 }
 
 
@@ -4194,7 +4194,7 @@ final class TestStep implements JsonSerializable
  */
 final class TestCaseFinished implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4213,55 +4213,55 @@ final class TestCaseFinished implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureTestCaseStartedId($arr);
-		self::ensureTimestamp($arr);
-		self::ensureWillBeRetried($arr);
+        self::ensureTestCaseStartedId($arr);
+        self::ensureTimestamp($arr);
+        self::ensureWillBeRetried($arr);
 
-    	return new self(
-			(string) $arr['testCaseStartedId'],
-			Timestamp::fromArray($arr['timestamp']),
-			(bool) $arr['willBeRetried'],
-    	);
+        return new self(
+            (string) $arr['testCaseStartedId'],
+            Timestamp::fromArray($arr['timestamp']),
+            (bool) $arr['willBeRetried'],
+        );
     }
 
-	/**
-	 * Check that the type of 'testCaseStartedId' matches expectations
-	 *
-	 * @psalm-assert array{testCaseStartedId: mixed} $arr
-	 */
-	private static function ensureTestCaseStartedId(array $arr): void
-	{
-		if (!array_key_exists('testCaseStartedId', $arr)) {
-			throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'testCaseStartedId' matches expectations
+     *
+     * @psalm-assert array{testCaseStartedId: mixed} $arr
+     */
+    private static function ensureTestCaseStartedId(array $arr): void
+    {
+        if (!array_key_exists('testCaseStartedId', $arr)) {
+            throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'timestamp' matches expectations
-	 *
-	 * @psalm-assert array{timestamp: array} $arr
-	 */
-	private static function ensureTimestamp(array $arr): void
-	{
-		if (!array_key_exists('timestamp', $arr)) {
-			throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
-		}
-		if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
-			throw new SchemaViolationException('Property \'timestamp\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'timestamp' matches expectations
+     *
+     * @psalm-assert array{timestamp: array} $arr
+     */
+    private static function ensureTimestamp(array $arr): void
+    {
+        if (!array_key_exists('timestamp', $arr)) {
+            throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
+        }
+        if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
+            throw new SchemaViolationException('Property \'timestamp\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'willBeRetried' matches expectations
-	 *
-	 * @psalm-assert array{willBeRetried: mixed} $arr
-	 */
-	private static function ensureWillBeRetried(array $arr): void
-	{
-		if (!array_key_exists('willBeRetried', $arr)) {
-			throw new SchemaViolationException('Property \'willBeRetried\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'willBeRetried' matches expectations
+     *
+     * @psalm-assert array{willBeRetried: mixed} $arr
+     */
+    private static function ensureWillBeRetried(array $arr): void
+    {
+        if (!array_key_exists('willBeRetried', $arr)) {
+            throw new SchemaViolationException('Property \'willBeRetried\' is required but was not found');
+        }
+    }
 }
 
 
@@ -4272,18 +4272,18 @@ final class TestCaseFinished implements JsonSerializable
  */
 final class TestCaseStarted implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * The first attempt should have value 0, and for each retry the value
+         * The first attempt should have value 0, and for each retry the value
          * should increase by 1.
          */
         public readonly int $attempt,
 
         /**
-	     * Because a `TestCase` can be run multiple times (in case of a retry),
+         * Because a `TestCase` can be run multiple times (in case of a retry),
          * we use this field to group messages relating to the same attempt.
          */
         public readonly string $id,
@@ -4301,69 +4301,69 @@ final class TestCaseStarted implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureAttempt($arr);
-		self::ensureId($arr);
-		self::ensureTestCaseId($arr);
-		self::ensureTimestamp($arr);
+        self::ensureAttempt($arr);
+        self::ensureId($arr);
+        self::ensureTestCaseId($arr);
+        self::ensureTimestamp($arr);
 
-    	return new self(
-			(int) $arr['attempt'],
-			(string) $arr['id'],
-			(string) $arr['testCaseId'],
-			Timestamp::fromArray($arr['timestamp']),
-    	);
+        return new self(
+            (int) $arr['attempt'],
+            (string) $arr['id'],
+            (string) $arr['testCaseId'],
+            Timestamp::fromArray($arr['timestamp']),
+        );
     }
 
-	/**
-	 * Check that the type of 'attempt' matches expectations
-	 *
-	 * @psalm-assert array{attempt: mixed} $arr
-	 */
-	private static function ensureAttempt(array $arr): void
-	{
-		if (!array_key_exists('attempt', $arr)) {
-			throw new SchemaViolationException('Property \'attempt\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'attempt' matches expectations
+     *
+     * @psalm-assert array{attempt: mixed} $arr
+     */
+    private static function ensureAttempt(array $arr): void
+    {
+        if (!array_key_exists('attempt', $arr)) {
+            throw new SchemaViolationException('Property \'attempt\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'id' matches expectations
-	 *
-	 * @psalm-assert array{id: mixed} $arr
-	 */
-	private static function ensureId(array $arr): void
-	{
-		if (!array_key_exists('id', $arr)) {
-			throw new SchemaViolationException('Property \'id\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'id' matches expectations
+     *
+     * @psalm-assert array{id: mixed} $arr
+     */
+    private static function ensureId(array $arr): void
+    {
+        if (!array_key_exists('id', $arr)) {
+            throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testCaseId' matches expectations
-	 *
-	 * @psalm-assert array{testCaseId: mixed} $arr
-	 */
-	private static function ensureTestCaseId(array $arr): void
-	{
-		if (!array_key_exists('testCaseId', $arr)) {
-			throw new SchemaViolationException('Property \'testCaseId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'testCaseId' matches expectations
+     *
+     * @psalm-assert array{testCaseId: mixed} $arr
+     */
+    private static function ensureTestCaseId(array $arr): void
+    {
+        if (!array_key_exists('testCaseId', $arr)) {
+            throw new SchemaViolationException('Property \'testCaseId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'timestamp' matches expectations
-	 *
-	 * @psalm-assert array{timestamp: array} $arr
-	 */
-	private static function ensureTimestamp(array $arr): void
-	{
-		if (!array_key_exists('timestamp', $arr)) {
-			throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
-		}
-		if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
-			throw new SchemaViolationException('Property \'timestamp\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'timestamp' matches expectations
+     *
+     * @psalm-assert array{timestamp: array} $arr
+     */
+    private static function ensureTimestamp(array $arr): void
+    {
+        if (!array_key_exists('timestamp', $arr)) {
+            throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
+        }
+        if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
+            throw new SchemaViolationException('Property \'timestamp\' was not array');
+        }
+    }
 }
 
 
@@ -4374,12 +4374,12 @@ final class TestCaseStarted implements JsonSerializable
  */
 final class TestRunFinished implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
+         * Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
          * If there are undefined parameter types, the message is simply
          * "The following parameter type(s() are not defined: xxx, yyy".
          * The independent `UndefinedParameterType` messages can be used to generate
@@ -4388,12 +4388,12 @@ final class TestRunFinished implements JsonSerializable
         public readonly ?string $message,
 
         /**
-	     * success = StrictModeEnabled ? (failed_count == 0 && ambiguous_count == 0 && undefined_count == 0 && pending_count == 0) : (failed_count == 0 && ambiguous_count == 0)
+         * success = StrictModeEnabled ? (failed_count == 0 && ambiguous_count == 0 && undefined_count == 0 && pending_count == 0) : (failed_count == 0 && ambiguous_count == 0)
          */
         public readonly bool $success,
 
         /**
-	     * Timestamp when the TestRun is finished
+         * Timestamp when the TestRun is finished
          */
         public readonly Timestamp $timestamp,
 
@@ -4406,42 +4406,42 @@ final class TestRunFinished implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureSuccess($arr);
-		self::ensureTimestamp($arr);
+        self::ensureSuccess($arr);
+        self::ensureTimestamp($arr);
 
-    	return new self(
-			isset($arr['message']) ? (string) $arr['message'] : null,
-			(bool) $arr['success'],
-			Timestamp::fromArray($arr['timestamp']),
-    	);
+        return new self(
+            isset($arr['message']) ? (string) $arr['message'] : null,
+            (bool) $arr['success'],
+            Timestamp::fromArray($arr['timestamp']),
+        );
     }
 
-	/**
-	 * Check that the type of 'success' matches expectations
-	 *
-	 * @psalm-assert array{success: mixed} $arr
-	 */
-	private static function ensureSuccess(array $arr): void
-	{
-		if (!array_key_exists('success', $arr)) {
-			throw new SchemaViolationException('Property \'success\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'success' matches expectations
+     *
+     * @psalm-assert array{success: mixed} $arr
+     */
+    private static function ensureSuccess(array $arr): void
+    {
+        if (!array_key_exists('success', $arr)) {
+            throw new SchemaViolationException('Property \'success\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'timestamp' matches expectations
-	 *
-	 * @psalm-assert array{timestamp: array} $arr
-	 */
-	private static function ensureTimestamp(array $arr): void
-	{
-		if (!array_key_exists('timestamp', $arr)) {
-			throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
-		}
-		if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
-			throw new SchemaViolationException('Property \'timestamp\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'timestamp' matches expectations
+     *
+     * @psalm-assert array{timestamp: array} $arr
+     */
+    private static function ensureTimestamp(array $arr): void
+    {
+        if (!array_key_exists('timestamp', $arr)) {
+            throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
+        }
+        if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
+            throw new SchemaViolationException('Property \'timestamp\' was not array');
+        }
+    }
 }
 
 
@@ -4452,7 +4452,7 @@ final class TestRunFinished implements JsonSerializable
  */
 final class TestRunStarted implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4467,27 +4467,27 @@ final class TestRunStarted implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureTimestamp($arr);
+        self::ensureTimestamp($arr);
 
-    	return new self(
-			Timestamp::fromArray($arr['timestamp']),
-    	);
+        return new self(
+            Timestamp::fromArray($arr['timestamp']),
+        );
     }
 
-	/**
-	 * Check that the type of 'timestamp' matches expectations
-	 *
-	 * @psalm-assert array{timestamp: array} $arr
-	 */
-	private static function ensureTimestamp(array $arr): void
-	{
-		if (!array_key_exists('timestamp', $arr)) {
-			throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
-		}
-		if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
-			throw new SchemaViolationException('Property \'timestamp\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'timestamp' matches expectations
+     *
+     * @psalm-assert array{timestamp: array} $arr
+     */
+    private static function ensureTimestamp(array $arr): void
+    {
+        if (!array_key_exists('timestamp', $arr)) {
+            throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
+        }
+        if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
+            throw new SchemaViolationException('Property \'timestamp\' was not array');
+        }
+    }
 }
 
 
@@ -4498,7 +4498,7 @@ final class TestRunStarted implements JsonSerializable
  */
 final class TestStepFinished implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4519,72 +4519,72 @@ final class TestStepFinished implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureTestCaseStartedId($arr);
-		self::ensureTestStepId($arr);
-		self::ensureTestStepResult($arr);
-		self::ensureTimestamp($arr);
+        self::ensureTestCaseStartedId($arr);
+        self::ensureTestStepId($arr);
+        self::ensureTestStepResult($arr);
+        self::ensureTimestamp($arr);
 
-    	return new self(
-			(string) $arr['testCaseStartedId'],
-			(string) $arr['testStepId'],
-			TestStepResult::fromArray($arr['testStepResult']),
-			Timestamp::fromArray($arr['timestamp']),
-    	);
+        return new self(
+            (string) $arr['testCaseStartedId'],
+            (string) $arr['testStepId'],
+            TestStepResult::fromArray($arr['testStepResult']),
+            Timestamp::fromArray($arr['timestamp']),
+        );
     }
 
-	/**
-	 * Check that the type of 'testCaseStartedId' matches expectations
-	 *
-	 * @psalm-assert array{testCaseStartedId: mixed} $arr
-	 */
-	private static function ensureTestCaseStartedId(array $arr): void
-	{
-		if (!array_key_exists('testCaseStartedId', $arr)) {
-			throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'testCaseStartedId' matches expectations
+     *
+     * @psalm-assert array{testCaseStartedId: mixed} $arr
+     */
+    private static function ensureTestCaseStartedId(array $arr): void
+    {
+        if (!array_key_exists('testCaseStartedId', $arr)) {
+            throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testStepId' matches expectations
-	 *
-	 * @psalm-assert array{testStepId: mixed} $arr
-	 */
-	private static function ensureTestStepId(array $arr): void
-	{
-		if (!array_key_exists('testStepId', $arr)) {
-			throw new SchemaViolationException('Property \'testStepId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'testStepId' matches expectations
+     *
+     * @psalm-assert array{testStepId: mixed} $arr
+     */
+    private static function ensureTestStepId(array $arr): void
+    {
+        if (!array_key_exists('testStepId', $arr)) {
+            throw new SchemaViolationException('Property \'testStepId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testStepResult' matches expectations
-	 *
-	 * @psalm-assert array{testStepResult: array} $arr
-	 */
-	private static function ensureTestStepResult(array $arr): void
-	{
-		if (!array_key_exists('testStepResult', $arr)) {
-			throw new SchemaViolationException('Property \'testStepResult\' is required but was not found');
-		}
-		if (array_key_exists('testStepResult', $arr) && !is_array($arr['testStepResult'])) {
-			throw new SchemaViolationException('Property \'testStepResult\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'testStepResult' matches expectations
+     *
+     * @psalm-assert array{testStepResult: array} $arr
+     */
+    private static function ensureTestStepResult(array $arr): void
+    {
+        if (!array_key_exists('testStepResult', $arr)) {
+            throw new SchemaViolationException('Property \'testStepResult\' is required but was not found');
+        }
+        if (array_key_exists('testStepResult', $arr) && !is_array($arr['testStepResult'])) {
+            throw new SchemaViolationException('Property \'testStepResult\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'timestamp' matches expectations
-	 *
-	 * @psalm-assert array{timestamp: array} $arr
-	 */
-	private static function ensureTimestamp(array $arr): void
-	{
-		if (!array_key_exists('timestamp', $arr)) {
-			throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
-		}
-		if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
-			throw new SchemaViolationException('Property \'timestamp\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'timestamp' matches expectations
+     *
+     * @psalm-assert array{timestamp: array} $arr
+     */
+    private static function ensureTimestamp(array $arr): void
+    {
+        if (!array_key_exists('timestamp', $arr)) {
+            throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
+        }
+        if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
+            throw new SchemaViolationException('Property \'timestamp\' was not array');
+        }
+    }
 }
 
 
@@ -4595,7 +4595,7 @@ final class TestStepFinished implements JsonSerializable
  */
 final class TestStepResult implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4614,42 +4614,42 @@ final class TestStepResult implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureDuration($arr);
-		self::ensureStatus($arr);
+        self::ensureDuration($arr);
+        self::ensureStatus($arr);
 
-    	return new self(
-			Duration::fromArray($arr['duration']),
-			isset($arr['message']) ? (string) $arr['message'] : null,
-			TestStepResult\Status::from((string) $arr['status']),
-    	);
+        return new self(
+            Duration::fromArray($arr['duration']),
+            isset($arr['message']) ? (string) $arr['message'] : null,
+            TestStepResult\Status::from((string) $arr['status']),
+        );
     }
 
-	/**
-	 * Check that the type of 'duration' matches expectations
-	 *
-	 * @psalm-assert array{duration: array} $arr
-	 */
-	private static function ensureDuration(array $arr): void
-	{
-		if (!array_key_exists('duration', $arr)) {
-			throw new SchemaViolationException('Property \'duration\' is required but was not found');
-		}
-		if (array_key_exists('duration', $arr) && !is_array($arr['duration'])) {
-			throw new SchemaViolationException('Property \'duration\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'duration' matches expectations
+     *
+     * @psalm-assert array{duration: array} $arr
+     */
+    private static function ensureDuration(array $arr): void
+    {
+        if (!array_key_exists('duration', $arr)) {
+            throw new SchemaViolationException('Property \'duration\' is required but was not found');
+        }
+        if (array_key_exists('duration', $arr) && !is_array($arr['duration'])) {
+            throw new SchemaViolationException('Property \'duration\' was not array');
+        }
+    }
 
-	/**
-	 * Check that the type of 'status' matches expectations
-	 *
-	 * @psalm-assert array{status: mixed} $arr
-	 */
-	private static function ensureStatus(array $arr): void
-	{
-		if (!array_key_exists('status', $arr)) {
-			throw new SchemaViolationException('Property \'status\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'status' matches expectations
+     *
+     * @psalm-assert array{status: mixed} $arr
+     */
+    private static function ensureStatus(array $arr): void
+    {
+        if (!array_key_exists('status', $arr)) {
+            throw new SchemaViolationException('Property \'status\' is required but was not found');
+        }
+    }
 }
 
 
@@ -4660,7 +4660,7 @@ final class TestStepResult implements JsonSerializable
  */
 final class TestStepStarted implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4679,55 +4679,55 @@ final class TestStepStarted implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureTestCaseStartedId($arr);
-		self::ensureTestStepId($arr);
-		self::ensureTimestamp($arr);
+        self::ensureTestCaseStartedId($arr);
+        self::ensureTestStepId($arr);
+        self::ensureTimestamp($arr);
 
-    	return new self(
-			(string) $arr['testCaseStartedId'],
-			(string) $arr['testStepId'],
-			Timestamp::fromArray($arr['timestamp']),
-    	);
+        return new self(
+            (string) $arr['testCaseStartedId'],
+            (string) $arr['testStepId'],
+            Timestamp::fromArray($arr['timestamp']),
+        );
     }
 
-	/**
-	 * Check that the type of 'testCaseStartedId' matches expectations
-	 *
-	 * @psalm-assert array{testCaseStartedId: mixed} $arr
-	 */
-	private static function ensureTestCaseStartedId(array $arr): void
-	{
-		if (!array_key_exists('testCaseStartedId', $arr)) {
-			throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'testCaseStartedId' matches expectations
+     *
+     * @psalm-assert array{testCaseStartedId: mixed} $arr
+     */
+    private static function ensureTestCaseStartedId(array $arr): void
+    {
+        if (!array_key_exists('testCaseStartedId', $arr)) {
+            throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'testStepId' matches expectations
-	 *
-	 * @psalm-assert array{testStepId: mixed} $arr
-	 */
-	private static function ensureTestStepId(array $arr): void
-	{
-		if (!array_key_exists('testStepId', $arr)) {
-			throw new SchemaViolationException('Property \'testStepId\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'testStepId' matches expectations
+     *
+     * @psalm-assert array{testStepId: mixed} $arr
+     */
+    private static function ensureTestStepId(array $arr): void
+    {
+        if (!array_key_exists('testStepId', $arr)) {
+            throw new SchemaViolationException('Property \'testStepId\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'timestamp' matches expectations
-	 *
-	 * @psalm-assert array{timestamp: array} $arr
-	 */
-	private static function ensureTimestamp(array $arr): void
-	{
-		if (!array_key_exists('timestamp', $arr)) {
-			throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
-		}
-		if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
-			throw new SchemaViolationException('Property \'timestamp\' was not array');
-		}
-	}
+    /**
+     * Check that the type of 'timestamp' matches expectations
+     *
+     * @psalm-assert array{timestamp: array} $arr
+     */
+    private static function ensureTimestamp(array $arr): void
+    {
+        if (!array_key_exists('timestamp', $arr)) {
+            throw new SchemaViolationException('Property \'timestamp\' is required but was not found');
+        }
+        if (array_key_exists('timestamp', $arr) && !is_array($arr['timestamp'])) {
+            throw new SchemaViolationException('Property \'timestamp\' was not array');
+        }
+    }
 }
 
 
@@ -4738,19 +4738,19 @@ final class TestStepStarted implements JsonSerializable
  */
 final class Timestamp implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
         /**
-	     * Represents seconds of UTC time since Unix epoch
+         * Represents seconds of UTC time since Unix epoch
          * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
          * 9999-12-31T23:59:59Z inclusive.
          */
         public readonly int $seconds,
 
         /**
-	     * Non-negative fractions of a second at nanosecond resolution. Negative
+         * Non-negative fractions of a second at nanosecond resolution. Negative
          * second values with fractions must still have non-negative nanos values
          * that count forward in time. Must be from 0 to 999,999,999
          * inclusive.
@@ -4766,38 +4766,38 @@ final class Timestamp implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureSeconds($arr);
-		self::ensureNanos($arr);
+        self::ensureSeconds($arr);
+        self::ensureNanos($arr);
 
-    	return new self(
-			(int) $arr['seconds'],
-			(int) $arr['nanos'],
-    	);
+        return new self(
+            (int) $arr['seconds'],
+            (int) $arr['nanos'],
+        );
     }
 
-	/**
-	 * Check that the type of 'seconds' matches expectations
-	 *
-	 * @psalm-assert array{seconds: mixed} $arr
-	 */
-	private static function ensureSeconds(array $arr): void
-	{
-		if (!array_key_exists('seconds', $arr)) {
-			throw new SchemaViolationException('Property \'seconds\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'seconds' matches expectations
+     *
+     * @psalm-assert array{seconds: mixed} $arr
+     */
+    private static function ensureSeconds(array $arr): void
+    {
+        if (!array_key_exists('seconds', $arr)) {
+            throw new SchemaViolationException('Property \'seconds\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'nanos' matches expectations
-	 *
-	 * @psalm-assert array{nanos: mixed} $arr
-	 */
-	private static function ensureNanos(array $arr): void
-	{
-		if (!array_key_exists('nanos', $arr)) {
-			throw new SchemaViolationException('Property \'nanos\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'nanos' matches expectations
+     *
+     * @psalm-assert array{nanos: mixed} $arr
+     */
+    private static function ensureNanos(array $arr): void
+    {
+        if (!array_key_exists('nanos', $arr)) {
+            throw new SchemaViolationException('Property \'nanos\' is required but was not found');
+        }
+    }
 }
 
 
@@ -4808,7 +4808,7 @@ final class Timestamp implements JsonSerializable
  */
 final class UndefinedParameterType implements JsonSerializable
 {
-	use JsonEncodingTrait;
+    use JsonEncodingTrait;
 
     private function __construct(
 
@@ -4825,38 +4825,38 @@ final class UndefinedParameterType implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
-		self::ensureExpression($arr);
-		self::ensureName($arr);
+        self::ensureExpression($arr);
+        self::ensureName($arr);
 
-    	return new self(
-			(string) $arr['expression'],
-			(string) $arr['name'],
-    	);
+        return new self(
+            (string) $arr['expression'],
+            (string) $arr['name'],
+        );
     }
 
-	/**
-	 * Check that the type of 'expression' matches expectations
-	 *
-	 * @psalm-assert array{expression: mixed} $arr
-	 */
-	private static function ensureExpression(array $arr): void
-	{
-		if (!array_key_exists('expression', $arr)) {
-			throw new SchemaViolationException('Property \'expression\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'expression' matches expectations
+     *
+     * @psalm-assert array{expression: mixed} $arr
+     */
+    private static function ensureExpression(array $arr): void
+    {
+        if (!array_key_exists('expression', $arr)) {
+            throw new SchemaViolationException('Property \'expression\' is required but was not found');
+        }
+    }
 
-	/**
-	 * Check that the type of 'name' matches expectations
-	 *
-	 * @psalm-assert array{name: mixed} $arr
-	 */
-	private static function ensureName(array $arr): void
-	{
-		if (!array_key_exists('name', $arr)) {
-			throw new SchemaViolationException('Property \'name\' is required but was not found');
-		}
-	}
+    /**
+     * Check that the type of 'name' matches expectations
+     *
+     * @psalm-assert array{name: mixed} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (!array_key_exists('name', $arr)) {
+            throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+    }
 }
 
 

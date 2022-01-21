@@ -340,42 +340,43 @@ class Php < Codegen
   end
 
   def is_nullable(property_name, schema)
-  	!(schema['required'] || []).index(property_name)
+    !(schema['required'] || []).index(property_name)
   end
 
   def is_scalar(property)
-	property.has_key?('type') && @language_type_by_schema_type.has_key?(property['type'])
+    property.has_key?('type') && @language_type_by_schema_type.has_key?(property['type'])
   end
 
   def scalar_type_for(property)
- 	raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[property['type']]
-	@language_type_by_schema_type[property['type']]
+    raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[property['type']]
+
+    @language_type_by_schema_type[property['type']]
   end
 
   def constructor_for(parent_type, property, property_name, schema, arr_name)
-  	constr = non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
+    constr = non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
 
-	is_nullable(property_name, schema) ? "isset($#{arr_name}['#{property_name}']) ? #{constr} : null" : constr
+    is_nullable(property_name, schema) ? "isset($#{arr_name}['#{property_name}']) ? #{constr} : null" : constr
   end
 
   def non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
     source = property_name.nil? ? "#{arr_name}" : "#{arr_name}['#{property_name}']"
-  	if is_scalar(property)
-	  if property['enum']
-	    "#{enum_name(parent_type, property_name, property['enum'])}::from((#{scalar_type_for(property)}) $#{source})"
-	  else
-	    "(#{scalar_type_for(property)}) $#{source}"
+    if is_scalar(property)
+      if property['enum']
+        "#{enum_name(parent_type, property_name, property['enum'])}::from((#{scalar_type_for(property)}) $#{source})"
+      else
+        "(#{scalar_type_for(property)}) $#{source}"
       end
-	else
-	  type = type_for(parent_type, property_name, property)
-	  if type == 'array'
-	  	constructor = non_nullable_constructor_for(parent_type, property['items'], nil, schema, "member")
-	  	member_type = (property['items']['type'] ? 'mixed' : 'array')
-		"array_map(fn(#{member_type} $member) => #{constructor} , $#{source})"
-	  else
-	    "#{type_for(parent_type, property_name, property)}::fromArray($#{source})"
-  	  end
-  	end
+    else
+      type = type_for(parent_type, property_name, property)
+      if type == 'array'
+        constructor = non_nullable_constructor_for(parent_type, property['items'], nil, schema, "member")
+        member_type = (property['items']['type'] ? 'mixed' : 'array')
+        "array_map(fn(#{member_type} $member) => #{constructor} , $#{source})"
+      else
+        "#{type_for(parent_type, property_name, property)}::fromArray($#{source})"
+      end
+    end
   end
 end
 
