@@ -15,10 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Cucumber\\Messages\\": "src"
-        },
-        "files": [
-            "src/generated/messages.php"
-        ]
+            "Cucumber\\Messages\\": ["src","src-generated"]
+        }
     }
 }

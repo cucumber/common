@@ -1,13 +1,15 @@
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
-.deps: composer.lock src/generated/messages.php
+.deps: composer.lock build/messages.php
 
 composer.lock:
 	composer install
 
-src/generated/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/php.php.erb
+build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/php.php.erb
 	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema > $@
+	rm -rf src-generated/*
+	php split_classes.php
 
 test: .deps
 	vendor/bin/psalm

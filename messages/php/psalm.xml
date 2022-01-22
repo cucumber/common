@@ -8,6 +8,7 @@
 >
     <projectFiles>
         <directory name="src"/>
+        <directory name="src-generated"/>
         <directory name="tests"/>
         <ignoreFiles>
             <directory name="vendor"/>
