@@ -1,7 +1,13 @@
 package io.cucumber.messages;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 
+import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
+
+@SuppressWarnings("unused")
 public final class Messages {
 
     private Messages() {}
@@ -16,7 +22,6 @@ public final class Messages {
         private final String testStepId;
         private final String url;
 
-        @JsonCreator
         public Attachment(
             String body,
             AttachmentContentEncoding contentEncoding,
@@ -27,10 +32,10 @@ public final class Messages {
             String testStepId,
             String url
         ) {
-            this.body = java.util.Objects.requireNonNull(body, "Attachment.body cannot be null");
-            this.contentEncoding = java.util.Objects.requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
+            this.body = requireNonNull(body, "Attachment.body cannot be null");
+            this.contentEncoding = requireNonNull(contentEncoding, "Attachment.contentEncoding cannot be null");
             this.fileName = fileName;
-            this.mediaType = java.util.Objects.requireNonNull(mediaType, "Attachment.mediaType cannot be null");
+            this.mediaType = requireNonNull(mediaType, "Attachment.mediaType cannot be null");
             this.source = source;
             this.testCaseStartedId = testCaseStartedId;
             this.testStepId = testStepId;
@@ -45,28 +50,28 @@ public final class Messages {
             return contentEncoding;
         }
 
-        public java.util.Optional<String> getFileName() {
-            return java.util.Optional.ofNullable(fileName);
+        public Optional<String> getFileName() {
+            return Optional.ofNullable(fileName);
         }
 
         public String getMediaType() {
             return mediaType;
         }
 
-        public java.util.Optional<Source> getSource() {
-            return java.util.Optional.ofNullable(source);
+        public Optional<Source> getSource() {
+            return Optional.ofNullable(source);
         }
 
-        public java.util.Optional<String> getTestCaseStartedId() {
-            return java.util.Optional.ofNullable(testCaseStartedId);
+        public Optional<String> getTestCaseStartedId() {
+            return Optional.ofNullable(testCaseStartedId);
         }
 
-        public java.util.Optional<String> getTestStepId() {
-            return java.util.Optional.ofNullable(testStepId);
+        public Optional<String> getTestStepId() {
+            return Optional.ofNullable(testStepId);
         }
 
-        public java.util.Optional<String> getUrl() {
-            return java.util.Optional.ofNullable(url);
+        public Optional<String> getUrl() {
+            return Optional.ofNullable(url);
         }
 
         @Override
@@ -77,17 +82,17 @@ public final class Messages {
             return 
                 body.equals(that.body) &&             
                 contentEncoding.equals(that.contentEncoding) &&             
-                java.util.Objects.equals(fileName, that.fileName) &&             
+                Objects.equals(fileName, that.fileName) &&             
                 mediaType.equals(that.mediaType) &&             
-                java.util.Objects.equals(source, that.source) &&             
-                java.util.Objects.equals(testCaseStartedId, that.testCaseStartedId) &&             
-                java.util.Objects.equals(testStepId, that.testStepId) &&             
-                java.util.Objects.equals(url, that.url);            
+                Objects.equals(source, that.source) &&             
+                Objects.equals(testCaseStartedId, that.testCaseStartedId) &&             
+                Objects.equals(testStepId, that.testStepId) &&             
+                Objects.equals(url, that.url);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 body,
                 contentEncoding,
                 fileName,
@@ -118,13 +123,12 @@ public final class Messages {
         private final Long seconds;
         private final Long nanos;
 
-        @JsonCreator
         public Duration(
             Long seconds,
             Long nanos
         ) {
-            this.seconds = java.util.Objects.requireNonNull(seconds, "Duration.seconds cannot be null");
-            this.nanos = java.util.Objects.requireNonNull(nanos, "Duration.nanos cannot be null");
+            this.seconds = requireNonNull(seconds, "Duration.seconds cannot be null");
+            this.nanos = requireNonNull(nanos, "Duration.nanos cannot be null");
         }
 
         public Long getSeconds() {
@@ -147,7 +151,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 seconds,
                 nanos
             );
@@ -181,9 +185,9 @@ public final class Messages {
         private final TestStepStarted testStepStarted;
         private final UndefinedParameterType undefinedParameterType;
 
-        public Envelope(Attachment attachment) {
-            this(
-                java.util.Objects.requireNonNull(attachment, "Envelope.attachment cannot be null"),
+        public static Envelope of(Attachment attachment) {
+            return new Envelope(
+                requireNonNull(attachment, "Envelope.attachment cannot be null"),
                 null,
                 null,
                 null,
@@ -203,33 +207,11 @@ public final class Messages {
             );
         }
 
-        public Envelope(GherkinDocument gherkinDocument) {
-            this(
+        public static Envelope of(GherkinDocument gherkinDocument) {
+            return new Envelope(
                 null,
-                java.util.Objects.requireNonNull(gherkinDocument, "Envelope.gherkinDocument cannot be null"),
+                requireNonNull(gherkinDocument, "Envelope.gherkinDocument cannot be null"),
                 null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
-        }
-
-        public Envelope(Hook hook) {
-            this(
-                null,
-                null,
-                java.util.Objects.requireNonNull(hook, "Envelope.hook cannot be null"),
                 null,
                 null,
                 null,
@@ -247,12 +229,34 @@ public final class Messages {
             );
         }
 
-        public Envelope(Meta meta) {
-            this(
+        public static Envelope of(Hook hook) {
+            return new Envelope(
+                null,
+                null,
+                requireNonNull(hook, "Envelope.hook cannot be null"),
                 null,
                 null,
                 null,
-                java.util.Objects.requireNonNull(meta, "Envelope.meta cannot be null"),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
+        }
+
+        public static Envelope of(Meta meta) {
+            return new Envelope(
+                null,
+                null,
+                null,
+                requireNonNull(meta, "Envelope.meta cannot be null"),
                 null,
                 null,
                 null,
@@ -269,36 +273,14 @@ public final class Messages {
             );
         }
 
-        public Envelope(ParameterType parameterType) {
-            this(
+        public static Envelope of(ParameterType parameterType) {
+            return new Envelope(
                 null,
                 null,
                 null,
                 null,
-                java.util.Objects.requireNonNull(parameterType, "Envelope.parameterType cannot be null"),
+                requireNonNull(parameterType, "Envelope.parameterType cannot be null"),
                 null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
-        }
-
-        public Envelope(ParseError parseError) {
-            this(
-                null,
-                null,
-                null,
-                null,
-                null,
-                java.util.Objects.requireNonNull(parseError, "Envelope.parseError cannot be null"),
                 null,
                 null,
                 null,
@@ -313,15 +295,15 @@ public final class Messages {
             );
         }
 
-        public Envelope(Pickle pickle) {
-            this(
+        public static Envelope of(ParseError parseError) {
+            return new Envelope(
                 null,
                 null,
                 null,
                 null,
                 null,
+                requireNonNull(parseError, "Envelope.parseError cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(pickle, "Envelope.pickle cannot be null"),
                 null,
                 null,
                 null,
@@ -335,16 +317,16 @@ public final class Messages {
             );
         }
 
-        public Envelope(Source source) {
-            this(
+        public static Envelope of(Pickle pickle) {
+            return new Envelope(
                 null,
                 null,
                 null,
                 null,
                 null,
                 null,
+                requireNonNull(pickle, "Envelope.pickle cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(source, "Envelope.source cannot be null"),
                 null,
                 null,
                 null,
@@ -357,8 +339,8 @@ public final class Messages {
             );
         }
 
-        public Envelope(StepDefinition stepDefinition) {
-            this(
+        public static Envelope of(Source source) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -366,8 +348,8 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(source, "Envelope.source cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(stepDefinition, "Envelope.stepDefinition cannot be null"),
                 null,
                 null,
                 null,
@@ -379,8 +361,8 @@ public final class Messages {
             );
         }
 
-        public Envelope(TestCase testCase) {
-            this(
+        public static Envelope of(StepDefinition stepDefinition) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -389,8 +371,8 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(stepDefinition, "Envelope.stepDefinition cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testCase, "Envelope.testCase cannot be null"),
                 null,
                 null,
                 null,
@@ -401,8 +383,8 @@ public final class Messages {
             );
         }
 
-        public Envelope(TestCaseFinished testCaseFinished) {
-            this(
+        public static Envelope of(TestCase testCase) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -412,8 +394,8 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(testCase, "Envelope.testCase cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testCaseFinished, "Envelope.testCaseFinished cannot be null"),
                 null,
                 null,
                 null,
@@ -423,8 +405,8 @@ public final class Messages {
             );
         }
 
-        public Envelope(TestCaseStarted testCaseStarted) {
-            this(
+        public static Envelope of(TestCaseFinished testCaseFinished) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -435,8 +417,8 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(testCaseFinished, "Envelope.testCaseFinished cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testCaseStarted, "Envelope.testCaseStarted cannot be null"),
                 null,
                 null,
                 null,
@@ -445,8 +427,8 @@ public final class Messages {
             );
         }
 
-        public Envelope(TestRunFinished testRunFinished) {
-            this(
+        public static Envelope of(TestCaseStarted testCaseStarted) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -458,8 +440,8 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(testCaseStarted, "Envelope.testCaseStarted cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testRunFinished, "Envelope.testRunFinished cannot be null"),
                 null,
                 null,
                 null,
@@ -467,8 +449,8 @@ public final class Messages {
             );
         }
 
-        public Envelope(TestRunStarted testRunStarted) {
-            this(
+        public static Envelope of(TestRunFinished testRunFinished) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -481,16 +463,16 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(testRunFinished, "Envelope.testRunFinished cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testRunStarted, "Envelope.testRunStarted cannot be null"),
                 null,
                 null,
                 null
             );
         }
 
-        public Envelope(TestStepFinished testStepFinished) {
-            this(
+        public static Envelope of(TestRunStarted testRunStarted) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -504,15 +486,15 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(testRunStarted, "Envelope.testRunStarted cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testStepFinished, "Envelope.testStepFinished cannot be null"),
                 null,
                 null
             );
         }
 
-        public Envelope(TestStepStarted testStepStarted) {
-            this(
+        public static Envelope of(TestStepFinished testStepFinished) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -527,14 +509,14 @@ public final class Messages {
                 null,
                 null,
                 null,
+                requireNonNull(testStepFinished, "Envelope.testStepFinished cannot be null"),
                 null,
-                java.util.Objects.requireNonNull(testStepStarted, "Envelope.testStepStarted cannot be null"),
                 null
             );
         }
 
-        public Envelope(UndefinedParameterType undefinedParameterType) {
-            this(
+        public static Envelope of(TestStepStarted testStepStarted) {
+            return new Envelope(
                 null,
                 null,
                 null,
@@ -550,12 +532,33 @@ public final class Messages {
                 null,
                 null,
                 null,
-                null,
-                java.util.Objects.requireNonNull(undefinedParameterType, "Envelope.undefinedParameterType cannot be null")
+                requireNonNull(testStepStarted, "Envelope.testStepStarted cannot be null"),
+                null
             );
         }
 
-        @JsonCreator
+        public static Envelope of(UndefinedParameterType undefinedParameterType) {
+            return new Envelope(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                requireNonNull(undefinedParameterType, "Envelope.undefinedParameterType cannot be null")
+            );
+        }
+
         public Envelope(
             Attachment attachment,
             GherkinDocument gherkinDocument,
@@ -594,72 +597,72 @@ public final class Messages {
             this.undefinedParameterType = undefinedParameterType;
         }
 
-        public java.util.Optional<Attachment> getAttachment() {
-            return java.util.Optional.ofNullable(attachment);
+        public Optional<Attachment> getAttachment() {
+            return Optional.ofNullable(attachment);
         }
 
-        public java.util.Optional<GherkinDocument> getGherkinDocument() {
-            return java.util.Optional.ofNullable(gherkinDocument);
+        public Optional<GherkinDocument> getGherkinDocument() {
+            return Optional.ofNullable(gherkinDocument);
         }
 
-        public java.util.Optional<Hook> getHook() {
-            return java.util.Optional.ofNullable(hook);
+        public Optional<Hook> getHook() {
+            return Optional.ofNullable(hook);
         }
 
-        public java.util.Optional<Meta> getMeta() {
-            return java.util.Optional.ofNullable(meta);
+        public Optional<Meta> getMeta() {
+            return Optional.ofNullable(meta);
         }
 
-        public java.util.Optional<ParameterType> getParameterType() {
-            return java.util.Optional.ofNullable(parameterType);
+        public Optional<ParameterType> getParameterType() {
+            return Optional.ofNullable(parameterType);
         }
 
-        public java.util.Optional<ParseError> getParseError() {
-            return java.util.Optional.ofNullable(parseError);
+        public Optional<ParseError> getParseError() {
+            return Optional.ofNullable(parseError);
         }
 
-        public java.util.Optional<Pickle> getPickle() {
-            return java.util.Optional.ofNullable(pickle);
+        public Optional<Pickle> getPickle() {
+            return Optional.ofNullable(pickle);
         }
 
-        public java.util.Optional<Source> getSource() {
-            return java.util.Optional.ofNullable(source);
+        public Optional<Source> getSource() {
+            return Optional.ofNullable(source);
         }
 
-        public java.util.Optional<StepDefinition> getStepDefinition() {
-            return java.util.Optional.ofNullable(stepDefinition);
+        public Optional<StepDefinition> getStepDefinition() {
+            return Optional.ofNullable(stepDefinition);
         }
 
-        public java.util.Optional<TestCase> getTestCase() {
-            return java.util.Optional.ofNullable(testCase);
+        public Optional<TestCase> getTestCase() {
+            return Optional.ofNullable(testCase);
         }
 
-        public java.util.Optional<TestCaseFinished> getTestCaseFinished() {
-            return java.util.Optional.ofNullable(testCaseFinished);
+        public Optional<TestCaseFinished> getTestCaseFinished() {
+            return Optional.ofNullable(testCaseFinished);
         }
 
-        public java.util.Optional<TestCaseStarted> getTestCaseStarted() {
-            return java.util.Optional.ofNullable(testCaseStarted);
+        public Optional<TestCaseStarted> getTestCaseStarted() {
+            return Optional.ofNullable(testCaseStarted);
         }
 
-        public java.util.Optional<TestRunFinished> getTestRunFinished() {
-            return java.util.Optional.ofNullable(testRunFinished);
+        public Optional<TestRunFinished> getTestRunFinished() {
+            return Optional.ofNullable(testRunFinished);
         }
 
-        public java.util.Optional<TestRunStarted> getTestRunStarted() {
-            return java.util.Optional.ofNullable(testRunStarted);
+        public Optional<TestRunStarted> getTestRunStarted() {
+            return Optional.ofNullable(testRunStarted);
         }
 
-        public java.util.Optional<TestStepFinished> getTestStepFinished() {
-            return java.util.Optional.ofNullable(testStepFinished);
+        public Optional<TestStepFinished> getTestStepFinished() {
+            return Optional.ofNullable(testStepFinished);
         }
 
-        public java.util.Optional<TestStepStarted> getTestStepStarted() {
-            return java.util.Optional.ofNullable(testStepStarted);
+        public Optional<TestStepStarted> getTestStepStarted() {
+            return Optional.ofNullable(testStepStarted);
         }
 
-        public java.util.Optional<UndefinedParameterType> getUndefinedParameterType() {
-            return java.util.Optional.ofNullable(undefinedParameterType);
+        public Optional<UndefinedParameterType> getUndefinedParameterType() {
+            return Optional.ofNullable(undefinedParameterType);
         }
 
         @Override
@@ -668,28 +671,28 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             Envelope that = (Envelope) o;
             return 
-                java.util.Objects.equals(attachment, that.attachment) &&             
-                java.util.Objects.equals(gherkinDocument, that.gherkinDocument) &&             
-                java.util.Objects.equals(hook, that.hook) &&             
-                java.util.Objects.equals(meta, that.meta) &&             
-                java.util.Objects.equals(parameterType, that.parameterType) &&             
-                java.util.Objects.equals(parseError, that.parseError) &&             
-                java.util.Objects.equals(pickle, that.pickle) &&             
-                java.util.Objects.equals(source, that.source) &&             
-                java.util.Objects.equals(stepDefinition, that.stepDefinition) &&             
-                java.util.Objects.equals(testCase, that.testCase) &&             
-                java.util.Objects.equals(testCaseFinished, that.testCaseFinished) &&             
-                java.util.Objects.equals(testCaseStarted, that.testCaseStarted) &&             
-                java.util.Objects.equals(testRunFinished, that.testRunFinished) &&             
-                java.util.Objects.equals(testRunStarted, that.testRunStarted) &&             
-                java.util.Objects.equals(testStepFinished, that.testStepFinished) &&             
-                java.util.Objects.equals(testStepStarted, that.testStepStarted) &&             
-                java.util.Objects.equals(undefinedParameterType, that.undefinedParameterType);            
+                Objects.equals(attachment, that.attachment) &&             
+                Objects.equals(gherkinDocument, that.gherkinDocument) &&             
+                Objects.equals(hook, that.hook) &&             
+                Objects.equals(meta, that.meta) &&             
+                Objects.equals(parameterType, that.parameterType) &&             
+                Objects.equals(parseError, that.parseError) &&             
+                Objects.equals(pickle, that.pickle) &&             
+                Objects.equals(source, that.source) &&             
+                Objects.equals(stepDefinition, that.stepDefinition) &&             
+                Objects.equals(testCase, that.testCase) &&             
+                Objects.equals(testCaseFinished, that.testCaseFinished) &&             
+                Objects.equals(testCaseStarted, that.testCaseStarted) &&             
+                Objects.equals(testRunFinished, that.testRunFinished) &&             
+                Objects.equals(testRunStarted, that.testRunStarted) &&             
+                Objects.equals(testStepFinished, that.testStepFinished) &&             
+                Objects.equals(testStepStarted, that.testStepStarted) &&             
+                Objects.equals(undefinedParameterType, that.undefinedParameterType);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 attachment,
                 gherkinDocument,
                 hook,
@@ -739,7 +742,6 @@ public final class Messages {
         private final Feature feature;
         private final java.util.List<Comment> comments;
 
-        @JsonCreator
         public GherkinDocument(
             String uri,
             Feature feature,
@@ -747,15 +749,15 @@ public final class Messages {
         ) {
             this.uri = uri;
             this.feature = feature;
-            this.comments = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(comments, "GherkinDocument.comments cannot be null")));
+            this.comments = unmodifiableList(new ArrayList<>(requireNonNull(comments, "GherkinDocument.comments cannot be null")));
         }
 
-        public java.util.Optional<String> getUri() {
-            return java.util.Optional.ofNullable(uri);
+        public Optional<String> getUri() {
+            return Optional.ofNullable(uri);
         }
 
-        public java.util.Optional<Feature> getFeature() {
-            return java.util.Optional.ofNullable(feature);
+        public Optional<Feature> getFeature() {
+            return Optional.ofNullable(feature);
         }
 
         public java.util.List<Comment> getComments() {
@@ -768,14 +770,14 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             GherkinDocument that = (GherkinDocument) o;
             return 
-                java.util.Objects.equals(uri, that.uri) &&             
-                java.util.Objects.equals(feature, that.feature) &&             
+                Objects.equals(uri, that.uri) &&             
+                Objects.equals(feature, that.feature) &&             
                 comments.equals(that.comments);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 uri,
                 feature,
                 comments
@@ -800,7 +802,6 @@ public final class Messages {
         private final java.util.List<Step> steps;
         private final String id;
 
-        @JsonCreator
         public Background(
             Location location,
             String keyword,
@@ -809,12 +810,12 @@ public final class Messages {
             java.util.List<Step> steps,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Background.location cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Background.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Background.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Background.description cannot be null");
-            this.steps = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(steps, "Background.steps cannot be null")));
-            this.id = java.util.Objects.requireNonNull(id, "Background.id cannot be null");
+            this.location = requireNonNull(location, "Background.location cannot be null");
+            this.keyword = requireNonNull(keyword, "Background.keyword cannot be null");
+            this.name = requireNonNull(name, "Background.name cannot be null");
+            this.description = requireNonNull(description, "Background.description cannot be null");
+            this.steps = unmodifiableList(new ArrayList<>(requireNonNull(steps, "Background.steps cannot be null")));
+            this.id = requireNonNull(id, "Background.id cannot be null");
         }
 
         public Location getLocation() {
@@ -857,7 +858,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 keyword,
                 name,
@@ -884,13 +885,12 @@ public final class Messages {
         private final Location location;
         private final String text;
 
-        @JsonCreator
         public Comment(
             Location location,
             String text
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Comment.location cannot be null");
-            this.text = java.util.Objects.requireNonNull(text, "Comment.text cannot be null");
+            this.location = requireNonNull(location, "Comment.location cannot be null");
+            this.text = requireNonNull(text, "Comment.text cannot be null");
         }
 
         public Location getLocation() {
@@ -913,7 +913,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 text
             );
@@ -932,13 +932,12 @@ public final class Messages {
         private final Location location;
         private final java.util.List<TableRow> rows;
 
-        @JsonCreator
         public DataTable(
             Location location,
             java.util.List<TableRow> rows
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "DataTable.location cannot be null");
-            this.rows = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(rows, "DataTable.rows cannot be null")));
+            this.location = requireNonNull(location, "DataTable.location cannot be null");
+            this.rows = unmodifiableList(new ArrayList<>(requireNonNull(rows, "DataTable.rows cannot be null")));
         }
 
         public Location getLocation() {
@@ -961,7 +960,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 rows
             );
@@ -982,25 +981,24 @@ public final class Messages {
         private final String content;
         private final String delimiter;
 
-        @JsonCreator
         public DocString(
             Location location,
             String mediaType,
             String content,
             String delimiter
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "DocString.location cannot be null");
+            this.location = requireNonNull(location, "DocString.location cannot be null");
             this.mediaType = mediaType;
-            this.content = java.util.Objects.requireNonNull(content, "DocString.content cannot be null");
-            this.delimiter = java.util.Objects.requireNonNull(delimiter, "DocString.delimiter cannot be null");
+            this.content = requireNonNull(content, "DocString.content cannot be null");
+            this.delimiter = requireNonNull(delimiter, "DocString.delimiter cannot be null");
         }
 
         public Location getLocation() {
             return location;
         }
 
-        public java.util.Optional<String> getMediaType() {
-            return java.util.Optional.ofNullable(mediaType);
+        public Optional<String> getMediaType() {
+            return Optional.ofNullable(mediaType);
         }
 
         public String getContent() {
@@ -1018,14 +1016,14 @@ public final class Messages {
             DocString that = (DocString) o;
             return 
                 location.equals(that.location) &&             
-                java.util.Objects.equals(mediaType, that.mediaType) &&             
+                Objects.equals(mediaType, that.mediaType) &&             
                 content.equals(that.content) &&             
                 delimiter.equals(that.delimiter);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 mediaType,
                 content,
@@ -1054,7 +1052,6 @@ public final class Messages {
         private final java.util.List<TableRow> tableBody;
         private final String id;
 
-        @JsonCreator
         public Examples(
             Location location,
             java.util.List<Tag> tags,
@@ -1065,14 +1062,14 @@ public final class Messages {
             java.util.List<TableRow> tableBody,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Examples.location cannot be null");
-            this.tags = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(tags, "Examples.tags cannot be null")));
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Examples.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Examples.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Examples.description cannot be null");
+            this.location = requireNonNull(location, "Examples.location cannot be null");
+            this.tags = unmodifiableList(new ArrayList<>(requireNonNull(tags, "Examples.tags cannot be null")));
+            this.keyword = requireNonNull(keyword, "Examples.keyword cannot be null");
+            this.name = requireNonNull(name, "Examples.name cannot be null");
+            this.description = requireNonNull(description, "Examples.description cannot be null");
             this.tableHeader = tableHeader;
-            this.tableBody = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(tableBody, "Examples.tableBody cannot be null")));
-            this.id = java.util.Objects.requireNonNull(id, "Examples.id cannot be null");
+            this.tableBody = unmodifiableList(new ArrayList<>(requireNonNull(tableBody, "Examples.tableBody cannot be null")));
+            this.id = requireNonNull(id, "Examples.id cannot be null");
         }
 
         public Location getLocation() {
@@ -1095,8 +1092,8 @@ public final class Messages {
             return description;
         }
 
-        public java.util.Optional<TableRow> getTableHeader() {
-            return java.util.Optional.ofNullable(tableHeader);
+        public Optional<TableRow> getTableHeader() {
+            return Optional.ofNullable(tableHeader);
         }
 
         public java.util.List<TableRow> getTableBody() {
@@ -1118,14 +1115,14 @@ public final class Messages {
                 keyword.equals(that.keyword) &&             
                 name.equals(that.name) &&             
                 description.equals(that.description) &&             
-                java.util.Objects.equals(tableHeader, that.tableHeader) &&             
+                Objects.equals(tableHeader, that.tableHeader) &&             
                 tableBody.equals(that.tableBody) &&             
                 id.equals(that.id);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 tags,
                 keyword,
@@ -1161,7 +1158,6 @@ public final class Messages {
         private final String description;
         private final java.util.List<FeatureChild> children;
 
-        @JsonCreator
         public Feature(
             Location location,
             java.util.List<Tag> tags,
@@ -1171,13 +1167,13 @@ public final class Messages {
             String description,
             java.util.List<FeatureChild> children
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Feature.location cannot be null");
-            this.tags = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(tags, "Feature.tags cannot be null")));
-            this.language = java.util.Objects.requireNonNull(language, "Feature.language cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Feature.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Feature.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Feature.description cannot be null");
-            this.children = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(children, "Feature.children cannot be null")));
+            this.location = requireNonNull(location, "Feature.location cannot be null");
+            this.tags = unmodifiableList(new ArrayList<>(requireNonNull(tags, "Feature.tags cannot be null")));
+            this.language = requireNonNull(language, "Feature.language cannot be null");
+            this.keyword = requireNonNull(keyword, "Feature.keyword cannot be null");
+            this.name = requireNonNull(name, "Feature.name cannot be null");
+            this.description = requireNonNull(description, "Feature.description cannot be null");
+            this.children = unmodifiableList(new ArrayList<>(requireNonNull(children, "Feature.children cannot be null")));
         }
 
         public Location getLocation() {
@@ -1225,7 +1221,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 tags,
                 language,
@@ -1255,31 +1251,30 @@ public final class Messages {
         private final Background background;
         private final Scenario scenario;
 
-        public FeatureChild(Rule rule) {
-            this(
-                java.util.Objects.requireNonNull(rule, "FeatureChild.rule cannot be null"),
+        public static FeatureChild of(Rule rule) {
+            return new FeatureChild(
+                requireNonNull(rule, "FeatureChild.rule cannot be null"),
                 null,
                 null
             );
         }
 
-        public FeatureChild(Background background) {
-            this(
+        public static FeatureChild of(Background background) {
+            return new FeatureChild(
                 null,
-                java.util.Objects.requireNonNull(background, "FeatureChild.background cannot be null"),
+                requireNonNull(background, "FeatureChild.background cannot be null"),
                 null
             );
         }
 
-        public FeatureChild(Scenario scenario) {
-            this(
+        public static FeatureChild of(Scenario scenario) {
+            return new FeatureChild(
                 null,
                 null,
-                java.util.Objects.requireNonNull(scenario, "FeatureChild.scenario cannot be null")
+                requireNonNull(scenario, "FeatureChild.scenario cannot be null")
             );
         }
 
-        @JsonCreator
         public FeatureChild(
             Rule rule,
             Background background,
@@ -1290,16 +1285,16 @@ public final class Messages {
             this.scenario = scenario;
         }
 
-        public java.util.Optional<Rule> getRule() {
-            return java.util.Optional.ofNullable(rule);
+        public Optional<Rule> getRule() {
+            return Optional.ofNullable(rule);
         }
 
-        public java.util.Optional<Background> getBackground() {
-            return java.util.Optional.ofNullable(background);
+        public Optional<Background> getBackground() {
+            return Optional.ofNullable(background);
         }
 
-        public java.util.Optional<Scenario> getScenario() {
-            return java.util.Optional.ofNullable(scenario);
+        public Optional<Scenario> getScenario() {
+            return Optional.ofNullable(scenario);
         }
 
         @Override
@@ -1308,14 +1303,14 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             FeatureChild that = (FeatureChild) o;
             return 
-                java.util.Objects.equals(rule, that.rule) &&             
-                java.util.Objects.equals(background, that.background) &&             
-                java.util.Objects.equals(scenario, that.scenario);            
+                Objects.equals(rule, that.rule) &&             
+                Objects.equals(background, that.background) &&             
+                Objects.equals(scenario, that.scenario);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 rule,
                 background,
                 scenario
@@ -1341,7 +1336,6 @@ public final class Messages {
         private final java.util.List<RuleChild> children;
         private final String id;
 
-        @JsonCreator
         public Rule(
             Location location,
             java.util.List<Tag> tags,
@@ -1351,13 +1345,13 @@ public final class Messages {
             java.util.List<RuleChild> children,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Rule.location cannot be null");
-            this.tags = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(tags, "Rule.tags cannot be null")));
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Rule.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Rule.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Rule.description cannot be null");
-            this.children = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(children, "Rule.children cannot be null")));
-            this.id = java.util.Objects.requireNonNull(id, "Rule.id cannot be null");
+            this.location = requireNonNull(location, "Rule.location cannot be null");
+            this.tags = unmodifiableList(new ArrayList<>(requireNonNull(tags, "Rule.tags cannot be null")));
+            this.keyword = requireNonNull(keyword, "Rule.keyword cannot be null");
+            this.name = requireNonNull(name, "Rule.name cannot be null");
+            this.description = requireNonNull(description, "Rule.description cannot be null");
+            this.children = unmodifiableList(new ArrayList<>(requireNonNull(children, "Rule.children cannot be null")));
+            this.id = requireNonNull(id, "Rule.id cannot be null");
         }
 
         public Location getLocation() {
@@ -1405,7 +1399,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 tags,
                 keyword,
@@ -1434,21 +1428,20 @@ public final class Messages {
         private final Background background;
         private final Scenario scenario;
 
-        public RuleChild(Background background) {
-            this(
-                java.util.Objects.requireNonNull(background, "RuleChild.background cannot be null"),
+        public static RuleChild of(Background background) {
+            return new RuleChild(
+                requireNonNull(background, "RuleChild.background cannot be null"),
                 null
             );
         }
 
-        public RuleChild(Scenario scenario) {
-            this(
+        public static RuleChild of(Scenario scenario) {
+            return new RuleChild(
                 null,
-                java.util.Objects.requireNonNull(scenario, "RuleChild.scenario cannot be null")
+                requireNonNull(scenario, "RuleChild.scenario cannot be null")
             );
         }
 
-        @JsonCreator
         public RuleChild(
             Background background,
             Scenario scenario
@@ -1457,12 +1450,12 @@ public final class Messages {
             this.scenario = scenario;
         }
 
-        public java.util.Optional<Background> getBackground() {
-            return java.util.Optional.ofNullable(background);
+        public Optional<Background> getBackground() {
+            return Optional.ofNullable(background);
         }
 
-        public java.util.Optional<Scenario> getScenario() {
-            return java.util.Optional.ofNullable(scenario);
+        public Optional<Scenario> getScenario() {
+            return Optional.ofNullable(scenario);
         }
 
         @Override
@@ -1471,13 +1464,13 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             RuleChild that = (RuleChild) o;
             return 
-                java.util.Objects.equals(background, that.background) &&             
-                java.util.Objects.equals(scenario, that.scenario);            
+                Objects.equals(background, that.background) &&             
+                Objects.equals(scenario, that.scenario);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 background,
                 scenario
             );
@@ -1502,7 +1495,6 @@ public final class Messages {
         private final java.util.List<Examples> examples;
         private final String id;
 
-        @JsonCreator
         public Scenario(
             Location location,
             java.util.List<Tag> tags,
@@ -1513,14 +1505,14 @@ public final class Messages {
             java.util.List<Examples> examples,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Scenario.location cannot be null");
-            this.tags = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(tags, "Scenario.tags cannot be null")));
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Scenario.keyword cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Scenario.name cannot be null");
-            this.description = java.util.Objects.requireNonNull(description, "Scenario.description cannot be null");
-            this.steps = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(steps, "Scenario.steps cannot be null")));
-            this.examples = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(examples, "Scenario.examples cannot be null")));
-            this.id = java.util.Objects.requireNonNull(id, "Scenario.id cannot be null");
+            this.location = requireNonNull(location, "Scenario.location cannot be null");
+            this.tags = unmodifiableList(new ArrayList<>(requireNonNull(tags, "Scenario.tags cannot be null")));
+            this.keyword = requireNonNull(keyword, "Scenario.keyword cannot be null");
+            this.name = requireNonNull(name, "Scenario.name cannot be null");
+            this.description = requireNonNull(description, "Scenario.description cannot be null");
+            this.steps = unmodifiableList(new ArrayList<>(requireNonNull(steps, "Scenario.steps cannot be null")));
+            this.examples = unmodifiableList(new ArrayList<>(requireNonNull(examples, "Scenario.examples cannot be null")));
+            this.id = requireNonNull(id, "Scenario.id cannot be null");
         }
 
         public Location getLocation() {
@@ -1573,7 +1565,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 tags,
                 keyword,
@@ -1608,7 +1600,6 @@ public final class Messages {
         private final DataTable dataTable;
         private final String id;
 
-        @JsonCreator
         public Step(
             Location location,
             String keyword,
@@ -1617,12 +1608,12 @@ public final class Messages {
             DataTable dataTable,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Step.location cannot be null");
-            this.keyword = java.util.Objects.requireNonNull(keyword, "Step.keyword cannot be null");
-            this.text = java.util.Objects.requireNonNull(text, "Step.text cannot be null");
+            this.location = requireNonNull(location, "Step.location cannot be null");
+            this.keyword = requireNonNull(keyword, "Step.keyword cannot be null");
+            this.text = requireNonNull(text, "Step.text cannot be null");
             this.docString = docString;
             this.dataTable = dataTable;
-            this.id = java.util.Objects.requireNonNull(id, "Step.id cannot be null");
+            this.id = requireNonNull(id, "Step.id cannot be null");
         }
 
         public Location getLocation() {
@@ -1637,12 +1628,12 @@ public final class Messages {
             return text;
         }
 
-        public java.util.Optional<DocString> getDocString() {
-            return java.util.Optional.ofNullable(docString);
+        public Optional<DocString> getDocString() {
+            return Optional.ofNullable(docString);
         }
 
-        public java.util.Optional<DataTable> getDataTable() {
-            return java.util.Optional.ofNullable(dataTable);
+        public Optional<DataTable> getDataTable() {
+            return Optional.ofNullable(dataTable);
         }
 
         public String getId() {
@@ -1658,14 +1649,14 @@ public final class Messages {
                 location.equals(that.location) &&             
                 keyword.equals(that.keyword) &&             
                 text.equals(that.text) &&             
-                java.util.Objects.equals(docString, that.docString) &&             
-                java.util.Objects.equals(dataTable, that.dataTable) &&             
+                Objects.equals(docString, that.docString) &&             
+                Objects.equals(dataTable, that.dataTable) &&             
                 id.equals(that.id);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 keyword,
                 text,
@@ -1692,13 +1683,12 @@ public final class Messages {
         private final Location location;
         private final String value;
 
-        @JsonCreator
         public TableCell(
             Location location,
             String value
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "TableCell.location cannot be null");
-            this.value = java.util.Objects.requireNonNull(value, "TableCell.value cannot be null");
+            this.location = requireNonNull(location, "TableCell.location cannot be null");
+            this.value = requireNonNull(value, "TableCell.value cannot be null");
         }
 
         public Location getLocation() {
@@ -1721,7 +1711,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 value
             );
@@ -1741,15 +1731,14 @@ public final class Messages {
         private final java.util.List<TableCell> cells;
         private final String id;
 
-        @JsonCreator
         public TableRow(
             Location location,
             java.util.List<TableCell> cells,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "TableRow.location cannot be null");
-            this.cells = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(cells, "TableRow.cells cannot be null")));
-            this.id = java.util.Objects.requireNonNull(id, "TableRow.id cannot be null");
+            this.location = requireNonNull(location, "TableRow.location cannot be null");
+            this.cells = unmodifiableList(new ArrayList<>(requireNonNull(cells, "TableRow.cells cannot be null")));
+            this.id = requireNonNull(id, "TableRow.id cannot be null");
         }
 
         public Location getLocation() {
@@ -1777,7 +1766,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 cells,
                 id
@@ -1799,15 +1788,14 @@ public final class Messages {
         private final String name;
         private final String id;
 
-        @JsonCreator
         public Tag(
             Location location,
             String name,
             String id
         ) {
-            this.location = java.util.Objects.requireNonNull(location, "Tag.location cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Tag.name cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "Tag.id cannot be null");
+            this.location = requireNonNull(location, "Tag.location cannot be null");
+            this.name = requireNonNull(name, "Tag.name cannot be null");
+            this.id = requireNonNull(id, "Tag.id cannot be null");
         }
 
         public Location getLocation() {
@@ -1835,7 +1823,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 location,
                 name,
                 id
@@ -1857,14 +1845,13 @@ public final class Messages {
         private final SourceReference sourceReference;
         private final String tagExpression;
 
-        @JsonCreator
         public Hook(
             String id,
             SourceReference sourceReference,
             String tagExpression
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "Hook.id cannot be null");
-            this.sourceReference = java.util.Objects.requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
+            this.id = requireNonNull(id, "Hook.id cannot be null");
+            this.sourceReference = requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
             this.tagExpression = tagExpression;
         }
 
@@ -1876,8 +1863,8 @@ public final class Messages {
             return sourceReference;
         }
 
-        public java.util.Optional<String> getTagExpression() {
-            return java.util.Optional.ofNullable(tagExpression);
+        public Optional<String> getTagExpression() {
+            return Optional.ofNullable(tagExpression);
         }
 
         @Override
@@ -1888,12 +1875,12 @@ public final class Messages {
             return 
                 id.equals(that.id) &&             
                 sourceReference.equals(that.sourceReference) &&             
-                java.util.Objects.equals(tagExpression, that.tagExpression);            
+                Objects.equals(tagExpression, that.tagExpression);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 id,
                 sourceReference,
                 tagExpression
@@ -1914,12 +1901,11 @@ public final class Messages {
         private final Long line;
         private final Long column;
 
-        @JsonCreator
         public Location(
             Long line,
             Long column
         ) {
-            this.line = java.util.Objects.requireNonNull(line, "Location.line cannot be null");
+            this.line = requireNonNull(line, "Location.line cannot be null");
             this.column = column;
         }
 
@@ -1927,8 +1913,8 @@ public final class Messages {
             return line;
         }
 
-        public java.util.Optional<Long> getColumn() {
-            return java.util.Optional.ofNullable(column);
+        public Optional<Long> getColumn() {
+            return Optional.ofNullable(column);
         }
 
         @Override
@@ -1938,12 +1924,12 @@ public final class Messages {
             Location that = (Location) o;
             return 
                 line.equals(that.line) &&             
-                java.util.Objects.equals(column, that.column);            
+                Objects.equals(column, that.column);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 line,
                 column
             );
@@ -1966,7 +1952,6 @@ public final class Messages {
         private final Product cpu;
         private final Ci ci;
 
-        @JsonCreator
         public Meta(
             String protocolVersion,
             Product implementation,
@@ -1975,11 +1960,11 @@ public final class Messages {
             Product cpu,
             Ci ci
         ) {
-            this.protocolVersion = java.util.Objects.requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
-            this.implementation = java.util.Objects.requireNonNull(implementation, "Meta.implementation cannot be null");
-            this.runtime = java.util.Objects.requireNonNull(runtime, "Meta.runtime cannot be null");
-            this.os = java.util.Objects.requireNonNull(os, "Meta.os cannot be null");
-            this.cpu = java.util.Objects.requireNonNull(cpu, "Meta.cpu cannot be null");
+            this.protocolVersion = requireNonNull(protocolVersion, "Meta.protocolVersion cannot be null");
+            this.implementation = requireNonNull(implementation, "Meta.implementation cannot be null");
+            this.runtime = requireNonNull(runtime, "Meta.runtime cannot be null");
+            this.os = requireNonNull(os, "Meta.os cannot be null");
+            this.cpu = requireNonNull(cpu, "Meta.cpu cannot be null");
             this.ci = ci;
         }
 
@@ -2003,8 +1988,8 @@ public final class Messages {
             return cpu;
         }
 
-        public java.util.Optional<Ci> getCi() {
-            return java.util.Optional.ofNullable(ci);
+        public Optional<Ci> getCi() {
+            return Optional.ofNullable(ci);
         }
 
         @Override
@@ -2018,12 +2003,12 @@ public final class Messages {
                 runtime.equals(that.runtime) &&             
                 os.equals(that.os) &&             
                 cpu.equals(that.cpu) &&             
-                java.util.Objects.equals(ci, that.ci);            
+                Objects.equals(ci, that.ci);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 protocolVersion,
                 implementation,
                 runtime,
@@ -2052,14 +2037,13 @@ public final class Messages {
         private final String buildNumber;
         private final Git git;
 
-        @JsonCreator
         public Ci(
             String name,
             String url,
             String buildNumber,
             Git git
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "Ci.name cannot be null");
+            this.name = requireNonNull(name, "Ci.name cannot be null");
             this.url = url;
             this.buildNumber = buildNumber;
             this.git = git;
@@ -2069,16 +2053,16 @@ public final class Messages {
             return name;
         }
 
-        public java.util.Optional<String> getUrl() {
-            return java.util.Optional.ofNullable(url);
+        public Optional<String> getUrl() {
+            return Optional.ofNullable(url);
         }
 
-        public java.util.Optional<String> getBuildNumber() {
-            return java.util.Optional.ofNullable(buildNumber);
+        public Optional<String> getBuildNumber() {
+            return Optional.ofNullable(buildNumber);
         }
 
-        public java.util.Optional<Git> getGit() {
-            return java.util.Optional.ofNullable(git);
+        public Optional<Git> getGit() {
+            return Optional.ofNullable(git);
         }
 
         @Override
@@ -2088,14 +2072,14 @@ public final class Messages {
             Ci that = (Ci) o;
             return 
                 name.equals(that.name) &&             
-                java.util.Objects.equals(url, that.url) &&             
-                java.util.Objects.equals(buildNumber, that.buildNumber) &&             
-                java.util.Objects.equals(git, that.git);            
+                Objects.equals(url, that.url) &&             
+                Objects.equals(buildNumber, that.buildNumber) &&             
+                Objects.equals(git, that.git);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 name,
                 url,
                 buildNumber,
@@ -2120,15 +2104,14 @@ public final class Messages {
         private final String branch;
         private final String tag;
 
-        @JsonCreator
         public Git(
             String remote,
             String revision,
             String branch,
             String tag
         ) {
-            this.remote = java.util.Objects.requireNonNull(remote, "Git.remote cannot be null");
-            this.revision = java.util.Objects.requireNonNull(revision, "Git.revision cannot be null");
+            this.remote = requireNonNull(remote, "Git.remote cannot be null");
+            this.revision = requireNonNull(revision, "Git.revision cannot be null");
             this.branch = branch;
             this.tag = tag;
         }
@@ -2141,12 +2124,12 @@ public final class Messages {
             return revision;
         }
 
-        public java.util.Optional<String> getBranch() {
-            return java.util.Optional.ofNullable(branch);
+        public Optional<String> getBranch() {
+            return Optional.ofNullable(branch);
         }
 
-        public java.util.Optional<String> getTag() {
-            return java.util.Optional.ofNullable(tag);
+        public Optional<String> getTag() {
+            return Optional.ofNullable(tag);
         }
 
         @Override
@@ -2157,13 +2140,13 @@ public final class Messages {
             return 
                 remote.equals(that.remote) &&             
                 revision.equals(that.revision) &&             
-                java.util.Objects.equals(branch, that.branch) &&             
-                java.util.Objects.equals(tag, that.tag);            
+                Objects.equals(branch, that.branch) &&             
+                Objects.equals(tag, that.tag);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 remote,
                 revision,
                 branch,
@@ -2186,12 +2169,11 @@ public final class Messages {
         private final String name;
         private final String version;
 
-        @JsonCreator
         public Product(
             String name,
             String version
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "Product.name cannot be null");
+            this.name = requireNonNull(name, "Product.name cannot be null");
             this.version = version;
         }
 
@@ -2199,8 +2181,8 @@ public final class Messages {
             return name;
         }
 
-        public java.util.Optional<String> getVersion() {
-            return java.util.Optional.ofNullable(version);
+        public Optional<String> getVersion() {
+            return Optional.ofNullable(version);
         }
 
         @Override
@@ -2210,12 +2192,12 @@ public final class Messages {
             Product that = (Product) o;
             return 
                 name.equals(that.name) &&             
-                java.util.Objects.equals(version, that.version);            
+                Objects.equals(version, that.version);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 name,
                 version
             );
@@ -2237,7 +2219,6 @@ public final class Messages {
         private final Boolean useForSnippets;
         private final String id;
 
-        @JsonCreator
         public ParameterType(
             String name,
             java.util.List<String> regularExpressions,
@@ -2245,11 +2226,11 @@ public final class Messages {
             Boolean useForSnippets,
             String id
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "ParameterType.name cannot be null");
-            this.regularExpressions = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null")));
-            this.preferForRegularExpressionMatch = java.util.Objects.requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
-            this.useForSnippets = java.util.Objects.requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "ParameterType.id cannot be null");
+            this.name = requireNonNull(name, "ParameterType.name cannot be null");
+            this.regularExpressions = unmodifiableList(new ArrayList<>(requireNonNull(regularExpressions, "ParameterType.regularExpressions cannot be null")));
+            this.preferForRegularExpressionMatch = requireNonNull(preferForRegularExpressionMatch, "ParameterType.preferForRegularExpressionMatch cannot be null");
+            this.useForSnippets = requireNonNull(useForSnippets, "ParameterType.useForSnippets cannot be null");
+            this.id = requireNonNull(id, "ParameterType.id cannot be null");
         }
 
         public String getName() {
@@ -2287,7 +2268,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 name,
                 regularExpressions,
                 preferForRegularExpressionMatch,
@@ -2312,13 +2293,12 @@ public final class Messages {
         private final SourceReference source;
         private final String message;
 
-        @JsonCreator
         public ParseError(
             SourceReference source,
             String message
         ) {
-            this.source = java.util.Objects.requireNonNull(source, "ParseError.source cannot be null");
-            this.message = java.util.Objects.requireNonNull(message, "ParseError.message cannot be null");
+            this.source = requireNonNull(source, "ParseError.source cannot be null");
+            this.message = requireNonNull(message, "ParseError.message cannot be null");
         }
 
         public SourceReference getSource() {
@@ -2341,7 +2321,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 source,
                 message
             );
@@ -2365,7 +2345,6 @@ public final class Messages {
         private final java.util.List<PickleTag> tags;
         private final java.util.List<String> astNodeIds;
 
-        @JsonCreator
         public Pickle(
             String id,
             String uri,
@@ -2375,13 +2354,13 @@ public final class Messages {
             java.util.List<PickleTag> tags,
             java.util.List<String> astNodeIds
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "Pickle.id cannot be null");
-            this.uri = java.util.Objects.requireNonNull(uri, "Pickle.uri cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "Pickle.name cannot be null");
-            this.language = java.util.Objects.requireNonNull(language, "Pickle.language cannot be null");
-            this.steps = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(steps, "Pickle.steps cannot be null")));
-            this.tags = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(tags, "Pickle.tags cannot be null")));
-            this.astNodeIds = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null")));
+            this.id = requireNonNull(id, "Pickle.id cannot be null");
+            this.uri = requireNonNull(uri, "Pickle.uri cannot be null");
+            this.name = requireNonNull(name, "Pickle.name cannot be null");
+            this.language = requireNonNull(language, "Pickle.language cannot be null");
+            this.steps = unmodifiableList(new ArrayList<>(requireNonNull(steps, "Pickle.steps cannot be null")));
+            this.tags = unmodifiableList(new ArrayList<>(requireNonNull(tags, "Pickle.tags cannot be null")));
+            this.astNodeIds = unmodifiableList(new ArrayList<>(requireNonNull(astNodeIds, "Pickle.astNodeIds cannot be null")));
         }
 
         public String getId() {
@@ -2429,7 +2408,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 id,
                 uri,
                 name,
@@ -2458,17 +2437,16 @@ public final class Messages {
         private final String mediaType;
         private final String content;
 
-        @JsonCreator
         public PickleDocString(
             String mediaType,
             String content
         ) {
             this.mediaType = mediaType;
-            this.content = java.util.Objects.requireNonNull(content, "PickleDocString.content cannot be null");
+            this.content = requireNonNull(content, "PickleDocString.content cannot be null");
         }
 
-        public java.util.Optional<String> getMediaType() {
-            return java.util.Optional.ofNullable(mediaType);
+        public Optional<String> getMediaType() {
+            return Optional.ofNullable(mediaType);
         }
 
         public String getContent() {
@@ -2481,13 +2459,13 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             PickleDocString that = (PickleDocString) o;
             return 
-                java.util.Objects.equals(mediaType, that.mediaType) &&             
+                Objects.equals(mediaType, that.mediaType) &&             
                 content.equals(that.content);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 mediaType,
                 content
             );
@@ -2508,7 +2486,6 @@ public final class Messages {
         private final String id;
         private final String text;
 
-        @JsonCreator
         public PickleStep(
             PickleStepArgument argument,
             java.util.List<String> astNodeIds,
@@ -2516,13 +2493,13 @@ public final class Messages {
             String text
         ) {
             this.argument = argument;
-            this.astNodeIds = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null")));
-            this.id = java.util.Objects.requireNonNull(id, "PickleStep.id cannot be null");
-            this.text = java.util.Objects.requireNonNull(text, "PickleStep.text cannot be null");
+            this.astNodeIds = unmodifiableList(new ArrayList<>(requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null")));
+            this.id = requireNonNull(id, "PickleStep.id cannot be null");
+            this.text = requireNonNull(text, "PickleStep.text cannot be null");
         }
 
-        public java.util.Optional<PickleStepArgument> getArgument() {
-            return java.util.Optional.ofNullable(argument);
+        public Optional<PickleStepArgument> getArgument() {
+            return Optional.ofNullable(argument);
         }
 
         public java.util.List<String> getAstNodeIds() {
@@ -2543,7 +2520,7 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             PickleStep that = (PickleStep) o;
             return 
-                java.util.Objects.equals(argument, that.argument) &&             
+                Objects.equals(argument, that.argument) &&             
                 astNodeIds.equals(that.astNodeIds) &&             
                 id.equals(that.id) &&             
                 text.equals(that.text);            
@@ -2551,7 +2528,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 argument,
                 astNodeIds,
                 id,
@@ -2574,21 +2551,20 @@ public final class Messages {
         private final PickleDocString docString;
         private final PickleTable dataTable;
 
-        public PickleStepArgument(PickleDocString docString) {
-            this(
-                java.util.Objects.requireNonNull(docString, "PickleStepArgument.docString cannot be null"),
+        public static PickleStepArgument of(PickleDocString docString) {
+            return new PickleStepArgument(
+                requireNonNull(docString, "PickleStepArgument.docString cannot be null"),
                 null
             );
         }
 
-        public PickleStepArgument(PickleTable dataTable) {
-            this(
+        public static PickleStepArgument of(PickleTable dataTable) {
+            return new PickleStepArgument(
                 null,
-                java.util.Objects.requireNonNull(dataTable, "PickleStepArgument.dataTable cannot be null")
+                requireNonNull(dataTable, "PickleStepArgument.dataTable cannot be null")
             );
         }
 
-        @JsonCreator
         public PickleStepArgument(
             PickleDocString docString,
             PickleTable dataTable
@@ -2597,12 +2573,12 @@ public final class Messages {
             this.dataTable = dataTable;
         }
 
-        public java.util.Optional<PickleDocString> getDocString() {
-            return java.util.Optional.ofNullable(docString);
+        public Optional<PickleDocString> getDocString() {
+            return Optional.ofNullable(docString);
         }
 
-        public java.util.Optional<PickleTable> getDataTable() {
-            return java.util.Optional.ofNullable(dataTable);
+        public Optional<PickleTable> getDataTable() {
+            return Optional.ofNullable(dataTable);
         }
 
         @Override
@@ -2611,13 +2587,13 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             PickleStepArgument that = (PickleStepArgument) o;
             return 
-                java.util.Objects.equals(docString, that.docString) &&             
-                java.util.Objects.equals(dataTable, that.dataTable);            
+                Objects.equals(docString, that.docString) &&             
+                Objects.equals(dataTable, that.dataTable);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 docString,
                 dataTable
             );
@@ -2635,11 +2611,10 @@ public final class Messages {
     public static final class PickleTable {
         private final java.util.List<PickleTableRow> rows;
 
-        @JsonCreator
         public PickleTable(
             java.util.List<PickleTableRow> rows
         ) {
-            this.rows = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(rows, "PickleTable.rows cannot be null")));
+            this.rows = unmodifiableList(new ArrayList<>(requireNonNull(rows, "PickleTable.rows cannot be null")));
         }
 
         public java.util.List<PickleTableRow> getRows() {
@@ -2657,7 +2632,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 rows
             );
         }
@@ -2673,11 +2648,10 @@ public final class Messages {
     public static final class PickleTableCell {
         private final String value;
 
-        @JsonCreator
         public PickleTableCell(
             String value
         ) {
-            this.value = java.util.Objects.requireNonNull(value, "PickleTableCell.value cannot be null");
+            this.value = requireNonNull(value, "PickleTableCell.value cannot be null");
         }
 
         public String getValue() {
@@ -2695,7 +2669,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 value
             );
         }
@@ -2711,11 +2685,10 @@ public final class Messages {
     public static final class PickleTableRow {
         private final java.util.List<PickleTableCell> cells;
 
-        @JsonCreator
         public PickleTableRow(
             java.util.List<PickleTableCell> cells
         ) {
-            this.cells = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(cells, "PickleTableRow.cells cannot be null")));
+            this.cells = unmodifiableList(new ArrayList<>(requireNonNull(cells, "PickleTableRow.cells cannot be null")));
         }
 
         public java.util.List<PickleTableCell> getCells() {
@@ -2733,7 +2706,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 cells
             );
         }
@@ -2750,13 +2723,12 @@ public final class Messages {
         private final String name;
         private final String astNodeId;
 
-        @JsonCreator
         public PickleTag(
             String name,
             String astNodeId
         ) {
-            this.name = java.util.Objects.requireNonNull(name, "PickleTag.name cannot be null");
-            this.astNodeId = java.util.Objects.requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
+            this.name = requireNonNull(name, "PickleTag.name cannot be null");
+            this.astNodeId = requireNonNull(astNodeId, "PickleTag.astNodeId cannot be null");
         }
 
         public String getName() {
@@ -2779,7 +2751,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 name,
                 astNodeId
             );
@@ -2799,15 +2771,14 @@ public final class Messages {
         private final String data;
         private final SourceMediaType mediaType;
 
-        @JsonCreator
         public Source(
             String uri,
             String data,
             SourceMediaType mediaType
         ) {
-            this.uri = java.util.Objects.requireNonNull(uri, "Source.uri cannot be null");
-            this.data = java.util.Objects.requireNonNull(data, "Source.data cannot be null");
-            this.mediaType = java.util.Objects.requireNonNull(mediaType, "Source.mediaType cannot be null");
+            this.uri = requireNonNull(uri, "Source.uri cannot be null");
+            this.data = requireNonNull(data, "Source.data cannot be null");
+            this.mediaType = requireNonNull(mediaType, "Source.mediaType cannot be null");
         }
 
         public String getUri() {
@@ -2835,7 +2806,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 uri,
                 data,
                 mediaType
@@ -2858,43 +2829,42 @@ public final class Messages {
         private final JavaStackTraceElement javaStackTraceElement;
         private final Location location;
 
-        public SourceReference(String uri) {
-            this(
-                java.util.Objects.requireNonNull(uri, "SourceReference.uri cannot be null"),
+        public static SourceReference of(String uri) {
+            return new SourceReference(
+                requireNonNull(uri, "SourceReference.uri cannot be null"),
                 null,
                 null,
                 null
             );
         }
 
-        public SourceReference(JavaMethod javaMethod) {
-            this(
+        public static SourceReference of(JavaMethod javaMethod) {
+            return new SourceReference(
                 null,
-                java.util.Objects.requireNonNull(javaMethod, "SourceReference.javaMethod cannot be null"),
+                requireNonNull(javaMethod, "SourceReference.javaMethod cannot be null"),
                 null,
                 null
             );
         }
 
-        public SourceReference(JavaStackTraceElement javaStackTraceElement) {
-            this(
+        public static SourceReference of(JavaStackTraceElement javaStackTraceElement) {
+            return new SourceReference(
                 null,
                 null,
-                java.util.Objects.requireNonNull(javaStackTraceElement, "SourceReference.javaStackTraceElement cannot be null"),
+                requireNonNull(javaStackTraceElement, "SourceReference.javaStackTraceElement cannot be null"),
                 null
             );
         }
 
-        public SourceReference(Location location) {
-            this(
+        public static SourceReference of(Location location) {
+            return new SourceReference(
                 null,
                 null,
                 null,
-                java.util.Objects.requireNonNull(location, "SourceReference.location cannot be null")
+                requireNonNull(location, "SourceReference.location cannot be null")
             );
         }
 
-        @JsonCreator
         public SourceReference(
             String uri,
             JavaMethod javaMethod,
@@ -2907,20 +2877,20 @@ public final class Messages {
             this.location = location;
         }
 
-        public java.util.Optional<String> getUri() {
-            return java.util.Optional.ofNullable(uri);
+        public Optional<String> getUri() {
+            return Optional.ofNullable(uri);
         }
 
-        public java.util.Optional<JavaMethod> getJavaMethod() {
-            return java.util.Optional.ofNullable(javaMethod);
+        public Optional<JavaMethod> getJavaMethod() {
+            return Optional.ofNullable(javaMethod);
         }
 
-        public java.util.Optional<JavaStackTraceElement> getJavaStackTraceElement() {
-            return java.util.Optional.ofNullable(javaStackTraceElement);
+        public Optional<JavaStackTraceElement> getJavaStackTraceElement() {
+            return Optional.ofNullable(javaStackTraceElement);
         }
 
-        public java.util.Optional<Location> getLocation() {
-            return java.util.Optional.ofNullable(location);
+        public Optional<Location> getLocation() {
+            return Optional.ofNullable(location);
         }
 
         @Override
@@ -2929,15 +2899,15 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             SourceReference that = (SourceReference) o;
             return 
-                java.util.Objects.equals(uri, that.uri) &&             
-                java.util.Objects.equals(javaMethod, that.javaMethod) &&             
-                java.util.Objects.equals(javaStackTraceElement, that.javaStackTraceElement) &&             
-                java.util.Objects.equals(location, that.location);            
+                Objects.equals(uri, that.uri) &&             
+                Objects.equals(javaMethod, that.javaMethod) &&             
+                Objects.equals(javaStackTraceElement, that.javaStackTraceElement) &&             
+                Objects.equals(location, that.location);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 uri,
                 javaMethod,
                 javaStackTraceElement,
@@ -2961,15 +2931,14 @@ public final class Messages {
         private final String methodName;
         private final java.util.List<String> methodParameterTypes;
 
-        @JsonCreator
         public JavaMethod(
             String className,
             String methodName,
             java.util.List<String> methodParameterTypes
         ) {
-            this.className = java.util.Objects.requireNonNull(className, "JavaMethod.className cannot be null");
-            this.methodName = java.util.Objects.requireNonNull(methodName, "JavaMethod.methodName cannot be null");
-            this.methodParameterTypes = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null")));
+            this.className = requireNonNull(className, "JavaMethod.className cannot be null");
+            this.methodName = requireNonNull(methodName, "JavaMethod.methodName cannot be null");
+            this.methodParameterTypes = unmodifiableList(new ArrayList<>(requireNonNull(methodParameterTypes, "JavaMethod.methodParameterTypes cannot be null")));
         }
 
         public String getClassName() {
@@ -2997,7 +2966,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 className,
                 methodName,
                 methodParameterTypes
@@ -3019,15 +2988,14 @@ public final class Messages {
         private final String fileName;
         private final String methodName;
 
-        @JsonCreator
         public JavaStackTraceElement(
             String className,
             String fileName,
             String methodName
         ) {
-            this.className = java.util.Objects.requireNonNull(className, "JavaStackTraceElement.className cannot be null");
-            this.fileName = java.util.Objects.requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
-            this.methodName = java.util.Objects.requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
+            this.className = requireNonNull(className, "JavaStackTraceElement.className cannot be null");
+            this.fileName = requireNonNull(fileName, "JavaStackTraceElement.fileName cannot be null");
+            this.methodName = requireNonNull(methodName, "JavaStackTraceElement.methodName cannot be null");
         }
 
         public String getClassName() {
@@ -3055,7 +3023,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 className,
                 fileName,
                 methodName
@@ -3077,15 +3045,14 @@ public final class Messages {
         private final StepDefinitionPattern pattern;
         private final SourceReference sourceReference;
 
-        @JsonCreator
         public StepDefinition(
             String id,
             StepDefinitionPattern pattern,
             SourceReference sourceReference
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "StepDefinition.id cannot be null");
-            this.pattern = java.util.Objects.requireNonNull(pattern, "StepDefinition.pattern cannot be null");
-            this.sourceReference = java.util.Objects.requireNonNull(sourceReference, "StepDefinition.sourceReference cannot be null");
+            this.id = requireNonNull(id, "StepDefinition.id cannot be null");
+            this.pattern = requireNonNull(pattern, "StepDefinition.pattern cannot be null");
+            this.sourceReference = requireNonNull(sourceReference, "StepDefinition.sourceReference cannot be null");
         }
 
         public String getId() {
@@ -3113,7 +3080,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 id,
                 pattern,
                 sourceReference
@@ -3134,13 +3101,12 @@ public final class Messages {
         private final String source;
         private final StepDefinitionPatternType type;
 
-        @JsonCreator
         public StepDefinitionPattern(
             String source,
             StepDefinitionPatternType type
         ) {
-            this.source = java.util.Objects.requireNonNull(source, "StepDefinitionPattern.source cannot be null");
-            this.type = java.util.Objects.requireNonNull(type, "StepDefinitionPattern.type cannot be null");
+            this.source = requireNonNull(source, "StepDefinitionPattern.source cannot be null");
+            this.type = requireNonNull(type, "StepDefinitionPattern.type cannot be null");
         }
 
         public String getSource() {
@@ -3163,7 +3129,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 source,
                 type
             );
@@ -3183,15 +3149,14 @@ public final class Messages {
         private final String pickleId;
         private final java.util.List<TestStep> testSteps;
 
-        @JsonCreator
         public TestCase(
             String id,
             String pickleId,
             java.util.List<TestStep> testSteps
         ) {
-            this.id = java.util.Objects.requireNonNull(id, "TestCase.id cannot be null");
-            this.pickleId = java.util.Objects.requireNonNull(pickleId, "TestCase.pickleId cannot be null");
-            this.testSteps = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(testSteps, "TestCase.testSteps cannot be null")));
+            this.id = requireNonNull(id, "TestCase.id cannot be null");
+            this.pickleId = requireNonNull(pickleId, "TestCase.pickleId cannot be null");
+            this.testSteps = unmodifiableList(new ArrayList<>(requireNonNull(testSteps, "TestCase.testSteps cannot be null")));
         }
 
         public String getId() {
@@ -3219,7 +3184,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 id,
                 pickleId,
                 testSteps
@@ -3241,13 +3206,12 @@ public final class Messages {
         private final Long start;
         private final String value;
 
-        @JsonCreator
         public Group(
             java.util.List<Group> children,
             Long start,
             String value
         ) {
-            this.children = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(children, "Group.children cannot be null")));
+            this.children = unmodifiableList(new ArrayList<>(requireNonNull(children, "Group.children cannot be null")));
             this.start = start;
             this.value = value;
         }
@@ -3256,12 +3220,12 @@ public final class Messages {
             return children;
         }
 
-        public java.util.Optional<Long> getStart() {
-            return java.util.Optional.ofNullable(start);
+        public Optional<Long> getStart() {
+            return Optional.ofNullable(start);
         }
 
-        public java.util.Optional<String> getValue() {
-            return java.util.Optional.ofNullable(value);
+        public Optional<String> getValue() {
+            return Optional.ofNullable(value);
         }
 
         @Override
@@ -3271,13 +3235,13 @@ public final class Messages {
             Group that = (Group) o;
             return 
                 children.equals(that.children) &&             
-                java.util.Objects.equals(start, that.start) &&             
-                java.util.Objects.equals(value, that.value);            
+                Objects.equals(start, that.start) &&             
+                Objects.equals(value, that.value);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 children,
                 start,
                 value
@@ -3298,12 +3262,11 @@ public final class Messages {
         private final Group group;
         private final String parameterTypeName;
 
-        @JsonCreator
         public StepMatchArgument(
             Group group,
             String parameterTypeName
         ) {
-            this.group = java.util.Objects.requireNonNull(group, "StepMatchArgument.group cannot be null");
+            this.group = requireNonNull(group, "StepMatchArgument.group cannot be null");
             this.parameterTypeName = parameterTypeName;
         }
 
@@ -3311,8 +3274,8 @@ public final class Messages {
             return group;
         }
 
-        public java.util.Optional<String> getParameterTypeName() {
-            return java.util.Optional.ofNullable(parameterTypeName);
+        public Optional<String> getParameterTypeName() {
+            return Optional.ofNullable(parameterTypeName);
         }
 
         @Override
@@ -3322,12 +3285,12 @@ public final class Messages {
             StepMatchArgument that = (StepMatchArgument) o;
             return 
                 group.equals(that.group) &&             
-                java.util.Objects.equals(parameterTypeName, that.parameterTypeName);            
+                Objects.equals(parameterTypeName, that.parameterTypeName);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 group,
                 parameterTypeName
             );
@@ -3345,11 +3308,10 @@ public final class Messages {
     public static final class StepMatchArgumentsList {
         private final java.util.List<StepMatchArgument> stepMatchArguments;
 
-        @JsonCreator
         public StepMatchArgumentsList(
             java.util.List<StepMatchArgument> stepMatchArguments
         ) {
-            this.stepMatchArguments = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null")));
+            this.stepMatchArguments = unmodifiableList(new ArrayList<>(requireNonNull(stepMatchArguments, "StepMatchArgumentsList.stepMatchArguments cannot be null")));
         }
 
         public java.util.List<StepMatchArgument> getStepMatchArguments() {
@@ -3367,7 +3329,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 stepMatchArguments
             );
         }
@@ -3387,7 +3349,6 @@ public final class Messages {
         private final java.util.List<String> stepDefinitionIds;
         private final java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists;
 
-        @JsonCreator
         public TestStep(
             String hookId,
             String id,
@@ -3396,30 +3357,30 @@ public final class Messages {
             java.util.List<StepMatchArgumentsList> stepMatchArgumentsLists
         ) {
             this.hookId = hookId;
-            this.id = java.util.Objects.requireNonNull(id, "TestStep.id cannot be null");
+            this.id = requireNonNull(id, "TestStep.id cannot be null");
             this.pickleStepId = pickleStepId;
-            this.stepDefinitionIds = stepDefinitionIds == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(stepDefinitionIds));
-            this.stepMatchArgumentsLists = stepMatchArgumentsLists == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(stepMatchArgumentsLists));
+            this.stepDefinitionIds = stepDefinitionIds == null ? null : unmodifiableList(new ArrayList<>(stepDefinitionIds));
+            this.stepMatchArgumentsLists = stepMatchArgumentsLists == null ? null : unmodifiableList(new ArrayList<>(stepMatchArgumentsLists));
         }
 
-        public java.util.Optional<String> getHookId() {
-            return java.util.Optional.ofNullable(hookId);
+        public Optional<String> getHookId() {
+            return Optional.ofNullable(hookId);
         }
 
         public String getId() {
             return id;
         }
 
-        public java.util.Optional<String> getPickleStepId() {
-            return java.util.Optional.ofNullable(pickleStepId);
+        public Optional<String> getPickleStepId() {
+            return Optional.ofNullable(pickleStepId);
         }
 
-        public java.util.Optional<java.util.List<String>> getStepDefinitionIds() {
-            return java.util.Optional.ofNullable(stepDefinitionIds);
+        public Optional<java.util.List<String>> getStepDefinitionIds() {
+            return Optional.ofNullable(stepDefinitionIds);
         }
 
-        public java.util.Optional<java.util.List<StepMatchArgumentsList>> getStepMatchArgumentsLists() {
-            return java.util.Optional.ofNullable(stepMatchArgumentsLists);
+        public Optional<java.util.List<StepMatchArgumentsList>> getStepMatchArgumentsLists() {
+            return Optional.ofNullable(stepMatchArgumentsLists);
         }
 
         @Override
@@ -3428,16 +3389,16 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             TestStep that = (TestStep) o;
             return 
-                java.util.Objects.equals(hookId, that.hookId) &&             
+                Objects.equals(hookId, that.hookId) &&             
                 id.equals(that.id) &&             
-                java.util.Objects.equals(pickleStepId, that.pickleStepId) &&             
-                java.util.Objects.equals(stepDefinitionIds, that.stepDefinitionIds) &&             
-                java.util.Objects.equals(stepMatchArgumentsLists, that.stepMatchArgumentsLists);            
+                Objects.equals(pickleStepId, that.pickleStepId) &&             
+                Objects.equals(stepDefinitionIds, that.stepDefinitionIds) &&             
+                Objects.equals(stepMatchArgumentsLists, that.stepMatchArgumentsLists);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 hookId,
                 id,
                 pickleStepId,
@@ -3463,15 +3424,14 @@ public final class Messages {
         private final Timestamp timestamp;
         private final Boolean willBeRetried;
 
-        @JsonCreator
         public TestCaseFinished(
             String testCaseStartedId,
             Timestamp timestamp,
             Boolean willBeRetried
         ) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
-            this.willBeRetried = java.util.Objects.requireNonNull(willBeRetried, "TestCaseFinished.willBeRetried cannot be null");
+            this.testCaseStartedId = requireNonNull(testCaseStartedId, "TestCaseFinished.testCaseStartedId cannot be null");
+            this.timestamp = requireNonNull(timestamp, "TestCaseFinished.timestamp cannot be null");
+            this.willBeRetried = requireNonNull(willBeRetried, "TestCaseFinished.willBeRetried cannot be null");
         }
 
         public String getTestCaseStartedId() {
@@ -3499,7 +3459,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 testCaseStartedId,
                 timestamp,
                 willBeRetried
@@ -3522,17 +3482,16 @@ public final class Messages {
         private final String testCaseId;
         private final Timestamp timestamp;
 
-        @JsonCreator
         public TestCaseStarted(
             Long attempt,
             String id,
             String testCaseId,
             Timestamp timestamp
         ) {
-            this.attempt = java.util.Objects.requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
-            this.id = java.util.Objects.requireNonNull(id, "TestCaseStarted.id cannot be null");
-            this.testCaseId = java.util.Objects.requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestCaseStarted.timestamp cannot be null");
+            this.attempt = requireNonNull(attempt, "TestCaseStarted.attempt cannot be null");
+            this.id = requireNonNull(id, "TestCaseStarted.id cannot be null");
+            this.testCaseId = requireNonNull(testCaseId, "TestCaseStarted.testCaseId cannot be null");
+            this.timestamp = requireNonNull(timestamp, "TestCaseStarted.timestamp cannot be null");
         }
 
         public Long getAttempt() {
@@ -3565,7 +3524,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 attempt,
                 id,
                 testCaseId,
@@ -3589,19 +3548,18 @@ public final class Messages {
         private final Boolean success;
         private final Timestamp timestamp;
 
-        @JsonCreator
         public TestRunFinished(
             String message,
             Boolean success,
             Timestamp timestamp
         ) {
             this.message = message;
-            this.success = java.util.Objects.requireNonNull(success, "TestRunFinished.success cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
+            this.success = requireNonNull(success, "TestRunFinished.success cannot be null");
+            this.timestamp = requireNonNull(timestamp, "TestRunFinished.timestamp cannot be null");
         }
 
-        public java.util.Optional<String> getMessage() {
-            return java.util.Optional.ofNullable(message);
+        public Optional<String> getMessage() {
+            return Optional.ofNullable(message);
         }
 
         public Boolean getSuccess() {
@@ -3618,14 +3576,14 @@ public final class Messages {
             if (o == null || getClass() != o.getClass()) return false;
             TestRunFinished that = (TestRunFinished) o;
             return 
-                java.util.Objects.equals(message, that.message) &&             
+                Objects.equals(message, that.message) &&             
                 success.equals(that.success) &&             
                 timestamp.equals(that.timestamp);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 message,
                 success,
                 timestamp
@@ -3645,11 +3603,10 @@ public final class Messages {
     public static final class TestRunStarted {
         private final Timestamp timestamp;
 
-        @JsonCreator
         public TestRunStarted(
             Timestamp timestamp
         ) {
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
+            this.timestamp = requireNonNull(timestamp, "TestRunStarted.timestamp cannot be null");
         }
 
         public Timestamp getTimestamp() {
@@ -3667,7 +3624,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 timestamp
             );
         }
@@ -3686,17 +3643,16 @@ public final class Messages {
         private final TestStepResult testStepResult;
         private final Timestamp timestamp;
 
-        @JsonCreator
         public TestStepFinished(
             String testCaseStartedId,
             String testStepId,
             TestStepResult testStepResult,
             Timestamp timestamp
         ) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
-            this.testStepId = java.util.Objects.requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
-            this.testStepResult = java.util.Objects.requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestStepFinished.timestamp cannot be null");
+            this.testCaseStartedId = requireNonNull(testCaseStartedId, "TestStepFinished.testCaseStartedId cannot be null");
+            this.testStepId = requireNonNull(testStepId, "TestStepFinished.testStepId cannot be null");
+            this.testStepResult = requireNonNull(testStepResult, "TestStepFinished.testStepResult cannot be null");
+            this.timestamp = requireNonNull(timestamp, "TestStepFinished.timestamp cannot be null");
         }
 
         public String getTestCaseStartedId() {
@@ -3729,7 +3685,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 testCaseStartedId,
                 testStepId,
                 testStepResult,
@@ -3753,23 +3709,22 @@ public final class Messages {
         private final String message;
         private final TestStepResultStatus status;
 
-        @JsonCreator
         public TestStepResult(
             Duration duration,
             String message,
             TestStepResultStatus status
         ) {
-            this.duration = java.util.Objects.requireNonNull(duration, "TestStepResult.duration cannot be null");
+            this.duration = requireNonNull(duration, "TestStepResult.duration cannot be null");
             this.message = message;
-            this.status = java.util.Objects.requireNonNull(status, "TestStepResult.status cannot be null");
+            this.status = requireNonNull(status, "TestStepResult.status cannot be null");
         }
 
         public Duration getDuration() {
             return duration;
         }
 
-        public java.util.Optional<String> getMessage() {
-            return java.util.Optional.ofNullable(message);
+        public Optional<String> getMessage() {
+            return Optional.ofNullable(message);
         }
 
         public TestStepResultStatus getStatus() {
@@ -3783,13 +3738,13 @@ public final class Messages {
             TestStepResult that = (TestStepResult) o;
             return 
                 duration.equals(that.duration) &&             
-                java.util.Objects.equals(message, that.message) &&             
+                Objects.equals(message, that.message) &&             
                 status.equals(that.status);            
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 duration,
                 message,
                 status
@@ -3811,15 +3766,14 @@ public final class Messages {
         private final String testStepId;
         private final Timestamp timestamp;
 
-        @JsonCreator
         public TestStepStarted(
             String testCaseStartedId,
             String testStepId,
             Timestamp timestamp
         ) {
-            this.testCaseStartedId = java.util.Objects.requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
-            this.testStepId = java.util.Objects.requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
-            this.timestamp = java.util.Objects.requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
+            this.testCaseStartedId = requireNonNull(testCaseStartedId, "TestStepStarted.testCaseStartedId cannot be null");
+            this.testStepId = requireNonNull(testStepId, "TestStepStarted.testStepId cannot be null");
+            this.timestamp = requireNonNull(timestamp, "TestStepStarted.timestamp cannot be null");
         }
 
         public String getTestCaseStartedId() {
@@ -3847,7 +3801,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 testCaseStartedId,
                 testStepId,
                 timestamp
@@ -3868,13 +3822,12 @@ public final class Messages {
         private final Long seconds;
         private final Long nanos;
 
-        @JsonCreator
         public Timestamp(
             Long seconds,
             Long nanos
         ) {
-            this.seconds = java.util.Objects.requireNonNull(seconds, "Timestamp.seconds cannot be null");
-            this.nanos = java.util.Objects.requireNonNull(nanos, "Timestamp.nanos cannot be null");
+            this.seconds = requireNonNull(seconds, "Timestamp.seconds cannot be null");
+            this.nanos = requireNonNull(nanos, "Timestamp.nanos cannot be null");
         }
 
         public Long getSeconds() {
@@ -3897,7 +3850,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 seconds,
                 nanos
             );
@@ -3916,13 +3869,12 @@ public final class Messages {
         private final String expression;
         private final String name;
 
-        @JsonCreator
         public UndefinedParameterType(
             String expression,
             String name
         ) {
-            this.expression = java.util.Objects.requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
-            this.name = java.util.Objects.requireNonNull(name, "UndefinedParameterType.name cannot be null");
+            this.expression = requireNonNull(expression, "UndefinedParameterType.expression cannot be null");
+            this.name = requireNonNull(name, "UndefinedParameterType.name cannot be null");
         }
 
         public String getExpression() {
@@ -3945,7 +3897,7 @@ public final class Messages {
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
                 expression,
                 name
             );

@@ -52,7 +52,7 @@ public class Gherkin {
     }
 
     public static Envelope makeSourceEnvelope(String data, String uri) {
-        return new Envelope(new Source(uri, data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+        return Envelope.of(new Source(uri, data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
     }
 
     public Stream<Envelope> messages() {
@@ -115,7 +115,7 @@ public class Gherkin {
 
             if (includeGherkinDocument) {
                 gherkinDocument = parser.parse(data, uri);
-                messages.add(new Envelope(gherkinDocument));
+                messages.add(Envelope.of(gherkinDocument));
             }
             if (includePickles) {
                 if (gherkinDocument == null) {
@@ -124,7 +124,7 @@ public class Gherkin {
                 PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
                 List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
                 for (Pickle pickle : pickles) {
-                    messages.add(new Envelope(pickle));
+                    messages.add(Envelope.of(pickle));
                 }
             }
         } catch (ParserException.CompositeParserException e) {
@@ -154,6 +154,6 @@ public class Gherkin {
                 ),
                 e.getMessage()
         );
-        messages.add(new Envelope(parseError));
+        messages.add(Envelope.of(parseError));
     }
 }

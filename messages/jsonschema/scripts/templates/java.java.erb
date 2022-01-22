@@ -6,14 +6,14 @@
       <%- if (schema['required'] || []).empty? -%>
       <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
 
-        public <%= class_name(key) %>(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
-            this(
+        public static <%= class_name(key) %> of(<%= type_for(class_name(key), property_name, property) -%> <%= property_name %>) {
+            return new <%= class_name(key) %>(
             <%- schema['properties'].each_with_index do |(property_name_2, property_2), index_2| -%>
               <%- if property_name_2 == property_name -%>
                 <%- if property['items'] -%>
-                java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")))<%= index_2 < schema['properties'].length-1 ? ',' : '' %>
+                unmodifiableList(new ArrayList<>(requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")))<%= index_2 < schema['properties'].length-1 ? ',' : '' %>
                 <%- else -%>
-                java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")<%= index_2 < schema['properties'].length-1 ? ',' : '' %>
+                requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")<%= index_2 < schema['properties'].length-1 ? ',' : '' %>
                 <%- end -%>
               <%- else -%>
                 null<%= index_2 < schema['properties'].length-1 ? ',' : '' %>
@@ -24,7 +24,6 @@
       <%- end -%>
       <%- end -%>
 
-        @JsonCreator
         public <%= class_name(key) %>(
         <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
             <%= type_for(class_name(key), property_name, property) -%> <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>
@@ -35,13 +34,13 @@
           -%>
           <%- if required -%>
            <%- if property['items'] -%>
-            this.<%= property_name %> = java.util.Collections.unmodifiableList(new java.util.ArrayList<>(java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")));
+            this.<%= property_name %> = unmodifiableList(new ArrayList<>(requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null")));
            <%- else -%>
-            this.<%= property_name %> = java.util.Objects.requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null");
+            this.<%= property_name %> = requireNonNull(<%= property_name %>, "<%= class_name(key) %>.<%= property_name %> cannot be null");
            <%- end -%>
           <%- else -%>
            <%- if property['items'] -%>
-            this.<%= property_name %> = <%= property_name %> == null ? null : java.util.Collections.unmodifiableList(new java.util.ArrayList<>(<%= property_name %>));
+            this.<%= property_name %> = <%= property_name %> == null ? null : unmodifiableList(new ArrayList<>(<%= property_name %>));
            <%- else -%>
             this.<%= property_name %> = <%= property_name %>;
            <%- end -%>
@@ -56,8 +55,8 @@
         }
         <%- else -%>
 
-        public java.util.Optional<<%= type_for(class_name(key), property_name, property) -%>> get<%= capitalize(property_name) %>() {
-            return java.util.Optional.ofNullable(<%= property_name %>);
+        public Optional<<%= type_for(class_name(key), property_name, property) -%>> get<%= capitalize(property_name) %>() {
+            return Optional.ofNullable(<%= property_name %>);
         }
         <%- end -%>
       <%- end -%>
@@ -71,7 +70,7 @@
                 <%- if (schema['required'] || []).index(property_name) -%>
                 <%= property_name -%>.equals(that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
                 <%- else -%>
-                java.util.Objects.equals(<%= property_name -%>, that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
+                Objects.equals(<%= property_name -%>, that.<%= property_name -%>)<%= index < schema['properties'].length-1 ? ' && ' : ';' -%>
                 <%- end -%>
             <% end -%>
 
@@ -79,7 +78,7 @@
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(
+            return Objects.hash(
             <%- schema['properties'].each_with_index do |(property_name, property), index| -%>
                 <%= property_name %><%= index < schema['properties'].length-1 ? ',' : ''%>
             <%- end -%>
