@@ -10,7 +10,7 @@ trait JsonEncodingTrait
     public static function fromJson(string $json) : self
     {
         try {
-            $data = json_decode($json, true, JSON_THROW_ON_ERROR);
+            $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
         }
         catch(\Throwable $t) {
             throw new UnknownDecodingException('Unknown decoding error', previous: $t);
