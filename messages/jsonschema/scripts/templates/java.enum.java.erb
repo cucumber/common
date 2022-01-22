@@ -20,9 +20,11 @@
         }
 
         public static <%= enum[:name] %> fromValue(String value) {
-        <%- enum[:values].each do |value| -%>
-            if ("<%= value %>".equals(value)) return <%= enum_constant(value) %>;
-        <%- end -%>
+            for (<%= enum[:name] %> v : values()) {
+                if (v.value.equals(value)) {
+                    return v;
+                }
+            }
             throw new IllegalArgumentException(value);
         }
     }

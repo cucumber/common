@@ -3932,8 +3932,11 @@ public final class Messages {
         }
 
         public static AttachmentContentEncoding fromValue(String value) {
-            if ("IDENTITY".equals(value)) return IDENTITY;
-            if ("BASE64".equals(value)) return BASE64;
+            for (AttachmentContentEncoding v : values()) {
+                if (v.value.equals(value)) {
+                    return v;
+                }
+            }
             throw new IllegalArgumentException(value);
         }
     }
@@ -3958,8 +3961,11 @@ public final class Messages {
         }
 
         public static SourceMediaType fromValue(String value) {
-            if ("text/x.cucumber.gherkin+plain".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_PLAIN;
-            if ("text/x.cucumber.gherkin+markdown".equals(value)) return TEXT_X_CUCUMBER_GHERKIN_MARKDOWN;
+            for (SourceMediaType v : values()) {
+                if (v.value.equals(value)) {
+                    return v;
+                }
+            }
             throw new IllegalArgumentException(value);
         }
     }
@@ -3984,8 +3990,11 @@ public final class Messages {
         }
 
         public static StepDefinitionPatternType fromValue(String value) {
-            if ("CUCUMBER_EXPRESSION".equals(value)) return CUCUMBER_EXPRESSION;
-            if ("REGULAR_EXPRESSION".equals(value)) return REGULAR_EXPRESSION;
+            for (StepDefinitionPatternType v : values()) {
+                if (v.value.equals(value)) {
+                    return v;
+                }
+            }
             throw new IllegalArgumentException(value);
         }
     }
@@ -4015,13 +4024,11 @@ public final class Messages {
         }
 
         public static TestStepResultStatus fromValue(String value) {
-            if ("UNKNOWN".equals(value)) return UNKNOWN;
-            if ("PASSED".equals(value)) return PASSED;
-            if ("SKIPPED".equals(value)) return SKIPPED;
-            if ("PENDING".equals(value)) return PENDING;
-            if ("UNDEFINED".equals(value)) return UNDEFINED;
-            if ("AMBIGUOUS".equals(value)) return AMBIGUOUS;
-            if ("FAILED".equals(value)) return FAILED;
+            for (TestStepResultStatus v : values()) {
+                if (v.value.equals(value)) {
+                    return v;
+                }
+            }
             throw new IllegalArgumentException(value);
         }
     }
