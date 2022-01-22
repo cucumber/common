@@ -24,7 +24,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@babel/core": "7.16.10",
+    "@babel/core": "7.16.12",
     "@cucumber/gherkin-streams": "^4.0.0",
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/message-streams": "^3.0.0",
