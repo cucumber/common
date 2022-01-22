@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.function.BiConsumer;
 
 import static io.cucumber.messages.Messages.Envelope;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -22,17 +21,17 @@ import static java.util.Objects.requireNonNull;
 public final class MessagesToHtmlWriter implements AutoCloseable {
     private final String template;
     private final Writer writer;
-    private final BiConsumer<Writer, Envelope> serializer;
+    private final Serializer serializer;
     private boolean preMessageWritten = false;
     private boolean postMessageWritten = false;
     private boolean firstMessageWritten = false;
     private boolean streamClosed = false;
 
-    public MessagesToHtmlWriter(OutputStream outputStream, BiConsumer<Writer, Envelope> serializer) throws IOException {
+    public MessagesToHtmlWriter(OutputStream outputStream, Serializer serializer) throws IOException {
         this(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), serializer);
     }
 
-    public MessagesToHtmlWriter(Writer writer, BiConsumer<Writer, Envelope> serializer) throws IOException {
+    public MessagesToHtmlWriter(Writer writer, Serializer serializer) throws IOException {
         this.writer = writer;
         this.serializer = serializer;
         this.template = readResource("index.mustache.html");
@@ -72,7 +71,7 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
             writer.write(",");
         }
 
-        serializer.accept(writer, envelope);
+        serializer.writeValue(writer, envelope);
     }
 
     /**
@@ -124,5 +123,12 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
             writeResource(writer, name);
         }
         return new String(baos.toByteArray(), UTF_8);
+    }
+
+    @FunctionalInterface
+    public interface Serializer {
+
+        void writeValue(Writer writer, Envelope value) throws IOException;
+
     }
 }
