@@ -15,4 +15,5 @@
         </ignoreFiles>
     </projectFiles>
 <plugins>
-<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/></plugins></psalm>
+<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/></plugins>
+</psalm>

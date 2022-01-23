@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Cucumber\Messages;
 
 /**
  * Indicates the message being decoded violates the schema
  */
-class SchemaViolationException extends DecodingException
+final class SchemaViolationException extends DecodingException
 {
-
 }
