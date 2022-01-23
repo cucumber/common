@@ -7,13 +7,15 @@ import com.eclipsesource.json.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 public final class GherkinDialect {
     private final JsonObject keywords;
     private final String language;
 
     public GherkinDialect(String language, JsonObject keywords) {
-        this.language = language;
-        this.keywords = keywords;
+        this.language = requireNonNull(language);
+        this.keywords = requireNonNull(keywords);
     }
 
     public List<String> getFeatureKeywords() {
@@ -89,5 +91,6 @@ public final class GherkinDialect {
     public String getLanguage() {
         return language;
     }
+
 }
 

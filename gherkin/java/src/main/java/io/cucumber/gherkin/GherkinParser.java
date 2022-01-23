@@ -77,6 +77,8 @@ public final class GherkinParser {
     }
 
     public Stream<Envelope> parse(Envelope envelope) {
+        requireNonNull(envelope);
+
         List<Envelope> messages = new ArrayList<>();
 
         if (includeSource) {

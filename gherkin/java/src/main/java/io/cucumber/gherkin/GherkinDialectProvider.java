@@ -13,6 +13,7 @@ import java.util.List;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.sort;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
 
 public final class GherkinDialectProvider {
     private static final JsonObject DIALECTS;
@@ -21,7 +22,8 @@ public final class GherkinDialectProvider {
     public static final String JSON_PATH = "/io/cucumber/gherkin/gherkin-languages.json";
 
     static {
-        try (Reader reader = new InputStreamReader(GherkinDialectProvider.class.getResourceAsStream(JSON_PATH), UTF_8)) {
+        try (Reader reader = new InputStreamReader(GherkinDialectProvider.class.getResourceAsStream(JSON_PATH),
+                UTF_8)) {
             DIALECTS = Json.parse(reader).asObject();
         } catch (IOException e) {
             throw new GherkinException("Unable to parse " + JSON_PATH, e);
@@ -29,7 +31,7 @@ public final class GherkinDialectProvider {
     }
 
     public GherkinDialectProvider(String defaultDialectName) {
-        this.defaultDialectName = defaultDialectName;
+        this.defaultDialectName = requireNonNull(defaultDialectName);
     }
 
     public GherkinDialectProvider() {
@@ -41,6 +43,8 @@ public final class GherkinDialectProvider {
     }
 
     public GherkinDialect getDialect(String language, Location location) {
+        requireNonNull(language);
+
         JsonValue languageObject = DIALECTS.get(language);
         if (languageObject == null) {
             throw new ParserException.NoSuchLanguageException(language, location);
@@ -54,4 +58,5 @@ public final class GherkinDialectProvider {
         sort(languages);
         return unmodifiableList(languages);
     }
+
 }

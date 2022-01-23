@@ -28,7 +28,12 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
     private boolean streamClosed = false;
 
     public MessagesToHtmlWriter(OutputStream outputStream, Serializer serializer) throws IOException {
-        this(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), serializer);
+        this(
+                new OutputStreamWriter(
+                        requireNonNull(outputStream),
+                        StandardCharsets.UTF_8),
+                requireNonNull(serializer)
+        );
     }
 
     public MessagesToHtmlWriter(Writer writer, Serializer serializer) throws IOException {
@@ -101,7 +106,8 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
         streamClosed = true;
     }
 
-    private static void writeTemplateBetween(Writer writer, String template, String begin, String end) throws IOException {
+    private static void writeTemplateBetween(Writer writer, String template, String begin, String end)
+            throws IOException {
         int beginIndex = begin == null ? 0 : template.indexOf(begin) + begin.length();
         int endIndex = end == null ? template.length() : template.indexOf(end);
         writer.write(template.substring(beginIndex, endIndex));
@@ -131,4 +137,5 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
         void writeValue(Writer writer, Envelope value) throws IOException;
 
     }
+
 }
