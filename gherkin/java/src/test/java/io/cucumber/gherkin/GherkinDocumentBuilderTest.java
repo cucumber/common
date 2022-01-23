@@ -14,7 +14,7 @@ import static io.cucumber.messages.Messages.TableRow;
 import static org.junit.Assert.assertEquals;
 
 public class GherkinDocumentBuilderTest {
-    private final IdGenerator idGenerator = new IdGenerator.Incrementing();
+    private final IdGenerator idGenerator = new IncrementingIdGenerator();
 
     @Test
     public void is_reusable() {
@@ -56,7 +56,7 @@ public class GherkinDocumentBuilderTest {
         List<FeatureChild> children = doc.getFeature().get().getChildren();
         assertEquals(3, children.size());
 
-        IdGenerator idGenerator = new IdGenerator.Incrementing();
+        IdGenerator idGenerator = new IncrementingIdGenerator();
         PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
         List<Pickle> pickles = pickleCompiler.compile(doc, "hello.feature");
         assertEquals(2, pickles.size());

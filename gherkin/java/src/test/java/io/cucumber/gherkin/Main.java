@@ -1,12 +1,16 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.MessageToNdjsonWriter;
+import io.cucumber.messages.Messages.Source;
+import io.cucumber.messages.Messages.SourceMediaType;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static io.cucumber.gherkin.Jackson.OBJECT_MAPPER;
 import static io.cucumber.messages.Messages.Envelope;
@@ -18,39 +22,36 @@ public class Main {
         List<String> args = new ArrayList<>(asList(argv));
         List<String> paths = new ArrayList<>();
 
-        boolean includeSource = true;
-        boolean includeAst = true;
-        boolean includePickles = true;
-        IdGenerator idGenerator = null;
+        GherkinParser.Builder builder = GherkinParser.builder();
 
         while (!args.isEmpty()) {
             String arg = args.remove(0).trim();
 
             switch (arg) {
                 case "--no-source":
-                    includeSource = false;
+                    builder.includeSource(false);
                     break;
                 case "--no-ast":
-                    includeAst = false;
+                    builder.includeGherkinDocument(false);
                     break;
                 case "--no-pickles":
-                    includePickles = false;
+                    builder.includePickles(false);
                     break;
                 case "--predictable-ids":
-                    idGenerator = new IdGenerator.Incrementing();
+                    builder.idGenerator(new IncrementingIdGenerator());
                     break;
                 default:
                     paths.add(arg);
             }
         }
 
-        if (idGenerator == null) {
-            idGenerator = new IdGenerator.UUID();
-        }
+        GherkinParser parser = builder.build();
 
-        Stream<Envelope> messages = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles, idGenerator);
         try (MessageToNdjsonWriter writer = new MessageToNdjsonWriter(System.out, OBJECT_MAPPER::writeValue)) {
-            messages.forEach(envelope -> printMessages(writer, envelope));
+            paths.stream()
+                    .map(Paths::get)
+                    .map(Main::envelopeFromPath)
+                    .flatMap(parser::parse).forEach(envelope -> printMessages(writer, envelope));
         }
     }
 
@@ -62,4 +63,13 @@ public class Main {
         }
     }
 
+    private static Envelope envelopeFromPath(Path path) {
+        try {
+            byte[] bytes = Files.readAllBytes(path);
+            String data = new String(bytes, StandardCharsets.UTF_8);
+            return Envelope.of(new Source(path.toString(), data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+        } catch (IOException e) {
+            throw new GherkinException(e.getMessage(), e);
+        }
+    }
 }

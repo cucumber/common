@@ -11,7 +11,7 @@ public class ParserTest {
     @Test
     public void change_default_language() {
         TokenMatcher matcher = new TokenMatcher("no");
-        IdGenerator idGenerator = new IdGenerator.Incrementing();
+        IdGenerator idGenerator = new IncrementingIdGenerator();
         Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator, "test.feature"));
 
         GherkinDocument gherkinDocument = parser.parse("Egenskap: i18n support\n", matcher, "test.feature");

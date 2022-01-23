@@ -1,5 +1,6 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.Messages;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
