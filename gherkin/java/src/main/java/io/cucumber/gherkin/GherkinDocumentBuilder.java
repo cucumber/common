@@ -28,7 +28,7 @@ import static io.cucumber.messages.Messages.TableCell;
 import static io.cucumber.messages.Messages.TableRow;
 import static io.cucumber.messages.Messages.Tag;
 
-public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
+class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     private final List<Comment> comments = new ArrayList<>();
     private final IdGenerator idGenerator;
     private String uri;

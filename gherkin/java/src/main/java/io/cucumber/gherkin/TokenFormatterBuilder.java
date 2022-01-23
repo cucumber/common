@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-public class TokenFormatterBuilder implements Parser.Builder<String> {
+class TokenFormatterBuilder implements Parser.Builder<String> {
     private final TokenFormatter formatter = new TokenFormatter();
     private final StringBuilder tokensTextBuilder = new StringBuilder();
 

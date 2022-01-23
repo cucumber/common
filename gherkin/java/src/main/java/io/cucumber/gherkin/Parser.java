@@ -16,8 +16,8 @@ import java.util.Queue;
 
 import static java.util.Arrays.asList;
 
-public class Parser<T> {
-    public enum TokenType {
+class Parser<T> {
+    enum TokenType {
         None,
         EOF,
         Empty,
@@ -36,7 +36,7 @@ public class Parser<T> {
         ;
     }
 
-    public enum RuleType {
+    enum RuleType {
         None,
         _EOF, // #EOF
         _Empty, // #Empty
@@ -72,20 +72,20 @@ public class Parser<T> {
         Description, // Description! := #Other+
         ;
 
-        public static RuleType cast(TokenType tokenType) {
+        static RuleType cast(TokenType tokenType) {
             return RuleType.values()[tokenType.ordinal()];
         }
     }
 
     private final Builder<T> builder;
 
-    public boolean stopAtFirstError;
+    private boolean stopAtFirstError;
 
     static class ParserContext {
-        public final ITokenScanner tokenScanner;
-        public final ITokenMatcher tokenMatcher;
-        public final Queue<Token> tokenQueue;
-        public final List<ParserException> errors;
+        final ITokenScanner tokenScanner;
+        final ITokenMatcher tokenMatcher;
+        final Queue<Token> tokenQueue;
+        final List<ParserException> errors;
 
         ParserContext(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher, Queue<Token> tokenQueue, List<ParserException> errors) {
             this.tokenScanner = tokenScanner;
@@ -95,31 +95,31 @@ public class Parser<T> {
         }
     }
 
-    public Parser(Builder<T> builder) {
+    Parser(Builder<T> builder) {
         this.builder = builder;
     }
 
-    public T parse(String source, String uri) {
+    T parse(String source, String uri) {
         return parse(new StringReader(source), uri);
     }
 
-    public T parse(Reader source, String uri) {
+    T parse(Reader source, String uri) {
         return parse(new TokenScanner(source), uri);
     }
 
-    public T parse(ITokenScanner tokenScanner, String uri) {
+    T parse(ITokenScanner tokenScanner, String uri) {
         return parse(tokenScanner, new TokenMatcher(), uri);
     }
 
-    public T parse(String source, ITokenMatcher tokenMatcher, String uri) {
+    T parse(String source, ITokenMatcher tokenMatcher, String uri) {
         return parse(new StringReader(source), tokenMatcher, uri);
     }
 
-    public T parse(Reader source, ITokenMatcher tokenMatcher, String uri) {
+    T parse(Reader source, ITokenMatcher tokenMatcher, String uri) {
         return parse(new TokenScanner(source), tokenMatcher, uri);
     }
 
-    public T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher, String uri) {
+    T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher, String uri) {
         builder.reset(uri);
         tokenMatcher.reset();
 
@@ -4759,7 +4759,7 @@ public class Parser<T> {
         return match;
     }
 
-    public interface Builder<T> {
+    interface Builder<T> {
         void build(Token token);
         void startRule(RuleType ruleType);
         void endRule(RuleType ruleType);
@@ -4767,11 +4767,11 @@ public class Parser<T> {
         void reset(String uri);
     }
 
-    public interface ITokenScanner {
+    interface ITokenScanner {
         Token read();
     }
 
-    public interface ITokenMatcher {
+    interface ITokenMatcher {
         boolean match_EOF(Token token);
         boolean match_Empty(Token token);
         boolean match_Comment(Token token);

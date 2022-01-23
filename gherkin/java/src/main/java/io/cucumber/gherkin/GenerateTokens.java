@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 
-public class GenerateTokens {
+public final class GenerateTokens {
     public static void main(String[] args) throws FileNotFoundException {
         TokenFormatterBuilder builder = new TokenFormatterBuilder();
         Parser<String> parser = new Parser<>(builder);

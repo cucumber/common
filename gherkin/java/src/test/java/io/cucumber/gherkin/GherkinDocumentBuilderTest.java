@@ -1,6 +1,5 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.IdGenerator;
 import org.junit.Test;
 

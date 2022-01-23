@@ -1,4 +1,4 @@
-package io.cucumber.gherkin.pickles;
+package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
 
@@ -34,7 +34,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.unmodifiableList;
 
-public class PickleCompiler {
+class PickleCompiler {
 
     private final IdGenerator idGenerator;
 

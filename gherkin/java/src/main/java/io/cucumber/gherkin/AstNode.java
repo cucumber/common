@@ -9,7 +9,7 @@ import java.util.Map;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
 
-public class AstNode {
+class AstNode {
     private final Map<RuleType, List<Object>> subItems = new HashMap<RuleType, List<Object>>();
     public final RuleType ruleType;
 

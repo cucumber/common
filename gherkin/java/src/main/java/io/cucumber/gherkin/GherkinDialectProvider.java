@@ -14,8 +14,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.sort;
 import static java.util.Collections.unmodifiableList;
 
-public class GherkinDialectProvider implements IGherkinDialectProvider {
-    private static JsonObject DIALECTS;
+public final class GherkinDialectProvider {
+    private static final JsonObject DIALECTS;
     private final String defaultDialectName;
 
     public static final String JSON_PATH = "/io/cucumber/gherkin/gherkin-languages.json";
@@ -40,7 +40,6 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
         return getDialect(defaultDialectName, null);
     }
 
-    @Override
     public GherkinDialect getDialect(String language, Location location) {
         JsonValue languageObject = DIALECTS.get(language);
         if (languageObject == null) {
@@ -50,7 +49,6 @@ public class GherkinDialectProvider implements IGherkinDialectProvider {
         return new GherkinDialect(language, languageObject.asObject());
     }
 
-    @Override
     public List<String> getLanguages() {
         List<String> languages = new ArrayList<>(DIALECTS.names());
         sort(languages);

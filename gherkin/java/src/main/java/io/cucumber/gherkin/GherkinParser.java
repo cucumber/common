@@ -1,6 +1,5 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.gherkin.pickles.PickleCompiler;
 import io.cucumber.messages.IdGenerator;
 
 import java.util.ArrayList;
@@ -19,9 +18,9 @@ import static java.util.Objects.requireNonNull;
 /**
  * Main entry point for the Gherkin library
  */
-public class GherkinParser {
+public final class GherkinParser {
 
-    public static class Builder {
+    public final static class Builder {
         private boolean includeSource = true;
         private boolean includeGherkinDocument = true;
         private boolean includePickles = true;

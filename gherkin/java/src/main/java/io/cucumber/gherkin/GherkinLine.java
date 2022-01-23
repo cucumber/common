@@ -13,7 +13,7 @@ import static io.cucumber.gherkin.StringUtils.rtrimKeepNewLines;
 import static io.cucumber.gherkin.StringUtils.symbolCount;
 import static io.cucumber.gherkin.StringUtils.trim;
 
-public class GherkinLine implements IGherkinLine {
+class GherkinLine implements IGherkinLine {
     // TODO: set this to 0 when/if we change to 0-indexed columns
     private static final int OFFSET = 1;
     private final String lineText;
