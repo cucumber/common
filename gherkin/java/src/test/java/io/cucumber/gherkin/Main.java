@@ -50,12 +50,13 @@ public class Main {
         try (MessageToNdjsonWriter writer = new MessageToNdjsonWriter(System.out, OBJECT_MAPPER::writeValue)) {
             paths.stream()
                     .map(Paths::get)
-                    .map(Main::envelopeFromPath)
-                    .flatMap(parser::parse).forEach(envelope -> printMessages(writer, envelope));
+                    .map(Main::readEnvelopeFromPath)
+                    .flatMap(parser::parse)
+                    .forEach(envelope -> printMessage(writer, envelope));
         }
     }
 
-    private static void printMessages(MessageToNdjsonWriter writer, Envelope envelope) {
+    private static void printMessage(MessageToNdjsonWriter writer, Envelope envelope) {
         try {
             writer.write(envelope);
         } catch (IOException e) {
@@ -63,7 +64,7 @@ public class Main {
         }
     }
 
-    private static Envelope envelopeFromPath(Path path) {
+    private static Envelope readEnvelopeFromPath(Path path) {
         try {
             byte[] bytes = Files.readAllBytes(path);
             String data = new String(bytes, StandardCharsets.UTF_8);
