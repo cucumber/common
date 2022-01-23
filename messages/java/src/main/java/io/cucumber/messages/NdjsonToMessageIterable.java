@@ -18,17 +18,16 @@ import java.util.Iterator;
 public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCloseable {
     private final BufferedReader reader;
     private final Deserializer deserializer;
-    private Envelope next;
 
     public NdjsonToMessageIterable(InputStream inputStream, Deserializer deserializer) {
         this(new InputStreamReader(inputStream, StandardCharsets.UTF_8), deserializer);
     }
 
-    public NdjsonToMessageIterable(Reader reader, Deserializer deserializer) {
+    private NdjsonToMessageIterable(Reader reader, Deserializer deserializer) {
         this(new BufferedReader(reader), deserializer);
     }
 
-    public NdjsonToMessageIterable(BufferedReader reader, Deserializer deserializer) {
+    private NdjsonToMessageIterable(BufferedReader reader, Deserializer deserializer) {
         this.reader = reader;
         this.deserializer = deserializer;
     }
@@ -36,6 +35,8 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCl
     @Override
     public Iterator<Envelope> iterator() {
         return new Iterator<Envelope>() {
+            private Envelope next;
+
             @Override
             public boolean hasNext() {
                 try {
@@ -72,7 +73,7 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCl
 
     @Override
     public void close() throws IOException {
-        this.reader.close();
+        reader.close();
     }
 
     @FunctionalInterface
