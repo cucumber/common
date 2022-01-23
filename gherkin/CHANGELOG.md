@@ -13,7 +13,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* [Java] the `Parser.parse` methods now require an `uri` parameter to be passed in.
+* [Java] Replaced `Gherkin` with a `GherkinParser` that uses a builder to construct.
+* [Java] Made all internal classes package private
 
 ### Deprecated
 

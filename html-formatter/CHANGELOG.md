@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Use `auto` theme to automatically render with light or dark theme per platform preference.
 
 ### Changed
+- [Java] Replaced Jackson with generic serializer in `MessagesToHtmlWriter`.
 
 ### Deprecated
 
