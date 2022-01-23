@@ -3,9 +3,6 @@ package io.cucumber.gherkin;
 import io.cucumber.messages.Messages.Source;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static io.cucumber.messages.Messages.Envelope;
 import static io.cucumber.messages.Messages.Feature;
 import static io.cucumber.messages.Messages.GherkinDocument;
@@ -38,15 +35,14 @@ public class GherkinParserTest {
 
     @Test
     public void provides_access_to_the_ast() {
-        List<Envelope> envelopes = GherkinParser.builder()
+        // Get the AST
+        GherkinDocument gherkinDocument = GherkinParser.builder()
                 .includeSource(false)
                 .includePickles(false)
                 .build()
                 .parse(envelope)
-                .collect(Collectors.toList());
-
-        // Get the AST
-        GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument().get();
+                .findFirst().get()
+                .getGherkinDocument().get();
 
         // Get the Feature node of the AST
         Feature feature = gherkinDocument.getFeature().get();
@@ -59,15 +55,14 @@ public class GherkinParserTest {
 
     @Test
     public void provides_access_to_pickles_which_are_compiled_from_the_ast() {
-        List<Envelope> envelopes = GherkinParser.builder()
+        // Get the first pickle
+        Pickle pickle = GherkinParser.builder()
                 .includeSource(false)
                 .includeGherkinDocument(false)
                 .build()
                 .parse(envelope)
-                .collect(Collectors.toList());
-
-        // Get the first pickle
-        Pickle pickle = envelopes.get(0).getPickle().get();
+                .findFirst().get()
+                .getPickle().get();
 
         // Get the first step of the pickle
         PickleStep step = pickle.getSteps().get(0);
@@ -76,14 +71,14 @@ public class GherkinParserTest {
 
     @Test
     public void parses_supplied_source() {
-        List<Envelope> envelopes = GherkinParser.builder()
+        GherkinDocument gherkinDocument = GherkinParser.builder()
                 .includeSource(false)
                 .includePickles(false)
                 .build()
                 .parse(envelope)
-                .collect(Collectors.toList());
+                .findFirst().get()
+                .getGherkinDocument().get();
 
-        GherkinDocument gherkinDocument = envelopes.get(0).getGherkinDocument().get();
         Feature feature = gherkinDocument.getFeature().get();
         assertEquals("Minimal", feature.getName());
     }
