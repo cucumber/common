@@ -1,10 +1,13 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.gherkin.ParserException.CompositeParserException;
 import io.cucumber.messages.IdGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.cucumber.messages.Messages.Envelope;
@@ -14,6 +17,7 @@ import static io.cucumber.messages.Messages.Pickle;
 import static io.cucumber.messages.Messages.Source;
 import static io.cucumber.messages.Messages.SourceReference;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * Main entry point for the Gherkin library
@@ -103,30 +107,30 @@ public final class GherkinParser {
                 if (gherkinDocument == null) {
                     gherkinDocument = parser.parse(data, uri);
                 }
-                PickleCompiler pickleCompiler = new PickleCompiler(idGenerator);
-                List<Pickle> pickles = pickleCompiler.compile(gherkinDocument, uri);
-                for (Pickle pickle : pickles) {
-                    messages.add(Envelope.of(pickle));
-                }
+                new PickleCompiler(idGenerator)
+                        .compile(gherkinDocument, uri)
+                        .stream()
+                        .map(Envelope::of)
+                        .collect(toCollection(() -> messages));
             }
-        } catch (ParserException.CompositeParserException e) {
-            for (ParserException error : e.errors) {
-                addParseError(messages, error, uri);
-            }
-        } catch (ParserException e) {
-            addParseError(messages, e, uri);
+        } catch (CompositeParserException composite) {
+            composite.errors.stream()
+                    .map(error -> createParseError(error, uri))
+                    .collect(toCollection(() -> messages));
+        } catch (ParserException error) {
+            messages.add(createParseError(error, uri));
         }
-
         return messages;
     }
 
-    private void addParseError(List<Envelope> messages, ParserException e, String uri) {
+    private Envelope createParseError(ParserException e, String uri) {
         long line = e.location.getLine();
         long column = e.location.getColumn();
-        ParseError parseError = new ParseError(
+        return Envelope.of(new ParseError(
                 new SourceReference(
                         uri,
-                        null, null,
+                        null,
+                        null,
                         // We want 0 values not to be serialised, which is why we set them to null
                         // This is a legacy requirement brought over from old protobuf behaviour
                         new io.cucumber.messages.Messages.Location(
@@ -135,7 +139,7 @@ public final class GherkinParser {
                         )
                 ),
                 e.getMessage()
-        );
-        messages.add(Envelope.of(parseError));
+        ));
     }
+
 }
