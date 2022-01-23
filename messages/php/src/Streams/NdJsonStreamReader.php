@@ -10,7 +10,7 @@ final class NdJsonStreamReader implements StreamReader
     use WithFileHandleTrait;
 
     /**
-     * @return Generator<int, Envelope>
+     * @return Generator<Envelope>
      */
     public function envelopes() : Generator
     {
