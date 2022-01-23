@@ -61,6 +61,7 @@ public final class GherkinParser {
     private final boolean includeGherkinDocument;
     private final boolean includePickles;
     private final IdGenerator idGenerator;
+    private final PickleCompiler pickleCompiler;
 
     private GherkinParser(boolean includeSource, boolean includeGherkinDocument, boolean includePickles,
             IdGenerator idGenerator) {
@@ -68,6 +69,7 @@ public final class GherkinParser {
         this.includeGherkinDocument = includeGherkinDocument;
         this.includePickles = includePickles;
         this.idGenerator = requireNonNull(idGenerator);
+        this.pickleCompiler = new PickleCompiler(idGenerator);
     }
 
     public static Builder builder() {
@@ -101,8 +103,7 @@ public final class GherkinParser {
                 messages.add(Envelope.of(gherkinDocument));
             }
             if (includePickles) {
-                new PickleCompiler(idGenerator)
-                        .compile(gherkinDocument, uri)
+                pickleCompiler.compile(gherkinDocument, uri)
                         .stream()
                         .map(Envelope::of)
                         .collect(toCollection(() -> messages));
