@@ -4,16 +4,13 @@ import io.cucumber.gherkin.ParserException.CompositeParserException;
 import io.cucumber.messages.IdGenerator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.cucumber.messages.Messages.Envelope;
 import static io.cucumber.messages.Messages.GherkinDocument;
 import static io.cucumber.messages.Messages.ParseError;
-import static io.cucumber.messages.Messages.Pickle;
 import static io.cucumber.messages.Messages.Source;
 import static io.cucumber.messages.Messages.SourceReference;
 import static java.util.Objects.requireNonNull;
@@ -30,7 +27,7 @@ public final class GherkinParser {
         private boolean includePickles = true;
         private IdGenerator idGenerator = () -> UUID.randomUUID().toString();
 
-        private Builder(){
+        private Builder() {
 
         }
 
@@ -54,9 +51,10 @@ public final class GherkinParser {
             return this;
         }
 
-        public GherkinParser build(){
+        public GherkinParser build() {
             return new GherkinParser(includeSource, includeGherkinDocument, includePickles, idGenerator);
         }
+
     }
 
     private final boolean includeSource;
@@ -64,14 +62,15 @@ public final class GherkinParser {
     private final boolean includePickles;
     private final IdGenerator idGenerator;
 
-    private GherkinParser(boolean includeSource, boolean includeGherkinDocument, boolean includePickles, IdGenerator idGenerator) {
+    private GherkinParser(boolean includeSource, boolean includeGherkinDocument, boolean includePickles,
+            IdGenerator idGenerator) {
         this.includeSource = includeSource;
         this.includeGherkinDocument = includeGherkinDocument;
         this.includePickles = includePickles;
         this.idGenerator = requireNonNull(idGenerator);
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -83,8 +82,8 @@ public final class GherkinParser {
         }
 
         envelope.getSource()
-            .map(this::parseSource)
-            .ifPresent(messages::addAll);
+                .map(this::parseSource)
+                .ifPresent(messages::addAll);
 
         return messages.stream();
     }
@@ -97,16 +96,11 @@ public final class GherkinParser {
         Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator, uri));
 
         try {
-            GherkinDocument gherkinDocument = null;
-
+            GherkinDocument gherkinDocument = parser.parse(data, uri);
             if (includeGherkinDocument) {
-                gherkinDocument = parser.parse(data, uri);
                 messages.add(Envelope.of(gherkinDocument));
             }
             if (includePickles) {
-                if (gherkinDocument == null) {
-                    gherkinDocument = parser.parse(data, uri);
-                }
                 new PickleCompiler(idGenerator)
                         .compile(gherkinDocument, uri)
                         .stream()

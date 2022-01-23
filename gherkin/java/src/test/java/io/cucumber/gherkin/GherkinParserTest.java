@@ -1,7 +1,12 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.Messages;
+import io.cucumber.messages.Messages.ParseError;
 import io.cucumber.messages.Messages.Source;
+import io.cucumber.messages.Messages.SourceReference;
 import org.junit.Test;
+
+import java.util.Optional;
 
 import static io.cucumber.messages.Messages.Envelope;
 import static io.cucumber.messages.Messages.Feature;
@@ -11,9 +16,11 @@ import static io.cucumber.messages.Messages.PickleStep;
 import static io.cucumber.messages.Messages.Scenario;
 import static io.cucumber.messages.Messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class GherkinParserTest {
-    final Envelope envelope = Envelope.of(new Source("test.feature",
+    final Envelope envelope = Envelope.of(new Source("minimal.feature",
             "Feature: Minimal\n" +
                     "\n" +
                     "  Scenario: minimalistic\n" +
@@ -81,5 +88,28 @@ public class GherkinParserTest {
 
         Feature feature = gherkinDocument.getFeature().get();
         assertEquals("Minimal", feature.getName());
+    }
+
+    @Test
+    public void parser_always_includes_errors() {
+        Envelope singleParseError = Envelope.of(new Source("single_parser_error.feature",
+                "\n" +
+                        "invalid line here\n" +
+                        "\n" +
+                        "Feature: Single parser error\n" +
+                        "\n" +
+                        "  Scenario: minimalistic\n" +
+                        "    Given the minimalism\n",
+                TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+        Optional<ParseError> parseError = GherkinParser.builder()
+                .includeSource(false)
+                .includePickles(false)
+                .includeGherkinDocument(false)
+                .build()
+                .parse(singleParseError)
+                .findFirst().get()
+                .getParseError();
+
+        assertTrue(parseError.isPresent());
     }
 }
