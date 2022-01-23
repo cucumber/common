@@ -43,9 +43,7 @@ class MessagesToHtmlWriterTest {
     @Test
     void it_throws_when_writing_after_close() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw);
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, serializer);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer);
         messagesToHtmlWriter.close();
         assertThrows(IOException.class, () -> messagesToHtmlWriter.write(null));
     }
@@ -53,28 +51,23 @@ class MessagesToHtmlWriterTest {
     @Test
     void it_can_be_closed_twice() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw);
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, serializer);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer);
         messagesToHtmlWriter.close();
         assertDoesNotThrow(messagesToHtmlWriter::close);
     }
 
     @Test
     void it_is_idempotent_under_failure_to_close() throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw) {
-
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream() {
             @Override
             public void close() throws IOException {
                 throw new IOException("Can't close this");
             }
         };
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, serializer);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer);
         assertThrows(IOException.class, messagesToHtmlWriter::close);
         byte[] before = bytes.toByteArray();
-        assertThrows(IOException.class, messagesToHtmlWriter::close);
+        assertDoesNotThrow(messagesToHtmlWriter::close);
         byte[] after = bytes.toByteArray();
         assertArrayEquals(before, after);
     }
@@ -93,9 +86,7 @@ class MessagesToHtmlWriterTest {
 
     private static String renderAsHtml(Envelope... messages) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw);
-        try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw, serializer)) {
+        try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer)) {
             for (Envelope message : messages) {
                 messagesToHtmlWriter.write(message);
             }

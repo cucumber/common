@@ -36,7 +36,7 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
         );
     }
 
-    public MessagesToHtmlWriter(Writer writer, Serializer serializer) throws IOException {
+    private MessagesToHtmlWriter(Writer writer, Serializer serializer) throws IOException {
         this.writer = writer;
         this.serializer = serializer;
         this.template = readResource("index.mustache.html");
@@ -102,8 +102,11 @@ public final class MessagesToHtmlWriter implements AutoCloseable {
             writePostMessage();
             postMessageWritten = true;
         }
-        writer.close();
-        streamClosed = true;
+        try {
+            writer.close();
+        } finally {
+            streamClosed = true;
+        }
     }
 
     private static void writeTemplateBetween(Writer writer, String template, String begin, String end)
