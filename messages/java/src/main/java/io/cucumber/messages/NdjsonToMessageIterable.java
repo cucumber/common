@@ -10,6 +10,8 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Iterates over messages read from a stream. Client code should not depend on this class
  * directly, but rather on a {@code Iterable<Messages.Envelope>} object.
@@ -20,7 +22,12 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCl
     private final Deserializer deserializer;
 
     public NdjsonToMessageIterable(InputStream inputStream, Deserializer deserializer) {
-        this(new InputStreamReader(inputStream, StandardCharsets.UTF_8), deserializer);
+        this(
+                new InputStreamReader(
+                        requireNonNull(inputStream),
+                        StandardCharsets.UTF_8),
+                requireNonNull(deserializer)
+        );
     }
 
     private NdjsonToMessageIterable(Reader reader, Deserializer deserializer) {
@@ -41,7 +48,8 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCl
             public boolean hasNext() {
                 try {
                     String line = reader.readLine();
-                    if (line == null) return false;
+                    if (line == null)
+                        return false;
                     if (line.trim().equals("")) {
                         return hasNext();
                     }
@@ -59,7 +67,8 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCl
             @Override
             public Envelope next() {
                 if (next == null) {
-                    throw new IllegalStateException("next() should only be called after a call to hasNext() that returns true");
+                    throw new IllegalStateException(
+                            "next() should only be called after a call to hasNext() that returns true");
                 }
                 return next;
             }
@@ -82,4 +91,5 @@ public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCl
         Envelope readValue(String json) throws IOException;
 
     }
+
 }
