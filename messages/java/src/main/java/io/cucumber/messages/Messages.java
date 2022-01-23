@@ -7,6 +7,7 @@ import java.util.Optional;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 
+// Generated code
 @SuppressWarnings("unused")
 public final class Messages {
 

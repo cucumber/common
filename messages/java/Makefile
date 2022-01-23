@@ -14,6 +14,7 @@ src/main/java/io/cucumber/messages/Messages.java: $(JSONSCHEMAS) ../jsonschema/s
 	echo "import static java.util.Collections.unmodifiableList;" >> $@
 	echo "import static java.util.Objects.requireNonNull;" >> $@
 	echo >> $@
+	echo "// Generated code" >> $@
 	echo "@SuppressWarnings(\"unused\")" >> $@
 	echo "public final class Messages {" >> $@
 	echo >> $@
