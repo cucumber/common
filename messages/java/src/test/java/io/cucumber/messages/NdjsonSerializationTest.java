@@ -38,7 +38,7 @@ class NdjsonSerializationTest {
         MessageToNdjsonWriter writer = createMessageWriter(output);
         writer.write(Envelope.of(new Source("uri", "data", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
         String json = new String(output.toByteArray(), StandardCharsets.UTF_8);
-        assertEquals("{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}\n", json);
+        assertEquals("{\"source\":{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}}\n", json);
     }
 
     @Test
