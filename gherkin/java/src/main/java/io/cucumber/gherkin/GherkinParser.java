@@ -84,18 +84,20 @@ public final class GherkinParser {
         }
 
         envelope.getSource()
-                .map(this::parseSource)
+                .map(this::parse)
                 .ifPresent(messages::addAll);
 
         return messages.stream();
     }
 
-    private List<Envelope> parseSource(Source source) {
-        String uri = source.getUri();
-        String data = source.getData();
-        List<Envelope> messages = new ArrayList<>();
+    private List<Envelope> parse(Source source) {
+        return parse(source.getUri(), source.getData());
+    }
 
-        Parser<GherkinDocument> parser = new Parser<>(new GherkinDocumentBuilder(idGenerator, uri));
+    private List<Envelope> parse(String uri, String data) {
+        List<Envelope> messages = new ArrayList<>();
+        GherkinDocumentBuilder documentBuilder = new GherkinDocumentBuilder(idGenerator, uri);
+        Parser<GherkinDocument> parser = new Parser<>(documentBuilder);
 
         try {
             GherkinDocument gherkinDocument = parser.parse(data, uri);
