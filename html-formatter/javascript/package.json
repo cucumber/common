@@ -29,7 +29,7 @@
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/query": "^11.0.0",
-    "@cucumber/react": "^18.1.2",
+    "@cucumber/react": "^19.0.0",
     "@types/mocha": "9.0.0",
     "@types/node": "16.11.20",
     "@types/react": "17.0.38",
