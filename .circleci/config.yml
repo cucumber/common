@@ -253,18 +253,6 @@ jobs:
             cd compatibility-kit/javascript
             make
 
-  react-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: react/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd react/javascript
-            make
-
   html-formatter-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -766,12 +754,8 @@ workflows:
       - compatibility-kit-javascript:
           requires:
             - prepare-parallel
-      - react-javascript:
-          requires:
-            - prepare-parallel
       - html-formatter-javascript:
           requires:
-            - react-javascript
             - messages-javascript
             - gherkin-utils-javascript
             - compatibility-kit-javascript
