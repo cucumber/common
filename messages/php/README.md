@@ -17,6 +17,8 @@ composer require cucumber/messages
 
 ## Usage
 
+### Envelopes
+
 All cucumber messages are contained in an Envelope object. 
 
 You can construct an Envelope from a JSON string:
@@ -33,30 +35,27 @@ catch (DecodingException $e) {
 }
 ```
 
-Cucumber Messages are serialised as Newline Delimited JSON (NDJSON). 
+### Handling Streams
 
-You can use the NdJsonStreamReader to obtain a Generator:
+Cucumber Messages are streamed as Newline Delimited JSON (NDJSON). 
+
+You can use the `NdJsonStreamReader` to obtain a Generator. It's important to remember that any decoding errors will 
+be thrown as the Envelope is created during the loop.
 
 ```php
-use Cucumber\Messages\DecodingException;
-use Cucumber\Messages\Envelope;
 use Cucumber\Messages\Streams\NdJsonStreamReader;
 
 $fh = fopen('messages.ndjson', 'r');
 $reader = new NdJsonStreamReader($fh);
 
-/** @var Generator<Envelope> $envelopes */
 $envelopes = $reader->envelopes();
 
 try {
     foreach ($envelopes as $envelope) {
-        // process $envelope
+        // $envelope is an Envelope
     }
 }
 catch (DecodingException $e) {
-    // handle the error
-}
-finally {
-    fclose($fh);
+    // handle the error here
 }
 ```
