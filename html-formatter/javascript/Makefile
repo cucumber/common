@@ -10,6 +10,7 @@ dist/main.js: dist/src/main.js
 	../../node_modules/.bin/webpack-cli
 
 dist/src/main.js:
+	npm i -D puppeteer
 	npm run prepublishOnly
 
 dist/src/index.mustache.html: src/index.mustache.html
