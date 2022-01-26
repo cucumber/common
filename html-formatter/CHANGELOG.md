@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Use `auto` theme to automatically render with light or dark theme per platform preference.
-
 ### Changed
 
 ### Deprecated
@@ -18,6 +16,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [18.0.0] - 2022-01-26
+
+### Added
+
+- Use `auto` theme to automatically render with light or dark theme per platform preference.
+
+### Changed
+
+* Upgrade to `@cucumber/react` `^19.0.0`
 
 ## [17.0.0] - 2021-09-02
 
@@ -351,7 +359,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v17.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/html-formatter/v18.0.0...main
+[18.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v17.0.0...html-formatter/v18.0.0
 [17.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.1...html-formatter/v17.0.0
 [16.0.1]:      https://github.com/cucumber/cucumber/compare/html-formatter/v16.0.0...html-formatter/v16.0.1
 [16.0.0]:      https://github.com/cucumber/cucumber/compare/html-formatter/v15.0.2...html-formatter/v16.0.0
