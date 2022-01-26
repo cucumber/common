@@ -59,6 +59,7 @@ docker-run:
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
+		--user 1000 \
 	  --rm \
 	  --interactive \
 	  --tty \
