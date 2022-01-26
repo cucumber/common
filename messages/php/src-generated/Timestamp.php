@@ -53,26 +53,28 @@ final class Timestamp implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'seconds' matches expectations
-     *
-     * @psalm-assert array{seconds: mixed} $arr
+     * @psalm-assert array{seconds: string|int|bool} $arr
      */
     private static function ensureSeconds(array $arr): void
     {
         if (!array_key_exists('seconds', $arr)) {
             throw new SchemaViolationException('Property \'seconds\' is required but was not found');
         }
+        if (array_key_exists('seconds', $arr) && is_array($arr['seconds'])) {
+            throw new SchemaViolationException('Property \'seconds\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'nanos' matches expectations
-     *
-     * @psalm-assert array{nanos: mixed} $arr
+     * @psalm-assert array{nanos: string|int|bool} $arr
      */
     private static function ensureNanos(array $arr): void
     {
         if (!array_key_exists('nanos', $arr)) {
             throw new SchemaViolationException('Property \'nanos\' is required but was not found');
+        }
+        if (array_key_exists('nanos', $arr) && is_array($arr['nanos'])) {
+            throw new SchemaViolationException('Property \'nanos\' was array');
         }
     }
 }

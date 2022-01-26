@@ -74,20 +74,19 @@ final class Meta implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'protocolVersion' matches expectations
-     *
-     * @psalm-assert array{protocolVersion: mixed} $arr
+     * @psalm-assert array{protocolVersion: string|int|bool} $arr
      */
     private static function ensureProtocolVersion(array $arr): void
     {
         if (!array_key_exists('protocolVersion', $arr)) {
             throw new SchemaViolationException('Property \'protocolVersion\' is required but was not found');
         }
+        if (array_key_exists('protocolVersion', $arr) && is_array($arr['protocolVersion'])) {
+            throw new SchemaViolationException('Property \'protocolVersion\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'implementation' matches expectations
-     *
      * @psalm-assert array{implementation: array} $arr
      */
     private static function ensureImplementation(array $arr): void
@@ -101,8 +100,6 @@ final class Meta implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'runtime' matches expectations
-     *
      * @psalm-assert array{runtime: array} $arr
      */
     private static function ensureRuntime(array $arr): void
@@ -116,8 +113,6 @@ final class Meta implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'os' matches expectations
-     *
      * @psalm-assert array{os: array} $arr
      */
     private static function ensureOs(array $arr): void
@@ -131,8 +126,6 @@ final class Meta implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'cpu' matches expectations
-     *
      * @psalm-assert array{cpu: array} $arr
      */
     private static function ensureCpu(array $arr): void
@@ -146,8 +139,6 @@ final class Meta implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'ci' matches expectations
-     *
      * @psalm-assert array{ci?: array} $arr
      */
     private static function ensureCi(array $arr): void

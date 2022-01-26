@@ -54,32 +54,32 @@ final class TestCase implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'pickleId' matches expectations
-     *
-     * @psalm-assert array{pickleId: mixed} $arr
+     * @psalm-assert array{pickleId: string|int|bool} $arr
      */
     private static function ensurePickleId(array $arr): void
     {
         if (!array_key_exists('pickleId', $arr)) {
             throw new SchemaViolationException('Property \'pickleId\' is required but was not found');
         }
+        if (array_key_exists('pickleId', $arr) && is_array($arr['pickleId'])) {
+            throw new SchemaViolationException('Property \'pickleId\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'testSteps' matches expectations
-     *
      * @psalm-assert array{testSteps: array} $arr
      */
     private static function ensureTestSteps(array $arr): void

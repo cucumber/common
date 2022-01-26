@@ -93,8 +93,12 @@ final class Attachment implements JsonSerializable
     {
         self::ensureBody($arr);
         self::ensureContentEncoding($arr);
+        self::ensureFileName($arr);
         self::ensureMediaType($arr);
         self::ensureSource($arr);
+        self::ensureTestCaseStartedId($arr);
+        self::ensureTestStepId($arr);
+        self::ensureUrl($arr);
 
         return new self(
             (string) $arr['body'],
@@ -109,50 +113,91 @@ final class Attachment implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'body' matches expectations
-     *
-     * @psalm-assert array{body: mixed} $arr
+     * @psalm-assert array{body: string|int|bool} $arr
      */
     private static function ensureBody(array $arr): void
     {
         if (!array_key_exists('body', $arr)) {
             throw new SchemaViolationException('Property \'body\' is required but was not found');
         }
+        if (array_key_exists('body', $arr) && is_array($arr['body'])) {
+            throw new SchemaViolationException('Property \'body\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'contentEncoding' matches expectations
-     *
-     * @psalm-assert array{contentEncoding: mixed} $arr
+     * @psalm-assert array{contentEncoding: string|int|bool} $arr
      */
     private static function ensureContentEncoding(array $arr): void
     {
         if (!array_key_exists('contentEncoding', $arr)) {
             throw new SchemaViolationException('Property \'contentEncoding\' is required but was not found');
         }
+        if (array_key_exists('contentEncoding', $arr) && is_array($arr['contentEncoding'])) {
+            throw new SchemaViolationException('Property \'contentEncoding\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'mediaType' matches expectations
-     *
-     * @psalm-assert array{mediaType: mixed} $arr
+     * @psalm-assert array{fileName: string|int|bool} $arr
+     */
+    private static function ensureFileName(array $arr): void
+    {
+        if (array_key_exists('fileName', $arr) && is_array($arr['fileName'])) {
+            throw new SchemaViolationException('Property \'fileName\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{mediaType: string|int|bool} $arr
      */
     private static function ensureMediaType(array $arr): void
     {
         if (!array_key_exists('mediaType', $arr)) {
             throw new SchemaViolationException('Property \'mediaType\' is required but was not found');
         }
+        if (array_key_exists('mediaType', $arr) && is_array($arr['mediaType'])) {
+            throw new SchemaViolationException('Property \'mediaType\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'source' matches expectations
-     *
      * @psalm-assert array{source?: array} $arr
      */
     private static function ensureSource(array $arr): void
     {
         if (array_key_exists('source', $arr) && !is_array($arr['source'])) {
             throw new SchemaViolationException('Property \'source\' was not array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{testCaseStartedId: string|int|bool} $arr
+     */
+    private static function ensureTestCaseStartedId(array $arr): void
+    {
+        if (array_key_exists('testCaseStartedId', $arr) && is_array($arr['testCaseStartedId'])) {
+            throw new SchemaViolationException('Property \'testCaseStartedId\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{testStepId: string|int|bool} $arr
+     */
+    private static function ensureTestStepId(array $arr): void
+    {
+        if (array_key_exists('testStepId', $arr) && is_array($arr['testStepId'])) {
+            throw new SchemaViolationException('Property \'testStepId\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{url: string|int|bool} $arr
+     */
+    private static function ensureUrl(array $arr): void
+    {
+        if (array_key_exists('url', $arr) && is_array($arr['url'])) {
+            throw new SchemaViolationException('Property \'url\' was array');
         }
     }
 }

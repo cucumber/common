@@ -37,6 +37,7 @@ final class SourceReference implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
+        self::ensureUri($arr);
         self::ensureJavaMethod($arr);
         self::ensureJavaStackTraceElement($arr);
         self::ensureLocation($arr);
@@ -50,8 +51,16 @@ final class SourceReference implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'javaMethod' matches expectations
-     *
+     * @psalm-assert array{uri: string|int|bool} $arr
+     */
+    private static function ensureUri(array $arr): void
+    {
+        if (array_key_exists('uri', $arr) && is_array($arr['uri'])) {
+            throw new SchemaViolationException('Property \'uri\' was array');
+        }
+    }
+
+    /**
      * @psalm-assert array{javaMethod?: array} $arr
      */
     private static function ensureJavaMethod(array $arr): void
@@ -62,8 +71,6 @@ final class SourceReference implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'javaStackTraceElement' matches expectations
-     *
      * @psalm-assert array{javaStackTraceElement?: array} $arr
      */
     private static function ensureJavaStackTraceElement(array $arr): void
@@ -74,8 +81,6 @@ final class SourceReference implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location?: array} $arr
      */
     private static function ensureLocation(array $arr): void

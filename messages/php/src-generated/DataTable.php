@@ -45,8 +45,6 @@ final class DataTable implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location: array} $arr
      */
     private static function ensureLocation(array $arr): void
@@ -60,8 +58,6 @@ final class DataTable implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'rows' matches expectations
-     *
      * @psalm-assert array{rows: array} $arr
      */
     private static function ensureRows(array $arr): void

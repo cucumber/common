@@ -41,8 +41,6 @@ final class StepMatchArgumentsList implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'stepMatchArguments' matches expectations
-     *
      * @psalm-assert array{stepMatchArguments: array} $arr
      */
     private static function ensureStepMatchArguments(array $arr): void

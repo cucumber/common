@@ -33,6 +33,7 @@ final class Location implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureLine($arr);
+        self::ensureColumn($arr);
 
         return new self(
             (int) $arr['line'],
@@ -41,14 +42,25 @@ final class Location implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'line' matches expectations
-     *
-     * @psalm-assert array{line: mixed} $arr
+     * @psalm-assert array{line: string|int|bool} $arr
      */
     private static function ensureLine(array $arr): void
     {
         if (!array_key_exists('line', $arr)) {
             throw new SchemaViolationException('Property \'line\' is required but was not found');
+        }
+        if (array_key_exists('line', $arr) && is_array($arr['line'])) {
+            throw new SchemaViolationException('Property \'line\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{column: string|int|bool} $arr
+     */
+    private static function ensureColumn(array $arr): void
+    {
+        if (array_key_exists('column', $arr) && is_array($arr['column'])) {
+            throw new SchemaViolationException('Property \'column\' was array');
         }
     }
 }

@@ -42,8 +42,6 @@ final class PickleStepArgument implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'docString' matches expectations
-     *
      * @psalm-assert array{docString?: array} $arr
      */
     private static function ensureDocString(array $arr): void
@@ -54,8 +52,6 @@ final class PickleStepArgument implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'dataTable' matches expectations
-     *
      * @psalm-assert array{dataTable?: array} $arr
      */
     private static function ensureDataTable(array $arr): void

@@ -39,6 +39,7 @@ final class Product implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureName($arr);
+        self::ensureVersion($arr);
 
         return new self(
             (string) $arr['name'],
@@ -47,14 +48,25 @@ final class Product implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'name' matches expectations
-     *
-     * @psalm-assert array{name: mixed} $arr
+     * @psalm-assert array{name: string|int|bool} $arr
      */
     private static function ensureName(array $arr): void
     {
         if (!array_key_exists('name', $arr)) {
             throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{version: string|int|bool} $arr
+     */
+    private static function ensureVersion(array $arr): void
+    {
+        if (array_key_exists('version', $arr) && is_array($arr['version'])) {
+            throw new SchemaViolationException('Property \'version\' was array');
         }
     }
 }

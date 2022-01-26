@@ -41,8 +41,6 @@ final class PickleTable implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'rows' matches expectations
-     *
      * @psalm-assert array{rows: array} $arr
      */
     private static function ensureRows(array $arr): void

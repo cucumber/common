@@ -42,8 +42,6 @@ final class RuleChild implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'background' matches expectations
-     *
      * @psalm-assert array{background?: array} $arr
      */
     private static function ensureBackground(array $arr): void
@@ -54,8 +52,6 @@ final class RuleChild implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'scenario' matches expectations
-     *
      * @psalm-assert array{scenario?: array} $arr
      */
     private static function ensureScenario(array $arr): void

@@ -35,6 +35,7 @@ final class TestStepResult implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureDuration($arr);
+        self::ensureMessage($arr);
         self::ensureStatus($arr);
 
         return new self(
@@ -45,8 +46,6 @@ final class TestStepResult implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'duration' matches expectations
-     *
      * @psalm-assert array{duration: array} $arr
      */
     private static function ensureDuration(array $arr): void
@@ -60,14 +59,25 @@ final class TestStepResult implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'status' matches expectations
-     *
-     * @psalm-assert array{status: mixed} $arr
+     * @psalm-assert array{message: string|int|bool} $arr
+     */
+    private static function ensureMessage(array $arr): void
+    {
+        if (array_key_exists('message', $arr) && is_array($arr['message'])) {
+            throw new SchemaViolationException('Property \'message\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{status: string|int|bool} $arr
      */
     private static function ensureStatus(array $arr): void
     {
         if (!array_key_exists('status', $arr)) {
             throw new SchemaViolationException('Property \'status\' is required but was not found');
+        }
+        if (array_key_exists('status', $arr) && is_array($arr['status'])) {
+            throw new SchemaViolationException('Property \'status\' was array');
         }
     }
 }

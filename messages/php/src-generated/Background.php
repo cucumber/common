@@ -64,8 +64,6 @@ final class Background implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location: array} $arr
      */
     private static function ensureLocation(array $arr): void
@@ -79,44 +77,45 @@ final class Background implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'keyword' matches expectations
-     *
-     * @psalm-assert array{keyword: mixed} $arr
+     * @psalm-assert array{keyword: string|int|bool} $arr
      */
     private static function ensureKeyword(array $arr): void
     {
         if (!array_key_exists('keyword', $arr)) {
             throw new SchemaViolationException('Property \'keyword\' is required but was not found');
         }
+        if (array_key_exists('keyword', $arr) && is_array($arr['keyword'])) {
+            throw new SchemaViolationException('Property \'keyword\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'name' matches expectations
-     *
-     * @psalm-assert array{name: mixed} $arr
+     * @psalm-assert array{name: string|int|bool} $arr
      */
     private static function ensureName(array $arr): void
     {
         if (!array_key_exists('name', $arr)) {
             throw new SchemaViolationException('Property \'name\' is required but was not found');
         }
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'description' matches expectations
-     *
-     * @psalm-assert array{description: mixed} $arr
+     * @psalm-assert array{description: string|int|bool} $arr
      */
     private static function ensureDescription(array $arr): void
     {
         if (!array_key_exists('description', $arr)) {
             throw new SchemaViolationException('Property \'description\' is required but was not found');
         }
+        if (array_key_exists('description', $arr) && is_array($arr['description'])) {
+            throw new SchemaViolationException('Property \'description\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'steps' matches expectations
-     *
      * @psalm-assert array{steps: array} $arr
      */
     private static function ensureSteps(array $arr): void
@@ -130,14 +129,15 @@ final class Background implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
         }
     }
 }

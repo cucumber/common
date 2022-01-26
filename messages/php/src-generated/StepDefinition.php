@@ -46,20 +46,19 @@ final class StepDefinition implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'pattern' matches expectations
-     *
      * @psalm-assert array{pattern: array} $arr
      */
     private static function ensurePattern(array $arr): void
@@ -73,8 +72,6 @@ final class StepDefinition implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'sourceReference' matches expectations
-     *
      * @psalm-assert array{sourceReference: array} $arr
      */
     private static function ensureSourceReference(array $arr): void

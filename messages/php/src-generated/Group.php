@@ -38,6 +38,8 @@ final class Group implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureChildren($arr);
+        self::ensureStart($arr);
+        self::ensureValue($arr);
 
         return new self(
             array_map(fn(array $member) => Group::fromArray($member) , $arr['children']),
@@ -47,8 +49,6 @@ final class Group implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'children' matches expectations
-     *
      * @psalm-assert array{children: array} $arr
      */
     private static function ensureChildren(array $arr): void
@@ -58,6 +58,26 @@ final class Group implements JsonSerializable
         }
         if (array_key_exists('children', $arr) && !is_array($arr['children'])) {
             throw new SchemaViolationException('Property \'children\' was not array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{start: string|int|bool} $arr
+     */
+    private static function ensureStart(array $arr): void
+    {
+        if (array_key_exists('start', $arr) && is_array($arr['start'])) {
+            throw new SchemaViolationException('Property \'start\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{value: string|int|bool} $arr
+     */
+    private static function ensureValue(array $arr): void
+    {
+        if (array_key_exists('value', $arr) && is_array($arr['value'])) {
+            throw new SchemaViolationException('Property \'value\' was array');
         }
     }
 }

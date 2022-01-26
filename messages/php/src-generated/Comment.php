@@ -48,8 +48,6 @@ final class Comment implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location: array} $arr
      */
     private static function ensureLocation(array $arr): void
@@ -63,14 +61,15 @@ final class Comment implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'text' matches expectations
-     *
-     * @psalm-assert array{text: mixed} $arr
+     * @psalm-assert array{text: string|int|bool} $arr
      */
     private static function ensureText(array $arr): void
     {
         if (!array_key_exists('text', $arr)) {
             throw new SchemaViolationException('Property \'text\' is required but was not found');
+        }
+        if (array_key_exists('text', $arr) && is_array($arr['text'])) {
+            throw new SchemaViolationException('Property \'text\' was array');
         }
     }
 }

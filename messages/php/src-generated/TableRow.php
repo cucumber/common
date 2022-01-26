@@ -53,8 +53,6 @@ final class TableRow implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location: array} $arr
      */
     private static function ensureLocation(array $arr): void
@@ -68,8 +66,6 @@ final class TableRow implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'cells' matches expectations
-     *
      * @psalm-assert array{cells: array} $arr
      */
     private static function ensureCells(array $arr): void
@@ -83,14 +79,15 @@ final class TableRow implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
         }
     }
 }

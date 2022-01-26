@@ -59,38 +59,41 @@ final class Source implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'uri' matches expectations
-     *
-     * @psalm-assert array{uri: mixed} $arr
+     * @psalm-assert array{uri: string|int|bool} $arr
      */
     private static function ensureUri(array $arr): void
     {
         if (!array_key_exists('uri', $arr)) {
             throw new SchemaViolationException('Property \'uri\' is required but was not found');
         }
+        if (array_key_exists('uri', $arr) && is_array($arr['uri'])) {
+            throw new SchemaViolationException('Property \'uri\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'data' matches expectations
-     *
-     * @psalm-assert array{data: mixed} $arr
+     * @psalm-assert array{data: string|int|bool} $arr
      */
     private static function ensureData(array $arr): void
     {
         if (!array_key_exists('data', $arr)) {
             throw new SchemaViolationException('Property \'data\' is required but was not found');
         }
+        if (array_key_exists('data', $arr) && is_array($arr['data'])) {
+            throw new SchemaViolationException('Property \'data\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'mediaType' matches expectations
-     *
-     * @psalm-assert array{mediaType: mixed} $arr
+     * @psalm-assert array{mediaType: string|int|bool} $arr
      */
     private static function ensureMediaType(array $arr): void
     {
         if (!array_key_exists('mediaType', $arr)) {
             throw new SchemaViolationException('Property \'mediaType\' is required but was not found');
+        }
+        if (array_key_exists('mediaType', $arr) && is_array($arr['mediaType'])) {
+            throw new SchemaViolationException('Property \'mediaType\' was array');
         }
     }
 }

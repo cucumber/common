@@ -64,8 +64,6 @@ final class Step implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location: array} $arr
      */
     private static function ensureLocation(array $arr): void
@@ -79,32 +77,32 @@ final class Step implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'keyword' matches expectations
-     *
-     * @psalm-assert array{keyword: mixed} $arr
+     * @psalm-assert array{keyword: string|int|bool} $arr
      */
     private static function ensureKeyword(array $arr): void
     {
         if (!array_key_exists('keyword', $arr)) {
             throw new SchemaViolationException('Property \'keyword\' is required but was not found');
         }
+        if (array_key_exists('keyword', $arr) && is_array($arr['keyword'])) {
+            throw new SchemaViolationException('Property \'keyword\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'text' matches expectations
-     *
-     * @psalm-assert array{text: mixed} $arr
+     * @psalm-assert array{text: string|int|bool} $arr
      */
     private static function ensureText(array $arr): void
     {
         if (!array_key_exists('text', $arr)) {
             throw new SchemaViolationException('Property \'text\' is required but was not found');
         }
+        if (array_key_exists('text', $arr) && is_array($arr['text'])) {
+            throw new SchemaViolationException('Property \'text\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'docString' matches expectations
-     *
      * @psalm-assert array{docString?: array} $arr
      */
     private static function ensureDocString(array $arr): void
@@ -115,8 +113,6 @@ final class Step implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'dataTable' matches expectations
-     *
      * @psalm-assert array{dataTable?: array} $arr
      */
     private static function ensureDataTable(array $arr): void
@@ -127,14 +123,15 @@ final class Step implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
+        }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
         }
     }
 }

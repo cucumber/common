@@ -102,56 +102,58 @@ final class Pickle implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'uri' matches expectations
-     *
-     * @psalm-assert array{uri: mixed} $arr
+     * @psalm-assert array{uri: string|int|bool} $arr
      */
     private static function ensureUri(array $arr): void
     {
         if (!array_key_exists('uri', $arr)) {
             throw new SchemaViolationException('Property \'uri\' is required but was not found');
         }
+        if (array_key_exists('uri', $arr) && is_array($arr['uri'])) {
+            throw new SchemaViolationException('Property \'uri\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'name' matches expectations
-     *
-     * @psalm-assert array{name: mixed} $arr
+     * @psalm-assert array{name: string|int|bool} $arr
      */
     private static function ensureName(array $arr): void
     {
         if (!array_key_exists('name', $arr)) {
             throw new SchemaViolationException('Property \'name\' is required but was not found');
         }
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'language' matches expectations
-     *
-     * @psalm-assert array{language: mixed} $arr
+     * @psalm-assert array{language: string|int|bool} $arr
      */
     private static function ensureLanguage(array $arr): void
     {
         if (!array_key_exists('language', $arr)) {
             throw new SchemaViolationException('Property \'language\' is required but was not found');
         }
+        if (array_key_exists('language', $arr) && is_array($arr['language'])) {
+            throw new SchemaViolationException('Property \'language\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'steps' matches expectations
-     *
      * @psalm-assert array{steps: array} $arr
      */
     private static function ensureSteps(array $arr): void
@@ -165,8 +167,6 @@ final class Pickle implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'tags' matches expectations
-     *
      * @psalm-assert array{tags: array} $arr
      */
     private static function ensureTags(array $arr): void
@@ -180,8 +180,6 @@ final class Pickle implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'astNodeIds' matches expectations
-     *
      * @psalm-assert array{astNodeIds: array} $arr
      */
     private static function ensureAstNodeIds(array $arr): void

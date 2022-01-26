@@ -38,8 +38,6 @@ final class TestRunStarted implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'timestamp' matches expectations
-     *
      * @psalm-assert array{timestamp: array} $arr
      */
     private static function ensureTimestamp(array $arr): void

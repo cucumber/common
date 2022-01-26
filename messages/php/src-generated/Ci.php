@@ -46,6 +46,8 @@ final class Ci implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureName($arr);
+        self::ensureUrl($arr);
+        self::ensureBuildNumber($arr);
         self::ensureGit($arr);
 
         return new self(
@@ -57,20 +59,39 @@ final class Ci implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'name' matches expectations
-     *
-     * @psalm-assert array{name: mixed} $arr
+     * @psalm-assert array{name: string|int|bool} $arr
      */
     private static function ensureName(array $arr): void
     {
         if (!array_key_exists('name', $arr)) {
             throw new SchemaViolationException('Property \'name\' is required but was not found');
         }
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'git' matches expectations
-     *
+     * @psalm-assert array{url: string|int|bool} $arr
+     */
+    private static function ensureUrl(array $arr): void
+    {
+        if (array_key_exists('url', $arr) && is_array($arr['url'])) {
+            throw new SchemaViolationException('Property \'url\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{buildNumber: string|int|bool} $arr
+     */
+    private static function ensureBuildNumber(array $arr): void
+    {
+        if (array_key_exists('buildNumber', $arr) && is_array($arr['buildNumber'])) {
+            throw new SchemaViolationException('Property \'buildNumber\' was array');
+        }
+    }
+
+    /**
      * @psalm-assert array{git?: array} $arr
      */
     private static function ensureGit(array $arr): void

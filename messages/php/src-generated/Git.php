@@ -39,6 +39,8 @@ final class Git implements JsonSerializable
     {
         self::ensureRemote($arr);
         self::ensureRevision($arr);
+        self::ensureBranch($arr);
+        self::ensureTag($arr);
 
         return new self(
             (string) $arr['remote'],
@@ -49,26 +51,48 @@ final class Git implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'remote' matches expectations
-     *
-     * @psalm-assert array{remote: mixed} $arr
+     * @psalm-assert array{remote: string|int|bool} $arr
      */
     private static function ensureRemote(array $arr): void
     {
         if (!array_key_exists('remote', $arr)) {
             throw new SchemaViolationException('Property \'remote\' is required but was not found');
         }
+        if (array_key_exists('remote', $arr) && is_array($arr['remote'])) {
+            throw new SchemaViolationException('Property \'remote\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'revision' matches expectations
-     *
-     * @psalm-assert array{revision: mixed} $arr
+     * @psalm-assert array{revision: string|int|bool} $arr
      */
     private static function ensureRevision(array $arr): void
     {
         if (!array_key_exists('revision', $arr)) {
             throw new SchemaViolationException('Property \'revision\' is required but was not found');
+        }
+        if (array_key_exists('revision', $arr) && is_array($arr['revision'])) {
+            throw new SchemaViolationException('Property \'revision\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{branch: string|int|bool} $arr
+     */
+    private static function ensureBranch(array $arr): void
+    {
+        if (array_key_exists('branch', $arr) && is_array($arr['branch'])) {
+            throw new SchemaViolationException('Property \'branch\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{tag: string|int|bool} $arr
+     */
+    private static function ensureTag(array $arr): void
+    {
+        if (array_key_exists('tag', $arr) && is_array($arr['tag'])) {
+            throw new SchemaViolationException('Property \'tag\' was array');
         }
     }
 }

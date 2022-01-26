@@ -2,12 +2,18 @@
 
 namespace Cucumber\Messages;
 
+use JsonSerializable;
+
 /**
  * @internal
+ *
+ * @psalm-require-implements JsonSerializable
  */
 trait JsonEncodingTrait
 {
     /**
+     * Creates this type of message from an appropriate JSON string
+     *
      * @throws DecodingException
      */
     public static function fromJson(string $json) : self
@@ -26,6 +32,9 @@ trait JsonEncodingTrait
         return self::fromArray($data);
     }
 
+    /**
+     * Serialise the message into a JSON string
+     */
     public function asJson() : string
     {
         return json_encode($this, JSON_THROW_ON_ERROR);

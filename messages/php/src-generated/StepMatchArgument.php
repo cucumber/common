@@ -42,6 +42,7 @@ final class StepMatchArgument implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureGroup($arr);
+        self::ensureParameterTypeName($arr);
 
         return new self(
             Group::fromArray($arr['group']),
@@ -50,8 +51,6 @@ final class StepMatchArgument implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'group' matches expectations
-     *
      * @psalm-assert array{group: array} $arr
      */
     private static function ensureGroup(array $arr): void
@@ -61,6 +60,16 @@ final class StepMatchArgument implements JsonSerializable
         }
         if (array_key_exists('group', $arr) && !is_array($arr['group'])) {
             throw new SchemaViolationException('Property \'group\' was not array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{parameterTypeName: string|int|bool} $arr
+     */
+    private static function ensureParameterTypeName(array $arr): void
+    {
+        if (array_key_exists('parameterTypeName', $arr) && is_array($arr['parameterTypeName'])) {
+            throw new SchemaViolationException('Property \'parameterTypeName\' was array');
         }
     }
 }

@@ -32,6 +32,7 @@ final class PickleDocString implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
+        self::ensureMediaType($arr);
         self::ensureContent($arr);
 
         return new self(
@@ -41,14 +42,25 @@ final class PickleDocString implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'content' matches expectations
-     *
-     * @psalm-assert array{content: mixed} $arr
+     * @psalm-assert array{mediaType: string|int|bool} $arr
+     */
+    private static function ensureMediaType(array $arr): void
+    {
+        if (array_key_exists('mediaType', $arr) && is_array($arr['mediaType'])) {
+            throw new SchemaViolationException('Property \'mediaType\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{content: string|int|bool} $arr
      */
     private static function ensureContent(array $arr): void
     {
         if (!array_key_exists('content', $arr)) {
             throw new SchemaViolationException('Property \'content\' is required but was not found');
+        }
+        if (array_key_exists('content', $arr) && is_array($arr['content'])) {
+            throw new SchemaViolationException('Property \'content\' was array');
         }
     }
 }

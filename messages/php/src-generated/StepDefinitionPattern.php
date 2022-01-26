@@ -42,26 +42,28 @@ final class StepDefinitionPattern implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'source' matches expectations
-     *
-     * @psalm-assert array{source: mixed} $arr
+     * @psalm-assert array{source: string|int|bool} $arr
      */
     private static function ensureSource(array $arr): void
     {
         if (!array_key_exists('source', $arr)) {
             throw new SchemaViolationException('Property \'source\' is required but was not found');
         }
+        if (array_key_exists('source', $arr) && is_array($arr['source'])) {
+            throw new SchemaViolationException('Property \'source\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'type' matches expectations
-     *
-     * @psalm-assert array{type: mixed} $arr
+     * @psalm-assert array{type: string|int|bool} $arr
      */
     private static function ensureType(array $arr): void
     {
         if (!array_key_exists('type', $arr)) {
             throw new SchemaViolationException('Property \'type\' is required but was not found');
+        }
+        if (array_key_exists('type', $arr) && is_array($arr['type'])) {
+            throw new SchemaViolationException('Property \'type\' was array');
         }
     }
 }

@@ -47,6 +47,7 @@ final class GherkinDocument implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
+        self::ensureUri($arr);
         self::ensureFeature($arr);
         self::ensureComments($arr);
 
@@ -58,8 +59,16 @@ final class GherkinDocument implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'feature' matches expectations
-     *
+     * @psalm-assert array{uri: string|int|bool} $arr
+     */
+    private static function ensureUri(array $arr): void
+    {
+        if (array_key_exists('uri', $arr) && is_array($arr['uri'])) {
+            throw new SchemaViolationException('Property \'uri\' was array');
+        }
+    }
+
+    /**
      * @psalm-assert array{feature?: array} $arr
      */
     private static function ensureFeature(array $arr): void
@@ -70,8 +79,6 @@ final class GherkinDocument implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'comments' matches expectations
-     *
      * @psalm-assert array{comments: array} $arr
      */
     private static function ensureComments(array $arr): void

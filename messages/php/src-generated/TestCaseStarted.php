@@ -58,44 +58,45 @@ final class TestCaseStarted implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'attempt' matches expectations
-     *
-     * @psalm-assert array{attempt: mixed} $arr
+     * @psalm-assert array{attempt: string|int|bool} $arr
      */
     private static function ensureAttempt(array $arr): void
     {
         if (!array_key_exists('attempt', $arr)) {
             throw new SchemaViolationException('Property \'attempt\' is required but was not found');
         }
+        if (array_key_exists('attempt', $arr) && is_array($arr['attempt'])) {
+            throw new SchemaViolationException('Property \'attempt\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'testCaseId' matches expectations
-     *
-     * @psalm-assert array{testCaseId: mixed} $arr
+     * @psalm-assert array{testCaseId: string|int|bool} $arr
      */
     private static function ensureTestCaseId(array $arr): void
     {
         if (!array_key_exists('testCaseId', $arr)) {
             throw new SchemaViolationException('Property \'testCaseId\' is required but was not found');
         }
+        if (array_key_exists('testCaseId', $arr) && is_array($arr['testCaseId'])) {
+            throw new SchemaViolationException('Property \'testCaseId\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'timestamp' matches expectations
-     *
      * @psalm-assert array{timestamp: array} $arr
      */
     private static function ensureTimestamp(array $arr): void

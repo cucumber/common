@@ -107,8 +107,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'attachment' matches expectations
-     *
      * @psalm-assert array{attachment?: array} $arr
      */
     private static function ensureAttachment(array $arr): void
@@ -119,8 +117,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'gherkinDocument' matches expectations
-     *
      * @psalm-assert array{gherkinDocument?: array} $arr
      */
     private static function ensureGherkinDocument(array $arr): void
@@ -131,8 +127,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'hook' matches expectations
-     *
      * @psalm-assert array{hook?: array} $arr
      */
     private static function ensureHook(array $arr): void
@@ -143,8 +137,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'meta' matches expectations
-     *
      * @psalm-assert array{meta?: array} $arr
      */
     private static function ensureMeta(array $arr): void
@@ -155,8 +147,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'parameterType' matches expectations
-     *
      * @psalm-assert array{parameterType?: array} $arr
      */
     private static function ensureParameterType(array $arr): void
@@ -167,8 +157,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'parseError' matches expectations
-     *
      * @psalm-assert array{parseError?: array} $arr
      */
     private static function ensureParseError(array $arr): void
@@ -179,8 +167,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'pickle' matches expectations
-     *
      * @psalm-assert array{pickle?: array} $arr
      */
     private static function ensurePickle(array $arr): void
@@ -191,8 +177,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'source' matches expectations
-     *
      * @psalm-assert array{source?: array} $arr
      */
     private static function ensureSource(array $arr): void
@@ -203,8 +187,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'stepDefinition' matches expectations
-     *
      * @psalm-assert array{stepDefinition?: array} $arr
      */
     private static function ensureStepDefinition(array $arr): void
@@ -215,8 +197,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testCase' matches expectations
-     *
      * @psalm-assert array{testCase?: array} $arr
      */
     private static function ensureTestCase(array $arr): void
@@ -227,8 +207,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testCaseFinished' matches expectations
-     *
      * @psalm-assert array{testCaseFinished?: array} $arr
      */
     private static function ensureTestCaseFinished(array $arr): void
@@ -239,8 +217,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testCaseStarted' matches expectations
-     *
      * @psalm-assert array{testCaseStarted?: array} $arr
      */
     private static function ensureTestCaseStarted(array $arr): void
@@ -251,8 +227,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testRunFinished' matches expectations
-     *
      * @psalm-assert array{testRunFinished?: array} $arr
      */
     private static function ensureTestRunFinished(array $arr): void
@@ -263,8 +237,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testRunStarted' matches expectations
-     *
      * @psalm-assert array{testRunStarted?: array} $arr
      */
     private static function ensureTestRunStarted(array $arr): void
@@ -275,8 +247,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testStepFinished' matches expectations
-     *
      * @psalm-assert array{testStepFinished?: array} $arr
      */
     private static function ensureTestStepFinished(array $arr): void
@@ -287,8 +257,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testStepStarted' matches expectations
-     *
      * @psalm-assert array{testStepStarted?: array} $arr
      */
     private static function ensureTestStepStarted(array $arr): void
@@ -299,8 +267,6 @@ final class Envelope implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'undefinedParameterType' matches expectations
-     *
      * @psalm-assert array{undefinedParameterType?: array} $arr
      */
     private static function ensureUndefinedParameterType(array $arr): void

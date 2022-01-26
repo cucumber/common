@@ -47,6 +47,7 @@ final class TestRunFinished implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
+        self::ensureMessage($arr);
         self::ensureSuccess($arr);
         self::ensureTimestamp($arr);
 
@@ -58,20 +59,29 @@ final class TestRunFinished implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'success' matches expectations
-     *
-     * @psalm-assert array{success: mixed} $arr
+     * @psalm-assert array{message: string|int|bool} $arr
+     */
+    private static function ensureMessage(array $arr): void
+    {
+        if (array_key_exists('message', $arr) && is_array($arr['message'])) {
+            throw new SchemaViolationException('Property \'message\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{success: string|int|bool} $arr
      */
     private static function ensureSuccess(array $arr): void
     {
         if (!array_key_exists('success', $arr)) {
             throw new SchemaViolationException('Property \'success\' is required but was not found');
         }
+        if (array_key_exists('success', $arr) && is_array($arr['success'])) {
+            throw new SchemaViolationException('Property \'success\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'timestamp' matches expectations
-     *
      * @psalm-assert array{timestamp: array} $arr
      */
     private static function ensureTimestamp(array $arr): void

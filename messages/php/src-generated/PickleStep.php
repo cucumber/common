@@ -58,8 +58,6 @@ final class PickleStep implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'argument' matches expectations
-     *
      * @psalm-assert array{argument?: array} $arr
      */
     private static function ensureArgument(array $arr): void
@@ -70,8 +68,6 @@ final class PickleStep implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'astNodeIds' matches expectations
-     *
      * @psalm-assert array{astNodeIds: array} $arr
      */
     private static function ensureAstNodeIds(array $arr): void
@@ -85,26 +81,28 @@ final class PickleStep implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'text' matches expectations
-     *
-     * @psalm-assert array{text: mixed} $arr
+     * @psalm-assert array{text: string|int|bool} $arr
      */
     private static function ensureText(array $arr): void
     {
         if (!array_key_exists('text', $arr)) {
             throw new SchemaViolationException('Property \'text\' is required but was not found');
+        }
+        if (array_key_exists('text', $arr) && is_array($arr['text'])) {
+            throw new SchemaViolationException('Property \'text\' was array');
         }
     }
 }

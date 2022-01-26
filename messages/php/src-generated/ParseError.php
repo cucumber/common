@@ -42,8 +42,6 @@ final class ParseError implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'source' matches expectations
-     *
      * @psalm-assert array{source: array} $arr
      */
     private static function ensureSource(array $arr): void
@@ -57,14 +55,15 @@ final class ParseError implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'message' matches expectations
-     *
-     * @psalm-assert array{message: mixed} $arr
+     * @psalm-assert array{message: string|int|bool} $arr
      */
     private static function ensureMessage(array $arr): void
     {
         if (!array_key_exists('message', $arr)) {
             throw new SchemaViolationException('Property \'message\' is required but was not found');
+        }
+        if (array_key_exists('message', $arr) && is_array($arr['message'])) {
+            throw new SchemaViolationException('Property \'message\' was array');
         }
     }
 }

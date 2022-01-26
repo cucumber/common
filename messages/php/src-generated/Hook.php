@@ -36,6 +36,7 @@ final class Hook implements JsonSerializable
     {
         self::ensureId($arr);
         self::ensureSourceReference($arr);
+        self::ensureTagExpression($arr);
 
         return new self(
             (string) $arr['id'],
@@ -45,20 +46,19 @@ final class Hook implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'sourceReference' matches expectations
-     *
      * @psalm-assert array{sourceReference: array} $arr
      */
     private static function ensureSourceReference(array $arr): void
@@ -68,6 +68,16 @@ final class Hook implements JsonSerializable
         }
         if (array_key_exists('sourceReference', $arr) && !is_array($arr['sourceReference'])) {
             throw new SchemaViolationException('Property \'sourceReference\' was not array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{tagExpression: string|int|bool} $arr
+     */
+    private static function ensureTagExpression(array $arr): void
+    {
+        if (array_key_exists('tagExpression', $arr) && is_array($arr['tagExpression'])) {
+            throw new SchemaViolationException('Property \'tagExpression\' was array');
         }
     }
 }

@@ -42,26 +42,28 @@ final class UndefinedParameterType implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'expression' matches expectations
-     *
-     * @psalm-assert array{expression: mixed} $arr
+     * @psalm-assert array{expression: string|int|bool} $arr
      */
     private static function ensureExpression(array $arr): void
     {
         if (!array_key_exists('expression', $arr)) {
             throw new SchemaViolationException('Property \'expression\' is required but was not found');
         }
+        if (array_key_exists('expression', $arr) && is_array($arr['expression'])) {
+            throw new SchemaViolationException('Property \'expression\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'name' matches expectations
-     *
-     * @psalm-assert array{name: mixed} $arr
+     * @psalm-assert array{name: string|int|bool} $arr
      */
     private static function ensureName(array $arr): void
     {
         if (!array_key_exists('name', $arr)) {
             throw new SchemaViolationException('Property \'name\' is required but was not found');
+        }
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
         }
     }
 }

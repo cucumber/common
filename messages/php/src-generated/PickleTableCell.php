@@ -38,14 +38,15 @@ final class PickleTableCell implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'value' matches expectations
-     *
-     * @psalm-assert array{value: mixed} $arr
+     * @psalm-assert array{value: string|int|bool} $arr
      */
     private static function ensureValue(array $arr): void
     {
         if (!array_key_exists('value', $arr)) {
             throw new SchemaViolationException('Property \'value\' is required but was not found');
+        }
+        if (array_key_exists('value', $arr) && is_array($arr['value'])) {
+            throw new SchemaViolationException('Property \'value\' was array');
         }
     }
 }

@@ -46,38 +46,41 @@ final class JavaStackTraceElement implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'className' matches expectations
-     *
-     * @psalm-assert array{className: mixed} $arr
+     * @psalm-assert array{className: string|int|bool} $arr
      */
     private static function ensureClassName(array $arr): void
     {
         if (!array_key_exists('className', $arr)) {
             throw new SchemaViolationException('Property \'className\' is required but was not found');
         }
+        if (array_key_exists('className', $arr) && is_array($arr['className'])) {
+            throw new SchemaViolationException('Property \'className\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'fileName' matches expectations
-     *
-     * @psalm-assert array{fileName: mixed} $arr
+     * @psalm-assert array{fileName: string|int|bool} $arr
      */
     private static function ensureFileName(array $arr): void
     {
         if (!array_key_exists('fileName', $arr)) {
             throw new SchemaViolationException('Property \'fileName\' is required but was not found');
         }
+        if (array_key_exists('fileName', $arr) && is_array($arr['fileName'])) {
+            throw new SchemaViolationException('Property \'fileName\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'methodName' matches expectations
-     *
-     * @psalm-assert array{methodName: mixed} $arr
+     * @psalm-assert array{methodName: string|int|bool} $arr
      */
     private static function ensureMethodName(array $arr): void
     {
         if (!array_key_exists('methodName', $arr)) {
             throw new SchemaViolationException('Property \'methodName\' is required but was not found');
+        }
+        if (array_key_exists('methodName', $arr) && is_array($arr['methodName'])) {
+            throw new SchemaViolationException('Property \'methodName\' was array');
         }
     }
 }

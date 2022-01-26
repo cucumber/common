@@ -46,32 +46,32 @@ final class TestStepStarted implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'testCaseStartedId' matches expectations
-     *
-     * @psalm-assert array{testCaseStartedId: mixed} $arr
+     * @psalm-assert array{testCaseStartedId: string|int|bool} $arr
      */
     private static function ensureTestCaseStartedId(array $arr): void
     {
         if (!array_key_exists('testCaseStartedId', $arr)) {
             throw new SchemaViolationException('Property \'testCaseStartedId\' is required but was not found');
         }
+        if (array_key_exists('testCaseStartedId', $arr) && is_array($arr['testCaseStartedId'])) {
+            throw new SchemaViolationException('Property \'testCaseStartedId\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'testStepId' matches expectations
-     *
-     * @psalm-assert array{testStepId: mixed} $arr
+     * @psalm-assert array{testStepId: string|int|bool} $arr
      */
     private static function ensureTestStepId(array $arr): void
     {
         if (!array_key_exists('testStepId', $arr)) {
             throw new SchemaViolationException('Property \'testStepId\' is required but was not found');
         }
+        if (array_key_exists('testStepId', $arr) && is_array($arr['testStepId'])) {
+            throw new SchemaViolationException('Property \'testStepId\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'timestamp' matches expectations
-     *
      * @psalm-assert array{timestamp: array} $arr
      */
     private static function ensureTimestamp(array $arr): void

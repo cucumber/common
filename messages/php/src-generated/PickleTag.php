@@ -45,26 +45,28 @@ final class PickleTag implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'name' matches expectations
-     *
-     * @psalm-assert array{name: mixed} $arr
+     * @psalm-assert array{name: string|int|bool} $arr
      */
     private static function ensureName(array $arr): void
     {
         if (!array_key_exists('name', $arr)) {
             throw new SchemaViolationException('Property \'name\' is required but was not found');
         }
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'astNodeId' matches expectations
-     *
-     * @psalm-assert array{astNodeId: mixed} $arr
+     * @psalm-assert array{astNodeId: string|int|bool} $arr
      */
     private static function ensureAstNodeId(array $arr): void
     {
         if (!array_key_exists('astNodeId', $arr)) {
             throw new SchemaViolationException('Property \'astNodeId\' is required but was not found');
+        }
+        if (array_key_exists('astNodeId', $arr) && is_array($arr['astNodeId'])) {
+            throw new SchemaViolationException('Property \'astNodeId\' was array');
         }
     }
 }

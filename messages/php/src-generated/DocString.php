@@ -37,6 +37,7 @@ final class DocString implements JsonSerializable
     public static function fromArray(array $arr) : self
     {
         self::ensureLocation($arr);
+        self::ensureMediaType($arr);
         self::ensureContent($arr);
         self::ensureDelimiter($arr);
 
@@ -49,8 +50,6 @@ final class DocString implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'location' matches expectations
-     *
      * @psalm-assert array{location: array} $arr
      */
     private static function ensureLocation(array $arr): void
@@ -64,26 +63,38 @@ final class DocString implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'content' matches expectations
-     *
-     * @psalm-assert array{content: mixed} $arr
+     * @psalm-assert array{mediaType: string|int|bool} $arr
+     */
+    private static function ensureMediaType(array $arr): void
+    {
+        if (array_key_exists('mediaType', $arr) && is_array($arr['mediaType'])) {
+            throw new SchemaViolationException('Property \'mediaType\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{content: string|int|bool} $arr
      */
     private static function ensureContent(array $arr): void
     {
         if (!array_key_exists('content', $arr)) {
             throw new SchemaViolationException('Property \'content\' is required but was not found');
         }
+        if (array_key_exists('content', $arr) && is_array($arr['content'])) {
+            throw new SchemaViolationException('Property \'content\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'delimiter' matches expectations
-     *
-     * @psalm-assert array{delimiter: mixed} $arr
+     * @psalm-assert array{delimiter: string|int|bool} $arr
      */
     private static function ensureDelimiter(array $arr): void
     {
         if (!array_key_exists('delimiter', $arr)) {
             throw new SchemaViolationException('Property \'delimiter\' is required but was not found');
+        }
+        if (array_key_exists('delimiter', $arr) && is_array($arr['delimiter'])) {
+            throw new SchemaViolationException('Property \'delimiter\' was array');
         }
     }
 }

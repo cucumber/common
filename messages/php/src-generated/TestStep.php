@@ -55,7 +55,9 @@ final class TestStep implements JsonSerializable
      */
     public static function fromArray(array $arr) : self
     {
+        self::ensureHookId($arr);
         self::ensureId($arr);
+        self::ensurePickleStepId($arr);
         self::ensureStepDefinitionIds($arr);
         self::ensureStepMatchArgumentsLists($arr);
 
@@ -69,20 +71,39 @@ final class TestStep implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'id' matches expectations
-     *
-     * @psalm-assert array{id: mixed} $arr
+     * @psalm-assert array{hookId: string|int|bool} $arr
+     */
+    private static function ensureHookId(array $arr): void
+    {
+        if (array_key_exists('hookId', $arr) && is_array($arr['hookId'])) {
+            throw new SchemaViolationException('Property \'hookId\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{id: string|int|bool} $arr
      */
     private static function ensureId(array $arr): void
     {
         if (!array_key_exists('id', $arr)) {
             throw new SchemaViolationException('Property \'id\' is required but was not found');
         }
+        if (array_key_exists('id', $arr) && is_array($arr['id'])) {
+            throw new SchemaViolationException('Property \'id\' was array');
+        }
     }
 
     /**
-     * Check that the type of 'stepDefinitionIds' matches expectations
-     *
+     * @psalm-assert array{pickleStepId: string|int|bool} $arr
+     */
+    private static function ensurePickleStepId(array $arr): void
+    {
+        if (array_key_exists('pickleStepId', $arr) && is_array($arr['pickleStepId'])) {
+            throw new SchemaViolationException('Property \'pickleStepId\' was array');
+        }
+    }
+
+    /**
      * @psalm-assert array{stepDefinitionIds?: array} $arr
      */
     private static function ensureStepDefinitionIds(array $arr): void
@@ -93,8 +114,6 @@ final class TestStep implements JsonSerializable
     }
 
     /**
-     * Check that the type of 'stepMatchArgumentsLists' matches expectations
-     *
      * @psalm-assert array{stepMatchArgumentsLists?: array} $arr
      */
     private static function ensureStepMatchArgumentsLists(array $arr): void
