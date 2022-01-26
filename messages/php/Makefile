@@ -1,6 +1,9 @@
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
+clean:
+	rm -rf vendor composer.lock build/messages.php
+
 .deps: composer.lock build/messages.php
 
 composer.lock:
