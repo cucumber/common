@@ -2,7 +2,8 @@
 
 namespace Cucumber\Messages;
 
-use Cucumber\Messages\DecodingException\UnknownDecodingException;
+use Cucumber\Messages\DecodingException\MalformedJsonException;
+use Cucumber\Messages\DecodingException\UnexpectedDecodingException;
 use Cucumber\Messages\DecodingException\SchemaViolationException;
 use JsonSerializable;
 
@@ -23,15 +24,20 @@ trait JsonEncodingTrait
         try {
             $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
         }
-        catch(\Throwable $t) {
-            throw new UnknownDecodingException('Unknown decoding error', previous: $t);
+        catch (\Throwable $t) {
+            throw new MalformedJsonException('Provided string is not valid JSON', previous: $t);
         }
 
         if (!is_array($data)) {
             throw new SchemaViolationException('Provided JSON did not decode as an array');
         }
 
-        return self::fromArray($data);
+        try {
+            return self::fromArray($data);
+        }
+        catch (\Throwable $t) {
+            throw new UnexpectedDecodingException('Unexpected decoding error: "'.$t->getMessage().'"', previous: $t);
+        }
     }
 
     /**

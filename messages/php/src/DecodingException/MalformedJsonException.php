@@ -5,8 +5,8 @@ namespace Cucumber\Messages\DecodingException;
 use Cucumber\Messages\DecodingException;
 
 /**
- * Something went wrong when decoding, but it is not clear what
+ * JSON decoding threw an exception
  */
-final class UnknownDecodingException extends DecodingException
+final class MalformedJsonException extends DecodingException
 {
 }
