@@ -79,7 +79,7 @@ final class Git implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{branch: string|int|bool} $arr
+     * @psalm-assert array{branch?: string|int|bool} $arr
      */
     private static function ensureBranch(array $arr): void
     {
@@ -89,7 +89,7 @@ final class Git implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{tag: string|int|bool} $arr
+     * @psalm-assert array{tag?: string|int|bool} $arr
      */
     private static function ensureTag(array $arr): void
     {

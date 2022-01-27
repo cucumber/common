@@ -64,7 +64,7 @@ final class Group implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{start: string|int|bool} $arr
+     * @psalm-assert array{start?: string|int|bool} $arr
      */
     private static function ensureStart(array $arr): void
     {
@@ -74,7 +74,7 @@ final class Group implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{value: string|int|bool} $arr
+     * @psalm-assert array{value?: string|int|bool} $arr
      */
     private static function ensureValue(array $arr): void
     {

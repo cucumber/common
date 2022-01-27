@@ -141,7 +141,7 @@ final class Attachment implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{fileName: string|int|bool} $arr
+     * @psalm-assert array{fileName?: string|int|bool} $arr
      */
     private static function ensureFileName(array $arr): void
     {
@@ -174,7 +174,7 @@ final class Attachment implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{testCaseStartedId: string|int|bool} $arr
+     * @psalm-assert array{testCaseStartedId?: string|int|bool} $arr
      */
     private static function ensureTestCaseStartedId(array $arr): void
     {
@@ -184,7 +184,7 @@ final class Attachment implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{testStepId: string|int|bool} $arr
+     * @psalm-assert array{testStepId?: string|int|bool} $arr
      */
     private static function ensureTestStepId(array $arr): void
     {
@@ -194,7 +194,7 @@ final class Attachment implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{url: string|int|bool} $arr
+     * @psalm-assert array{url?: string|int|bool} $arr
      */
     private static function ensureUrl(array $arr): void
     {

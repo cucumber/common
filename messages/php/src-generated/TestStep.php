@@ -73,7 +73,7 @@ final class TestStep implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{hookId: string|int|bool} $arr
+     * @psalm-assert array{hookId?: string|int|bool} $arr
      */
     private static function ensureHookId(array $arr): void
     {
@@ -96,7 +96,7 @@ final class TestStep implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{pickleStepId: string|int|bool} $arr
+     * @psalm-assert array{pickleStepId?: string|int|bool} $arr
      */
     private static function ensurePickleStepId(array $arr): void
     {

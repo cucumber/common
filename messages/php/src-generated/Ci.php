@@ -74,7 +74,7 @@ final class Ci implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{url: string|int|bool} $arr
+     * @psalm-assert array{url?: string|int|bool} $arr
      */
     private static function ensureUrl(array $arr): void
     {
@@ -84,7 +84,7 @@ final class Ci implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{buildNumber: string|int|bool} $arr
+     * @psalm-assert array{buildNumber?: string|int|bool} $arr
      */
     private static function ensureBuildNumber(array $arr): void
     {

@@ -53,7 +53,7 @@ final class SourceReference implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{uri: string|int|bool} $arr
+     * @psalm-assert array{uri?: string|int|bool} $arr
      */
     private static function ensureUri(array $arr): void
     {

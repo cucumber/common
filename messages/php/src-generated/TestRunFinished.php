@@ -61,7 +61,7 @@ final class TestRunFinished implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{message: string|int|bool} $arr
+     * @psalm-assert array{message?: string|int|bool} $arr
      */
     private static function ensureMessage(array $arr): void
     {

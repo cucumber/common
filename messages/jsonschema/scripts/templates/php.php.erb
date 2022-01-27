@@ -60,7 +60,7 @@ final class <%= class_name(key) %> implements JsonSerializable
 
     /**
         <%- if is_scalar(property) -%>
-     * @psalm-assert array{<%= property_name %>: string|int|bool} $arr
+     * @psalm-assert array{<%= property_name %><%- if (is_nullable(property_name, schema)) -%>?<%- end -%>: string|int|bool} $arr
         <%- else -%>
      * @psalm-assert array{<%= property_name %><%- if (is_nullable(property_name, schema)) -%>?<%- end -%>: array} $arr
         <%- end -%>

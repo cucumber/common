@@ -66,7 +66,7 @@ final class StepMatchArgument implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{parameterTypeName: string|int|bool} $arr
+     * @psalm-assert array{parameterTypeName?: string|int|bool} $arr
      */
     private static function ensureParameterTypeName(array $arr): void
     {

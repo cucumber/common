@@ -74,7 +74,7 @@ final class Hook implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{tagExpression: string|int|bool} $arr
+     * @psalm-assert array{tagExpression?: string|int|bool} $arr
      */
     private static function ensureTagExpression(array $arr): void
     {

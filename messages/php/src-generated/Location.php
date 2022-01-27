@@ -57,7 +57,7 @@ final class Location implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{column: string|int|bool} $arr
+     * @psalm-assert array{column?: string|int|bool} $arr
      */
     private static function ensureColumn(array $arr): void
     {

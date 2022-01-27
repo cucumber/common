@@ -44,7 +44,7 @@ final class PickleDocString implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{mediaType: string|int|bool} $arr
+     * @psalm-assert array{mediaType?: string|int|bool} $arr
      */
     private static function ensureMediaType(array $arr): void
     {

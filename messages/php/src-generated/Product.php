@@ -63,7 +63,7 @@ final class Product implements JsonSerializable
     }
 
     /**
-     * @psalm-assert array{version: string|int|bool} $arr
+     * @psalm-assert array{version?: string|int|bool} $arr
      */
     private static function ensureVersion(array $arr): void
     {
