@@ -8,16 +8,16 @@ use PHPUnit\Framework\TestCase;
 class AcceptanceTest extends TestCase
 {
     /** @dataProvider provideJsonLines */
-    public function testAllNdJsonSurvivesDecodingThenEncoding(string $json) : void
+    public function testAllNdJsonSurvivesDecodingThenEncoding(string $json): void
     {
-       $envelope = Envelope::fromJson($json);
-       $newJson = $envelope->asJson();
+        $envelope = Envelope::fromJson($json);
+        $newJson = $envelope->asJson();
 
-       self::assertJsonStringEqualsJsonString($json, $newJson);
+        self::assertJsonStringEqualsJsonString($json, $newJson);
     }
 
     /** @dataProvider provideNdJsonFilenames */
-    public function testAllFileStreamsSurviveDecodingThenEncoding(string $filename) : void
+    public function testAllFileStreamsSurviveDecodingThenEncoding(string $filename): void
     {
         $sourceHandle = fopen($filename, 'r');
         $destHandle = fopen('php://memory', 'w');
@@ -48,10 +48,10 @@ class AcceptanceTest extends TestCase
     /**
      * @return Generator<string, array{0: string}>
      */
-    public function provideJsonLines() : Generator
+    public function provideJsonLines(): Generator
     {
         foreach ($this->getSampleFiles() as $filename) {
-            foreach(file($filename) ?: [] as $lineNumber => $line) {
+            foreach (file($filename) ?: [] as $lineNumber => $line) {
                 // key is provided for better error messages
                 $key = realpath($filename) . ':' . $lineNumber;
                 yield $key => [$line];
@@ -62,10 +62,9 @@ class AcceptanceTest extends TestCase
     /**
      * @return Generator<string, array{0: string}>
      */
-    public function provideNdJsonFilenames() : Generator
+    public function provideNdJsonFilenames(): Generator
     {
-        foreach($this->getSampleFiles() as $filename)
-        {
+        foreach ($this->getSampleFiles() as $filename) {
             yield $filename => [$filename];
         }
     }

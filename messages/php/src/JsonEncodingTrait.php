@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Cucumber\Messages;
 
@@ -19,12 +21,11 @@ trait JsonEncodingTrait
      *
      * @throws DecodingException
      */
-    public static function fromJson(string $json) : self
+    public static function fromJson(string $json): self
     {
         try {
             $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
-        }
-        catch (\Throwable $t) {
+        } catch (\Throwable $t) {
             throw new MalformedJsonException('Provided string is not valid JSON', previous: $t);
         }
 
@@ -34,8 +35,7 @@ trait JsonEncodingTrait
 
         try {
             return self::fromArray($data);
-        }
-        catch (\Throwable $t) {
+        } catch (\Throwable $t) {
             throw new UnexpectedDecodingException('Unexpected decoding error: "'.$t->getMessage().'"', previous: $t);
         }
     }
@@ -43,7 +43,7 @@ trait JsonEncodingTrait
     /**
      * Serialise the message into a JSON string
      */
-    public function asJson() : string
+    public function asJson(): string
     {
         return json_encode($this, JSON_THROW_ON_ERROR);
     }
@@ -59,7 +59,7 @@ trait JsonEncodingTrait
     {
         return array_filter(
             (array)$this,
-            fn(mixed $x) => !is_null($x)
+            fn (mixed $x) => !is_null($x)
         );
     }
 }

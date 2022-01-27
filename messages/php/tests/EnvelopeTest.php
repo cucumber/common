@@ -8,14 +8,14 @@ use PHPUnit\Framework\TestCase;
 
 class EnvelopeTest extends TestCase
 {
-    public function testItCanBeConstructedWithDefaultProperties() : void
+    public function testItCanBeConstructedWithDefaultProperties(): void
     {
         $envelope = new Envelope();
 
         self::assertNull($envelope->gherkinDocument);
     }
 
-    public function testItCanBeConstructedWithASubsetOfProperties() : void
+    public function testItCanBeConstructedWithASubsetOfProperties(): void
     {
         $envelope = new Envelope(
             gherkinDocument: new GherkinDocument(
@@ -32,5 +32,4 @@ class EnvelopeTest extends TestCase
             $envelope->gherkinDocument?->feature?->location?->line
         );
     }
-
 }

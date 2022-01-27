@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Cucumber\Messages\Streams;
 
@@ -12,7 +14,8 @@ trait WithFileHandleTrait
      */
     private function __construct(
         private mixed $fileHandle,
-    ){}
+    ) {
+    }
 
     /**
      * @param resource $fileHandle

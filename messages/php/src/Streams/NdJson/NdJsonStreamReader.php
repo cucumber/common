@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Cucumber\Messages\Streams\NdJson;
 
@@ -14,7 +16,7 @@ final class NdJsonStreamReader implements StreamReader
     /**
      * @return Generator<Envelope>
      */
-    public function envelopes() : Generator
+    public function envelopes(): Generator
     {
         while (!feof($this->fileHandle) && ($line = fgets($this->fileHandle))) {
             yield Envelope::fromJson($line);
