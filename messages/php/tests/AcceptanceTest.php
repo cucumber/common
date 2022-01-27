@@ -1,8 +1,8 @@
 <?php
 
 use Cucumber\Messages\Envelope;
-use Cucumber\Messages\Streams\NdJsonStreamReader;
-use Cucumber\Messages\Streams\NdJsonStreamWriter;
+use Cucumber\Messages\Streams\NdJson\NdJsonStreamReader;
+use Cucumber\Messages\Streams\NdJson\NdJsonStreamWriter;
 use PHPUnit\Framework\TestCase;
 
 class AcceptanceTest extends TestCase

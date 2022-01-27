@@ -7,6 +7,8 @@
 namespace Cucumber\Messages;
 
 use \JsonSerializable;
+use Cucumber\Messages\DecodingException\SchemaViolationException;
+
 <%- @schemas.sort.each do |key, schema| -%>
 // CLASS_START <%= class_name(key) %>.php
 /**

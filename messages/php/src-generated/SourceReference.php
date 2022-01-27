@@ -7,6 +7,8 @@
 namespace Cucumber\Messages;
 
 use \JsonSerializable;
+use Cucumber\Messages\DecodingException\SchemaViolationException;
+
 
 /**
  * Represents the SourceReference message in Cucumber's message protocol

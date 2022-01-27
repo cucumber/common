@@ -7,6 +7,8 @@
 namespace Cucumber\Messages;
 
 use \JsonSerializable;
+use Cucumber\Messages\DecodingException\SchemaViolationException;
+
 
 /**
  * Represents the UndefinedParameterType message in Cucumber's message protocol

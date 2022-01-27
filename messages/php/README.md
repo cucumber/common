@@ -43,7 +43,7 @@ You can use the `NdJsonStreamReader` to obtain a Generator. It's important to re
 be thrown as the Envelope is created during the loop.
 
 ```php
-use Cucumber\Messages\Streams\NdJsonStreamReader;
+use Cucumber\Messages\Streams\NdJson\NdJsonStreamReader;
 
 $fh = fopen('messages.ndjson', 'r');
 $reader = new NdJsonStreamReader($fh);

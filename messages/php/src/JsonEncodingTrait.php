@@ -2,6 +2,8 @@
 
 namespace Cucumber\Messages;
 
+use Cucumber\Messages\DecodingException\UnknownDecodingException;
+use Cucumber\Messages\DecodingException\SchemaViolationException;
 use JsonSerializable;
 
 /**
