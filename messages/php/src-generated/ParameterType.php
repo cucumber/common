@@ -19,23 +19,23 @@ final class ParameterType implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The name is unique, so we don't need an id.
          */
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * @param list<string> $regularExpressions
          */
-        public readonly array $regularExpressions,
+        public readonly array $regularExpressions = [],
 
-        public readonly bool $preferForRegularExpressionMatch,
+        public readonly bool $preferForRegularExpressionMatch = false,
 
-        public readonly bool $useForSnippets,
+        public readonly bool $useForSnippets = false,
 
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

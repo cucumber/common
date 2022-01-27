@@ -19,7 +19,7 @@ final class TestRunFinished implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
@@ -28,17 +28,17 @@ final class TestRunFinished implements JsonSerializable
          * The independent `UndefinedParameterType` messages can be used to generate
          * snippets for those parameter types.
          */
-        public readonly ?string $message,
+        public readonly ?string $message = null,
 
         /**
          * success = StrictModeEnabled ? (failed_count == 0 && ambiguous_count == 0 && undefined_count == 0 && pending_count == 0) : (failed_count == 0 && ambiguous_count == 0)
          */
-        public readonly bool $success,
+        public readonly bool $success = false,
 
         /**
          * Timestamp when the TestRun is finished
          */
-        public readonly Timestamp $timestamp,
+        public readonly Timestamp $timestamp = new Timestamp(),
 
     ){}
 

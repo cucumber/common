@@ -20,9 +20,9 @@ final class Duration implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly int $seconds,
+        public readonly int $seconds = 0,
 
         /**
          * Non-negative fractions of a second at nanosecond resolution. Negative
@@ -30,7 +30,7 @@ final class Duration implements JsonSerializable
          * that count forward in time. Must be from 0 to 999,999,999
          * inclusive.
          */
-        public readonly int $nanos,
+        public readonly int $nanos = 0,
 
     ){}
 

@@ -20,25 +20,25 @@ final class TestStep implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * Pointer to the `Hook` (if derived from a Hook)
          */
-        public readonly ?string $hookId,
+        public readonly ?string $hookId = null,
 
-        public readonly string $id,
+        public readonly string $id = '',
 
         /**
          * Pointer to the `PickleStep` (if derived from a `PickleStep`)
          */
-        public readonly ?string $pickleStepId,
+        public readonly ?string $pickleStepId = null,
 
         /**
          * Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)
          * @param ?list<string> $stepDefinitionIds
          */
-        public readonly ?array $stepDefinitionIds,
+        public readonly ?array $stepDefinitionIds = null,
 
         /**
          * A list of list of StepMatchArgument (if derived from a `PickleStep`).
@@ -46,7 +46,7 @@ final class TestStep implements JsonSerializable
          * and a size of 2+ means `AMBIGUOUS`
          * @param ?list<StepMatchArgumentsList> $stepMatchArgumentsLists
          */
-        public readonly ?array $stepMatchArgumentsLists,
+        public readonly ?array $stepMatchArgumentsLists = null,
 
     ){}
 

@@ -19,23 +19,23 @@ final class PickleStep implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly ?PickleStepArgument $argument,
+        public readonly ?PickleStepArgument $argument = null,
 
         /**
          * References the IDs of the source of the step. For Gherkin, this can be
          * the ID of a Step, and possibly also the ID of a TableRow
          * @param list<string> $astNodeIds
          */
-        public readonly array $astNodeIds,
+        public readonly array $astNodeIds = [],
 
         /**
          * A unique ID for the PickleStep
          */
-        public readonly string $id,
+        public readonly string $id = '',
 
-        public readonly string $text,
+        public readonly string $text = '',
 
     ){}
 

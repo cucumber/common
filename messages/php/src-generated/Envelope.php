@@ -24,41 +24,41 @@ final class Envelope implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly ?Attachment $attachment,
+        public readonly ?Attachment $attachment = null,
 
-        public readonly ?GherkinDocument $gherkinDocument,
+        public readonly ?GherkinDocument $gherkinDocument = null,
 
-        public readonly ?Hook $hook,
+        public readonly ?Hook $hook = null,
 
-        public readonly ?Meta $meta,
+        public readonly ?Meta $meta = null,
 
-        public readonly ?ParameterType $parameterType,
+        public readonly ?ParameterType $parameterType = null,
 
-        public readonly ?ParseError $parseError,
+        public readonly ?ParseError $parseError = null,
 
-        public readonly ?Pickle $pickle,
+        public readonly ?Pickle $pickle = null,
 
-        public readonly ?Source $source,
+        public readonly ?Source $source = null,
 
-        public readonly ?StepDefinition $stepDefinition,
+        public readonly ?StepDefinition $stepDefinition = null,
 
-        public readonly ?TestCase $testCase,
+        public readonly ?TestCase $testCase = null,
 
-        public readonly ?TestCaseFinished $testCaseFinished,
+        public readonly ?TestCaseFinished $testCaseFinished = null,
 
-        public readonly ?TestCaseStarted $testCaseStarted,
+        public readonly ?TestCaseStarted $testCaseStarted = null,
 
-        public readonly ?TestRunFinished $testRunFinished,
+        public readonly ?TestRunFinished $testRunFinished = null,
 
-        public readonly ?TestRunStarted $testRunStarted,
+        public readonly ?TestRunStarted $testRunStarted = null,
 
-        public readonly ?TestStepFinished $testStepFinished,
+        public readonly ?TestStepFinished $testStepFinished = null,
 
-        public readonly ?TestStepStarted $testStepStarted,
+        public readonly ?TestStepStarted $testStepStarted = null,
 
-        public readonly ?UndefinedParameterType $undefinedParameterType,
+        public readonly ?UndefinedParameterType $undefinedParameterType = null,
 
     ){}
 

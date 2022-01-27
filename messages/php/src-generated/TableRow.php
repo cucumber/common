@@ -19,20 +19,20 @@ final class TableRow implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the first cell in the row
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * Cells in the row
          * @param list<TableCell> $cells
          */
-        public readonly array $cells,
+        public readonly array $cells = [],
 
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

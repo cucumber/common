@@ -30,42 +30,42 @@ final class Pickle implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
          * from the source data and the `locations` of the pickle.
          * This ID will change if source the file is modified.
          */
-        public readonly string $id,
+        public readonly string $id = '',
 
         /**
          * The uri of the source file
          */
-        public readonly string $uri,
+        public readonly string $uri = '',
 
         /**
          * The name of the pickle
          */
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * The language of the pickle
          */
-        public readonly string $language,
+        public readonly string $language = '',
 
         /**
          * One or more steps
          * @param list<PickleStep> $steps
          */
-        public readonly array $steps,
+        public readonly array $steps = [],
 
         /**
          * One or more tags. If this pickle is constructed from a Gherkin document,
          * It includes inherited tags from the `Feature` as well.
          * @param list<PickleTag> $tags
          */
-        public readonly array $tags,
+        public readonly array $tags = [],
 
         /**
          * Points to the AST node locations of the pickle. The last one represents the unique
@@ -73,7 +73,7 @@ final class Pickle implements JsonSerializable
          * id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
          * @param list<string> $astNodeIds
          */
-        public readonly array $astNodeIds,
+        public readonly array $astNodeIds = [],
 
     ){}
 

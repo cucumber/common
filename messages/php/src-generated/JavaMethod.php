@@ -19,16 +19,16 @@ final class JavaMethod implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $className,
+        public readonly string $className = '',
 
-        public readonly string $methodName,
+        public readonly string $methodName = '',
 
         /**
          * @param list<string> $methodParameterTypes
          */
-        public readonly array $methodParameterTypes,
+        public readonly array $methodParameterTypes = [],
 
     ){}
 

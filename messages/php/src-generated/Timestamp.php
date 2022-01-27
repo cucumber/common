@@ -19,14 +19,14 @@ final class Timestamp implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * Represents seconds of UTC time since Unix epoch
          * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
          * 9999-12-31T23:59:59Z inclusive.
          */
-        public readonly int $seconds,
+        public readonly int $seconds = 0,
 
         /**
          * Non-negative fractions of a second at nanosecond resolution. Negative
@@ -34,7 +34,7 @@ final class Timestamp implements JsonSerializable
          * that count forward in time. Must be from 0 to 999,999,999
          * inclusive.
          */
-        public readonly int $nanos,
+        public readonly int $nanos = 0,
 
     ){}
 

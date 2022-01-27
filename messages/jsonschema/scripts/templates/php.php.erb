@@ -20,7 +20,7 @@ final class <%= class_name(key) %> implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
     <%- schema['properties'].each do |property_name, property| -%>
 
         <%- property_type = type_for(key, property_name, property) -%>
@@ -34,7 +34,7 @@ final class <%= class_name(key) %> implements JsonSerializable
         <%- end -%>
          */
         <%- end -%>
-        public readonly <%= is_nullable(property_name, schema) ? '?' : '' %><%= property_type %> $<%= property_name %>,
+        public readonly <%= is_nullable(property_name, schema) ? '?' : '' %><%= property_type %> $<%= property_name %> = <%= default_value(class_name(key), property_name, property, schema) -%>,
     <%- end -%>
 
     ){}

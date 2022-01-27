@@ -19,11 +19,11 @@ final class Location implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly int $line,
+        public readonly int $line = 0,
 
-        public readonly ?int $column,
+        public readonly ?int $column = null,
 
     ){}
 

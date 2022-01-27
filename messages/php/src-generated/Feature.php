@@ -19,44 +19,44 @@ final class Feature implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the `Feature` keyword
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * All the tags placed above the `Feature` keyword
          * @param list<Tag> $tags
          */
-        public readonly array $tags,
+        public readonly array $tags = [],
 
         /**
          * The [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code of the Gherkin document
          */
-        public readonly string $language,
+        public readonly string $language = '',
 
         /**
          * The text of the `Feature` keyword (in the language specified by `language`)
          */
-        public readonly string $keyword,
+        public readonly string $keyword = '',
 
         /**
          * The name of the feature (the text following the `keyword`)
          */
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * The line(s) underneath the line with the `keyword` that are used as description
          */
-        public readonly string $description,
+        public readonly string $description = '',
 
         /**
          * Zero or more children
          * @param list<FeatureChild> $children
          */
-        public readonly array $children,
+        public readonly array $children = [],
 
     ){}
 

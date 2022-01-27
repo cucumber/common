@@ -19,13 +19,13 @@ final class TestStepResult implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly Duration $duration,
+        public readonly Duration $duration = new Duration(),
 
-        public readonly ?string $message,
+        public readonly ?string $message = null,
 
-        public readonly TestStepResult\Status $status,
+        public readonly TestStepResult\Status $status = TestStepResult\Status::UNKNOWN,
 
     ){}
 

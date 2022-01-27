@@ -19,31 +19,31 @@ final class Rule implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the `Rule` keyword
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * All the tags placed above the `Rule` keyword
          * @param list<Tag> $tags
          */
-        public readonly array $tags,
+        public readonly array $tags = [],
 
-        public readonly string $keyword,
+        public readonly string $keyword = '',
 
-        public readonly string $name,
+        public readonly string $name = '',
 
-        public readonly string $description,
+        public readonly string $description = '',
 
         /**
          * @param list<RuleChild> $children
          */
-        public readonly array $children,
+        public readonly array $children = [],
 
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

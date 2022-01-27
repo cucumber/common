@@ -19,12 +19,12 @@ final class PickleTable implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * @param list<PickleTableRow> $rows
          */
-        public readonly array $rows,
+        public readonly array $rows = [],
 
     ){}
 

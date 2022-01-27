@@ -19,13 +19,13 @@ final class TestCaseFinished implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $testCaseStartedId,
+        public readonly string $testCaseStartedId = '',
 
-        public readonly Timestamp $timestamp,
+        public readonly Timestamp $timestamp = new Timestamp(),
 
-        public readonly bool $willBeRetried,
+        public readonly bool $willBeRetried = false,
 
     ){}
 

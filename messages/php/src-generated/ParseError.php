@@ -19,11 +19,11 @@ final class ParseError implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly SourceReference $source,
+        public readonly SourceReference $source = new SourceReference(),
 
-        public readonly string $message,
+        public readonly string $message = '',
 
     ){}
 

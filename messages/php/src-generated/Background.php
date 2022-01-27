@@ -19,25 +19,25 @@ final class Background implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the `Background` keyword
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
-        public readonly string $keyword,
+        public readonly string $keyword = '',
 
-        public readonly string $name,
+        public readonly string $name = '',
 
-        public readonly string $description,
+        public readonly string $description = '',
 
         /**
          * @param list<Step> $steps
          */
-        public readonly array $steps,
+        public readonly array $steps = [],
 
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

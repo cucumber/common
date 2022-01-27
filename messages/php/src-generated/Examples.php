@@ -19,32 +19,32 @@ final class Examples implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the `Examples` keyword
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * @param list<Tag> $tags
          */
-        public readonly array $tags,
+        public readonly array $tags = [],
 
-        public readonly string $keyword,
+        public readonly string $keyword = '',
 
-        public readonly string $name,
+        public readonly string $name = '',
 
-        public readonly string $description,
+        public readonly string $description = '',
 
-        public readonly ?TableRow $tableHeader,
+        public readonly ?TableRow $tableHeader = null,
 
         /**
          * @param list<TableRow> $tableBody
          */
-        public readonly array $tableBody,
+        public readonly array $tableBody = [],
 
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

@@ -19,14 +19,14 @@ final class DataTable implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * @param list<TableRow> $rows
          */
-        public readonly array $rows,
+        public readonly array $rows = [],
 
     ){}
 

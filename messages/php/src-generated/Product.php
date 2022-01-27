@@ -19,17 +19,17 @@ final class Product implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The product name
          */
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * The product version
          */
-        public readonly ?string $version,
+        public readonly ?string $version = null,
 
     ){}
 

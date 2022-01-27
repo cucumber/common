@@ -19,23 +19,23 @@ final class TestCaseStarted implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The first attempt should have value 0, and for each retry the value
          * should increase by 1.
          */
-        public readonly int $attempt,
+        public readonly int $attempt = 0,
 
         /**
          * Because a `TestCase` can be run multiple times (in case of a retry),
          * we use this field to group messages relating to the same attempt.
          */
-        public readonly string $id,
+        public readonly string $id = '',
 
-        public readonly string $testCaseId,
+        public readonly string $testCaseId = '',
 
-        public readonly Timestamp $timestamp,
+        public readonly Timestamp $timestamp = new Timestamp(),
 
     ){}
 

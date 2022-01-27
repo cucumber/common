@@ -29,14 +29,14 @@ final class Attachment implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
          * is simply the string. If it's `BASE64`, the string should be Base64 decoded to
          * obtain the attachment.
          */
-        public readonly string $body,
+        public readonly string $body = '',
 
         /**
          * Whether to interpret `body` "as-is" (IDENTITY) or if it needs to be Base64-decoded (BASE64).
@@ -48,12 +48,12 @@ final class Attachment implements JsonSerializable
          * - byte array => BASE64
          * - stream => BASE64
          */
-        public readonly Attachment\ContentEncoding $contentEncoding,
+        public readonly Attachment\ContentEncoding $contentEncoding = Attachment\ContentEncoding::IDENTITY,
 
         /**
          * Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
          */
-        public readonly ?string $fileName,
+        public readonly ?string $fileName = null,
 
         /**
          * The media type of the data. This can be any valid
@@ -61,13 +61,13 @@ final class Attachment implements JsonSerializable
          * as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
          * and `text/x.cucumber.stacktrace+plain`
          */
-        public readonly string $mediaType,
+        public readonly string $mediaType = '',
 
-        public readonly ?Source $source,
+        public readonly ?Source $source = null,
 
-        public readonly ?string $testCaseStartedId,
+        public readonly ?string $testCaseStartedId = null,
 
-        public readonly ?string $testStepId,
+        public readonly ?string $testStepId = null,
 
         /**
          * A URL where the attachment can be retrieved. This field should not be set by Cucumber.
@@ -82,7 +82,7 @@ final class Attachment implements JsonSerializable
          * reduce bandwidth of message consumers. It also makes it easier to process and download attachments
          * separately from reports.
          */
-        public readonly ?string $url,
+        public readonly ?string $url = null,
 
     ){}
 

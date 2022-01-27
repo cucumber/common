@@ -19,12 +19,12 @@ final class StepMatchArgumentsList implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * @param list<StepMatchArgument> $stepMatchArguments
          */
-        public readonly array $stepMatchArguments,
+        public readonly array $stepMatchArguments = [],
 
     ){}
 

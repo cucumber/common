@@ -51,7 +51,7 @@ class Codegen
     elsif property['type'] == 'string'
       if property['enum']
         enum_type_name = type_for(parent_type_name, property_name, property)
-        "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
+        default_enum(enum_type_name, property)
       else
         "''"
       end
@@ -65,6 +65,10 @@ class Codegen
     else
       raise "Cannot create default value for #{parent_type_name}##{property.to_json}"
     end
+  end
+
+  def default_enum(enum_type_name, property)
+    "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
   end
 
   def enum_constant(value)
@@ -377,6 +381,18 @@ class Php < Codegen
         "#{type_for(parent_type, property_name, property)}::fromArray($#{source})"
       end
     end
+  end
+
+  def default_value(class_name, property_name, property, schema)
+	if is_nullable(property_name, schema)
+	  return 'null'
+	end
+
+	super(class_name, property_name, property)
+  end
+
+  def default_enum(enum_type_name, property)
+    "#{enum_type_name}::#{enum_constant(property['enum'][0])}"
   end
 end
 

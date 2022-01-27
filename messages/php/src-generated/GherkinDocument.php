@@ -24,21 +24,21 @@ final class GherkinDocument implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
          * of the source, typically a file path relative to the root directory
          */
-        public readonly ?string $uri,
+        public readonly ?string $uri = null,
 
-        public readonly ?Feature $feature,
+        public readonly ?Feature $feature = null,
 
         /**
          * All the comments in the Gherkin document
          * @param list<Comment> $comments
          */
-        public readonly array $comments,
+        public readonly array $comments = [],
 
     ){}
 

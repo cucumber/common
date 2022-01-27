@@ -19,17 +19,17 @@ final class TableCell implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the cell
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * The value of the cell
          */
-        public readonly string $value,
+        public readonly string $value = '',
 
     ){}
 

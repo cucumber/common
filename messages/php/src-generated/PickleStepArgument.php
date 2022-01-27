@@ -19,11 +19,11 @@ final class PickleStepArgument implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly ?PickleDocString $docString,
+        public readonly ?PickleDocString $docString = null,
 
-        public readonly ?PickleTable $dataTable,
+        public readonly ?PickleTable $dataTable = null,
 
     ){}
 

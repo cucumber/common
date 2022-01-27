@@ -19,22 +19,22 @@ final class Tag implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * Location of the tag
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * The name of the tag (including the leading `@`)
          */
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * Unique ID to be able to reference the Tag from PickleTag
          */
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

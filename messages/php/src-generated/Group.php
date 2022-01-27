@@ -19,16 +19,16 @@ final class Group implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * @param list<Group> $children
          */
-        public readonly array $children,
+        public readonly array $children = [],
 
-        public readonly ?int $start,
+        public readonly ?int $start = null,
 
-        public readonly ?string $value,
+        public readonly ?string $value = null,
 
     ){}
 

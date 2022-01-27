@@ -20,34 +20,34 @@ final class Meta implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The [SEMVER](https://semver.org/) version number of the protocol
          */
-        public readonly string $protocolVersion,
+        public readonly string $protocolVersion = '',
 
         /**
          * SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.
          */
-        public readonly Product $implementation,
+        public readonly Product $implementation = new Product(),
 
         /**
          * Java, Ruby, Node.js etc
          */
-        public readonly Product $runtime,
+        public readonly Product $runtime = new Product(),
 
         /**
          * Windows, Linux, MacOS etc
          */
-        public readonly Product $os,
+        public readonly Product $os = new Product(),
 
         /**
          * 386, arm, amd64 etc
          */
-        public readonly Product $cpu,
+        public readonly Product $cpu = new Product(),
 
-        public readonly ?Ci $ci,
+        public readonly ?Ci $ci = null,
 
     ){}
 

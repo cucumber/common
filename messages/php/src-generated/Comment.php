@@ -19,17 +19,17 @@ final class Comment implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the comment
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * The text of the comment
          */
-        public readonly string $text,
+        public readonly string $text = '',
 
     ){}
 

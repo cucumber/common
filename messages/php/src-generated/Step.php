@@ -19,25 +19,25 @@ final class Step implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the steps' `keyword`
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
-        public readonly string $keyword,
+        public readonly string $keyword = '',
 
-        public readonly string $text,
+        public readonly string $text = '',
 
-        public readonly ?DocString $docString,
+        public readonly ?DocString $docString = null,
 
-        public readonly ?DataTable $dataTable,
+        public readonly ?DataTable $dataTable = null,
 
         /**
          * Unique ID to be able to reference the Step from PickleStep
          */
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

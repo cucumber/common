@@ -19,11 +19,11 @@ final class StepDefinitionPattern implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $source,
+        public readonly string $source = '',
 
-        public readonly StepDefinitionPattern\Type $type,
+        public readonly StepDefinitionPattern\Type $type = StepDefinitionPattern\Type::CUCUMBER_EXPRESSION,
 
     ){}
 

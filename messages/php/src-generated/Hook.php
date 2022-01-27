@@ -19,13 +19,13 @@ final class Hook implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $id,
+        public readonly string $id = '',
 
-        public readonly SourceReference $sourceReference,
+        public readonly SourceReference $sourceReference = new SourceReference(),
 
-        public readonly ?string $tagExpression,
+        public readonly ?string $tagExpression = null,
 
     ){}
 

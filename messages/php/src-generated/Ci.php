@@ -19,24 +19,24 @@ final class Ci implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * Name of the CI product, e.g. "Jenkins", "CircleCI" etc.
          */
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * Link to the build
          */
-        public readonly ?string $url,
+        public readonly ?string $url = null,
 
         /**
          * The build number. Some CI servers use non-numeric build numbers, which is why this is a string
          */
-        public readonly ?string $buildNumber,
+        public readonly ?string $buildNumber = null,
 
-        public readonly ?Git $git,
+        public readonly ?Git $git = null,
 
     ){}
 

@@ -21,24 +21,24 @@ final class Source implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
          * of the source, typically a file path relative to the root directory
          */
-        public readonly string $uri,
+        public readonly string $uri = '',
 
         /**
          * The contents of the file
          */
-        public readonly string $data,
+        public readonly string $data = '',
 
         /**
          * The media type of the file. Can be used to specify custom types, such as
          * text/x.cucumber.gherkin+plain
          */
-        public readonly Source\MediaType $mediaType,
+        public readonly Source\MediaType $mediaType = Source\MediaType::TEXT_X_CUCUMBER_GHERKIN_PLAIN,
 
     ){}
 

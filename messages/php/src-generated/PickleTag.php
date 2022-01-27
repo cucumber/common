@@ -19,14 +19,14 @@ final class PickleTag implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $name,
+        public readonly string $name = '',
 
         /**
          * Points to the AST node this was created from
          */
-        public readonly string $astNodeId,
+        public readonly string $astNodeId = '',
 
     ){}
 

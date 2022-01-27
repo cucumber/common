@@ -19,13 +19,13 @@ final class StepDefinition implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $id,
+        public readonly string $id = '',
 
-        public readonly StepDefinitionPattern $pattern,
+        public readonly StepDefinitionPattern $pattern = new StepDefinitionPattern(),
 
-        public readonly SourceReference $sourceReference,
+        public readonly SourceReference $sourceReference = new SourceReference(),
 
     ){}
 

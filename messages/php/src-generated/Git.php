@@ -20,15 +20,15 @@ final class Git implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $remote,
+        public readonly string $remote = '',
 
-        public readonly string $revision,
+        public readonly string $revision = '',
 
-        public readonly ?string $branch,
+        public readonly ?string $branch = null,
 
-        public readonly ?string $tag,
+        public readonly ?string $tag = null,
 
     ){}
 

@@ -19,11 +19,11 @@ final class PickleDocString implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly ?string $mediaType,
+        public readonly ?string $mediaType = null,
 
-        public readonly string $content,
+        public readonly string $content = '',
 
     ){}
 

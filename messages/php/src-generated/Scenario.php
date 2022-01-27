@@ -19,35 +19,35 @@ final class Scenario implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
         /**
          * The location of the `Scenario` keyword
          */
-        public readonly Location $location,
+        public readonly Location $location = new Location(),
 
         /**
          * @param list<Tag> $tags
          */
-        public readonly array $tags,
+        public readonly array $tags = [],
 
-        public readonly string $keyword,
+        public readonly string $keyword = '',
 
-        public readonly string $name,
+        public readonly string $name = '',
 
-        public readonly string $description,
+        public readonly string $description = '',
 
         /**
          * @param list<Step> $steps
          */
-        public readonly array $steps,
+        public readonly array $steps = [],
 
         /**
          * @param list<Examples> $examples
          */
-        public readonly array $examples,
+        public readonly array $examples = [],
 
-        public readonly string $id,
+        public readonly string $id = '',
 
     ){}
 

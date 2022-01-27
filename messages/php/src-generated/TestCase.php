@@ -21,19 +21,19 @@ final class TestCase implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    private function __construct(
+    public function __construct(
 
-        public readonly string $id,
+        public readonly string $id = '',
 
         /**
          * The ID of the `Pickle` this `TestCase` is derived from.
          */
-        public readonly string $pickleId,
+        public readonly string $pickleId = '',
 
         /**
          * @param list<TestStep> $testSteps
          */
-        public readonly array $testSteps,
+        public readonly array $testSteps = [],
 
     ){}
 
