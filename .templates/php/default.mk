@@ -17,7 +17,7 @@ pre-release: update-version update-dependencies
 
 update-version:
 ifdef NEW_VERSION
-# TODO: something here?
+# no-op: composer rely on git tags
 endif
 .PHONY: update-version
 
@@ -25,7 +25,7 @@ update-dependencies:
 .PHONY: update-dependencies
 
 publish:
-# TODO: how to publish?
+# no-op: composer will rely on the subrepo tag
 .PHONY: publish
 
 post-release:
@@ -38,6 +38,7 @@ clean:
 
 .tested: .deps .codegen $(PHP_SOURCE_FILES)
 	vendor/bin/phpunit
+	vendor/bin/psalm
 .PHONY: .tested
 
 .deps: composer.lock

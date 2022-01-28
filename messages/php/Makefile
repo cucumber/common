@@ -17,4 +17,3 @@ build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschem
 	vendor/bin/php-cs-fixer --dry-run --diff fix src
 	vendor/bin/php-cs-fixer --dry-run --diff fix src-generated
 	vendor/bin/php-cs-fixer --dry-run --diff fix tests
-	vendor/bin/psalm
