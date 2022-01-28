@@ -13,7 +13,9 @@ build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschem
 	php split_classes.php
 	vendor/bin/php-cs-fixer --diff fix src-generated
 
-.tested:
+.tested: .cs-fixer
+
+.cs-fixer:
 	vendor/bin/php-cs-fixer --dry-run --diff fix src
 	vendor/bin/php-cs-fixer --dry-run --diff fix src-generated
 	vendor/bin/php-cs-fixer --dry-run --diff fix tests
