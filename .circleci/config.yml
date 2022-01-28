@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.11.0
+      - image: cucumber/cucumber-build:0.12.0
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -687,7 +687,7 @@ jobs:
   ### PHP
 
   messages-php:
-    executor: docker-circleci-php
+    executor: docker-cucumber-build
     steps:
       - attach_workspace:
           at: '~/cucumber'
