@@ -33,7 +33,7 @@ post-release:
 .PHONY: post-release
 
 clean:
-	rm -rf vendor
+	rm -rf vendor composer.lock
 .PHONY: clean
 
 .tested: .deps .codegen $(PHP_SOURCE_FILES)
