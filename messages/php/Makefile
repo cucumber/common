@@ -2,10 +2,12 @@ include default.mk
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
-clean:
-	rm -rf build
+clean: clean-build
 
 .codegen: build/messages.php
+
+clean-build:
+	rm -rf build
 
 build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/php.php.erb
 	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema > $@
