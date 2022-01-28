@@ -66,6 +66,12 @@ executors:
     docker:
       - image: cimg/python:3.10.2
     working_directory: ~/cucumber
+
+  docker-circleci-php:
+    docker:
+      -image: cimg/php:8.1.2
+    working_directory: ~/cucumber
+
 ###
 ### Jobs ###
 ###
@@ -677,6 +683,19 @@ jobs:
   #           cd gherkin/elixir
   #           make
 
+  ### PHP
+
+  messages-php:
+    executor: docker-circleci-php
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: messages/php
+          command: |
+            cd messages/php
+            make
+
 ###
 ### Workflows ###
 ###
@@ -888,3 +907,9 @@ workflows:
       # - gherkin-elixir:
       #     requires:
       #       - messages-elixir
+
+      ### PHP
+
+      - messages-php:
+          requires:
+            - prepare-parallel
