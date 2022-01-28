@@ -1,13 +1,11 @@
+include default.mk
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
 clean:
-	rm -rf vendor composer.lock build/messages.php
+	rm -rf build
 
-.deps: composer.lock build/messages.php
-
-composer.lock:
-	composer install
+.codegen: build/messages.php
 
 build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/php.php.erb
 	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema > $@
@@ -15,9 +13,8 @@ build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschem
 	php split_classes.php
 	vendor/bin/php-cs-fixer --diff fix src-generated
 
-test: .deps
+.tested:
 	vendor/bin/php-cs-fixer --dry-run --diff fix src
 	vendor/bin/php-cs-fixer --dry-run --diff fix src-generated
 	vendor/bin/php-cs-fixer --dry-run --diff fix tests
 	vendor/bin/psalm
-	vendor/bin/phpunit
