@@ -11,12 +11,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
-import static io.cucumber.messages.Messages.AttachmentContentEncoding;
-import static io.cucumber.messages.Messages.Envelope;
-import static io.cucumber.messages.Messages.Source;
-import static io.cucumber.messages.Messages.SourceMediaType;
-import static io.cucumber.messages.Messages.TestRunStarted;
-import static io.cucumber.messages.Messages.Timestamp;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,7 +32,9 @@ class NdjsonSerializationTest {
         MessageToNdjsonWriter writer = createMessageWriter(output);
         writer.write(Envelope.of(new Source("uri", "data", SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
         String json = new String(output.toByteArray(), StandardCharsets.UTF_8);
-        assertEquals("{\"source\":{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}}\n", json);
+        assertEquals(
+                "{\"source\":{\"uri\":\"uri\",\"data\":\"data\",\"mediaType\":\"text/x.cucumber.gherkin+plain\"}}\n",
+                json);
     }
 
     @Test
@@ -130,7 +126,9 @@ class NdjsonSerializationTest {
 
     @Test
     void handles_enums() {
-        InputStream input = new ByteArrayInputStream("{\"attachment\":{\"contentEncoding\":\"BASE64\", \"body\":\"the-body\", \"mediaType\":\"text/plain\"}}\n".getBytes(UTF_8));
+        InputStream input = new ByteArrayInputStream(
+                "{\"attachment\":{\"contentEncoding\":\"BASE64\", \"body\":\"the-body\", \"mediaType\":\"text/plain\"}}\n".getBytes(
+                        UTF_8));
         Iterable<Envelope> incomingMessages = createMessageIterable(input);
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
@@ -141,7 +139,8 @@ class NdjsonSerializationTest {
 
     @Test
     void handles_single_argument_constructors() {
-        InputStream input = new ByteArrayInputStream("{\"testRunStarted\": {\"timestamp\":{\"nanos\":0,\"seconds\":0}}}\n".getBytes(UTF_8));
+        InputStream input = new ByteArrayInputStream(
+                "{\"testRunStarted\": {\"timestamp\":{\"nanos\":0,\"seconds\":0}}}\n".getBytes(UTF_8));
         Iterable<Envelope> incomingMessages = createMessageIterable(input);
         Iterator<Envelope> iterator = incomingMessages.iterator();
         assertTrue(iterator.hasNext());
@@ -160,4 +159,5 @@ class NdjsonSerializationTest {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> assertTrue(iterator.hasNext()));
         assertEquals(exception.getMessage(), "Could not parse JSON: BLA BLA");
     }
+
 }

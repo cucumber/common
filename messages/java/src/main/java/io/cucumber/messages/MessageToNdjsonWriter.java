@@ -1,7 +1,5 @@
 package io.cucumber.messages;
 
-import io.cucumber.messages.Messages.Envelope;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;

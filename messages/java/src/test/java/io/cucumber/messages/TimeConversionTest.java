@@ -2,7 +2,6 @@ package io.cucumber.messages;
 
 import org.junit.jupiter.api.Test;
 
-import static io.cucumber.messages.Messages.*;
 import static io.cucumber.messages.TimeConversion.durationToJavaDuration;
 import static io.cucumber.messages.TimeConversion.javaDurationToDuration;
 import static io.cucumber.messages.TimeConversion.javaInstantToTimestamp;

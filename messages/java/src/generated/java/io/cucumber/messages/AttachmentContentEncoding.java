@@ -1,18 +1,16 @@
-<% @enums.each do |enum| -%>
-<%= enum[:name] %>.java
 package io.cucumber.messages;
 
 // Generated code
 @SuppressWarnings("unused")
-public enum <%= enum[:name] %> {
-<% enum[:values].each_with_index do |value, index| -%>
+public enum AttachmentContentEncoding {
 
-    <%= enum_constant(value) %>("<%= value %>")<%= index < enum[:values].length-1 ? ',' : ';' %>
-<% end -%>
+    IDENTITY("IDENTITY"),
+
+    BASE64("BASE64");
 
     private final String value;
 
-    <%= enum[:name] %>(String value) {
+    AttachmentContentEncoding(String value) {
         this.value = value;
     }
 
@@ -25,8 +23,8 @@ public enum <%= enum[:name] %> {
         return this.value;
     }
 
-    public static <%= enum[:name] %> fromValue(String value) {
-        for (<%= enum[:name] %> v : values()) {
+    public static AttachmentContentEncoding fromValue(String value) {
+        for (AttachmentContentEncoding v : values()) {
             if (v.value.equals(value)) {
                 return v;
             }
@@ -34,4 +32,3 @@ public enum <%= enum[:name] %> {
         throw new IllegalArgumentException(value);
     }
 }
-<% end -%>

@@ -2,24 +2,11 @@ include default.mk
 
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 
-.codegen: src/main/java/io/cucumber/messages/Messages.java
-
-src/main/java/io/cucumber/messages/Messages.java: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/java.java.erb ../jsonschema/scripts/templates/java.enum.java.erb
-	echo "package io.cucumber.messages;" > $@
-	echo >> $@
-	echo "import java.util.ArrayList;" >> $@
-	echo "import java.util.Objects;" >> $@
-	echo "import java.util.Optional;" >> $@
-	echo >> $@
-	echo "import static java.util.Collections.unmodifiableList;" >> $@
-	echo "import static java.util.Objects.requireNonNull;" >> $@
-	echo >> $@
-	echo "// Generated code" >> $@
-	echo "@SuppressWarnings(\"unused\")" >> $@
-	echo "public final class Messages {" >> $@
-	echo >> $@
-	echo "    private Messages() {}" >> $@
-	echo >> $@
-	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.java.erb >> $@
-	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.enum.java.erb >> $@
-	echo "}" >> $@
+.codegen: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/java.java.erb ../jsonschema/scripts/templates/java.enum.java.erb
+	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.java.erb > Generated.java.tmp
+	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.enum.java.erb >> Generated.java.tmp
+	csplit --quiet --prefix=Generated --suffix-format=%02d.java.tmp --elide-empty-files Generated.java.tmp /^.*.java$$/ {*}
+	rm Generated.java.tmp
+	rm -rf src/generated/java/io/cucumber/messages
+	mkdir --parents src/generated/java/io/cucumber/messages
+	for file in Generated**; do tail -n +2 $$file > src/generated/java/io/cucumber/messages/$$(head -n 1 $$file); rm $$file; done
