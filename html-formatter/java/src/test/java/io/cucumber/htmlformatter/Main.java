@@ -1,6 +1,7 @@
 package io.cucumber.htmlformatter;
 
 import io.cucumber.htmlformatter.MessagesToHtmlWriter.Serializer;
+import io.cucumber.messages.Envelope;
 import io.cucumber.messages.NdjsonToMessageIterable;
 import io.cucumber.messages.NdjsonToMessageIterable.Deserializer;
 
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static io.cucumber.htmlformatter.Jackson.OBJECT_MAPPER;
-import static io.cucumber.messages.Messages.Envelope;
 
 public final class Main {
     private static final Deserializer deserializer = (json) -> OBJECT_MAPPER.readValue(json, Envelope.class);

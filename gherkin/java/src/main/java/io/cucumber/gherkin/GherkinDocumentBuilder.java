@@ -1,6 +1,21 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.Background;
+import io.cucumber.messages.Comment;
+import io.cucumber.messages.DataTable;
+import io.cucumber.messages.DocString;
+import io.cucumber.messages.Examples;
+import io.cucumber.messages.Feature;
+import io.cucumber.messages.FeatureChild;
+import io.cucumber.messages.GherkinDocument;
 import io.cucumber.messages.IdGenerator;
+import io.cucumber.messages.Rule;
+import io.cucumber.messages.RuleChild;
+import io.cucumber.messages.Scenario;
+import io.cucumber.messages.Step;
+import io.cucumber.messages.TableCell;
+import io.cucumber.messages.TableRow;
+import io.cucumber.messages.Tag;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -12,21 +27,6 @@ import java.util.stream.Collectors;
 import static io.cucumber.gherkin.Parser.Builder;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
-import static io.cucumber.messages.Messages.Background;
-import static io.cucumber.messages.Messages.Comment;
-import static io.cucumber.messages.Messages.DataTable;
-import static io.cucumber.messages.Messages.DocString;
-import static io.cucumber.messages.Messages.Examples;
-import static io.cucumber.messages.Messages.Feature;
-import static io.cucumber.messages.Messages.FeatureChild;
-import static io.cucumber.messages.Messages.GherkinDocument;
-import static io.cucumber.messages.Messages.Rule;
-import static io.cucumber.messages.Messages.RuleChild;
-import static io.cucumber.messages.Messages.Scenario;
-import static io.cucumber.messages.Messages.Step;
-import static io.cucumber.messages.Messages.TableCell;
-import static io.cucumber.messages.Messages.TableRow;
-import static io.cucumber.messages.Messages.Tag;
 
 class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     private final List<Comment> comments = new ArrayList<>();
@@ -190,7 +190,8 @@ class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                     children.add(new FeatureChild(rule, null, null));
                 }
                 String description = getDescription(header);
-                if (featureLine.matchedGherkinDialect == null) return null;
+                if (featureLine.matchedGherkinDialect == null)
+                    return null;
                 String language = featureLine.matchedGherkinDialect.getLanguage();
 
                 return new Feature(
@@ -253,7 +254,8 @@ class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     }
 
     private void ensureCellCount(List<TableRow> rows) {
-        if (rows.isEmpty()) return;
+        if (rows.isEmpty())
+            return;
 
         int cellCount = rows.get(0).getCells().size();
         for (TableRow row : rows) {
@@ -283,9 +285,9 @@ class GherkinDocumentBuilder implements Builder<GherkinDocument> {
         return node.getItems(RuleType.Step);
     }
 
-    private io.cucumber.messages.Messages.Location getLocation(Token token, int column) {
+    private io.cucumber.messages.Location getLocation(Token token, int column) {
         column = column == 0 ? token.location.getColumn() : column;
-        return new io.cucumber.messages.Messages.Location((long) token.location.getLine(), (long) column);
+        return new io.cucumber.messages.Location((long) token.location.getLine(), (long) column);
     }
 
     private String getDescription(AstNode node) {

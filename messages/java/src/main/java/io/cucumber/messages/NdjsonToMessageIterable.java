@@ -12,8 +12,8 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Iterates over messages read from a stream. Client code should not depend on this class
- * directly, but rather on a {@code Iterable<Messages.Envelope>} object.
- * Tests can then use a {@code new ArrayList<Messages.Envelope>} which implements the same interface.
+ * directly, but rather on a {@code Iterable<Envelope>} object.
+ * Tests can then use a {@code new ArrayList<Envelope>} which implements the same interface.
  */
 public final class NdjsonToMessageIterable implements Iterable<Envelope>, AutoCloseable {
     private final BufferedReader reader;

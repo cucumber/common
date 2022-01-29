@@ -1,5 +1,7 @@
 package io.cucumber.htmlformatter;
 
+import io.cucumber.messages.Envelope;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -11,7 +13,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-import static io.cucumber.messages.Messages.Envelope;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 

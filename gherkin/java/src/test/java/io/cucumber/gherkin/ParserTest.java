@@ -3,7 +3,7 @@ package io.cucumber.gherkin;
 import io.cucumber.messages.IdGenerator;
 import org.junit.Test;
 
-import static io.cucumber.messages.Messages.GherkinDocument;
+import io.cucumber.messages.GherkinDocument;
 import static org.junit.Assert.assertEquals;
 
 public class ParserTest {

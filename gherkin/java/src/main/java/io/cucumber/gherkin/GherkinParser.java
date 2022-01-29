@@ -1,18 +1,18 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.ParserException.CompositeParserException;
+import io.cucumber.messages.Envelope;
+import io.cucumber.messages.GherkinDocument;
 import io.cucumber.messages.IdGenerator;
+import io.cucumber.messages.ParseError;
+import io.cucumber.messages.Source;
+import io.cucumber.messages.SourceReference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static io.cucumber.messages.Messages.Envelope;
-import static io.cucumber.messages.Messages.GherkinDocument;
-import static io.cucumber.messages.Messages.ParseError;
-import static io.cucumber.messages.Messages.Source;
-import static io.cucumber.messages.Messages.SourceReference;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 
@@ -132,7 +132,7 @@ public final class GherkinParser {
                         null,
                         // We want 0 values not to be serialised, which is why we set them to null
                         // This is a legacy requirement brought over from old protobuf behaviour
-                        new io.cucumber.messages.Messages.Location(
+                        new io.cucumber.messages.Location(
                                 line,
                                 column == 0 ? null : column
                         )

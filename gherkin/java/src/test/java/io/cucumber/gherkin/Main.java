@@ -1,8 +1,9 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.Envelope;
 import io.cucumber.messages.MessageToNdjsonWriter;
-import io.cucumber.messages.Messages.Source;
-import io.cucumber.messages.Messages.SourceMediaType;
+import io.cucumber.messages.Source;
+import io.cucumber.messages.SourceMediaType;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.cucumber.gherkin.Jackson.OBJECT_MAPPER;
-import static io.cucumber.messages.Messages.Envelope;
 import static java.util.Arrays.asList;
 
 public class Main {
