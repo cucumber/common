@@ -1,9 +1,9 @@
 package io.cucumber.htmlformatter;
 
 import io.cucumber.htmlformatter.MessagesToHtmlWriter.Serializer;
-import io.cucumber.messages.Envelope;
 import io.cucumber.messages.NdjsonToMessageIterable;
 import io.cucumber.messages.NdjsonToMessageIterable.Deserializer;
+import io.cucumber.messages.types.Envelope;
 
 import java.io.FileInputStream;
 import java.io.IOException;
