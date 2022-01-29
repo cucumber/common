@@ -1,18 +1,18 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Envelope;
-import io.cucumber.messages.Feature;
-import io.cucumber.messages.GherkinDocument;
-import io.cucumber.messages.ParseError;
-import io.cucumber.messages.Pickle;
-import io.cucumber.messages.PickleStep;
-import io.cucumber.messages.Scenario;
-import io.cucumber.messages.Source;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.ParseError;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.PickleStep;
+import io.cucumber.messages.types.Scenario;
+import io.cucumber.messages.types.Source;
 import org.junit.Test;
 
 import java.util.Optional;
 
-import static io.cucumber.messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
+import static io.cucumber.messages.types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

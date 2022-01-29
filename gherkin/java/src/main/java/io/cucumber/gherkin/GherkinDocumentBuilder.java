@@ -1,21 +1,21 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Background;
-import io.cucumber.messages.Comment;
-import io.cucumber.messages.DataTable;
-import io.cucumber.messages.DocString;
-import io.cucumber.messages.Examples;
-import io.cucumber.messages.Feature;
-import io.cucumber.messages.FeatureChild;
-import io.cucumber.messages.GherkinDocument;
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.Rule;
-import io.cucumber.messages.RuleChild;
-import io.cucumber.messages.Scenario;
-import io.cucumber.messages.Step;
-import io.cucumber.messages.TableCell;
-import io.cucumber.messages.TableRow;
-import io.cucumber.messages.Tag;
+import io.cucumber.messages.types.Background;
+import io.cucumber.messages.types.Comment;
+import io.cucumber.messages.types.DataTable;
+import io.cucumber.messages.types.DocString;
+import io.cucumber.messages.types.Examples;
+import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.FeatureChild;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Rule;
+import io.cucumber.messages.types.RuleChild;
+import io.cucumber.messages.types.Scenario;
+import io.cucumber.messages.types.Step;
+import io.cucumber.messages.types.TableCell;
+import io.cucumber.messages.types.TableRow;
+import io.cucumber.messages.types.Tag;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -285,9 +285,9 @@ class GherkinDocumentBuilder implements Builder<GherkinDocument> {
         return node.getItems(RuleType.Step);
     }
 
-    private io.cucumber.messages.Location getLocation(Token token, int column) {
+    private io.cucumber.messages.types.Location getLocation(Token token, int column) {
         column = column == 0 ? token.location.getColumn() : column;
-        return new io.cucumber.messages.Location((long) token.location.getLine(), (long) column);
+        return new io.cucumber.messages.types.Location((long) token.location.getLine(), (long) column);
     }
 
     private String getDescription(AstNode node) {

@@ -1,6 +1,6 @@
 package io.cucumber.htmlformatter;
 
-import io.cucumber.messages.Envelope;
+import io.cucumber.messages.types.Envelope;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

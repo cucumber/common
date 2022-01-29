@@ -1,5 +1,7 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.Envelope;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

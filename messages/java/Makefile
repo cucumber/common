@@ -7,6 +7,6 @@ JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 	ruby ../jsonschema/scripts/codegen.rb Java ../jsonschema java.enum.java.erb >> Generated.java.tmp
 	csplit --quiet --prefix=Generated --suffix-format=%02d.java.tmp --elide-empty-files Generated.java.tmp /^.*.java$$/ {*}
 	rm Generated.java.tmp
-	rm -rf src/generated/java/io/cucumber/messages
-	mkdir --parents src/generated/java/io/cucumber/messages
-	for file in Generated**; do tail -n +2 $$file > src/generated/java/io/cucumber/messages/$$(head -n 1 $$file); rm $$file; done
+	rm -rf src/generated/java/io/cucumber/messages/types
+	mkdir --parents src/generated/java/io/cucumber/messages/types
+	for file in Generated**; do tail -n +2 $$file > src/generated/java/io/cucumber/messages/types/$$(head -n 1 $$file); rm $$file; done

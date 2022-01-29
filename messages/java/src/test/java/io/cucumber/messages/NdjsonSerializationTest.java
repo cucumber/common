@@ -1,5 +1,11 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.AttachmentContentEncoding;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceMediaType;
+import io.cucumber.messages.types.TestRunStarted;
+import io.cucumber.messages.types.Timestamp;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

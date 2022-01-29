@@ -1,5 +1,7 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.Duration;
+import io.cucumber.messages.types.Timestamp;
 import org.junit.jupiter.api.Test;
 
 import static io.cucumber.messages.TimeConversion.durationToJavaDuration;

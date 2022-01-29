@@ -1,9 +1,9 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Envelope;
+import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.MessageToNdjsonWriter;
-import io.cucumber.messages.Source;
-import io.cucumber.messages.SourceMediaType;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceMediaType;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

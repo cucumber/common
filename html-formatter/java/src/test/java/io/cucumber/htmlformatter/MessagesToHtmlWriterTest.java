@@ -1,10 +1,10 @@
 package io.cucumber.htmlformatter;
 
 import io.cucumber.htmlformatter.MessagesToHtmlWriter.Serializer;
-import io.cucumber.messages.Envelope;
-import io.cucumber.messages.TestRunFinished;
-import io.cucumber.messages.TestRunStarted;
 import io.cucumber.messages.TimeConversion;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.TestRunFinished;
+import io.cucumber.messages.types.TestRunStarted;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;

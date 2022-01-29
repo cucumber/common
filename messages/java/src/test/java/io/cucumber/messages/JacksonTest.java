@@ -1,10 +1,14 @@
 package io.cucumber.messages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.TestRunStarted;
+import io.cucumber.messages.types.Timestamp;
 import org.junit.jupiter.api.Test;
 
 import static io.cucumber.messages.Jackson.OBJECT_MAPPER;
-import static io.cucumber.messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
+import static io.cucumber.messages.types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JacksonTest {

@@ -1,5 +1,7 @@
 package io.cucumber.messages;
 
+import io.cucumber.messages.types.Attachment;
+import io.cucumber.messages.types.Envelope;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

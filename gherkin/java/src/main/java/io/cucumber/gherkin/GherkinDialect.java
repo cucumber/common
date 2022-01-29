@@ -91,6 +91,5 @@ public final class GherkinDialect {
     public String getLanguage() {
         return language;
     }
-
 }
 

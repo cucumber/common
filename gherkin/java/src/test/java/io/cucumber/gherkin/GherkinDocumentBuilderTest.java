@@ -1,11 +1,11 @@
 package io.cucumber.gherkin;
 
-import io.cucumber.messages.Comment;
-import io.cucumber.messages.FeatureChild;
-import io.cucumber.messages.GherkinDocument;
 import io.cucumber.messages.IdGenerator;
-import io.cucumber.messages.Pickle;
-import io.cucumber.messages.TableRow;
+import io.cucumber.messages.types.Comment;
+import io.cucumber.messages.types.FeatureChild;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Pickle;
+import io.cucumber.messages.types.TableRow;
 import org.junit.Test;
 
 import java.util.List;

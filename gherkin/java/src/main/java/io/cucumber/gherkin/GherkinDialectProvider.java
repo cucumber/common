@@ -58,5 +58,4 @@ public final class GherkinDialectProvider {
         sort(languages);
         return unmodifiableList(languages);
     }
-
 }
