@@ -2,7 +2,7 @@ package io.cucumber.gherkin;
 
 import java.util.List;
 
-public class Token {
+class Token {
     public final IGherkinLine line;
     public Parser.TokenType matchedType;
     public String matchedKeyword;

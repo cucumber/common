@@ -1,4 +1,4 @@
-package io.cucumber.gherkin.pickles;
+package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.types.DataTable;
@@ -34,7 +34,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.unmodifiableList;
 
-public class PickleCompiler {
+class PickleCompiler {
 
     private final IdGenerator idGenerator;
 
@@ -44,10 +44,10 @@ public class PickleCompiler {
 
     public List<Pickle> compile(GherkinDocument gherkinDocument, String uri) {
         List<Pickle> pickles = new ArrayList<>();
-        Feature feature = gherkinDocument.getFeature();
-        if (feature == null) {
+        if (!gherkinDocument.getFeature().isPresent()) {
             return pickles;
         }
+        Feature feature = gherkinDocument.getFeature().get();
 
         String language = feature.getLanguage();
 
@@ -59,12 +59,12 @@ public class PickleCompiler {
         List<Tag> tags = feature.getTags();
         List<Step> featureBackgroundSteps = new ArrayList<>();
         for (FeatureChild featureChild : feature.getChildren()) {
-            if (featureChild.getBackground() != null) {
-                featureBackgroundSteps.addAll(featureChild.getBackground().getSteps());
-            } else if (featureChild.getRule() != null) {
-                compileRule(pickles, featureChild.getRule(), tags, featureBackgroundSteps, language, uri);
-            } else {
-                Scenario scenario = featureChild.getScenario();
+            if (featureChild.getBackground().isPresent()) {
+                featureBackgroundSteps.addAll(featureChild.getBackground().get().getSteps());
+            } else if (featureChild.getRule().isPresent()) {
+                compileRule(pickles, featureChild.getRule().get(), tags, featureBackgroundSteps, language, uri);
+            } else if (featureChild.getScenario().isPresent()) {
+                Scenario scenario = featureChild.getScenario().get();
                 if (scenario.getExamples().isEmpty()) {
                     compileScenario(pickles, scenario, tags, featureBackgroundSteps, language, uri);
                 } else {
@@ -82,10 +82,10 @@ public class PickleCompiler {
         ruleTags.addAll(rule.getTags());
 
         for (RuleChild ruleChild : rule.getChildren()) {
-            if (ruleChild.getBackground() != null) {
-                ruleBackgroundSteps.addAll(ruleChild.getBackground().getSteps());
-            } else {
-                Scenario scenario = ruleChild.getScenario();
+            if (ruleChild.getBackground().isPresent()) {
+                ruleBackgroundSteps.addAll(ruleChild.getBackground().get().getSteps());
+            } else if (ruleChild.getScenario().isPresent()) {
+                Scenario scenario = ruleChild.getScenario().get();
                 if (scenario.getExamples().isEmpty()) {
                     compileScenario(pickles, scenario, ruleTags, ruleBackgroundSteps, language, uri);
                 } else {
@@ -122,8 +122,8 @@ public class PickleCompiler {
 
     private void compileScenarioOutline(List<Pickle> pickles, Scenario scenario, List<Tag> featureTags, List<Step> backgroundSteps, String language, String uri) {
         for (final Examples examples : scenario.getExamples()) {
-            if (examples.getTableHeader() == null) continue;
-            List<TableCell> variableCells = examples.getTableHeader().getCells();
+            if (!examples.getTableHeader().isPresent()) continue;
+            List<TableCell> variableCells = examples.getTableHeader().get().getCells();
             for (final TableRow valuesRow : examples.getTableBody()) {
                 List<TableCell> valueCells = valuesRow.getCells();
 
@@ -176,7 +176,7 @@ public class PickleCompiler {
 
     private PickleDocString pickleDocString(DocString docString, List<TableCell> variableCells, List<TableCell> valueCells) {
         return new PickleDocString(
-                docString.getMediaType() == null ? null : interpolate(docString.getMediaType(), variableCells, valueCells),
+                docString.getMediaType().isPresent() ? interpolate(docString.getMediaType().get(), variableCells, valueCells) : null,
                 interpolate(docString.getContent(), variableCells, valueCells)
         );
     }
@@ -185,25 +185,32 @@ public class PickleCompiler {
         List<TableCell> valueCells = valuesRow == null ? Collections.emptyList() : valuesRow.getCells();
         String stepText = interpolate(step.getText(), variableCells, valueCells);
 
-        PickleStep pickleStep = new PickleStep();
-        pickleStep.setId(idGenerator.newId());
-        pickleStep.setAstNodeIds(singletonList(step.getId()));
-        pickleStep.setText(stepText);
+        PickleStepArgument argument = null;
+        if (step.getDataTable().isPresent()) {
+            argument = new PickleStepArgument(null, pickleDataTable(step.getDataTable().get(), variableCells, valueCells));
+        }
+
+        if (step.getDocString().isPresent()) {
+            argument = new PickleStepArgument(pickleDocString(step.getDocString().get(), variableCells, valueCells), null);
+        }
+
+
+        List<String> astNodeIds;
         if (valuesRow != null) {
-            List<String> astNodeIds = Stream.of(pickleStep.getAstNodeIds(), singletonList(valuesRow.getId()))
+            astNodeIds = Stream.of(singletonList(step.getId()), singletonList(valuesRow.getId()))
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
-            pickleStep.setAstNodeIds(astNodeIds);
+
+        } else {
+            astNodeIds = singletonList(step.getId());
         }
 
-        if (step.getDataTable() != null) {
-            pickleStep.setArgument(new PickleStepArgument(null, pickleDataTable(step.getDataTable(), variableCells, valueCells)));
-        }
-
-        if (step.getDocString() != null) {
-            pickleStep.setArgument(new PickleStepArgument(pickleDocString(step.getDocString(), variableCells, valueCells), null));
-        }
-        return pickleStep;
+        return new PickleStep(
+                argument,
+                astNodeIds,
+                idGenerator.newId(),
+                stepText
+        );
     }
 
     private List<PickleStep> pickleSteps(List<Step> steps) {

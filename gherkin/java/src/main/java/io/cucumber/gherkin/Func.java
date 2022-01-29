@@ -1,5 +1,5 @@
 package io.cucumber.gherkin;
 
-public interface Func<V> {
+interface Func<V> {
     V call();
 }

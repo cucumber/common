@@ -1,3 +1,4 @@
+<% @enums.each do |enum| -%>
 type <%= enum[:name] %> string
 
 const(
@@ -16,3 +17,5 @@ func (e <%= enum[:name] %>) String() string {
 		panic("Bad enum value for <%= enum[:name] %>")
 	}
 }
+
+<% end -%>

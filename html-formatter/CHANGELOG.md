@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+- [Java] Replaced Jackson with generic serializer in `MessagesToHtmlWriter`.
 
 ### Deprecated
 
 ### Removed
+
+- [Java] the `io.cucumber.htmlformatter.Main` class is no longer part of the jar.
 
 ### Fixed
 

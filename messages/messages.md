@@ -478,6 +478,7 @@ One of the following:
 * `"IDENTITY"`
 * `"BASE64"`
 
+
 ## SourceMediaType
 
 One of the following:
@@ -485,12 +486,14 @@ One of the following:
 * `"text/x.cucumber.gherkin+plain"`
 * `"text/x.cucumber.gherkin+markdown"`
 
+
 ## StepDefinitionPatternType
 
 One of the following:
 
 * `"CUCUMBER_EXPRESSION"`
 * `"REGULAR_EXPRESSION"`
+
 
 ## TestStepResultStatus
 
@@ -503,4 +506,5 @@ One of the following:
 * `"UNDEFINED"`
 * `"AMBIGUOUS"`
 * `"FAILED"`
+
 
