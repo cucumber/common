@@ -1,3 +1,0 @@
-../../LICENSE LICENSE
-../../.templates/github/ .github/
-../../.templates/javascript/ . --exclude .mocharc.json --exclude tsconfig.json

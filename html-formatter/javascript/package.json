@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/html-formatter",
-  "version": "17.0.0",
+  "version": "18.0.0",
   "description": "HTML formatter for Cucumber",
   "bin": {
     "cucumber-html-formatter": "bin/cucumber-html-formatter.js"
@@ -29,7 +29,7 @@
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/query": "^11.0.0",
-    "@cucumber/react": "^18.1.2",
+    "@cucumber/react": "^19.0.0",
     "@types/mocha": "9.1.0",
     "@types/node": "16.11.21",
     "@types/react": "17.0.38",
@@ -39,9 +39,10 @@
     "css-loader": "6.5.1",
     "mini-css-extract-plugin": "2.5.3",
     "mocha": "9.2.0",
-    "puppeteer": "13.1.2",
+    "puppeteer": "^13.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "sass": "1.49.0",
     "sass-loader": "12.4.0",
     "ts-loader": "9.2.6",
     "ts-node": "10.4.0",
