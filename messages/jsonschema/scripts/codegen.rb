@@ -44,8 +44,7 @@ class Codegen
       enum = property['enum']
       if enum
         parent_type_name = class_name(key)
-        enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
-        @enum_set.add({ name: enum_type_name, values: enum })
+        enum_name(parent_type_name, property_name, enum)
       end
     end
   end
@@ -99,7 +98,7 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
+          enum_type_name = enum_name(parent_type_name, property_name, enum)
           property_type_from_enum(enum_type_name)
         else
           @language_type_by_schema_type[type]
@@ -121,7 +120,7 @@ class Codegen
 
   def enum_name(parent_type_name, property_name, enum)
     enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
-    @enums.add({ name: enum_type_name, values: enum })
+    @enum_set.add({ name: enum_type_name, values: enum })
     enum_type_name
   end
 
