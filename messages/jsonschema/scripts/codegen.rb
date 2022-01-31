@@ -44,8 +44,7 @@ class Codegen
       enum = property['enum']
       if enum
         parent_type_name = class_name(key)
-        enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
-        @enum_set.add({ name: enum_type_name, values: enum })
+        enum_name(parent_type_name, property_name, enum)
       end
     end
   end
@@ -61,7 +60,7 @@ class Codegen
     elsif property['type'] == 'string'
       if property['enum']
         enum_type_name = type_for(parent_type_name, property_name, property)
-        "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
+        default_enum(enum_type_name, property)
       else
         "''"
       end
@@ -77,6 +76,10 @@ class Codegen
     end
   end
 
+  def default_enum(enum_type_name, property)
+    "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
+  end
+
   def enum_constant(value)
     value.gsub(/[\.\/\+]/, '_').upcase
   end
@@ -86,6 +89,7 @@ class Codegen
     type = property['type']
     items = property['items']
     enum = property['enum']
+
     if ref
       property_type_from_ref(property['$ref'])
     elsif type
@@ -94,7 +98,7 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
+          enum_type_name = enum_name(parent_type_name, property_name, enum)
           property_type_from_enum(enum_type_name)
         else
           @language_type_by_schema_type[type]
@@ -112,6 +116,12 @@ class Codegen
 
   def property_type_from_enum(enum)
     enum
+  end
+
+  def enum_name(parent_type_name, property_name, enum)
+    enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
+    @enum_set.add({ name: enum_type_name, values: enum })
+    enum_type_name
   end
 
   def class_name(ref)
@@ -298,6 +308,95 @@ class Markdown < Codegen
     "#{type_name}[]"
   end
 end
+
+class Php < Codegen
+  def initialize(paths)
+    language_type_by_schema_type = {
+      'string' => 'string',
+      'integer' => 'int',
+      'boolean' => 'bool',
+    }
+    super(paths, language_type_by_schema_type)
+  end
+
+  def format_description(raw_description, indent_string: "        ")
+    return '' if raw_description.nil?
+
+    raw_description
+      .split("\n")
+      .map { |line| line.strip() }
+      .filter { |line| line != '*' }
+      .map { |line| " * #{line}" }
+      .join("\n#{indent_string}")
+  end
+
+  def array_type_for(type_name)
+    "array"
+  end
+
+  def enum_name(parent_type_name, property_name, enum)
+    enum_type_name = "#{class_name(parent_type_name)}\\#{capitalize(property_name)}"
+    @enum_set.add({ name: enum_type_name, values: enum })
+    enum_type_name
+  end
+
+  def array_contents_type(parent_type_name, property_name, property)
+    type_for(parent_type_name, nil, property['items'])
+  end
+
+  def is_nullable(property_name, schema)
+    !(schema['required'] || []).index(property_name)
+  end
+
+  def is_scalar(property)
+    property.has_key?('type') && @language_type_by_schema_type.has_key?(property['type'])
+  end
+
+  def scalar_type_for(property)
+    raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[property['type']]
+
+    @language_type_by_schema_type[property['type']]
+  end
+
+  def constructor_for(parent_type, property, property_name, schema, arr_name)
+    constr = non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
+
+    is_nullable(property_name, schema) ? "isset($#{arr_name}['#{property_name}']) ? #{constr} : null" : constr
+  end
+
+  def non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
+    source = property_name.nil? ? "#{arr_name}" : "#{arr_name}['#{property_name}']"
+    if is_scalar(property)
+      if property['enum']
+        "#{enum_name(parent_type, property_name, property['enum'])}::from((#{scalar_type_for(property)}) $#{source})"
+      else
+        "(#{scalar_type_for(property)}) $#{source}"
+      end
+    else
+      type = type_for(parent_type, property_name, property)
+      if type == 'array'
+        constructor = non_nullable_constructor_for(parent_type, property['items'], nil, schema, "member")
+        member_type = (property['items']['type'] ? 'mixed' : 'array')
+        "array_map(fn (#{member_type} $member) => #{constructor}, $#{source})"
+      else
+        "#{type_for(parent_type, property_name, property)}::fromArray($#{source})"
+      end
+    end
+  end
+
+  def default_value(class_name, property_name, property, schema)
+	if is_nullable(property_name, schema)
+	  return 'null'
+	end
+
+	super(class_name, property_name, property)
+  end
+
+  def default_enum(enum_type_name, property)
+    "#{enum_type_name}::#{enum_constant(property['enum'][0])}"
+  end
+end
+
 
 clazz = Object.const_get(ARGV[0])
 path = ARGV[1]
