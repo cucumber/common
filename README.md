@@ -8,7 +8,6 @@
 This repo contains the libraries/modules for behaviour that's common between the various Cucumber implementations. These include:
 
 - [parsing Gherkin documents](https://github.com/cucumber/common/tree/main/gherkin) into a machine-readable object model.
-- [parsing Cucumber expressions](https://github.com/cucumber/common/tree/main/cucumber-expressions) used to map step definition functions to Gherkin steps
 - [formatting HTML output](https://github.com/cucumber/common/tree/main/html-formatter)
 
 Most of these modules have implemnentations in multiple langages, and use shared test suites to ensure behaviour is consistent. See the [contributing guide](https://github.com/cucumber/common/blob/master/CONTRIBUTING.md) for more details.
