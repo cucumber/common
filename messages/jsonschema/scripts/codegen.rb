@@ -312,15 +312,12 @@ end
 
 class Php < Codegen
   def initialize(paths)
-    template = File.read("#{TEMPLATES_DIRECTORY}/php.php.erb")
-    enum_template = File.read("#{TEMPLATES_DIRECTORY}/php.enum.php.erb")
-
     language_type_by_schema_type = {
       'string' => 'string',
       'integer' => 'int',
       'boolean' => 'bool',
     }
-    super(paths, template, enum_template, language_type_by_schema_type)
+    super(paths, language_type_by_schema_type)
   end
 
   def format_description(raw_description, indent_string: "        ")
@@ -340,7 +337,7 @@ class Php < Codegen
 
   def enum_name(parent_type_name, property_name, enum)
     enum_type_name = "#{class_name(parent_type_name)}\\#{capitalize(property_name)}"
-    @enums.add({ name: enum_type_name, values: enum })
+    @enum_set.add({ name: enum_type_name, values: enum })
     enum_type_name
   end
 

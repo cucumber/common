@@ -10,7 +10,8 @@ clean-build:
 	rm -rf build
 
 build/messages.php: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/php.php.erb
-	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema > $@
+	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema php.php.erb > $@
+	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema php.enum.php.erb > $@
 	rm -rf src-generated/*
 	php split_classes.php
 	vendor/bin/php-cs-fixer --diff fix src-generated
