@@ -13,7 +13,7 @@ import java.io.StringReader;
  * If the scanner sees a # language header, it will reconfigure itself dynamically to look for
  * Gherkin keywords for the associated language. The keywords are defined in gherkin-languages.json.</p>
  */
-public class TokenScanner implements Parser.ITokenScanner {
+class TokenScanner implements Parser.ITokenScanner {
 
     private final BufferedReader reader;
     private int lineNumber;

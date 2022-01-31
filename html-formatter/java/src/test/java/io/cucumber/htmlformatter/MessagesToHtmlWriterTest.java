@@ -1,15 +1,14 @@
 package io.cucumber.htmlformatter;
 
+import io.cucumber.htmlformatter.MessagesToHtmlWriter.Serializer;
 import io.cucumber.messages.TimeConversion;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.TestRunFinished;
 import io.cucumber.messages.types.TestRunStarted;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.time.Instant;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -21,11 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MessagesToHtmlWriterTest {
 
+    static final Serializer serializer = Jackson.OBJECT_MAPPER::writeValue;
+
     @Test
     void it_writes_one_message_to_html() throws IOException {
-        Envelope envelope = new Envelope();
         Instant timestamp = Instant.ofEpochSecond(10);
-        envelope.setTestRunStarted(new TestRunStarted(TimeConversion.javaInstantToTimestamp(timestamp)));
+        Envelope envelope = Envelope.of(new TestRunStarted(TimeConversion.javaInstantToTimestamp(timestamp)));
         String html = renderAsHtml(envelope);
         assertThat(html, containsString("" +
                 "window.CUCUMBER_MESSAGES = [{\"testRunStarted\":{\"timestamp\":{\"seconds\":10,\"nanos\":0}}}];"));
@@ -41,9 +41,7 @@ class MessagesToHtmlWriterTest {
     @Test
     void it_throws_when_writing_after_close() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw);
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer);
         messagesToHtmlWriter.close();
         assertThrows(IOException.class, () -> messagesToHtmlWriter.write(null));
     }
@@ -51,41 +49,34 @@ class MessagesToHtmlWriterTest {
     @Test
     void it_can_be_closed_twice() throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw);
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer);
         messagesToHtmlWriter.close();
         assertDoesNotThrow(messagesToHtmlWriter::close);
     }
 
     @Test
     void it_is_idempotent_under_failure_to_close() throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw) {
-
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream() {
             @Override
             public void close() throws IOException {
                 throw new IOException("Can't close this");
             }
         };
-        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw);
+        MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer);
         assertThrows(IOException.class, messagesToHtmlWriter::close);
         byte[] before = bytes.toByteArray();
-        assertThrows(IOException.class, messagesToHtmlWriter::close);
+        assertDoesNotThrow(messagesToHtmlWriter::close);
         byte[] after = bytes.toByteArray();
         assertArrayEquals(before, after);
     }
 
     @Test
     void it_writes_two_messages_separated_by_a_comma() throws IOException {
-        Envelope testRunStarted = new Envelope();
-        testRunStarted.setTestRunStarted(new TestRunStarted(TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(10))));
+        Envelope testRunStarted = Envelope.of(new TestRunStarted(TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(10))));
 
-        Envelope testRunFinished = new Envelope();
-        testRunFinished.setTestRunFinished(new TestRunFinished(null, true, TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(15))));
+        Envelope envelope = Envelope.of(new TestRunFinished(null, true, TimeConversion.javaInstantToTimestamp(Instant.ofEpochSecond(15))));
 
-        String html = renderAsHtml(testRunStarted, testRunFinished);
+        String html = renderAsHtml(testRunStarted, envelope);
 
         assertThat(html, containsString("" +
                 "window.CUCUMBER_MESSAGES = [{\"testRunStarted\":{\"timestamp\":{\"seconds\":10,\"nanos\":0}}},{\"testRunFinished\":{\"success\":true,\"timestamp\":{\"seconds\":15,\"nanos\":0}}}];"));
@@ -93,9 +84,7 @@ class MessagesToHtmlWriterTest {
 
     private static String renderAsHtml(Envelope... messages) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(bytes, UTF_8);
-        BufferedWriter bw = new BufferedWriter(osw);
-        try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bw)) {
+        try (MessagesToHtmlWriter messagesToHtmlWriter = new MessagesToHtmlWriter(bytes, serializer)) {
             for (Envelope message : messages) {
                 messagesToHtmlWriter.write(message);
             }

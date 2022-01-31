@@ -2,7 +2,7 @@ package io.cucumber.gherkin;
 
 import static java.util.stream.Collectors.joining;
 
-public class TokenFormatter {
+class TokenFormatter {
 
     public String formatToken(Token token) {
         if (token.isEOF())
