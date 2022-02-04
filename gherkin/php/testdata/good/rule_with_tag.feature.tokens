@@ -1,0 +1,20 @@
+(1:1)TagLine://1:@tag_feature
+(2:1)FeatureLine:Feature/Some tagged rules/
+(3:1)Empty://
+(4:3)RuleLine:Rule/Untagged rule/
+(5:1)Other:/  The untagged rule description/
+(6:1)Other://
+(7:5)ScenarioLine:Scenario/Scenario with only a feature tag/
+(8:7)StepLine:Given /a/
+(9:1)Empty://
+(10:3)TagLine://3:@tag_rule
+(11:3)RuleLine:Rule/Tagged rule/
+(12:1)Other:/  The tagged rule description/
+(13:1)Other://
+(14:5)ScenarioLine:Scenario/Scenario with feature and rule tags/
+(15:7)StepLine:Given /b/
+(16:1)Empty://
+(17:5)TagLine://5:@tag_scenario
+(18:5)ScenarioLine:Scenario/Scenario with feature, rule and scenario tags/
+(19:7)StepLine:Given /b/
+EOF
