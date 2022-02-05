@@ -1,3 +1,5 @@
+<%- @schemas.sort.each do |key, schema| -%>
+<%= class_name(key) %>.php
 <?php
 
 declare(strict_types=1);
@@ -10,8 +12,6 @@ namespace Cucumber\Messages;
 
 use JsonSerializable;
 use Cucumber\Messages\DecodingException\SchemaViolationException;
-<%- @schemas.sort.each do |key, schema| -%>
-// CLASS_START <%= class_name(key) %>.php
 /**
  * Represents the <%= class_name(key) %> message in Cucumber's message protocol
  * @see https://github.com/cucumber/common/tree/main/messages#readme
