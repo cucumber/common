@@ -26,8 +26,6 @@
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return @state.Id;
@@ -67,8 +65,6 @@ class @Model.ParserClassName<T> {
     }
 
     private final Builder<T> builder;
-
-    private boolean stopAtFirstError;
 
     static class ParserContext {
         final ITokenScanner tokenScanner;
@@ -153,10 +149,6 @@ class @Model.ParserClassName<T> {
     }
 
     private <V> V handleExternalError(ParserContext context, Func<V> action, V defaultValue) {
-        if (stopAtFirstError) {
-            return action.call();
-        }
-
         try {
             return action.call();
         } catch (ParserException.CompositeParserException compositeParserException) {
