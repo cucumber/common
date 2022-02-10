@@ -13,7 +13,6 @@
     "query/javascript",
     "compatibility-kit/javascript",
     "json-formatter/javascript-testdata",
-    "html-formatter/javascript",
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata",
     "suggest/javascript",
