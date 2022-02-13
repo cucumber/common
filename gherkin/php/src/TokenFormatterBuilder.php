@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Cucumber\Gherkin;
 
@@ -10,28 +12,36 @@ use Cucumber\Gherkin\Parser\RuleType;
  */
 final class TokenFormatterBuilder implements Builder
 {
+    private TokenFormatter $tokenFormatter;
+
+    /** @var list<string> */
+    private $lines = [];
+
+    public function __construct()
+    {
+        $this->tokenFormatter = new TokenFormatter();
+    }
+
     public function build(Token $token): void
     {
-        // TODO: Implement build() method.
+        $this->lines[] = $this->tokenFormatter->formatToken($token);
     }
 
     public function startRule(RuleType $ruleType): void
     {
-        // TODO: Implement startRule() method.
     }
 
     public function endRule(RuleType $ruleType): void
     {
-        // TODO: Implement endRule() method.
     }
 
     public function getResult(): string
     {
-        return 'true';
+        // implode at the end is more efficient than repeated concat
+        return implode("\n", [...$this->lines, '']);
     }
 
     public function reset(string $url): void
     {
-        // TODO: Implement reset() method.
     }
 }

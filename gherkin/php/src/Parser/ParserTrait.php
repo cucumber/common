@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Cucumber\Gherkin\Parser;
 
@@ -8,7 +10,7 @@ use Cucumber\Gherkin\TokenMatcher;
 use Cucumber\Gherkin\ParserException\CompositeParserException;
 
 /**
- * Contains code for Cucumber\Gherkin\Parser that does not need to be generated
+ * Contains code for Cucumber\Gherkin\Parser that does not need to be part of code generation
  *
  * @template T
  */
@@ -19,15 +21,13 @@ trait ParserTrait
      */
     public function __construct(
         private Builder $builder,
-    )
-    {
+    ) {
     }
 
     /**
      * @return T
-     * @Todo allow simpler parameters to be passed in (e.g. string source)
      */
-    public function parse(TokenScannerInterface $tokenScanner , TokenMatcher $tokenMatcher, string $uri) : mixed
+    public function parse(TokenScanner $tokenScanner, TokenMatcher $tokenMatcher, string $uri): mixed
     {
         $this->builder->reset($uri);
         $tokenMatcher->reset();
@@ -55,11 +55,10 @@ trait ParserTrait
         return $this->builder->getResult();
     }
 
-    private function addError(ParserContext $context, ParserException $error) : void
+    private function addError(ParserContext $context, ParserException $error): void
     {
         $newErrorMessage = $error->getMessage();
-        foreach($context->errors as $e)
-        {
+        foreach ($context->errors as $e) {
             if ($e->getMessage() == $newErrorMessage) {
                 return;
             }
@@ -76,7 +75,7 @@ trait ParserTrait
      *
      * @return U
      */
-    private function handleAstError(ParserContext $context, callable $action) : mixed
+    private function handleAstError(ParserContext $context, callable $action): mixed
     {
         return $this->handleExternalError($context, $action, null);
     }
@@ -88,57 +87,56 @@ trait ParserTrait
      *
      * @return U
      */
-    private function handleExternalError(ParserContext $context, callable $action, mixed $defaultValue) : mixed
+    private function handleExternalError(ParserContext $context, callable $action, mixed $defaultValue): mixed
     {
         try {
             return $action();
-        }
-        catch (CompositeParserException $compositeParserException) {
+        } catch (CompositeParserException $compositeParserException) {
             foreach ($compositeParserException->errors as $error) {
                 $this->addError($context, $error);
             }
-        }
-        catch (ParserException $error) {
+        } catch (ParserException $error) {
             $this->addError($context, $error);
         }
 
         return $defaultValue;
     }
 
-    private function build(ParserContext $context, Token $token) : void
+    private function build(ParserContext $context, Token $token): void
     {
         $this->handleAstError(
             $context,
-            function() use ($token) {
+            function () use ($token) {
                 $this->builder->build($token);
             }
         );
     }
 
-    private function startRule(ParserContext $context, RuleType $ruleType) : void
+    private function startRule(ParserContext $context, RuleType $ruleType): void
     {
         $this->handleAstError(
             $context,
-            function() use ($ruleType) {
+            function () use ($ruleType) {
                 $this->builder->startRule($ruleType);
                 return null;
             }
         );
     }
 
-    private function endRule(ParserContext $context, RuleType $ruleType) : void
+    private function endRule(ParserContext $context, RuleType $ruleType): void
     {
         $this->handleAstError(
             $context,
-            function() use ($ruleType) {
+            function () use ($ruleType) {
                 $this->builder->endRule($ruleType);
             }
         );
     }
 
-    private function readToken(ParserContext $context) : Token
+    private function readToken(ParserContext $context): Token
     {
-        /** @Todo make sure this shift is correct */
-        return (count($context->tokenQueue) > 0) ? array_shift($context->tokenQueue) : $context->tokenScanner->read();
+        return (count($context->tokenQueue) > 0)
+            ? array_shift($context->tokenQueue)
+            : $context->tokenScanner->read();
     }
 }

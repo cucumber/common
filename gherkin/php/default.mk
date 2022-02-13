@@ -44,8 +44,8 @@ clean:
 .PHONY: clean
 
 .tested: .deps .codegen $(PHP_SOURCE_FILES)
-	vendor/bin/phpunit
 	vendor/bin/psalm --no-cache
+	vendor/bin/phpunit
 .PHONY: .tested
 
 .deps: composer.lock

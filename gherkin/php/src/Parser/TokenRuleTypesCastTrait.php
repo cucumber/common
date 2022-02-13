@@ -1,14 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Cucumber\Gherkin\Parser;
 
+use SebastianBergmann\Type\LogicException;
+
 trait TokenRuleTypesCastTrait
 {
-    public static function cast(TokenType $tokenType) : RuleType
+    public static function cast(TokenType $tokenType): RuleType
     {
-        // @@Todo this is inefficient, an explicit mapping may be better
-        $ordinal = array_search($tokenType, TokenType::cases());
+        $ruleType = constant('Ruletype::' . $tokenType->name);
 
-        return RuleType::cases()[$ordinal];
+        if (!$ruleType instanceof RuleType) {
+            throw new LogicException('Could not create RuleType from  TokenType::' . $tokenType->name);
+        }
+
+        return $ruleType;
     }
 }

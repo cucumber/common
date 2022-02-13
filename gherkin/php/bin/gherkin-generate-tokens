@@ -11,7 +11,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $parser = new Parser(new TokenFormatterBuilder());
 
+// first element is the script name
+array_shift($argv);
+
 foreach($argv as $fileName) {
-    $result = $parser->parse(new TokenScanner(file_get_contents($fileName)), new TokenMatcher(), $fileName);
+    $result = $parser->parse(new StreamTokenScanner(fopen($fileName, 'r')), new TokenMatcher(), $fileName);
     echo $result;
 }
