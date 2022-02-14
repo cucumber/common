@@ -470,23 +470,6 @@ jobs:
           paths:
             - 'io/cucumber/gherkin'
 
-  config-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: config-java
-          command: |
-            cd config/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/config'
-
   json-to-messages-java-testdata:
     executor: docker-circleci-openjdk
     steps:
@@ -780,9 +763,6 @@ workflows:
       - gherkin-java:
           requires:
             - messages-java
-      - config-java:
-          requires:
-            - prepare-parallel
       - json-to-messages-java-testdata:
           requires:
             - prepare-parallel

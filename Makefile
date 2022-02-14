@@ -9,7 +9,6 @@ PACKAGES ?= messages \
 	query \
 	json-formatter \
 	compatibility-kit \
-	config \
 	demo-formatter \
 	json-to-messages
 

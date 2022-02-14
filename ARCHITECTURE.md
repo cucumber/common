@@ -35,8 +35,6 @@ In order of importance / relevance to most contributors (hopefully):
 * `fake-cucumber` - a light Cucumber implementation written in TypeScript - used primarily
   for development and testing. Also used as basis for `json-to-messages`.
 * `compatibility-kit` - test data used by multiple Cucumber Open implementations' acceptance tests.
-* `config` - (currently unused) - library for configuring Cucumber in a consistent way
-  using command line options, environment variables and configuration files.
 * `demo-formatter` - sample implementation of a Cucumber Open formatter. New formatters should be based on this.
 * `json-formatter` - converts `messages` to the legacy JSON format.
 * `json-to-messages` - converts legacy Cucumber JSON reports to the newer `messages` format. Allows older Cucumber versions to co-exist with newer tooling based on messages.
