@@ -27,7 +27,7 @@ trait ParserTrait
     /**
      * @return T
      */
-    public function parse(TokenScanner $tokenScanner, TokenMatcher $tokenMatcher, string $uri): mixed
+    public function parse(string $uri, TokenScanner $tokenScanner, TokenMatcher $tokenMatcher): mixed
     {
         $this->builder->reset($uri);
         $tokenMatcher->reset();

@@ -8,6 +8,7 @@
 >
     <projectFiles>
         <file name="bin/gherkin-generate-tokens"/>
+        <file name="bin/gherkin"/>
         <directory name="src"/>
         <directory name="src-generated"/>
         <directory name="tests"/>

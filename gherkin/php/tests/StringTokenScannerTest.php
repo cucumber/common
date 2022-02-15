@@ -6,14 +6,13 @@ namespace Cucumber\Gherkin;
 
 use PHPUnit\Framework\TestCase;
 
-final class StreamTokenScannerTest extends TestCase
+final class StringTokenScannerTest extends TestCase
 {
     public function testItFindsEofForEmptyStream(): void
     {
-        // empty stream
-        $stream = fopen('php://memory', 'r');
+        $stream = '';
 
-        $scanner = new StreamTokenScanner($stream);
+        $scanner = new StringTokenScanner($stream);
         $token = $scanner->read();
 
         self::assertTrue($token->isEof());
@@ -24,12 +23,10 @@ final class StreamTokenScannerTest extends TestCase
         $contents = <<<DOCUMENT
         FOO
         BAR
+        
         DOCUMENT;
 
-        $stream = fopen('php://memory', 'rw');
-        fwrite($stream, $contents);
-        rewind($stream);
-        $scanner = new StreamTokenScanner($stream);
+        $scanner = new StringTokenScanner($contents);
 
         $token = $scanner->read();
         self::assertSame('FOO', $token->getTokenValue());

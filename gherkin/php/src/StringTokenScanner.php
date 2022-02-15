@@ -13,26 +13,25 @@ use Cucumber\Gherkin\Parser\TokenScanner;
  * If the scanner sees a # language header, it will reconfigure itself dynamically to look for
  * Gherkin keywords for the associated language. The keywords are defined in gherkin-languages.json.
  */
-final class StreamTokenScanner implements TokenScanner
+final class StringTokenScanner implements TokenScanner
 {
     private int $lineNumber = 0;
 
-    /**
-     * @param resource $source File handle
-     */
-    public function __construct(
-        private readonly mixed $source
-    ) {
+    /** @var list<string> */
+    private array $lines;
+
+    public function __construct(string $source)
+    {
+        $this->lines = explode("\n", $source);
     }
 
     public function read(): Token
     {
-        $line = fgets($this->source);
-
+        $line = array_shift($this->lines);
         $location = new Location(++$this->lineNumber, 0);
 
-        return ($line === false) ?
-            new Token(null, $location) :
-            new Token(new StringGherkinLine(rtrim($line, "\r\n"), $this->lineNumber), $location);
+        return ($line === null || ($line === '' && count($this->lines) === 0))
+            ? new Token(null, $location)
+            : new Token(new StringGherkinLine(rtrim($line, "\r"), $this->lineNumber), $location);
     }
 }

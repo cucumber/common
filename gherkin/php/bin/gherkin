@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Cucumber\Gherkin\GherkinParser;
+use Cucumber\Messages\Streams\NdJson\NdJsonStreamWriter;
+
+$options = ['predictable-ids', 'no-source', 'no-ast', 'no-pickles'];
+
+$selectedOptions = getopt('', $options, $restIndex);
+$paths = array_slice($argv, $restIndex);
+
+$parser = new GherkinParser(
+    predictableIds: true,
+    includeSource: !array_key_exists('no-source', $selectedOptions),
+    includeGherkinDocument: !array_key_exists('no-ast', $selectedOptions),
+    includePickles: !array_key_exists('no-pickles', $selectedOptions),
+);
+$envelopes = $parser->parse($paths);
+
+$output = fopen('php://stdout', 'w');
+$writer = NdJsonStreamWriter::fromFileHandle($output);
+$writer->writeEnvelopes($envelopes);

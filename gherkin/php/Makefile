@@ -4,18 +4,24 @@ GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
 BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
 TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
 
 .DELETE_ON_ERROR:
 
 default: .compared
 
-.compared: .deps $(TOKENS)
+.compared: .deps $(TOKENS) $(SOURCES)
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens
 	mkdir -p $(@D)
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
+
+acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.feature.source.ndjson .deps
+	mkdir -p $(@D)
+	bin/gherkin --predictable-ids --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 
 .deps: build/classes.php
 
