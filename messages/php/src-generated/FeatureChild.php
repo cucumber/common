@@ -20,6 +20,10 @@ final class FeatureChild implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the FeatureChild with all properties
+     *
+     */
     public function __construct(
         public readonly ?Rule $rule = null,
         public readonly ?Background $background = null,

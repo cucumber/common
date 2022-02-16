@@ -20,7 +20,12 @@ final class Comment implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Comment with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The location of the comment
          */

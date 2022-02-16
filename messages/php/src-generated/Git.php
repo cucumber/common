@@ -21,6 +21,10 @@ final class Git implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Git with all properties
+     *
+     */
     public function __construct(
         public readonly string $remote = '',
         public readonly string $revision = '',

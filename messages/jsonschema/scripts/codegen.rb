@@ -377,7 +377,7 @@ class Php < Codegen
       if type == 'array'
         constructor = non_nullable_constructor_for(parent_type, property['items'], nil, schema, "member")
         member_type = (property['items']['type'] ? 'mixed' : 'array')
-        "array_map(fn (#{member_type} $member) => #{constructor}, $#{source})"
+        "array_values(array_map(fn (#{member_type} $member) => #{constructor}, $#{source}))"
       else
         "#{type_for(parent_type, property_name, property)}::fromArray($#{source})"
       end

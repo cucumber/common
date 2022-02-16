@@ -20,6 +20,10 @@ final class PickleTableCell implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the PickleTableCell with all properties
+     *
+     */
     public function __construct(
         public readonly string $value = '',
     ) {

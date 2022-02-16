@@ -20,6 +20,10 @@ final class UndefinedParameterType implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the UndefinedParameterType with all properties
+     *
+     */
     public function __construct(
         public readonly string $expression = '',
         public readonly string $name = '',

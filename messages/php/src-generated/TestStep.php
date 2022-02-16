@@ -21,7 +21,14 @@ final class TestStep implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestStep with all properties
+     *
+     * @param ?list<string> $stepDefinitionIds
+     * @param ?list<StepMatchArgumentsList> $stepMatchArgumentsLists
+     */
     public function __construct(
+
         /**
          * Pointer to the `Hook` (if derived from a Hook)
          */
@@ -35,7 +42,6 @@ final class TestStep implements JsonSerializable
 
         /**
          * Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)
-         * @param ?list<string> $stepDefinitionIds
          */
         public readonly ?array $stepDefinitionIds = null,
 
@@ -43,7 +49,6 @@ final class TestStep implements JsonSerializable
          * A list of list of StepMatchArgument (if derived from a `PickleStep`).
          * Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
          * and a size of 2+ means `AMBIGUOUS`
-         * @param ?list<StepMatchArgumentsList> $stepMatchArgumentsLists
          */
         public readonly ?array $stepMatchArgumentsLists = null,
     ) {
@@ -66,8 +71,8 @@ final class TestStep implements JsonSerializable
             isset($arr['hookId']) ? (string) $arr['hookId'] : null,
             (string) $arr['id'],
             isset($arr['pickleStepId']) ? (string) $arr['pickleStepId'] : null,
-            isset($arr['stepDefinitionIds']) ? array_map(fn (mixed $member) => (string) $member, $arr['stepDefinitionIds']) : null,
-            isset($arr['stepMatchArgumentsLists']) ? array_map(fn (array $member) => StepMatchArgumentsList::fromArray($member), $arr['stepMatchArgumentsLists']) : null,
+            isset($arr['stepDefinitionIds']) ? array_values(array_map(fn (mixed $member) => (string) $member, $arr['stepDefinitionIds'])) : null,
+            isset($arr['stepMatchArgumentsLists']) ? array_values(array_map(fn (array $member) => StepMatchArgumentsList::fromArray($member), $arr['stepMatchArgumentsLists'])) : null,
         );
     }
 

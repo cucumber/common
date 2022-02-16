@@ -21,6 +21,10 @@ final class SourceReference implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the SourceReference with all properties
+     *
+     */
     public function __construct(
         public readonly ?string $uri = null,
         public readonly ?JavaMethod $javaMethod = null,

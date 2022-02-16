@@ -25,6 +25,10 @@ final class Envelope implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Envelope with all properties
+     *
+     */
     public function __construct(
         public readonly ?Attachment $attachment = null,
         public readonly ?GherkinDocument $gherkinDocument = null,

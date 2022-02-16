@@ -20,7 +20,12 @@ final class Step implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Step with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The location of the steps' `keyword`
          */

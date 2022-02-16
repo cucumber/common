@@ -20,6 +20,10 @@ final class JavaStackTraceElement implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the JavaStackTraceElement with all properties
+     *
+     */
     public function __construct(
         public readonly string $className = '',
         public readonly string $fileName = '',

@@ -22,6 +22,11 @@ final class TestCase implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestCase with all properties
+     *
+     * @param list<TestStep> $testSteps
+     */
     public function __construct(
         public readonly string $id = '',
 
@@ -29,10 +34,6 @@ final class TestCase implements JsonSerializable
          * The ID of the `Pickle` this `TestCase` is derived from.
          */
         public readonly string $pickleId = '',
-
-        /**
-         * @param list<TestStep> $testSteps
-         */
         public readonly array $testSteps = [],
     ) {
     }
@@ -51,7 +52,7 @@ final class TestCase implements JsonSerializable
         return new self(
             (string) $arr['id'],
             (string) $arr['pickleId'],
-            array_map(fn (array $member) => TestStep::fromArray($member), $arr['testSteps']),
+            array_values(array_map(fn (array $member) => TestStep::fromArray($member), $arr['testSteps'])),
         );
     }
 

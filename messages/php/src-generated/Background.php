@@ -20,7 +20,13 @@ final class Background implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Background with all properties
+     *
+     * @param list<Step> $steps
+     */
     public function __construct(
+
         /**
          * The location of the `Background` keyword
          */
@@ -28,10 +34,6 @@ final class Background implements JsonSerializable
         public readonly string $keyword = '',
         public readonly string $name = '',
         public readonly string $description = '',
-
-        /**
-         * @param list<Step> $steps
-         */
         public readonly array $steps = [],
         public readonly string $id = '',
     ) {
@@ -56,7 +58,7 @@ final class Background implements JsonSerializable
             (string) $arr['keyword'],
             (string) $arr['name'],
             (string) $arr['description'],
-            array_map(fn (array $member) => Step::fromArray($member), $arr['steps']),
+            array_values(array_map(fn (array $member) => Step::fromArray($member), $arr['steps'])),
             (string) $arr['id'],
         );
     }

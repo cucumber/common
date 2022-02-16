@@ -20,7 +20,12 @@ final class Product implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Product with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The product name
          */

@@ -20,7 +20,14 @@ final class Rule implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Rule with all properties
+     *
+     * @param list<Tag> $tags
+     * @param list<RuleChild> $children
+     */
     public function __construct(
+
         /**
          * The location of the `Rule` keyword
          */
@@ -28,16 +35,11 @@ final class Rule implements JsonSerializable
 
         /**
          * All the tags placed above the `Rule` keyword
-         * @param list<Tag> $tags
          */
         public readonly array $tags = [],
         public readonly string $keyword = '',
         public readonly string $name = '',
         public readonly string $description = '',
-
-        /**
-         * @param list<RuleChild> $children
-         */
         public readonly array $children = [],
         public readonly string $id = '',
     ) {
@@ -60,11 +62,11 @@ final class Rule implements JsonSerializable
 
         return new self(
             Location::fromArray($arr['location']),
-            array_map(fn (array $member) => Tag::fromArray($member), $arr['tags']),
+            array_values(array_map(fn (array $member) => Tag::fromArray($member), $arr['tags'])),
             (string) $arr['keyword'],
             (string) $arr['name'],
             (string) $arr['description'],
-            array_map(fn (array $member) => RuleChild::fromArray($member), $arr['children']),
+            array_values(array_map(fn (array $member) => RuleChild::fromArray($member), $arr['children'])),
             (string) $arr['id'],
         );
     }

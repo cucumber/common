@@ -20,6 +20,10 @@ final class PickleTag implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the PickleTag with all properties
+     *
+     */
     public function __construct(
         public readonly string $name = '',
 

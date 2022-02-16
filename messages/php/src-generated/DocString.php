@@ -20,6 +20,10 @@ final class DocString implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the DocString with all properties
+     *
+     */
     public function __construct(
         public readonly Location $location = new Location(),
         public readonly ?string $mediaType = null,

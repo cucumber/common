@@ -21,6 +21,10 @@ final class Duration implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Duration with all properties
+     *
+     */
     public function __construct(
         public readonly int $seconds = 0,
 

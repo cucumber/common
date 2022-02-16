@@ -20,7 +20,12 @@ final class TestCaseStarted implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestCaseStarted with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The first attempt should have value 0, and for each retry the value
          * should increase by 1.

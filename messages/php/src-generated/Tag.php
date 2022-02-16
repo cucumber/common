@@ -20,7 +20,12 @@ final class Tag implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Tag with all properties
+     *
+     */
     public function __construct(
+
         /**
          * Location of the tag
          */

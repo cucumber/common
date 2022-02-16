@@ -20,6 +20,10 @@ final class RuleChild implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the RuleChild with all properties
+     *
+     */
     public function __construct(
         public readonly ?Background $background = null,
         public readonly ?Scenario $scenario = null,

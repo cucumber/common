@@ -20,6 +20,10 @@ final class TestStepResult implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestStepResult with all properties
+     *
+     */
     public function __construct(
         public readonly Duration $duration = new Duration(),
         public readonly ?string $message = null,

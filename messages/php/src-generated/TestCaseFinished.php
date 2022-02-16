@@ -20,6 +20,10 @@ final class TestCaseFinished implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestCaseFinished with all properties
+     *
+     */
     public function __construct(
         public readonly string $testCaseStartedId = '',
         public readonly Timestamp $timestamp = new Timestamp(),
