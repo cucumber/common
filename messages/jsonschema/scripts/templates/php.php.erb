@@ -21,17 +21,23 @@ final class <%= class_name(key) %> implements JsonSerializable
 {
     use JsonEncodingTrait;
 
-    public function __construct(<%- schema['properties'].each do |property_name, property| -%>
+    /**
+     * Construct the <%= class_name(key) %> with all properties
+     *
+    <%- schema['properties'].each do |property_name, property| -%>
+        <%- property_type = type_for(key, property_name, property) -%>
+        <%- if property_type == 'array' -%>
+     * @param <%= is_nullable(property_name, schema) ? '?' : '' %>list<<%= array_contents_type(key, property_name, property) %>> $<%= property_name %>
+		<%- end -%>
+    <%- end -%>
+     */
+    public function __construct(
+    <%- schema['properties'].each do |property_name, property| -%>
 
         <%- property_type = type_for(key, property_name, property) -%>
-        <%- if  property['description'] or property_type == 'array' -%>
+        <%- if  property['description'] -%>
         /**
-        <%- if property['description'] -%>
         <%= format_description(property['description']) %>
-        <%- end -%>
-        <%- if property_type == 'array' -%>
-         * @param <%= is_nullable(property_name, schema) ? '?' : '' %>list<<%= array_contents_type(key, property_name, property) %>> $<%= property_name %>
-        <%- end -%>
          */
         <%- end -%>
         public readonly <%= is_nullable(property_name, schema) ? '?' : '' %><%= property_type %> $<%= property_name %> = <%= default_value(class_name(key), property_name, property, schema) -%>,

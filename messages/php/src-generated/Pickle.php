@@ -31,7 +31,15 @@ final class Pickle implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Pickle with all properties
+     *
+     * @param list<PickleStep> $steps
+     * @param list<PickleTag> $tags
+     * @param list<string> $astNodeIds
+     */
     public function __construct(
+
         /**
          * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
          * from the source data and the `locations` of the pickle.
@@ -56,14 +64,12 @@ final class Pickle implements JsonSerializable
 
         /**
          * One or more steps
-         * @param list<PickleStep> $steps
          */
         public readonly array $steps = [],
 
         /**
          * One or more tags. If this pickle is constructed from a Gherkin document,
          * It includes inherited tags from the `Feature` as well.
-         * @param list<PickleTag> $tags
          */
         public readonly array $tags = [],
 
@@ -71,7 +77,6 @@ final class Pickle implements JsonSerializable
          * Points to the AST node locations of the pickle. The last one represents the unique
          * id of the pickle. A pickle constructed from `Examples` will have the first
          * id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
-         * @param list<string> $astNodeIds
          */
         public readonly array $astNodeIds = [],
     ) {
@@ -97,9 +102,9 @@ final class Pickle implements JsonSerializable
             (string) $arr['uri'],
             (string) $arr['name'],
             (string) $arr['language'],
-            array_map(fn (array $member) => PickleStep::fromArray($member), $arr['steps']),
-            array_map(fn (array $member) => PickleTag::fromArray($member), $arr['tags']),
-            array_map(fn (mixed $member) => (string) $member, $arr['astNodeIds']),
+            array_values(array_map(fn (array $member) => PickleStep::fromArray($member), $arr['steps'])),
+            array_values(array_map(fn (array $member) => PickleTag::fromArray($member), $arr['tags'])),
+            array_values(array_map(fn (mixed $member) => (string) $member, $arr['astNodeIds'])),
         );
     }
 

@@ -20,7 +20,14 @@ final class Feature implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Feature with all properties
+     *
+     * @param list<Tag> $tags
+     * @param list<FeatureChild> $children
+     */
     public function __construct(
+
         /**
          * The location of the `Feature` keyword
          */
@@ -28,7 +35,6 @@ final class Feature implements JsonSerializable
 
         /**
          * All the tags placed above the `Feature` keyword
-         * @param list<Tag> $tags
          */
         public readonly array $tags = [],
 
@@ -54,7 +60,6 @@ final class Feature implements JsonSerializable
 
         /**
          * Zero or more children
-         * @param list<FeatureChild> $children
          */
         public readonly array $children = [],
     ) {
@@ -77,12 +82,12 @@ final class Feature implements JsonSerializable
 
         return new self(
             Location::fromArray($arr['location']),
-            array_map(fn (array $member) => Tag::fromArray($member), $arr['tags']),
+            array_values(array_map(fn (array $member) => Tag::fromArray($member), $arr['tags'])),
             (string) $arr['language'],
             (string) $arr['keyword'],
             (string) $arr['name'],
             (string) $arr['description'],
-            array_map(fn (array $member) => FeatureChild::fromArray($member), $arr['children']),
+            array_values(array_map(fn (array $member) => FeatureChild::fromArray($member), $arr['children'])),
         );
     }
 

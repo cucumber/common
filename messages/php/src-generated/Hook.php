@@ -20,6 +20,10 @@ final class Hook implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Hook with all properties
+     *
+     */
     public function __construct(
         public readonly string $id = '',
         public readonly SourceReference $sourceReference = new SourceReference(),

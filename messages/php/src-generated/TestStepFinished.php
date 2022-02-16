@@ -20,6 +20,10 @@ final class TestStepFinished implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestStepFinished with all properties
+     *
+     */
     public function __construct(
         public readonly string $testCaseStartedId = '',
         public readonly string $testStepId = '',

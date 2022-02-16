@@ -20,7 +20,12 @@ final class TestRunFinished implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestRunFinished with all properties
+     *
+     */
     public function __construct(
+
         /**
          * Error message. Can be a stack trace from a failed `BeforeAll` or `AfterAll`.
          * If there are undefined parameter types, the message is simply

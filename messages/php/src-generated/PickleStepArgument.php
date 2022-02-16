@@ -20,6 +20,10 @@ final class PickleStepArgument implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the PickleStepArgument with all properties
+     *
+     */
     public function __construct(
         public readonly ?PickleDocString $docString = null,
         public readonly ?PickleTable $dataTable = null,

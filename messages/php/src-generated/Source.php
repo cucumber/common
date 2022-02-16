@@ -22,7 +22,12 @@ final class Source implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Source with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
          * of the source, typically a file path relative to the root directory

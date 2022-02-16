@@ -30,7 +30,12 @@ final class Attachment implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Attachment with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
          * is simply the string. If it's `BASE64`, the string should be Base64 decoded to

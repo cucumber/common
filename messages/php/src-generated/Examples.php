@@ -20,24 +20,23 @@ final class Examples implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Examples with all properties
+     *
+     * @param list<Tag> $tags
+     * @param list<TableRow> $tableBody
+     */
     public function __construct(
+
         /**
          * The location of the `Examples` keyword
          */
         public readonly Location $location = new Location(),
-
-        /**
-         * @param list<Tag> $tags
-         */
         public readonly array $tags = [],
         public readonly string $keyword = '',
         public readonly string $name = '',
         public readonly string $description = '',
         public readonly ?TableRow $tableHeader = null,
-
-        /**
-         * @param list<TableRow> $tableBody
-         */
         public readonly array $tableBody = [],
         public readonly string $id = '',
     ) {
@@ -61,12 +60,12 @@ final class Examples implements JsonSerializable
 
         return new self(
             Location::fromArray($arr['location']),
-            array_map(fn (array $member) => Tag::fromArray($member), $arr['tags']),
+            array_values(array_map(fn (array $member) => Tag::fromArray($member), $arr['tags'])),
             (string) $arr['keyword'],
             (string) $arr['name'],
             (string) $arr['description'],
             isset($arr['tableHeader']) ? TableRow::fromArray($arr['tableHeader']) : null,
-            array_map(fn (array $member) => TableRow::fromArray($member), $arr['tableBody']),
+            array_values(array_map(fn (array $member) => TableRow::fromArray($member), $arr['tableBody'])),
             (string) $arr['id'],
         );
     }

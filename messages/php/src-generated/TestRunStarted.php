@@ -20,6 +20,10 @@ final class TestRunStarted implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TestRunStarted with all properties
+     *
+     */
     public function __construct(
         public readonly Timestamp $timestamp = new Timestamp(),
     ) {

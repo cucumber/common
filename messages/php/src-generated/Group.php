@@ -20,10 +20,12 @@ final class Group implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Group with all properties
+     *
+     * @param list<Group> $children
+     */
     public function __construct(
-        /**
-         * @param list<Group> $children
-         */
         public readonly array $children = [],
         public readonly ?int $start = null,
         public readonly ?string $value = null,
@@ -42,7 +44,7 @@ final class Group implements JsonSerializable
         self::ensureValue($arr);
 
         return new self(
-            array_map(fn (array $member) => Group::fromArray($member), $arr['children']),
+            array_values(array_map(fn (array $member) => Group::fromArray($member), $arr['children'])),
             isset($arr['start']) ? (int) $arr['start'] : null,
             isset($arr['value']) ? (string) $arr['value'] : null,
         );

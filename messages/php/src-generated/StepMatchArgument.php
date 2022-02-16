@@ -25,7 +25,12 @@ final class StepMatchArgument implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the StepMatchArgument with all properties
+     *
+     */
     public function __construct(
+
         /**
          * Represents the outermost capture group of an argument. This message closely matches the
          * `Group` class in the `cucumber-expressions` library.

@@ -20,10 +20,12 @@ final class StepMatchArgumentsList implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the StepMatchArgumentsList with all properties
+     *
+     * @param list<StepMatchArgument> $stepMatchArguments
+     */
     public function __construct(
-        /**
-         * @param list<StepMatchArgument> $stepMatchArguments
-         */
         public readonly array $stepMatchArguments = [],
     ) {
     }
@@ -38,7 +40,7 @@ final class StepMatchArgumentsList implements JsonSerializable
         self::ensureStepMatchArguments($arr);
 
         return new self(
-            array_map(fn (array $member) => StepMatchArgument::fromArray($member), $arr['stepMatchArguments']),
+            array_values(array_map(fn (array $member) => StepMatchArgument::fromArray($member), $arr['stepMatchArguments'])),
         );
     }
 

@@ -20,15 +20,17 @@ final class ParameterType implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the ParameterType with all properties
+     *
+     * @param list<string> $regularExpressions
+     */
     public function __construct(
+
         /**
          * The name is unique, so we don't need an id.
          */
         public readonly string $name = '',
-
-        /**
-         * @param list<string> $regularExpressions
-         */
         public readonly array $regularExpressions = [],
         public readonly bool $preferForRegularExpressionMatch = false,
         public readonly bool $useForSnippets = false,
@@ -51,7 +53,7 @@ final class ParameterType implements JsonSerializable
 
         return new self(
             (string) $arr['name'],
-            array_map(fn (mixed $member) => (string) $member, $arr['regularExpressions']),
+            array_values(array_map(fn (mixed $member) => (string) $member, $arr['regularExpressions'])),
             (bool) $arr['preferForRegularExpressionMatch'],
             (bool) $arr['useForSnippets'],
             (string) $arr['id'],

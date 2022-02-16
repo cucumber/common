@@ -21,7 +21,12 @@ final class Meta implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Meta with all properties
+     *
+     */
     public function __construct(
+
         /**
          * The [SEMVER](https://semver.org/) version number of the protocol
          */

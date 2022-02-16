@@ -20,6 +20,10 @@ final class PickleDocString implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the PickleDocString with all properties
+     *
+     */
     public function __construct(
         public readonly ?string $mediaType = null,
         public readonly string $content = '',

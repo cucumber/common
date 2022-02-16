@@ -25,7 +25,13 @@ final class GherkinDocument implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the GherkinDocument with all properties
+     *
+     * @param list<Comment> $comments
+     */
     public function __construct(
+
         /**
          * The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
          * of the source, typically a file path relative to the root directory
@@ -35,7 +41,6 @@ final class GherkinDocument implements JsonSerializable
 
         /**
          * All the comments in the Gherkin document
-         * @param list<Comment> $comments
          */
         public readonly array $comments = [],
     ) {
@@ -55,7 +60,7 @@ final class GherkinDocument implements JsonSerializable
         return new self(
             isset($arr['uri']) ? (string) $arr['uri'] : null,
             isset($arr['feature']) ? Feature::fromArray($arr['feature']) : null,
-            array_map(fn (array $member) => Comment::fromArray($member), $arr['comments']),
+            array_values(array_map(fn (array $member) => Comment::fromArray($member), $arr['comments'])),
         );
     }
 

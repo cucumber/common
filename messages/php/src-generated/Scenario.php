@@ -20,28 +20,24 @@ final class Scenario implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Scenario with all properties
+     *
+     * @param list<Tag> $tags
+     * @param list<Step> $steps
+     * @param list<Examples> $examples
+     */
     public function __construct(
+
         /**
          * The location of the `Scenario` keyword
          */
         public readonly Location $location = new Location(),
-
-        /**
-         * @param list<Tag> $tags
-         */
         public readonly array $tags = [],
         public readonly string $keyword = '',
         public readonly string $name = '',
         public readonly string $description = '',
-
-        /**
-         * @param list<Step> $steps
-         */
         public readonly array $steps = [],
-
-        /**
-         * @param list<Examples> $examples
-         */
         public readonly array $examples = [],
         public readonly string $id = '',
     ) {
@@ -65,12 +61,12 @@ final class Scenario implements JsonSerializable
 
         return new self(
             Location::fromArray($arr['location']),
-            array_map(fn (array $member) => Tag::fromArray($member), $arr['tags']),
+            array_values(array_map(fn (array $member) => Tag::fromArray($member), $arr['tags'])),
             (string) $arr['keyword'],
             (string) $arr['name'],
             (string) $arr['description'],
-            array_map(fn (array $member) => Step::fromArray($member), $arr['steps']),
-            array_map(fn (array $member) => Examples::fromArray($member), $arr['examples']),
+            array_values(array_map(fn (array $member) => Step::fromArray($member), $arr['steps'])),
+            array_values(array_map(fn (array $member) => Examples::fromArray($member), $arr['examples'])),
             (string) $arr['id'],
         );
     }

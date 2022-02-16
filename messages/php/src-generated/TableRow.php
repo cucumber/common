@@ -20,7 +20,13 @@ final class TableRow implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the TableRow with all properties
+     *
+     * @param list<TableCell> $cells
+     */
     public function __construct(
+
         /**
          * The location of the first cell in the row
          */
@@ -28,7 +34,6 @@ final class TableRow implements JsonSerializable
 
         /**
          * Cells in the row
-         * @param list<TableCell> $cells
          */
         public readonly array $cells = [],
         public readonly string $id = '',
@@ -48,7 +53,7 @@ final class TableRow implements JsonSerializable
 
         return new self(
             Location::fromArray($arr['location']),
-            array_map(fn (array $member) => TableCell::fromArray($member), $arr['cells']),
+            array_values(array_map(fn (array $member) => TableCell::fromArray($member), $arr['cells'])),
             (string) $arr['id'],
         );
     }

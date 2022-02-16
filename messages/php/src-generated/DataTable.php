@@ -20,12 +20,13 @@ final class DataTable implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the DataTable with all properties
+     *
+     * @param list<TableRow> $rows
+     */
     public function __construct(
         public readonly Location $location = new Location(),
-
-        /**
-         * @param list<TableRow> $rows
-         */
         public readonly array $rows = [],
     ) {
     }
@@ -42,7 +43,7 @@ final class DataTable implements JsonSerializable
 
         return new self(
             Location::fromArray($arr['location']),
-            array_map(fn (array $member) => TableRow::fromArray($member), $arr['rows']),
+            array_values(array_map(fn (array $member) => TableRow::fromArray($member), $arr['rows'])),
         );
     }
 

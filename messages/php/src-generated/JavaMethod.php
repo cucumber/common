@@ -20,13 +20,14 @@ final class JavaMethod implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the JavaMethod with all properties
+     *
+     * @param list<string> $methodParameterTypes
+     */
     public function __construct(
         public readonly string $className = '',
         public readonly string $methodName = '',
-
-        /**
-         * @param list<string> $methodParameterTypes
-         */
         public readonly array $methodParameterTypes = [],
     ) {
     }
@@ -45,7 +46,7 @@ final class JavaMethod implements JsonSerializable
         return new self(
             (string) $arr['className'],
             (string) $arr['methodName'],
-            array_map(fn (mixed $member) => (string) $member, $arr['methodParameterTypes']),
+            array_values(array_map(fn (mixed $member) => (string) $member, $arr['methodParameterTypes'])),
         );
     }
 

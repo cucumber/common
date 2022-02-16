@@ -20,10 +20,12 @@ final class PickleTableRow implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the PickleTableRow with all properties
+     *
+     * @param list<PickleTableCell> $cells
+     */
     public function __construct(
-        /**
-         * @param list<PickleTableCell> $cells
-         */
         public readonly array $cells = [],
     ) {
     }
@@ -38,7 +40,7 @@ final class PickleTableRow implements JsonSerializable
         self::ensureCells($arr);
 
         return new self(
-            array_map(fn (array $member) => PickleTableCell::fromArray($member), $arr['cells']),
+            array_values(array_map(fn (array $member) => PickleTableCell::fromArray($member), $arr['cells'])),
         );
     }
 

@@ -20,7 +20,12 @@ final class Ci implements JsonSerializable
 {
     use JsonEncodingTrait;
 
+    /**
+     * Construct the Ci with all properties
+     *
+     */
     public function __construct(
+
         /**
          * Name of the CI product, e.g. "Jenkins", "CircleCI" etc.
          */
