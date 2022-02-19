@@ -41,7 +41,7 @@ final class TokenFormatterBuilder implements Builder
         return implode("\n", [...$this->lines, '']);
     }
 
-    public function reset(string $url): void
+    public function reset(string $uri): void
     {
     }
 }

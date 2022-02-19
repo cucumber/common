@@ -18,5 +18,5 @@ interface Builder
      * @return T
      */
     public function getResult(): mixed;
-    public function reset(string $url): void;
+    public function reset(string $uri): void;
 }

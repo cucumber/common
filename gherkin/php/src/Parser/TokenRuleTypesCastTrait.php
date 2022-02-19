@@ -10,10 +10,16 @@ trait TokenRuleTypesCastTrait
 {
     public static function cast(TokenType $tokenType): RuleType
     {
-        $ruleType = constant('Ruletype::' . $tokenType->name);
+        $tokenName = $tokenType->name;
+
+        if ($tokenName != TokenType::None->name) {
+            $tokenName = '_' . $tokenName;
+        }
+
+        $ruleType = constant(RuleType::class . '::' . $tokenName);
 
         if (!$ruleType instanceof RuleType) {
-            throw new LogicException('Could not create RuleType from  TokenType::' . $tokenType->name);
+            throw new LogicException('Could not create RuleType from  TokenType::' . $tokenName);
         }
 
         return $ruleType;

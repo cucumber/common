@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Cucumber\Gherkin;
 
 use Cucumber\Messages\Envelope;
+use Cucumber\Messages\GherkinDocument;
+use Cucumber\Messages\Id\IncrementingIdGenerator;
 use Cucumber\Messages\Source;
 use Cucumber\Messages\Source\MediaType;
 use Generator;
@@ -36,6 +38,24 @@ final class GherkinParser
             if ($this->includeSource) {
                 yield new Envelope(source: $source);
             }
+
+            $gherkinDocument = $this->parseGherkinDocument($source);
+
+            if ($this->includeGherkinDocument) {
+                yield new Envelope(gherkinDocument: $gherkinDocument);
+            }
         }
+    }
+
+    private function parseGherkinDocument(Source $source): GherkinDocument
+    {
+        $builder = new GherkinDocumentBuilder($source->uri, new IncrementingIdGenerator());
+        $parser = new Parser($builder);
+
+        return $parser->parse(
+            $source->uri,
+            new StringTokenScanner($source->data),
+            new TokenMatcher()
+        );
     }
 }

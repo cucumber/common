@@ -20,11 +20,7 @@ final class StringTokenScannerTest extends TestCase
 
     public function testItFindsOneTokenPerLineForPopulatedStream(): void
     {
-        $contents = <<<DOCUMENT
-        FOO
-        BAR
-        
-        DOCUMENT;
+        $contents = "FOO\nBAR\r\nBAZ\n";
 
         $scanner = new StringTokenScanner($contents);
 
@@ -33,6 +29,9 @@ final class StringTokenScannerTest extends TestCase
 
         $token = $scanner->read();
         self::assertSame('BAR', $token->getTokenValue());
+
+        $token = $scanner->read();
+        self::assertSame('BAZ', $token->getTokenValue());
 
         $token = $scanner->read();
         self::assertSame('EOF', $token->getTokenValue());

@@ -40,6 +40,7 @@ final class TokenMatcher implements TokenMatcherInterface
         $token->matchedKeyword = $keyword;
         $token->matchedText = $text;
         $token->matchedItems = $items;
+        $token->matchedGherkinDialect = $this->currentDialect;
         $token->matchedIndent = $indent ?? $token->line?->indent() ?? 0;
         $token->location = new Location($token->location->getLine(), $token->matchedIndent + 1);
     }

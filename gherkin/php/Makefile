@@ -5,12 +5,13 @@ BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
 
 TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
+ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 
 .DELETE_ON_ERROR:
 
 default: .compared
 
-.compared: .deps $(TOKENS) $(SOURCES)
+.compared: .deps $(TOKENS) $(SOURCES) $(ASTS)
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens
@@ -22,6 +23,12 @@ acceptance/testdata/%.feature.source.ndjson: testdata/%.feature testdata/%.featu
 	mkdir -p $(@D)
 	bin/gherkin --predictable-ids --no-ast --no-pickles $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
+
+acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .deps
+	mkdir -p $(@D)
+	bin/gherkin --predictable-ids --no-source --no-pickles $< | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
+
 
 .deps: build/classes.php
 

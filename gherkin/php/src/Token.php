@@ -12,6 +12,7 @@ final class Token
     public ?string $matchedKeyword = null;
     public ?string $matchedText = null;
     public ?int $matchedIndent = null;
+    public ?GherkinDialect $matchedGherkinDialect = null;
 
     /** @var list<GherkinLineSpan> */
     public ?array $matchedItems = null;
