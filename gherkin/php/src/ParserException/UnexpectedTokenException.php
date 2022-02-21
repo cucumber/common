@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cucumber\Gherkin\ParserException;
 
+use Cucumber\Gherkin\Location;
 use Cucumber\Gherkin\ParserException;
 use Cucumber\Gherkin\Token;
 
@@ -19,10 +20,14 @@ final class UnexpectedTokenException extends ParserException
     ) {
         $message = sprintf(
             "expected: %s, got '%s'",
-            join(',', $this->expectedTokenTypes),
+            join(', ', $this->expectedTokenTypes),
             trim($this->receivedToken->getTokenValue()),
         );
 
-        parent::__construct($message, $this->receivedToken->getLocation());
+        $location = ($receivedToken->location->getColumn() > 1)
+            ? $receivedToken->location
+            : new Location($receivedToken->location->getLine(), (int) $receivedToken->line?->indent() + 1);
+
+        parent::__construct($message, $location);
     }
 }

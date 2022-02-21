@@ -22,8 +22,41 @@ final class UnexpectedTokenExceptionTest extends TestCase
             'stateComment'
         );
 
-        $message = "(10:10): expected: Foo,Bar, got 'Baz'";
+        $message = "expected: Foo, Bar, got 'Baz'";
 
-        self::assertSame($message, $exception->getMessage());
+        self::assertStringEndsWith($message, $exception->getMessage());
+    }
+
+    public function testLocationIsInMessageWhenColumnIsWide(): void
+    {
+        $line = $this->createMock(GherkinLine::class);
+        $line->method('getLineText')->willReturn('Baz');
+
+        $exception = new UnexpectedTokenException(
+            new Token($line, new Location(10, 10)),
+            ['Foo', 'Bar'],
+            'stateComment'
+        );
+
+        $message = "(10:10):";
+
+        self::assertStringStartsWith($message, $exception->getMessage());
+    }
+
+    public function testLocationColumnIsIndented(): void
+    {
+        $line = $this->createMock(GherkinLine::class);
+        $line->method('getLineText')->willReturn('Baz');
+        $line->method('indent')->willReturn(10);
+
+        $exception = new UnexpectedTokenException(
+            new Token($line, new Location(10, 1)),
+            ['Foo', 'Bar'],
+            'stateComment'
+        );
+
+        $message = "(10:11):";
+
+        self::assertStringStartsWith($message, $exception->getMessage());
     }
 }

@@ -334,7 +334,7 @@ final class GherkinDocumentBuilder implements Builder
         foreach ($rows as $row) {
             if (count($row->cells) !== $cellCount) {
                 $location = new Location($row->location->line, $row->location->column ?? 0);
-                throw new AstBuilderException('Inconsistent cell count within the table', $location);
+                throw new AstBuilderException('inconsistent cell count within the table', $location);
             }
         }
     }

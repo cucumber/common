@@ -8,6 +8,7 @@ use Cucumber\Messages\DataTable;
 use Cucumber\Messages\DocString;
 use Cucumber\Messages\Feature;
 use Cucumber\Messages\GherkinDocument;
+use Cucumber\Messages\Id\IdGenerator;
 use Cucumber\Messages\Pickle;
 use Cucumber\Messages\PickleDocString;
 use Cucumber\Messages\PickleStep;

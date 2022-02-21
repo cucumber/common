@@ -7,12 +7,13 @@ TOKENS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.token
 ASTS         = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
 PICKLES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
 SOURCES      = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.source.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS       = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 .DELETE_ON_ERROR:
 
 default: .compared
 
-.compared: .deps $(TOKENS) $(SOURCES) $(ASTS) $(PICKLES)
+.compared: .deps $(TOKENS) $(SOURCES) $(ASTS) $(PICKLES) $(ERRORS)
 	touch $@
 
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens
@@ -34,6 +35,12 @@ acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feat
 	mkdir -p $(@D)
 	bin/gherkin --predictable-ids --no-source --no-ast $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
+
+acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .deps
+	mkdir -p $(@D)
+	bin/gherkin --predictable-ids --no-source $< | jq --sort-keys --compact-output "." > $@
+	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
+
 
 .deps: build/classes.php
 

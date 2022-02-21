@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Cucumber\Gherkin;
 
+use Cucumber\Gherkin\ParserException\CompositeParserException;
 use Cucumber\Messages\Envelope;
 use Cucumber\Messages\GherkinDocument;
+use Cucumber\Messages\Id\IdGenerator;
 use Cucumber\Messages\Id\IncrementingIdGenerator;
+use Cucumber\Messages\Location as MessageLocation;
+use Cucumber\Messages\ParseError;
 use Cucumber\Messages\Source;
 use Cucumber\Messages\Source\MediaType;
+use Cucumber\Messages\SourceReference;
 use Generator;
 
 final class GherkinParser
@@ -43,16 +48,24 @@ final class GherkinParser
                 yield new Envelope(source: $source);
             }
 
-            $gherkinDocument = $this->parseGherkinDocument($source);
+            try {
+                $gherkinDocument = $this->parseGherkinDocument($source);
 
-            if ($this->includeGherkinDocument) {
-                yield new Envelope(gherkinDocument: $gherkinDocument);
-            }
-
-            if ($this->includePickles) {
-                foreach ($this->pickleCompiler->compile($gherkinDocument, $source->uri) as $pickle) {
-                    yield new Envelope(pickle: $pickle);
+                if ($this->includeGherkinDocument) {
+                    yield new Envelope(gherkinDocument: $gherkinDocument);
                 }
+
+                if ($this->includePickles) {
+                    foreach ($this->pickleCompiler->compile($gherkinDocument, $source->uri) as $pickle) {
+                        yield new Envelope(pickle: $pickle);
+                    }
+                }
+            } catch (CompositeParserException $composite) {
+                foreach ($composite->errors as $error) {
+                    yield $this->createParseError($error, $source->uri);
+                }
+            } catch (ParserException $error) {
+                yield $this->createParseError($error, $source->uri);
             }
         }
     }
@@ -67,5 +80,17 @@ final class GherkinParser
             new StringTokenScanner($source->data),
             new TokenMatcher()
         );
+    }
+
+    private function createParseError(ParserException $error, string $uri): Envelope
+    {
+        $line = $error->location->getLine();
+        $column = $error->location->getColumn();
+        $ref = new SourceReference(
+            uri: $uri,
+            location: new MessageLocation($line, $column === 0 ? null : $column)
+        );
+
+        return new Envelope(parseError: new ParseError($ref, $error->getMessage()));
     }
 }
