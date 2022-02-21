@@ -13,12 +13,16 @@ use Generator;
 
 final class GherkinParser
 {
+    private PickleCompiler $pickleCompiler;
+
     public function __construct(
         private readonly bool $predictableIds = false,
         private readonly bool $includeSource = true,
         private readonly bool $includeGherkinDocument = true,
         private readonly bool $includePickles = true,
+        private readonly IdGenerator $idGenerator = new IncrementingIdGenerator(),
     ) {
+        $this->pickleCompiler = new PickleCompiler($this->idGenerator);
     }
 
     /**
@@ -44,12 +48,18 @@ final class GherkinParser
             if ($this->includeGherkinDocument) {
                 yield new Envelope(gherkinDocument: $gherkinDocument);
             }
+
+            if ($this->includePickles) {
+                foreach ($this->pickleCompiler->compile($gherkinDocument, $source->uri) as $pickle) {
+                    yield new Envelope(pickle: $pickle);
+                }
+            }
         }
     }
 
     private function parseGherkinDocument(Source $source): GherkinDocument
     {
-        $builder = new GherkinDocumentBuilder($source->uri, new IncrementingIdGenerator());
+        $builder = new GherkinDocumentBuilder($source->uri, $this->idGenerator);
         $parser = new Parser($builder);
 
         return $parser->parse(
