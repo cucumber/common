@@ -1,5 +1,9 @@
 {
     "name": "cucumber/gherkin",
+    "description": "Gherkin parser",
+    "author": "Cucumber Limited <cukes@googlegroups.com>",
+    "license": "MIT",
+    "type": "library",
     "autoload": {
         "psr-4": {
             "Cucumber\\Gherkin\\": ["src/", "src-generated/"]
