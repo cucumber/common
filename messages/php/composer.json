@@ -1,0 +1,22 @@
+{
+    "name": "cucumber/messages",
+    "description": "JSON schema-based messages for Cucumber's inter-process communication",
+    "author": "Cucumber Limited <cukes@googlegroups.com>",
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "vimeo/psalm": "^4.18",
+        "phpunit/phpunit": "^9.5",
+        "psalm/plugin-phpunit": "^0.16.1",
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cucumber\\Messages\\": ["src","src-generated"]
+        }
+    }
+}

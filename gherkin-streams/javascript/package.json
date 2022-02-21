@@ -21,15 +21,15 @@
     "@cucumber/messages": "^17.1.1",
     "@cucumber/message-streams": "^3.0.0",
     "@cucumber/gherkin": "^22.0.0",
-    "commander": "8.2.0",
+    "commander": "8.3.0",
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@types/mocha": "9.0.0",
-    "@types/node": "16.11.19",
-    "mocha": "9.1.3",
+    "@types/mocha": "9.1.0",
+    "@types/node": "16.11.25",
+    "mocha": "9.2.1",
     "nyc": "15.1.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.5"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"

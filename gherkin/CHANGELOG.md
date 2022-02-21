@@ -13,9 +13,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Java] Replaced `Gherkin` with a `GherkinParser` that uses a builder to construct.
+* [Java] Made all internal classes package private
+* [Java] Removed unused `stopAtFirstError` property from `Parser`
+
 ### Deprecated
 
 ### Removed
+
+- [Java] the `io.cucumber.gherkin.Main` class is no longer part of the jar.
 
 ### Fixed
 

@@ -9,9 +9,6 @@ PACKAGES ?= messages \
 	query \
 	json-formatter \
 	compatibility-kit \
-	react \
-	html-formatter \
-	config \
 	demo-formatter \
 	json-to-messages
 

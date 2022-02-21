@@ -12,7 +12,7 @@ executors:
   # the build nodes (faster builds).
   docker-cucumber-build:
     docker:
-      - image: cucumber/cucumber-build:0.11.0
+      - image: cucumber/cucumber-build:0.12.0
     working_directory: ~/cucumber
     environment:
       # nvm, node and npm are installed locally rather globally.
@@ -64,8 +64,15 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: cimg/python:3.10.1
+      - image: cimg/python:3.10.2
     working_directory: ~/cucumber
+
+  # Php
+  docker-circleci-php:
+    docker:
+      - image: cimg/php:8.1.2
+    working_directory: ~/cucumber
+
 ###
 ### Jobs ###
 ###
@@ -253,44 +260,6 @@ jobs:
             cd compatibility-kit/javascript
             make
 
-  react-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: react/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd react/javascript
-            make
-
-  html-formatter-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: Install Headless Chrome dependencies
-          command: |
-            sudo apt update && \
-            sudo apt-get install --assume-yes --quiet \
-            gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-            libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
-            libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
-            libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
-            fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
-      - run:
-          name: html-formatter/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd html-formatter/javascript
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - html-formatter/javascript/dist
-
   json-formatter-javascript-testdata:
     executor: docker-circleci-node-14
     steps:
@@ -449,17 +418,6 @@ jobs:
             cd demo-formatter/ruby
             make
 
-  html-formatter-ruby:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: html-formatter/ruby
-          command: |
-            cd html-formatter/ruby
-            make
-
   json-to-messages-ruby-testdata:
     executor: docker-circleci-ruby-26
     steps:
@@ -511,40 +469,6 @@ jobs:
           root: '~/.m2/repository'
           paths:
             - 'io/cucumber/gherkin'
-
-  config-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: config-java
-          command: |
-            cd config/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/config'
-
-  html-formatter-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: html-formatter
-          command: |
-            cd html-formatter/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/html-formatter'
 
   json-to-messages-java-testdata:
     executor: docker-circleci-openjdk
@@ -689,6 +613,19 @@ jobs:
   #           cd gherkin/elixir
   #           make
 
+  ### PHP
+
+  messages-php:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: messages/php
+          command: |
+            cd messages/php
+            make
+
 ###
 ### Workflows ###
 ###
@@ -766,15 +703,6 @@ workflows:
       - compatibility-kit-javascript:
           requires:
             - prepare-parallel
-      - react-javascript:
-          requires:
-            - prepare-parallel
-      - html-formatter-javascript:
-          requires:
-            - react-javascript
-            - messages-javascript
-            - gherkin-utils-javascript
-            - compatibility-kit-javascript
       - json-formatter-javascript-testdata:
           requires:
             - json-formatter-ruby-testdata
@@ -796,7 +724,6 @@ workflows:
             - fake-cucumber-javascript
             - gherkin-javascript-node-14
             - gherkin-utils-javascript
-            - html-formatter-javascript
 
       ### Ruby
 
@@ -824,11 +751,6 @@ workflows:
       - json-formatter-ruby-testdata:
           requires:
             - prepare-parallel
-      - html-formatter-ruby:
-          requires:
-            - html-formatter-javascript
-            - messages-ruby
-            - compatibility-kit-javascript
       - json-to-messages-ruby-testdata:
           requires:
             - prepare-parallel
@@ -841,14 +763,6 @@ workflows:
       - gherkin-java:
           requires:
             - messages-java
-      - config-java:
-          requires:
-            - prepare-parallel
-      - html-formatter-java:
-          requires:
-            - html-formatter-javascript
-            - messages-java
-            - compatibility-kit-javascript
       - json-to-messages-java-testdata:
           requires:
             - prepare-parallel
@@ -904,3 +818,9 @@ workflows:
       # - gherkin-elixir:
       #     requires:
       #       - messages-elixir
+
+      ### PHP
+
+      - messages-php:
+          requires:
+            - prepare-parallel

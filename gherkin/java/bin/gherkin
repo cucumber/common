@@ -12,5 +12,5 @@ if [ ! -f "${DIR}/classpath.txt" ] || [ "${DIR}/../pom.xml" -nt "${DIR}/classpat
 fi
 
 java \
-  -classpath "$(cat "${DIR}/classpath.txt"):${DIR}/../target/classes" \
+  -classpath "$(cat "${DIR}/classpath.txt"):${DIR}/../target/test-classes:${DIR}/../target/classes" \
   io.cucumber.gherkin.Main $*

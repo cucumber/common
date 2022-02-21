@@ -16,8 +16,8 @@ import java.util.Queue;
 
 import static java.util.Arrays.asList;
 
-public class Parser<T> {
-    public enum TokenType {
+class Parser<T> {
+    enum TokenType {
         None,
         EOF,
         Empty,
@@ -36,7 +36,7 @@ public class Parser<T> {
         ;
     }
 
-    public enum RuleType {
+    enum RuleType {
         None,
         _EOF, // #EOF
         _Empty, // #Empty
@@ -72,20 +72,18 @@ public class Parser<T> {
         Description, // Description! := #Other+
         ;
 
-        public static RuleType cast(TokenType tokenType) {
+        static RuleType cast(TokenType tokenType) {
             return RuleType.values()[tokenType.ordinal()];
         }
     }
 
     private final Builder<T> builder;
 
-    public boolean stopAtFirstError;
-
-    class ParserContext {
-        public final ITokenScanner tokenScanner;
-        public final ITokenMatcher tokenMatcher;
-        public final Queue<Token> tokenQueue;
-        public final List<ParserException> errors;
+    static class ParserContext {
+        final ITokenScanner tokenScanner;
+        final ITokenMatcher tokenMatcher;
+        final Queue<Token> tokenQueue;
+        final List<ParserException> errors;
 
         ParserContext(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher, Queue<Token> tokenQueue, List<ParserException> errors) {
             this.tokenScanner = tokenScanner;
@@ -95,39 +93,39 @@ public class Parser<T> {
         }
     }
 
-    public Parser(Builder<T> builder) {
+    Parser(Builder<T> builder) {
         this.builder = builder;
     }
 
-    public T parse(String source) {
-        return parse(new StringReader(source));
+    T parse(String source, String uri) {
+        return parse(new StringReader(source), uri);
     }
 
-    public T parse(Reader source) {
-        return parse(new TokenScanner(source));
+    T parse(Reader source, String uri) {
+        return parse(new TokenScanner(source), uri);
     }
 
-    public T parse(ITokenScanner tokenScanner) {
-        return parse(tokenScanner, new TokenMatcher());
+    T parse(ITokenScanner tokenScanner, String uri) {
+        return parse(tokenScanner, new TokenMatcher(), uri);
     }
 
-    public T parse(String source, ITokenMatcher tokenMatcher) {
-        return parse(new StringReader(source), tokenMatcher);
+    T parse(String source, ITokenMatcher tokenMatcher, String uri) {
+        return parse(new StringReader(source), tokenMatcher, uri);
     }
 
-    public T parse(Reader source, ITokenMatcher tokenMatcher) {
-        return parse(new TokenScanner(source), tokenMatcher);
+    T parse(Reader source, ITokenMatcher tokenMatcher, String uri) {
+        return parse(new TokenScanner(source), tokenMatcher, uri);
     }
 
-    public T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher) {
-        builder.reset();
+    T parse(ITokenScanner tokenScanner, ITokenMatcher tokenMatcher, String uri) {
+        builder.reset(uri);
         tokenMatcher.reset();
 
         ParserContext context = new ParserContext(
                 tokenScanner,
                 tokenMatcher,
-                new LinkedList<Token>(),
-                new ArrayList<ParserException>()
+                new LinkedList<>(),
+                new ArrayList<>()
         );
 
         startRule(context, RuleType.GherkinDocument);
@@ -164,10 +162,6 @@ public class Parser<T> {
     }
 
     private <V> V handleExternalError(ParserContext context, Func<V> action, V defaultValue) {
-        if (stopAtFirstError) {
-            return action.call();
-        }
-
         try {
             return action.call();
         } catch (ParserException.CompositeParserException compositeParserException) {
@@ -529,8 +523,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 0;
@@ -566,8 +558,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 1;
@@ -603,8 +593,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 2;
@@ -685,8 +673,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 3;
@@ -768,8 +754,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 4;
@@ -844,8 +828,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 5;
@@ -925,8 +907,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 6;
@@ -1007,8 +987,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 7;
@@ -1082,8 +1060,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 8;
@@ -1175,8 +1151,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 9;
@@ -1267,8 +1241,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 10;
@@ -1305,8 +1277,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 11;
@@ -1408,8 +1378,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 12;
@@ -1514,8 +1482,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 13;
@@ -1611,8 +1577,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 14;
@@ -1728,8 +1692,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 15;
@@ -1846,8 +1808,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 16;
@@ -1884,8 +1844,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 17;
@@ -2001,8 +1959,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 18;
@@ -2121,8 +2077,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 19;
@@ -2232,8 +2186,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 20;
@@ -2349,8 +2301,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 21;
@@ -2386,8 +2336,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 22;
@@ -2471,8 +2419,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 23;
@@ -2557,8 +2503,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 24;
@@ -2636,8 +2580,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 25;
@@ -2720,8 +2662,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 26;
@@ -2805,8 +2745,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 27;
@@ -2883,8 +2821,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 28;
@@ -2979,8 +2915,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 29;
@@ -3074,8 +3008,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 30;
@@ -3112,8 +3044,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 31;
@@ -3218,8 +3148,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 32;
@@ -3327,8 +3255,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 33;
@@ -3427,8 +3353,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 34;
@@ -3547,8 +3471,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 35;
@@ -3668,8 +3590,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 36;
@@ -3706,8 +3626,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 37;
@@ -3826,8 +3744,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 38;
@@ -3949,8 +3865,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 39;
@@ -4063,8 +3977,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 40;
@@ -4183,8 +4095,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 41;
@@ -4209,8 +4119,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 43;
@@ -4325,8 +4233,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 44;
@@ -4351,8 +4257,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 45;
@@ -4441,8 +4345,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 46;
@@ -4467,8 +4369,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 47;
@@ -4580,8 +4480,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 48;
@@ -4606,8 +4504,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 49;
@@ -4693,8 +4589,6 @@ public class Parser<T> {
         ParserException error = token.isEOF()
                 ? new ParserException.UnexpectedEOFException(token, expectedTokens, stateComment)
                 : new ParserException.UnexpectedTokenException(token, expectedTokens, stateComment);
-        if (stopAtFirstError)
-            throw error;
 
         addError(context, error);
         return 50;
@@ -4759,19 +4653,19 @@ public class Parser<T> {
         return match;
     }
 
-    public interface Builder<T> {
+    interface Builder<T> {
         void build(Token token);
         void startRule(RuleType ruleType);
         void endRule(RuleType ruleType);
         T getResult();
-        void reset();
+        void reset(String uri);
     }
 
-    public interface ITokenScanner {
+    interface ITokenScanner {
         Token read();
     }
 
-    public interface ITokenMatcher {
+    interface ITokenMatcher {
         boolean match_EOF(Token token);
         boolean match_Empty(Token token);
         boolean match_Comment(Token token);
