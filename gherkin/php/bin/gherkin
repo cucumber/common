@@ -23,7 +23,7 @@ $sources = (
 )($paths);
 
 $parser = new GherkinParser(
-    predictableIds: true,
+    predictableIds: array_key_exists('predictable-ids', $selectedOptions),
     includeSource: !array_key_exists('no-source', $selectedOptions),
     includeGherkinDocument: !array_key_exists('no-ast', $selectedOptions),
     includePickles: !array_key_exists('no-pickles', $selectedOptions),

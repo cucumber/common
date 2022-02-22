@@ -9,6 +9,7 @@ use Cucumber\Messages\Envelope;
 use Cucumber\Messages\GherkinDocument;
 use Cucumber\Messages\Id\IdGenerator;
 use Cucumber\Messages\Id\IncrementingIdGenerator;
+use Cucumber\Messages\Id\UuidIdGenerator;
 use Cucumber\Messages\Location as MessageLocation;
 use Cucumber\Messages\ParseError;
 use Cucumber\Messages\Source;
@@ -18,15 +19,24 @@ use Generator;
 
 final class GherkinParser
 {
-    private PickleCompiler $pickleCompiler;
+    private readonly PickleCompiler $pickleCompiler;
+    private readonly IdGenerator $idGenerator;
 
+    /**
+     * @param bool $predictableIds Ignored if IdGenerator is provided
+     * @param bool $includeSource
+     * @param bool $includeGherkinDocument
+     * @param bool $includePickles
+     * @param IdGenerator $idGenerator
+     */
     public function __construct(
         private readonly bool $predictableIds = false,
         private readonly bool $includeSource = true,
         private readonly bool $includeGherkinDocument = true,
         private readonly bool $includePickles = true,
-        private readonly IdGenerator $idGenerator = new IncrementingIdGenerator(),
+        ?IdGenerator $idGenerator = null
     ) {
+        $this->idGenerator = $idGenerator ?? ($this->predictableIds ? new IncrementingIdGenerator() : new UuidIdGenerator());
         $this->pickleCompiler = new PickleCompiler($this->idGenerator);
     }
 
