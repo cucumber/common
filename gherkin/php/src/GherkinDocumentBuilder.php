@@ -25,7 +25,7 @@ use Cucumber\Messages\Step;
 use Cucumber\Messages\TableCell;
 use Cucumber\Messages\TableRow;
 use Cucumber\Messages\Tag;
-use SebastianBergmann\Type\LogicException;
+use LogicException;
 
 /**
  * @implements Builder<GherkinDocument>

@@ -13,7 +13,6 @@ use Cucumber\Messages\Id\UuidIdGenerator;
 use Cucumber\Messages\Location as MessageLocation;
 use Cucumber\Messages\ParseError;
 use Cucumber\Messages\Source;
-use Cucumber\Messages\Source\MediaType;
 use Cucumber\Messages\SourceReference;
 use Generator;
 
