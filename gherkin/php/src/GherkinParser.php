@@ -31,19 +31,25 @@ final class GherkinParser
     }
 
     /**
-     * @param iterable<string> $paths
+     * Parse a single string of Gherkin (with its URI)
      *
      * @return Generator<Envelope>
      */
-    public function parse(iterable $paths): Generator
+    public function parseString(string $uri, string $data): Generator
     {
-        foreach ($paths as $path) {
-            $source = new Source(
-                $path,
-                file_get_contents($path),
-                MediaType::TEXT_X_CUCUMBER_GHERKIN_PLAIN
-            );
+        yield from $this->parse([
+            new Source(uri: $uri, data: $data)
+        ]);
+    }
 
+    /**
+     * @param iterable<Source> $sources
+     *
+     * @return Generator<Envelope>
+     */
+    public function parse(iterable $sources): Generator
+    {
+        foreach ($sources as $source) {
             if ($this->includeSource) {
                 yield new Envelope(source: $source);
             }

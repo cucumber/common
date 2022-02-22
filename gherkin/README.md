@@ -138,10 +138,10 @@ my $pickles = Gherkin::Pickles::Compiler->compile($gherkin_document);
 # PHP
 use Cucumber\Gherkin\GherkinParser;
 
-$paths = ['/path/to/my.feature'];
+$path = '/path/to/my.feature';
 
 $parser = new GherkinParser();
-$pickles = $parser->parse($paths);
+$pickles = $parser->parseString(uri: $path, data: file_get_contents($path));
 ```
 
 ### CLI
