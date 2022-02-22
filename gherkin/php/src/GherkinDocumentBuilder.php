@@ -132,7 +132,7 @@ final class GherkinDocumentBuilder implements Builder
             case RuleType::ScenarioDefinition:
                 $scenarioNode = $node->getSingle(AstNode::class, RuleType::Scenario);
                 if (is_null($scenarioNode)) {
-                    throw new LogicException('No scenario in definition');
+                    return null;
                 }
                 $scenarioLine = $scenarioNode->getToken(TokenType::ScenarioLine);
 
