@@ -7,14 +7,9 @@ namespace Cucumber\Gherkin;
 final class Location
 {
     public function __construct(
-        private readonly int $line,
-        private readonly int $column,
+        public readonly int $line,
+        public readonly int $column,
     ) {
-    }
-
-    public function getLine(): int
-    {
-        return $this->line;
     }
 
     public function getColumn(): int

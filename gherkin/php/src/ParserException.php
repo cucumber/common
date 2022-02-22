@@ -13,8 +13,8 @@ class ParserException extends \Exception
         $this->location = $location ?? new Location(-1, -1);
         $message = sprintf(
             "(%s:%s): %s",
-            $this->location->getLine(),
-            $this->location->getColumn(),
+            $this->location->line,
+            $this->location->column,
             $message
         );
 

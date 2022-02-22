@@ -293,9 +293,9 @@ final class GherkinDocumentBuilder implements Builder
 
     private function getLocation(Token $token, int $column): MessageLocation
     {
-        $column = ($column === 0) ? $token->location->getColumn() : $column;
+        $column = ($column === 0) ? $token->location->column : $column;
 
-        return new MessageLocation($token->location->getLine(), $column);
+        return new MessageLocation($token->location->line, $column);
     }
 
     private function getDescription(AstNode $node): string

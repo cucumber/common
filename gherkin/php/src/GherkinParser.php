@@ -103,11 +103,12 @@ final class GherkinParser
 
     private function createParseError(ParserException $error, string $uri): Envelope
     {
-        $line = $error->location->getLine();
-        $column = $error->location->getColumn();
         $ref = new SourceReference(
             uri: $uri,
-            location: new MessageLocation($line, $column === 0 ? null : $column)
+            location: new MessageLocation(
+                line: $error->location->line,
+                column: $error->location->column === 0 ? null : $error->location->column
+            )
         );
 
         return new Envelope(parseError: new ParseError($ref, $error->getMessage()));

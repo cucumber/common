@@ -24,9 +24,9 @@ final class UnexpectedTokenException extends ParserException
             trim($this->receivedToken->getTokenValue()),
         );
 
-        $location = ($receivedToken->location->getColumn() > 1)
+        $location = ($receivedToken->location->column > 1)
             ? $receivedToken->location
-            : new Location($receivedToken->location->getLine(), (int) $receivedToken->line?->indent() + 1);
+            : new Location($receivedToken->location->line, (int) $receivedToken->line?->indent() + 1);
 
         parent::__construct($message, $location);
     }

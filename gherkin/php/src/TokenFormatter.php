@@ -14,8 +14,8 @@ final class TokenFormatter
 
         return sprintf(
             "(%s:%s)%s:%s/%s/%s",
-            $token->getLocation()->getLine(),
-            $token->getLocation()->getColumn(),
+            $token->getLocation()->line,
+            $token->getLocation()->column,
             $token->matchedType?->name ??  '',
             $token->matchedKeyword ?? '',
             $token->matchedText ?? '',
