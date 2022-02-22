@@ -37,4 +37,24 @@ final class StringTokenScannerTest extends TestCase
         self::assertSame('EOF', $token->getTokenValue());
         self::assertTrue($token->isEof());
     }
+
+    public function testItFindsEmptyLines(): void
+    {
+        $contents = "FOO\n\nBAR\n";
+
+        $scanner = new StringTokenScanner($contents);
+
+        $token = $scanner->read();
+        self::assertSame('FOO', $token->getTokenValue());
+
+        $token = $scanner->read();
+        self::assertSame('', $token->getTokenValue());
+
+        $token = $scanner->read();
+        self::assertSame('BAR', $token->getTokenValue());
+
+        $token = $scanner->read();
+        self::assertSame('EOF', $token->getTokenValue());
+        self::assertTrue($token->isEof());
+    }
 }

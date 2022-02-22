@@ -15,23 +15,30 @@ use Cucumber\Gherkin\Parser\TokenScanner;
  */
 final class StringTokenScanner implements TokenScanner
 {
+    private const FIRST_LINE_PATTERN = '/^(?<line>.*?)\\r?\\n(?<tail>.*)$/us';
+
     private int $lineNumber = 0;
 
-    /** @var list<string> */
-    private array $lines;
-
-    public function __construct(string $source)
-    {
-        $this->lines = explode("\n", $source);
+    public function __construct(
+        private string $source
+    ) {
     }
 
     public function read(): Token
     {
-        $line = array_shift($this->lines);
+        if (preg_match(self::FIRST_LINE_PATTERN, $this->source, $matches)) {
+            $line = $matches['line'];
+            $this->source = $matches['tail'];
+        } else { // it did not contain a line break
+            $line = $this->source;
+            $this->source = '';
+        }
+
         $location = new Location(++$this->lineNumber, 0);
 
-        return ($line === null || ($line === '' && count($this->lines) === 0))
-            ? new Token(null, $location)
-            : new Token(new StringGherkinLine(rtrim($line, "\r"), $this->lineNumber), $location);
+        return new Token(
+            ($line === '' && $this->source === '') ? null : new StringGherkinLine($line, $this->lineNumber),
+            $location
+        );
     }
 }
