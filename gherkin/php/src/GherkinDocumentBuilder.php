@@ -249,9 +249,6 @@ final class GherkinDocumentBuilder implements Builder
             case RuleType::Rule:
 
                 $header = $node->getSingle(AstNode::class, RuleType::RuleHeader, new AstNode(RuleType::RuleHeader));
-                if (is_null($header)) {
-                    return null;
-                }
 
                 $ruleLine = $header->getToken(TokenType::RuleLine);
 
@@ -357,7 +354,7 @@ final class GherkinDocumentBuilder implements Builder
     {
         $tagsNode = $node->getSingle(AstNode::class, RuleType::Tags, new AstNode(RuleType::None));
 
-        $tokens = $tagsNode?->getTokens(TokenType::TagLine) ?? [];
+        $tokens = $tagsNode->getTokens(TokenType::TagLine);
         $tags = [];
         foreach ($tokens as $token) {
             foreach ($token->matchedItems ?? [] as $tagItem) {

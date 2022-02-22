@@ -53,8 +53,7 @@ final class AstNode
      * @param class-string<S> $expectedType
      * @param S|null $defaultValue
      *
-     * @psalm-return S|null
-
+     * @psalm-return ($defaultValue is null ? S|null : S )
      */
     public function getSingle(string $expectedType, RuleType $ruleType, ?object $defaultValue = null): mixed
     {
