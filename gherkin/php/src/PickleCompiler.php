@@ -50,7 +50,7 @@ final class PickleCompiler
     /**
      * @return Generator<Pickle>
      */
-    private function compileFeature(Feature $feature, string $language, string $uri)
+    private function compileFeature(Feature $feature, string $language, string $uri): Generator
     {
         $tags = $feature->tags;
         $featureBackgroundSteps = [];

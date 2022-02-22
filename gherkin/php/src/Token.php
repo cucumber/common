@@ -8,6 +8,7 @@ use Cucumber\Gherkin\Parser\TokenType;
 
 final class Token
 {
+    private const EOF_VALUE = 'EOF';
     public ?TokenType $matchedType = null;
     public ?string $matchedKeyword = null;
     public ?string $matchedText = null;
@@ -45,6 +46,6 @@ final class Token
 
     public function getTokenValue(): string
     {
-        return $this->isEof() ? 'EOF' : $this->line->getLineText(-1);
+        return $this->isEof() ? self::EOF_VALUE : $this->line->getLineText(-1);
     }
 }

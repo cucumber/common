@@ -9,10 +9,10 @@ use Exception;
 
 final class CompositeParserException extends ParserException
 {
+    /**
+     * @param non-empty-list<ParserException> $errors
+     */
     public function __construct(
-        /**
-         * @var non-empty-list<ParserException>
-         */
         public readonly array $errors,
     ) {
         $message = "Parser errors:\n" . join("\n", array_map(fn ($e) => $e->getMessage(), $errors));

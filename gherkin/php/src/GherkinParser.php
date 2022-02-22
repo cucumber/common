@@ -17,6 +17,9 @@ use Cucumber\Messages\Source\MediaType;
 use Cucumber\Messages\SourceReference;
 use Generator;
 
+/**
+ * Parses a Gherkin document (or list of Source envelopes) and emits Cucumber Messages envelopes
+ */
 final class GherkinParser
 {
     private readonly PickleCompiler $pickleCompiler;
@@ -24,10 +27,6 @@ final class GherkinParser
 
     /**
      * @param bool $predictableIds Ignored if IdGenerator is provided
-     * @param bool $includeSource
-     * @param bool $includeGherkinDocument
-     * @param bool $includePickles
-     * @param IdGenerator $idGenerator
      */
     public function __construct(
         private readonly bool $predictableIds = false,

@@ -6,7 +6,6 @@ namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\RuleType;
 use Cucumber\Gherkin\Parser\TokenType;
-use LogicException;
 
 final class AstNode
 {

@@ -10,11 +10,11 @@ use Cucumber\Gherkin\Token;
 
 final class UnexpectedTokenException extends ParserException
 {
+    /**
+     * @param list<string> $expectedTokenTypes
+     */
     public function __construct(
         public readonly Token $receivedToken,
-        /**
-         * @var list<string>
-         */
         public readonly array $expectedTokenTypes,
         public readonly string $stateComment,
     ) {

@@ -9,11 +9,11 @@ use Cucumber\Gherkin\Token;
 
 final class UnexpectedEofException extends ParserException
 {
+    /**
+     * @param non-empty-list<string> $expectedTokenTypes
+     */
     public function __construct(
         public readonly Token $receivedToken,
-        /**
-         * @var non-empty-list<string>
-         */
         public readonly array $expectedTokenTypes,
         public readonly string $stateComment,
     ) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cucumber\Gherkin\Parser;
 
-use SebastianBergmann\Type\LogicException;
+use LogicException;
 
 trait TokenRuleTypesCastTrait
 {
@@ -19,7 +19,7 @@ trait TokenRuleTypesCastTrait
         $ruleType = constant(RuleType::class . '::' . $tokenName);
 
         if (!$ruleType instanceof RuleType) {
-            throw new LogicException('Could not create RuleType from  TokenType::' . $tokenName);
+            throw new LogicException('Could not create RuleType from TokenType::' . $tokenName);
         }
 
         return $ruleType;

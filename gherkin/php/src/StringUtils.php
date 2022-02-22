@@ -11,6 +11,8 @@ namespace Cucumber\Gherkin;
 final class StringUtils
 {
     private const DEFAULT_ENCODING = 'utf-8';
+
+    // same patterns as the Java implementation
     private const WHITESPACE_PATTERN = "[ \\t\\n\\x0B\\f\\r\\x85\\xA0]+";
     private const WHITESPACE_PATTERN_NO_NEWLINE = "[ \\t\\x0B\\f\\r\\x85\\xA0]+";
 
