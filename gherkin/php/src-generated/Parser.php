@@ -327,7 +327,6 @@ final class Parser
         }
 
         $stateComment = "State: 0 - Start";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Language", "#TagLine", "#FeatureLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -360,7 +359,6 @@ final class Parser
         }
 
         $stateComment = "State: 1 - GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -393,7 +391,6 @@ final class Parser
         }
 
         $stateComment = "State: 2 - GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#FeatureLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -428,7 +425,7 @@ final class Parser
             return 6;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::FeatureHeader);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -465,7 +462,6 @@ final class Parser
         }
 
         $stateComment = "State: 3 - GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -499,7 +495,7 @@ final class Parser
             return 6;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::FeatureHeader);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -539,7 +535,6 @@ final class Parser
         }
 
         $stateComment = "State: 4 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -570,7 +565,7 @@ final class Parser
             return 6;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::FeatureHeader);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -606,7 +601,6 @@ final class Parser
         }
 
         $stateComment = "State: 5 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -640,7 +634,7 @@ final class Parser
             return 9;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -677,7 +671,6 @@ final class Parser
         }
 
         $stateComment = "State: 6 - GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -710,7 +703,7 @@ final class Parser
             return 9;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -750,7 +743,6 @@ final class Parser
         }
 
         $stateComment = "State: 7 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -780,7 +772,7 @@ final class Parser
             return 9;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -816,7 +808,6 @@ final class Parser
         }
 
         $stateComment = "State: 8 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -854,7 +845,7 @@ final class Parser
             return 9;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -898,7 +889,6 @@ final class Parser
         }
 
         $stateComment = "State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -932,7 +922,7 @@ final class Parser
             return 9;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DataTable);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Background);
@@ -980,7 +970,6 @@ final class Parser
         }
 
         $stateComment = "State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1014,7 +1003,6 @@ final class Parser
         }
 
         $stateComment = "State: 11 - GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1049,7 +1037,7 @@ final class Parser
             return 15;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
                 $this->build($context, $token);
@@ -1057,7 +1045,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -1104,7 +1092,6 @@ final class Parser
         }
 
         $stateComment = "State: 12 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1138,7 +1125,7 @@ final class Parser
             return 15;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -1147,7 +1134,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
@@ -1198,7 +1185,6 @@ final class Parser
         }
 
         $stateComment = "State: 13 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1229,7 +1215,7 @@ final class Parser
             return 15;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
                 $this->build($context, $token);
@@ -1237,7 +1223,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -1283,7 +1269,6 @@ final class Parser
         }
 
         $stateComment = "State: 14 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1322,7 +1307,7 @@ final class Parser
             return 15;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Step);
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -1331,7 +1316,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
@@ -1386,7 +1371,6 @@ final class Parser
         }
 
         $stateComment = "State: 15 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1421,7 +1405,7 @@ final class Parser
             return 15;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::DataTable);
                 $this->endRule($context, RuleType::Step);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -1431,7 +1415,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DataTable);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Scenario);
@@ -1491,7 +1475,6 @@ final class Parser
         }
 
         $stateComment = "State: 16 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1525,7 +1508,6 @@ final class Parser
         }
 
         $stateComment = "State: 17 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1562,7 +1544,7 @@ final class Parser
             return 21;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -1572,7 +1554,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->endRule($context, RuleType::Scenario);
@@ -1629,7 +1611,6 @@ final class Parser
         }
 
         $stateComment = "State: 18 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1665,7 +1646,7 @@ final class Parser
             return 21;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -1676,7 +1657,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -1737,7 +1718,6 @@ final class Parser
         }
 
         $stateComment = "State: 19 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1770,7 +1750,7 @@ final class Parser
             return 21;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -1780,7 +1760,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->endRule($context, RuleType::Scenario);
@@ -1836,7 +1816,6 @@ final class Parser
         }
 
         $stateComment = "State: 20 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1865,7 +1844,7 @@ final class Parser
             return 21;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::ExamplesTable);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -1876,7 +1855,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::ExamplesTable);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -1941,7 +1920,6 @@ final class Parser
         }
 
         $stateComment = "State: 21 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -1974,7 +1952,6 @@ final class Parser
         }
 
         $stateComment = "State: 22 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2010,7 +1987,7 @@ final class Parser
             return 26;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::RuleHeader);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -2049,7 +2026,6 @@ final class Parser
         }
 
         $stateComment = "State: 23 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2084,7 +2060,7 @@ final class Parser
             return 26;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::RuleHeader);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -2126,7 +2102,6 @@ final class Parser
         }
 
         $stateComment = "State: 24 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2158,7 +2133,7 @@ final class Parser
             return 26;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::RuleHeader);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -2196,7 +2171,6 @@ final class Parser
         }
 
         $stateComment = "State: 25 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#BackgroundLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2231,7 +2205,7 @@ final class Parser
             return 29;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -2270,7 +2244,6 @@ final class Parser
         }
 
         $stateComment = "State: 26 - GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2304,7 +2277,7 @@ final class Parser
             return 29;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -2346,7 +2319,6 @@ final class Parser
         }
 
         $stateComment = "State: 27 - GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2377,7 +2349,7 @@ final class Parser
             return 29;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -2415,7 +2387,6 @@ final class Parser
         }
 
         $stateComment = "State: 28 - GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2454,7 +2425,7 @@ final class Parser
             return 29;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Background);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -2500,7 +2471,6 @@ final class Parser
         }
 
         $stateComment = "State: 29 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2535,7 +2505,7 @@ final class Parser
             return 29;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DataTable);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Background);
@@ -2585,7 +2555,6 @@ final class Parser
         }
 
         $stateComment = "State: 30 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2619,7 +2588,6 @@ final class Parser
         }
 
         $stateComment = "State: 31 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#ScenarioLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2655,7 +2623,7 @@ final class Parser
             return 35;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
                 $this->build($context, $token);
@@ -2663,7 +2631,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -2712,7 +2680,6 @@ final class Parser
         }
 
         $stateComment = "State: 32 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2747,7 +2714,7 @@ final class Parser
             return 35;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -2756,7 +2723,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
@@ -2809,7 +2776,6 @@ final class Parser
         }
 
         $stateComment = "State: 33 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2841,7 +2807,7 @@ final class Parser
             return 35;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
                 $this->build($context, $token);
@@ -2849,7 +2815,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
                 $this->startRule($context, RuleType::ScenarioDefinition);
@@ -2897,7 +2863,6 @@ final class Parser
         }
 
         $stateComment = "State: 34 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -2937,7 +2902,7 @@ final class Parser
             return 35;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Step);
                 $this->startRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::Tags);
@@ -2946,7 +2911,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Scenario);
                 $this->endRule($context, RuleType::ScenarioDefinition);
@@ -3003,7 +2968,6 @@ final class Parser
         }
 
         $stateComment = "State: 35 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#DocStringSeparator", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3039,7 +3003,7 @@ final class Parser
             return 35;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::DataTable);
                 $this->endRule($context, RuleType::Step);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -3049,7 +3013,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DataTable);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Scenario);
@@ -3111,7 +3075,6 @@ final class Parser
         }
 
         $stateComment = "State: 36 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3145,7 +3108,6 @@ final class Parser
         }
 
         $stateComment = "State: 37 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0";
-        $token->detach();
         $expectedTokens = ["#TagLine", "#ExamplesLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3183,7 +3145,7 @@ final class Parser
             return 41;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -3193,7 +3155,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->endRule($context, RuleType::Scenario);
@@ -3252,7 +3214,6 @@ final class Parser
         }
 
         $stateComment = "State: 38 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Empty", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3289,7 +3250,7 @@ final class Parser
             return 41;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -3300,7 +3261,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Description);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -3363,7 +3324,6 @@ final class Parser
         }
 
         $stateComment = "State: 39 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3397,7 +3357,7 @@ final class Parser
             return 41;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -3407,7 +3367,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
                 $this->endRule($context, RuleType::Scenario);
@@ -3465,7 +3425,6 @@ final class Parser
         }
 
         $stateComment = "State: 40 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#Comment", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3495,7 +3454,7 @@ final class Parser
             return 41;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::ExamplesTable);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -3506,7 +3465,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::ExamplesTable);
                 $this->endRule($context, RuleType::Examples);
                 $this->endRule($context, RuleType::ExamplesDefinition);
@@ -3573,7 +3532,6 @@ final class Parser
         }
 
         $stateComment = "State: 41 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#TableRow", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3597,7 +3555,6 @@ final class Parser
         }
 
         $stateComment = "State: 43 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#DocStringSeparator", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3629,7 +3586,7 @@ final class Parser
             return 35;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::DocString);
                 $this->endRule($context, RuleType::Step);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -3639,7 +3596,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DocString);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Scenario);
@@ -3701,7 +3658,6 @@ final class Parser
         }
 
         $stateComment = "State: 44 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3725,7 +3681,6 @@ final class Parser
         }
 
         $stateComment = "State: 45 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#DocStringSeparator", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3756,7 +3711,7 @@ final class Parser
             return 29;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DocString);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Background);
@@ -3806,7 +3761,6 @@ final class Parser
         }
 
         $stateComment = "State: 46 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3830,7 +3784,6 @@ final class Parser
         }
 
         $stateComment = "State: 47 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#DocStringSeparator", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3861,7 +3814,7 @@ final class Parser
             return 15;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_1($context, $token)) {
+            if ($this->lookahead_1($context)) {
                 $this->endRule($context, RuleType::DocString);
                 $this->endRule($context, RuleType::Step);
                 $this->startRule($context, RuleType::ExamplesDefinition);
@@ -3871,7 +3824,7 @@ final class Parser
             }
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DocString);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Scenario);
@@ -3931,7 +3884,6 @@ final class Parser
         }
 
         $stateComment = "State: 48 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ExamplesLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3955,7 +3907,6 @@ final class Parser
         }
 
         $stateComment = "State: 49 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#DocStringSeparator", "#Other"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -3985,7 +3936,7 @@ final class Parser
             return 9;
         }
         if ($this->match_TagLine($context, $token)) {
-            if ($this->lookahead_0($context, $token)) {
+            if ($this->lookahead_0($context)) {
                 $this->endRule($context, RuleType::DocString);
                 $this->endRule($context, RuleType::Step);
                 $this->endRule($context, RuleType::Background);
@@ -4033,7 +3984,6 @@ final class Parser
         }
 
         $stateComment = "State: 50 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
-        $token->detach();
         $expectedTokens = ["#EOF", "#StepLine", "#TagLine", "#ScenarioLine", "#RuleLine", "#Comment", "#Empty"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -4045,14 +3995,12 @@ final class Parser
     }
 
 
-    private function lookahead_0(ParserContext $context, Token $currentToken): bool
+    private function lookahead_0(ParserContext $context): bool
     {
-        $currentToken->detach();
         $queue = [];
         $match = false;
         do {
             $token = $this->readToken($context);
-            $token->detach();
             $queue[] = $token;
 
             if (false
@@ -4072,14 +4020,12 @@ final class Parser
         return $match;
     }
 
-    private function lookahead_1(ParserContext $context, Token $currentToken): bool
+    private function lookahead_1(ParserContext $context): bool
     {
-        $currentToken->detach();
         $queue = [];
         $match = false;
         do {
             $token = $this->readToken($context);
-            $token->detach();
             $queue[] = $token;
 
             if (false

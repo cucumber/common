@@ -16,7 +16,6 @@
 @helper HandleParserError(IEnumerable<string> expectedTokens, State state)
 {<text>
         $stateComment = "State: @state.Id - @Raw(state.Comment)";
-        $token->detach();
         $expectedTokens = ["@Raw(string.Join("\", \"", expectedTokens))"];
         $error = $token->isEOF()
                 ? new UnexpectedEofException($token, $expectedTokens, $stateComment)
@@ -170,7 +169,7 @@ final class @Model.ParserClassName
         @:if (@matchToken(transition.TokenType)) {
             if (transition.LookAheadHint != null)
             {
-            @:if ($this->lookahead_@(transition.LookAheadHint.Id)($context, $token))
+            @:if ($this->lookahead_@(transition.LookAheadHint.Id)($context))
             @:{
             }
             foreach(var production in transition.Productions)
@@ -192,15 +191,13 @@ final class @Model.ParserClassName
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
 {
 <text>
-    private function lookahead_@(lookAheadHint.Id)(ParserContext $context, Token $currentToken) : bool
+    private function lookahead_@(lookAheadHint.Id)(ParserContext $context) : bool
     {
-        $currentToken->detach();
         $queue = [];
         $match = false;
         do
         {
             $token = $this->readToken($context);
-            $token->detach();
             $queue[] = $token;
 
             if (false

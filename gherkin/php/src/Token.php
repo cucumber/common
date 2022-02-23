@@ -35,10 +35,6 @@ final class Token
         return is_null($this->line);
     }
 
-    public function detach(): void
-    {
-    }
-
     public function getLocation(): Location
     {
         return $this->location;
