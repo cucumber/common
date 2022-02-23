@@ -124,17 +124,18 @@ final class StringGherkinLineTest extends TestCase
         ], $line->getTableCells());
     }
 
-//    public function testItGetsTableCellsWithEscapedSpecialChars() : void
-//    {
-//        $line = new StringGherkinLine('| 1\\n2 | \\\\3 | \\| | \\X |  ', 1);
-//
-//        self::assertEquals([
-//            new GherkinLineSpan(3,"1\n2"),
-//            new GherkinLineSpan(10,'\\3'),
-//            new GherkinLineSpan(16,'|'),
-//            new GherkinLineSpan(21,'\\X'), // not unescaped
-//        ], $line->getTableCells());
-//    }
+    public function testItGetsTableCellsWithEscapedSpecialChars(): void
+    {
+        $line = new StringGherkinLine('| 1\\n2 | \\\\3 | \\| | \\X | \\\\| ', 1);
+
+        self::assertEquals([
+            new GherkinLineSpan(3, "1\n2"),
+            new GherkinLineSpan(10, '\\3'),
+            new GherkinLineSpan(16, '|'),
+            new GherkinLineSpan(21, '\\X'), // not unescaped
+            new GherkinLineSpan(26, '\\'),
+        ], $line->getTableCells());
+    }
 
     public function testItGetsTags(): void
     {

@@ -69,55 +69,45 @@ final class StringGherkinLine implements GherkinLine
     /** @return list<GherkinLineSpan> */
     public function getTableCells(): array
     {
-        $lineSpans = [];
-        $cellBuilder = '';
-        $beforeFirst = true;
-        $col = 0;
-        $cellStart = 0;
-        $escape = false;
+        /**
+         * @var list<array{0:string, 1:int}> $splitCells guaranteed by PREG_SPLIT_OFFSET_CAPTURE
+         */
+        $splitCells = preg_split(self::CELL_PATTERN, $this->lineText, flags: PREG_SPLIT_OFFSET_CAPTURE);
 
-        foreach (StringUtils::symbolsList($this->lineText) as $c) {
-            if ($escape) {
-                switch ($c) {
-                    case 'n':
-                        $cellBuilder .= "\n";
-                        break;
-                    case '\\':
-                        $cellBuilder .= '\\';
-                        break;
-                    case '|':
-                        $cellBuilder .= '|';
-                        break;
-                    default:
-                        // Invalid escape. We'll just ignore it.
-                        $cellBuilder .= "\\";
-                        $cellBuilder .= $c;
-                        break;
-                }
-                $escape = false;
-            } else {
-                if ($c == '\\') {
-                    $escape = true;
-                } elseif ($c == '|') {
-                    if ($beforeFirst) {
-                        // Skip the first empty span
-                        $beforeFirst = false;
-                    } else {
-                        $cell = $cellBuilder;
-                        $leftTrimmedCell = StringUtils::ltrimKeepNewLines($cell);
-                        $cellIndent = StringUtils::symbolCount($cell) - StringUtils::symbolCount($leftTrimmedCell);
-                        $lineSpans[] = new GherkinLineSpan($cellStart + $cellIndent + self::OFFSET, StringUtils::rtrimKeepNewLines($leftTrimmedCell));
-                    }
-                    $cellBuilder = '';
-                    $cellStart = $col + 1;
-                } else {
-                    $cellBuilder .= $c;
-                }
-            }
-            $col++;
-        }
+        // Safely remove elements before the first and last separators
+        array_shift($splitCells);
+        array_pop($splitCells);
 
-        return $lineSpans;
+        return array_map(
+            function ($match) {
+                [$cell, $byteOffset] = $match;
+
+                // substr to chop at the byte boundary, then count the chars
+                $cellStart = StringUtils::symbolCount(substr($this->lineText, 0, $byteOffset));
+
+                $leftTrimmedCell = StringUtils::ltrimKeepNewLines($cell);
+                $cellIndent = StringUtils::symbolCount($cell) - StringUtils::symbolCount($leftTrimmedCell);
+                $trimmedCell = StringUtils::rtrimKeepNewLines($leftTrimmedCell);
+
+                // Match \N and then replace based on what X is
+                // done this way so that \\n => \n once and isn't then recursively replaced again (or similar)
+                $unescaped = preg_replace_callback(
+                    '/(\\\\.)/u',
+                    function ($groups) {
+                        return match ($groups[0]) {
+                            '\\n' => "\n",
+                            '\\\\' => '\\',
+                            '\\|' => '|',
+                            default => $groups[0],
+                        };
+                    },
+                    $trimmedCell
+                );
+
+                return new GherkinLineSpan($cellStart + $cellIndent + self::OFFSET, $unescaped);
+            },
+            $splitCells
+        );
     }
 
     /** @return list<GherkinLineSpan> */
@@ -133,18 +123,19 @@ final class StringGherkinLine implements GherkinLine
         // Skip before the first tag prefix
         array_shift($elements);
 
-        $tags = [];
-        foreach ($elements as $element) {
-            $token = StringUtils::rtrim($element[0]);
-            $column = $this->indent + $element[1];
-            if (StringUtils::symbolCount($token) > 0) {
-                if (preg_match('/\s+/u', $token)) {
-                    throw new ParserException("A tag may not contain whitespace", new Location($this->line, $column));
-                }
-                $tags[] = new GherkinLineSpan($column, GherkinLanguageConstants::TAG_PREFIX . $token);
-            }
-        }
+        return array_values(array_filter(array_map(
+            function ($element) {
+                $token = StringUtils::rtrim($element[0]);
+                $column = $this->indent + $element[1];
+                if (StringUtils::symbolCount($token) > 0) {
+                    if (preg_match('/\s+/u', $token)) {
+                        throw new ParserException("A tag may not contain whitespace", new Location($this->line, $column));
+                    }
 
-        return $tags;
+                    return new GherkinLineSpan($column, GherkinLanguageConstants::TAG_PREFIX . $token);
+                }
+            },
+            $elements
+        )));
     }
 }
