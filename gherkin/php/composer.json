@@ -6,7 +6,10 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Cucumber\\Gherkin\\": ["src/", "src-generated/"]
+            "Cucumber\\Gherkin\\": [
+                "src/",
+                "src-generated/"
+            ]
         }
     },
     "repositories": [

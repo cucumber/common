@@ -21,8 +21,13 @@ endef
 default: .tested
 .PHONY: default
 
-pre-release: update-version update-dependencies
+pre-release: remove-local-repository update-version update-dependencies
 .PHONY: pre-release
+
+remove-local-repository:
+	jq 'del(.repositories)' --indent 4 < composer.json > composer.json.new
+	mv composer.json.new composer.json
+.PHONY: remove-local-repository
 
 update-version:
 ifdef NEW_VERSION
@@ -31,6 +36,7 @@ endif
 .PHONY: update-version
 
 update-dependencies:
+	composer update
 .PHONY: update-dependencies
 
 publish:
