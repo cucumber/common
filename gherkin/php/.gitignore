@@ -6,3 +6,4 @@ composer.lock
 .codegen
 .deps
 .compared
+.tested

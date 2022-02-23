@@ -42,20 +42,21 @@ post-release:
 .PHONY: post-release
 
 clean:
+	rm -rf .tested .deps .codegen
 	rm -rf vendor composer.lock
 .PHONY: clean
 
-.tested: .deps .codegen $(PHP_SOURCE_FILES)
+.tested: .deps $(PHP_SOURCE_FILES)
+	vendor/bin/php-cs-fixer --dry-run --diff fix
 	vendor/bin/psalm --no-cache
 	vendor/bin/phpunit
-.PHONY: .tested
+	touch $@
 
-.deps: composer.lock
+.deps: vendor .codegen
 	touch $@
 
 .codegen:
 	touch $@
 
-composer.lock: composer.json
+vendor: composer.json
 	composer install
-	touch $@

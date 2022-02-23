@@ -42,7 +42,7 @@ acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.featu
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 
 
-.deps: build/classes.php
+.codegen: build/classes.php
 
 build/classes.php: gherkin-php.razor gherkin.berp
 	$(berp-generate-parser)
@@ -54,15 +54,6 @@ build/classes.php: gherkin-php.razor gherkin.berp
 clean-build:
 	rm -rf build/classes.php
 	rm -rf src-generated/*
-
-clean:
 	rm -rf .compared acceptance
-.PHONY: clean
 
-
-.tested: .cs-fixer
-
-.cs-fixer:
-	vendor/bin/php-cs-fixer --dry-run --diff fix src
-	vendor/bin/php-cs-fixer --dry-run --diff fix src-generated
-	vendor/bin/php-cs-fixer --dry-run --diff fix tests
+clean: clean-build
