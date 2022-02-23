@@ -8,6 +8,10 @@ final class StringGherkinLine implements GherkinLine
 {
     // TODO: set this to 0 when/if we change to 0-indexed columns
     private const OFFSET = 1;
+    /**
+     * Splits a string around | char, only if it's not preceded by an odd number of \
+     */
+    private const CELL_PATTERN = '/(?<!\\\\)(?:\\\\{2})*\K\\|/u';
     private readonly int $indent;
     private readonly string $trimmedLineText;
 
