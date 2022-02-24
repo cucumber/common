@@ -17,12 +17,19 @@
     },
     "autoload": {
         "psr-4": {
-            "Cucumber\\Messages\\": ["src","src-generated"]
+            "Cucumber\\Messages\\": [
+                "src",
+                "src-generated"
+            ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Cucumber\\Messages\\": ["src","src-generated","tests"]
+            "Cucumber\\Messages\\": [
+                "src",
+                "src-generated",
+                "tests"
+            ]
         }
     }
 }

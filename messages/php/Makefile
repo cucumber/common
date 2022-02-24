@@ -6,6 +6,14 @@ clean: clean-build
 
 .codegen: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jsonschema/scripts/templates/php.php.erb build/messages.php
 
+post-release: update-gherkin-dependency
+
+update-gherkin-dependency:
+	php scripts/update-gherkin-dependency.php ../../gherkin/php/composer.json > gherkin-composer.json
+	jq --indent 4 < gherkin-composer.json > ../../gherkin/php/composer.json
+	rm gherkin-composer.json
+.PHONY: update-gherkin-dependency
+
 build/messages.php:
 	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema php.php.erb > build/messages.php
 	ruby ../jsonschema/scripts/codegen.rb Php ../jsonschema php.enum.php.erb >> build/messages.php

@@ -21,7 +21,7 @@
     "require": {
         "php": "^8.1",
         "ext-mbstring": "*",
-        "cucumber/messages": "dev-main"
+        "cucumber/messages": "dev-main||^17.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
