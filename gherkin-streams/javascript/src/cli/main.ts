@@ -7,9 +7,9 @@ import { IGherkinOptions } from '@cucumber/gherkin'
 
 const program = new Command()
 program.version(packageJson.version)
-program.option('--no-source', 'Do not output Source messages', false)
-program.option('--no-ast', 'Do not output GherkinDocument messages', false)
-program.option('--no-pickles', 'Do not output Pickle messages', false)
+program.option('--no-source', 'Do not output Source messages')
+program.option('--no-ast', 'Do not output GherkinDocument messages')
+program.option('--no-pickles', 'Do not output Pickle messages')
 program.option('--predictable-ids', 'Use predictable ids', false)
 program.parse(process.argv)
 const paths = program.args
