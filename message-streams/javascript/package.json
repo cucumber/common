@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@types/mocha": "9.1.0",
-    "@types/node": "16.11.21",
-    "mocha": "9.2.0",
+    "@types/node": "16.11.26",
+    "mocha": "9.2.1",
     "typescript": "4.5.5"
   },
   "bugs": {

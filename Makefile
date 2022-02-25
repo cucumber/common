@@ -9,9 +9,6 @@ PACKAGES ?= messages \
 	query \
 	json-formatter \
 	compatibility-kit \
-	html-formatter \
-	config \
-	demo-formatter \
 	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
@@ -59,7 +56,7 @@ docker-run:
 	  --publish "6006:6006" \
 	  --volume "${shell pwd}":/app \
 	  --volume "${HOME}/.m2/repository":/home/cukebot/.m2/repository \
-		--user 1000 \
+	  --user 1000 \
 	  --rm \
 	  --interactive \
 	  --tty \
@@ -84,7 +81,7 @@ docker-run-with-secrets:
 	  --volume "${shell pwd}/../secrets/codesigning.key":/home/cukebot/codesigning.key \
 	  --volume "${shell pwd}/../secrets/gpg-with-passphrase":/home/cukebot/gpg-with-passphrase \
 	  --env-file ../secrets/secrets.list \
-		--user 1000 \
+	  --user 1000 \
 	  --rm \
 	  --interactive \
 	  --tty \
