@@ -128,17 +128,6 @@ jobs:
             cd gherkin/go
             make
 
-  demo-formatter-go:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: demo-formatter/go
-          command: |
-            cd demo-formatter/go
-            make
-
   json-formatter-go:
     executor: docker-cucumber-build
     steps:
@@ -407,17 +396,6 @@ jobs:
           paths:
             - compatibility-kit/ruby/features
 
-  demo-formatter-ruby:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: demo-formatter/ruby
-          command: |
-            cd demo-formatter/ruby
-            make
-
   json-to-messages-ruby-testdata:
     executor: docker-circleci-ruby-26
     steps:
@@ -665,9 +643,6 @@ workflows:
       - gherkin-go:
           requires:
             - messages-go
-      - demo-formatter-go:
-          requires:
-            - messages-go
       - json-formatter-go:
           requires:
             - messages-go
@@ -740,9 +715,6 @@ workflows:
           requires:
             - messages-ruby
       - gherkin-ruby-26:
-          requires:
-            - messages-ruby
-      - demo-formatter-ruby:
           requires:
             - messages-ruby
       - compatibility-kit-ruby:

@@ -9,7 +9,6 @@ PACKAGES ?= messages \
 	query \
 	json-formatter \
 	compatibility-kit \
-	demo-formatter \
 	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
