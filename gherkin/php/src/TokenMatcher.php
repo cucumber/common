@@ -34,7 +34,7 @@ final class TokenMatcher implements TokenMatcherInterface
         ?string $text = null,
         ?string $keyword = null,
         ?int $indent = null,
-        ?array $items = null
+        ?array $items = null,
     ): void {
         $token->matchedType = $matchedType;
         $token->matchedKeyword = $keyword;

@@ -26,7 +26,7 @@ final class GherkinDialect
      */
     public function __construct(
         private readonly string $language,
-        private readonly array $dialect
+        private readonly array $dialect,
     ) {
     }
 

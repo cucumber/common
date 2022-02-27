@@ -24,7 +24,7 @@ final class TokenFormatterTest extends TestCase
 
         $token = new Token(
             new StringGherkinLine('hello', 1),
-            new Location(100, 300)
+            new Location(100, 300),
         );
 
         self::assertSame('(100:300)://', $formatter->formatToken($token));
@@ -36,7 +36,7 @@ final class TokenFormatterTest extends TestCase
 
         $token = new Token(
             new StringGherkinLine('hello', 1),
-            new Location(100, 300)
+            new Location(100, 300),
         );
         $token->matchedType = TokenType::ScenarioLine;
         $token->matchedKeyword = 'MyScenario';

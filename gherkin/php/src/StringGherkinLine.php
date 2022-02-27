@@ -101,12 +101,12 @@ final class StringGherkinLine implements GherkinLine
                             default => $groups[0],
                         };
                     },
-                    $trimmedCell
+                    $trimmedCell,
                 );
 
                 return new GherkinLineSpan($cellStart + $cellIndent + self::OFFSET, $unescaped);
             },
-            $splitCells
+            $splitCells,
         );
     }
 
@@ -135,7 +135,7 @@ final class StringGherkinLine implements GherkinLine
                     return new GherkinLineSpan($column, GherkinLanguageConstants::TAG_PREFIX . $token);
                 }
             },
-            $elements
+            $elements,
         )));
     }
 }

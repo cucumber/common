@@ -15,7 +15,7 @@ final class UnexpectedEofExceptionTest extends TestCase
         $exception = new UnexpectedEofException(
             new Token(null, new Location(1, 1)),
             ['ExpectedToken1', 'ExpectedToken2'],
-            'StateComment'
+            'StateComment',
         );
 
         $message = $exception->getMessage();

@@ -108,7 +108,7 @@ trait ParserTrait
             $context,
             function () use ($token) {
                 $this->builder->build($token);
-            }
+            },
         );
     }
 
@@ -119,7 +119,7 @@ trait ParserTrait
             function () use ($ruleType) {
                 $this->builder->startRule($ruleType);
                 return null;
-            }
+            },
         );
     }
 
@@ -129,7 +129,7 @@ trait ParserTrait
             $context,
             function () use ($ruleType) {
                 $this->builder->endRule($ruleType);
-            }
+            },
         );
     }
 

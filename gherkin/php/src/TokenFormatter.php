@@ -20,7 +20,7 @@ final class TokenFormatter
             $token->matchedKeyword ?? '',
             $token->matchedText ?? '',
             $token->matchedItems === null ? ''
-                : join(',', array_map(fn ($o) => $o->column . ':' . $o->text, $token->matchedItems))
+                : join(',', array_map(fn ($o) => $o->column . ':' . $o->text, $token->matchedItems)),
         );
     }
 }

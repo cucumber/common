@@ -32,7 +32,7 @@ final class GherkinParser
         private readonly bool $includeSource = true,
         private readonly bool $includeGherkinDocument = true,
         private readonly bool $includePickles = true,
-        ?IdGenerator $idGenerator = null
+        ?IdGenerator $idGenerator = null,
     ) {
         $this->idGenerator = $idGenerator ?? ($this->predictableIds ? new IncrementingIdGenerator() : new UuidIdGenerator());
         $this->pickleCompiler = new PickleCompiler($this->idGenerator);
@@ -46,7 +46,7 @@ final class GherkinParser
     public function parseString(string $uri, string $data): Generator
     {
         yield from $this->parse([
-            new Source(uri: $uri, data: $data)
+            new Source(uri: $uri, data: $data),
         ]);
     }
 
@@ -96,7 +96,7 @@ final class GherkinParser
         return $parser->parse(
             $source->uri,
             new StringTokenScanner($source->data),
-            new TokenMatcher()
+            new TokenMatcher(),
         );
     }
 
@@ -106,8 +106,8 @@ final class GherkinParser
             uri: $uri,
             location: new MessageLocation(
                 line: $error->location->line,
-                column: $error->location->column === 0 ? null : $error->location->column
-            )
+                column: $error->location->column === 0 ? null : $error->location->column,
+            ),
         );
 
         return new Envelope(parseError: new ParseError($ref, $error->getMessage()));

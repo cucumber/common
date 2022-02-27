@@ -22,7 +22,7 @@ final class GherkinDialectProvider
 
     /** @param non-empty-string $defaultDialectName */
     public function __construct(
-        private readonly string $defaultDialectName = 'en'
+        private readonly string $defaultDialectName = 'en',
     ) {
         try {
             /**

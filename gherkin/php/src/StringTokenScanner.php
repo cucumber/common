@@ -20,7 +20,7 @@ final class StringTokenScanner implements TokenScanner
     private int $lineNumber = 0;
 
     public function __construct(
-        private string $source
+        private string $source,
     ) {
     }
 
@@ -38,7 +38,7 @@ final class StringTokenScanner implements TokenScanner
 
         return new Token(
             ($line === '' && $this->source === '') ? null : new StringGherkinLine($line, $this->lineNumber),
-            $location
+            $location,
         );
     }
 }

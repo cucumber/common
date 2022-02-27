@@ -8,5 +8,16 @@ $finder = PhpCsFixer\Finder::create()
     ])
 ;
 
+$rules = [
+    'trailing_comma_in_multiline' => [
+        'after_heredoc' => true,
+        'elements' => [
+            'arrays',
+            'arguments',
+            'parameters',
+        ],
+    ],
+];
+
 $config = new PhpCsFixer\Config();
-return $config->setFinder($finder);
+return $config->setRules([...$config->getRules(),...$rules])->setFinder($finder);

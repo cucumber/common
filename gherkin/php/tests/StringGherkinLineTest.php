@@ -146,7 +146,7 @@ final class StringGherkinLineTest extends TestCase
                 new GherkinLineSpan(3, '@foo'),
                 new GherkinLineSpan(8, '@bar'),
             ],
-            $line->getTags()
+            $line->getTags(),
         );
     }
 
@@ -159,7 +159,7 @@ final class StringGherkinLineTest extends TestCase
                 new GherkinLineSpan(3, '@foo'),
                 new GherkinLineSpan(8, '@bar'),
             ],
-            $line->getTags()
+            $line->getTags(),
         );
     }
 
@@ -172,7 +172,7 @@ final class StringGherkinLineTest extends TestCase
                 new GherkinLineSpan(3, '@foo'),
                 new GherkinLineSpan(10, '@bar'),
             ],
-            $line->getTags()
+            $line->getTags(),
         );
     }
 

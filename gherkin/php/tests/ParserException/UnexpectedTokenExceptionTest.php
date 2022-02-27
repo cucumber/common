@@ -19,7 +19,7 @@ final class UnexpectedTokenExceptionTest extends TestCase
         $exception = new UnexpectedTokenException(
             new Token($line, new Location(10, 10)),
             ['Foo', 'Bar'],
-            'stateComment'
+            'stateComment',
         );
 
         $message = "expected: Foo, Bar, got 'Baz'";
@@ -35,7 +35,7 @@ final class UnexpectedTokenExceptionTest extends TestCase
         $exception = new UnexpectedTokenException(
             new Token($line, new Location(10, 10)),
             ['Foo', 'Bar'],
-            'stateComment'
+            'stateComment',
         );
 
         $message = "(10:10):";
@@ -52,7 +52,7 @@ final class UnexpectedTokenExceptionTest extends TestCase
         $exception = new UnexpectedTokenException(
             new Token($line, new Location(10, 1)),
             ['Foo', 'Bar'],
-            'stateComment'
+            'stateComment',
         );
 
         $message = "(10:11):";

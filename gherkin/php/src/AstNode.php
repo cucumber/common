@@ -15,7 +15,7 @@ final class AstNode
     private array $subItems = [];
 
     public function __construct(
-        public readonly RuleType $ruleType
+        public readonly RuleType $ruleType,
     ) {
     }
 

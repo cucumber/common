@@ -34,7 +34,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_EOF($token);
             },
-            false
+            false,
         );
     }
 
@@ -49,7 +49,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_Empty($token);
             },
-            false
+            false,
         );
     }
 
@@ -64,7 +64,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_Comment($token);
             },
-            false
+            false,
         );
     }
 
@@ -79,7 +79,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_TagLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -94,7 +94,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_FeatureLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -109,7 +109,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_RuleLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -124,7 +124,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_BackgroundLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -139,7 +139,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_ScenarioLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -154,7 +154,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_ExamplesLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -169,7 +169,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_StepLine($token);
             },
-            false
+            false,
         );
     }
 
@@ -184,7 +184,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_DocStringSeparator($token);
             },
-            false
+            false,
         );
     }
 
@@ -199,7 +199,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_TableRow($token);
             },
-            false
+            false,
         );
     }
 
@@ -214,7 +214,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_Language($token);
             },
-            false
+            false,
         );
     }
 
@@ -229,7 +229,7 @@ final class Parser
             function () use ($context, $token) {
                 return $context->tokenMatcher->match_Other($token);
             },
-            false
+            false,
         );
     }
 

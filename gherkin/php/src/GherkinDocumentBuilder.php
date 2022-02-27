@@ -40,7 +40,7 @@ final class GherkinDocumentBuilder implements Builder
 
     public function __construct(
         private readonly string $uri,
-        private readonly IdGenerator $idGenerator
+        private readonly IdGenerator $idGenerator,
     ) {
         $this->reset($uri);
     }
@@ -144,7 +144,7 @@ final class GherkinDocumentBuilder implements Builder
                     description: $this->getDescription($scenarioNode),
                     steps: $this->getSteps($scenarioNode),
                     examples: $scenarioNode->getItems(Examples::class, RuleType::ExamplesDefinition),
-                    id: $this->idGenerator->newId()
+                    id: $this->idGenerator->newId(),
                 );
 
             case RuleType::ExamplesDefinition:
@@ -202,8 +202,8 @@ final class GherkinDocumentBuilder implements Builder
                     '',
                     join("\n", array_map(
                         (fn ($t): string => $t->matchedText ?? ''),
-                        $lineTokens
-                    ))
+                        $lineTokens,
+                    )),
                 );
 
                 return $lineText;
@@ -343,7 +343,7 @@ final class GherkinDocumentBuilder implements Builder
     {
         return array_map(
             fn ($cellItem) => new TableCell($this->getLocation($token, $cellItem->column), $cellItem->text),
-            $token->matchedItems ?? []
+            $token->matchedItems ?? [],
         );
     }
 

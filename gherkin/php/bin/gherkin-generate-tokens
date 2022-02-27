@@ -15,6 +15,10 @@ $parser = new Parser(new TokenFormatterBuilder());
 array_shift($argv);
 
 foreach($argv as $fileName) {
-    $result = $parser->parse($fileName, new StringTokenScanner(file_get_contents($fileName)), new TokenMatcher());
+    $result = $parser->parse(
+            $fileName,
+            new StringTokenScanner(file_get_contents($fileName)),
+            new TokenMatcher(),
+    );
     echo $result;
 }

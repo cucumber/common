@@ -336,7 +336,7 @@ final class TokenMatcherTest extends TestCase
                 new GherkinLineSpan(3, '@foo'),
                 new GherkinLineSpan(8, '@bar'),
             ],
-            $token->matchedItems
+            $token->matchedItems,
         );
     }
 

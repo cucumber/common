@@ -102,7 +102,7 @@ final class PickleCompiler
     {
         $steps = [
             ...($scenario->steps ? $this->pickleSteps($backgroundSteps) : []),
-            ...array_map(fn ($s) => $this->pickleStep($s), $scenario->steps)
+            ...array_map(fn ($s) => $this->pickleStep($s), $scenario->steps),
         ];
 
         $tags = [...$parentTags, ...$scenario->tags];
@@ -137,7 +137,7 @@ final class PickleCompiler
 
                 $steps = [
                     ...($scenario->steps ? $this->pickleSteps($backgroundSteps) : []),
-                    ...array_map(fn ($s) => $this->pickleStep($s, $variableCells, $valuesRow), $scenario->steps)
+                    ...array_map(fn ($s) => $this->pickleStep($s, $variableCells, $valuesRow), $scenario->steps),
                 ];
 
                 $tags = [...$featureTags, ...$scenario->tags, ...$examples->tags];
@@ -217,13 +217,13 @@ final class PickleCompiler
                 fn ($r) => new PickleTableRow(
                     cells: array_map(
                         fn ($c) => new PickleTableCell(
-                            $this->interpolate($c->value, $variableCells, $valueCells)
+                            $this->interpolate($c->value, $variableCells, $valueCells),
                         ),
-                        $r->cells
-                    )
+                        $r->cells,
+                    ),
                 ),
-                $dataTable->rows
-            )
+                $dataTable->rows,
+            ),
         );
     }
 
@@ -235,7 +235,7 @@ final class PickleCompiler
     {
         return new PickleDocString(
             mediaType: $docstring->mediaType ? $this->interpolate($docstring->mediaType, $variableCells, $valueCells) : null,
-            content: $this->interpolate($docstring->content, $variableCells, $valueCells)
+            content: $this->interpolate($docstring->content, $variableCells, $valueCells),
         );
     }
 

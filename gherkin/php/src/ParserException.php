@@ -15,7 +15,7 @@ class ParserException extends \Exception
             "(%s:%s): %s",
             $this->location->line,
             $this->location->column,
-            $message
+            $message,
         );
 
         parent::__construct($message);
