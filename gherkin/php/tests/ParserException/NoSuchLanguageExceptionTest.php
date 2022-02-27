@@ -11,8 +11,8 @@ final class NoSuchLanguageExceptionTest extends TestCase
 {
     public function testItHasSensibleMessage(): void
     {
-        $e = new NoSuchLanguageException('en', new Location(1, 2));
+        $exception = new NoSuchLanguageException('en', new Location(1, 2));
 
-        self::assertSame('(1:2): Language not supported: en', $e->getMessage());
+        self::assertSame('(1:2): Language not supported: en', $exception->getMessage());
     }
 }

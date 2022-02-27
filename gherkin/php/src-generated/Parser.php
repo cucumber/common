@@ -31,9 +31,7 @@ final class Parser
     {
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_EOF($token);
-            },
+            fn () => $context->tokenMatcher->match_EOF($token),
             false,
         );
     }
@@ -46,9 +44,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_Empty($token);
-            },
+            fn () => $context->tokenMatcher->match_Empty($token),
             false,
         );
     }
@@ -61,9 +57,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_Comment($token);
-            },
+            fn () => $context->tokenMatcher->match_Comment($token),
             false,
         );
     }
@@ -76,9 +70,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_TagLine($token);
-            },
+            fn () => $context->tokenMatcher->match_TagLine($token),
             false,
         );
     }
@@ -91,9 +83,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_FeatureLine($token);
-            },
+            fn () => $context->tokenMatcher->match_FeatureLine($token),
             false,
         );
     }
@@ -106,9 +96,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_RuleLine($token);
-            },
+            fn () => $context->tokenMatcher->match_RuleLine($token),
             false,
         );
     }
@@ -121,9 +109,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_BackgroundLine($token);
-            },
+            fn () => $context->tokenMatcher->match_BackgroundLine($token),
             false,
         );
     }
@@ -136,9 +122,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_ScenarioLine($token);
-            },
+            fn () => $context->tokenMatcher->match_ScenarioLine($token),
             false,
         );
     }
@@ -151,9 +135,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_ExamplesLine($token);
-            },
+            fn () => $context->tokenMatcher->match_ExamplesLine($token),
             false,
         );
     }
@@ -166,9 +148,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_StepLine($token);
-            },
+            fn () => $context->tokenMatcher->match_StepLine($token),
             false,
         );
     }
@@ -181,9 +161,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_DocStringSeparator($token);
-            },
+            fn () => $context->tokenMatcher->match_DocStringSeparator($token),
             false,
         );
     }
@@ -196,9 +174,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_TableRow($token);
-            },
+            fn () => $context->tokenMatcher->match_TableRow($token),
             false,
         );
     }
@@ -211,9 +187,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_Language($token);
-            },
+            fn () => $context->tokenMatcher->match_Language($token),
             false,
         );
     }
@@ -226,9 +200,7 @@ final class Parser
 
         return $this->handleExternalError(
             $context,
-            function () use ($context, $token) {
-                return $context->tokenMatcher->match_Other($token);
-            },
+            fn () => $context->tokenMatcher->match_Other($token),
             false,
         );
     }

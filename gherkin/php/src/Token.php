@@ -32,7 +32,7 @@ final class Token
      */
     public function isEof(): bool
     {
-        return is_null($this->line);
+        return null === $this->line;
     }
 
     public function getLocation(): Location

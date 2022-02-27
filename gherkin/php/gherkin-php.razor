@@ -137,10 +137,8 @@ final class @Model.ParserClassName
         }
         return $this->handleExternalError(
             $context,
-            function() use ($context, $token) {
-                return $context->tokenMatcher->match_@(rule.Name.Replace("#", ""))($token);
-            },
-            false
+            fn() => $context->tokenMatcher->match_@(rule.Name.Replace("#", ""))($token),
+            false,
         );
     }
 </text>

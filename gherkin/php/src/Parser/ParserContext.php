@@ -10,18 +10,14 @@ use Cucumber\Gherkin\TokenMatcher;
 
 final class ParserContext
 {
+    /**
+     * @param list<Token> $tokenQueue
+     * @param list<ParserException> $errors
+     */
     public function __construct(
         public readonly TokenScanner $tokenScanner,
         public readonly TokenMatcher $tokenMatcher,
-
-        /**
-         * @var list<Token>
-         */
         public array $tokenQueue,
-
-        /**
-         * @var list<ParserException>
-         */
         public array $errors,
     ) {
     }

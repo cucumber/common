@@ -250,6 +250,6 @@ final class PickleCompiler
 
     private function pickleTag(Tag $tag): PickleTag
     {
-        return new PIckleTag($tag->name, $tag->id);
+        return new PickleTag($tag->name, $tag->id);
     }
 }

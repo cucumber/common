@@ -108,7 +108,7 @@ final class GherkinDialect
     }
 
     /** @return non-empty-list<non-empty-string> */
-    public function getExamplesKeywords()
+    public function getExamplesKeywords(): array
     {
         return $this->dialect['examples'];
     }
