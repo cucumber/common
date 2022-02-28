@@ -16,7 +16,7 @@ default: .compared
 .compared: .deps $(TOKENS) $(SOURCES) $(ASTS) $(PICKLES) $(ERRORS)
 	touch $@
 
-remove-local-repository: remove-messages-dev-dependency
+pre-release: remove-messages-dev-dependency
 
 remove-messages-dev-dependency:
 	# dependency on messages is like 'dev-main||^12.0,^13.0,...etc

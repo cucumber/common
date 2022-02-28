@@ -12,12 +12,6 @@
             ]
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../messages/php"
-        }
-    ],
     "require": {
         "php": "^8.1",
         "ext-mbstring": "*",
@@ -28,5 +22,11 @@
         "vimeo/psalm": "^4.20",
         "friendsofphp/php-cs-fixer": "^3.5",
         "psalm/plugin-phpunit": "^0.16.1"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../messages/php"
+        }
+    ]
 }
