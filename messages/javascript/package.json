@@ -44,7 +44,7 @@
     "copyfiles": "2.4.1",
     "mocha": "9.2.1",
     "ts-node": "10.5.0",
-    "typescript": "4.5.5"
+    "typescript": "4.6.2"
   },
   "bugs": {
     "url": "https://github.com/cucumber/messages-javascript/issues"

@@ -38,7 +38,7 @@
     "@types/mocha": "9.1.0",
     "@types/node": "16.11.26",
     "mocha": "9.2.1",
-    "typescript": "4.5.5"
+    "typescript": "4.6.2"
   },
   "bugs": {
     "url": "https://github.com/cucumber/cucumber/issues"
