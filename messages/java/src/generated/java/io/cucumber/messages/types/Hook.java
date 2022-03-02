@@ -11,21 +11,28 @@ import static java.util.Objects.requireNonNull;
 @SuppressWarnings("unused")
 public final class Hook {
     private final String id;
+    private final String name;
     private final SourceReference sourceReference;
     private final String tagExpression;
 
     public Hook(
         String id,
+        String name,
         SourceReference sourceReference,
         String tagExpression
     ) {
         this.id = requireNonNull(id, "Hook.id cannot be null");
+        this.name = name;
         this.sourceReference = requireNonNull(sourceReference, "Hook.sourceReference cannot be null");
         this.tagExpression = tagExpression;
     }
 
     public String getId() {
         return id;
+    }
+
+    public Optional<String> getName() {
+        return Optional.ofNullable(name);
     }
 
     public SourceReference getSourceReference() {
@@ -43,6 +50,7 @@ public final class Hook {
         Hook that = (Hook) o;
         return 
             id.equals(that.id) &&         
+            Objects.equals(name, that.name) &&         
             sourceReference.equals(that.sourceReference) &&         
             Objects.equals(tagExpression, that.tagExpression);        
     }
@@ -51,6 +59,7 @@ public final class Hook {
     public int hashCode() {
         return Objects.hash(
             id,
+            name,
             sourceReference,
             tagExpression
         );
@@ -60,6 +69,7 @@ public final class Hook {
     public String toString() {
         return "Hook{" +
             "id=" + id +
+            ", name=" + name +
             ", sourceReference=" + sourceReference +
             ", tagExpression=" + tagExpression +
             '}';

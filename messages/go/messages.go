@@ -149,6 +149,7 @@ type Tag struct {
 
 type Hook struct {
 	Id              string           `json:"id"`
+	Name            string           `json:"name,omitempty"`
 	SourceReference *SourceReference `json:"sourceReference"`
 	TagExpression   string           `json:"tagExpression,omitempty"`
 }

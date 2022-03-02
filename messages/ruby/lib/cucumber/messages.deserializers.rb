@@ -439,6 +439,7 @@ module Cucumber
 
         self.new(
           id: hash[:id],
+          name: hash[:name],
           source_reference: SourceReference.from_h(hash[:sourceReference]),
           tag_expression: hash[:tagExpression],
         )
