@@ -4,7 +4,7 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import * as messages from '@cucumber/messages'
-import { IHook, AnyBody, IStepDefinition } from './types'
+import { IHook, AnyBody, IStepDefinition, HookOptions } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import Hook from './Hook'
 import IClock from './IClock'
@@ -90,11 +90,10 @@ export default class SupportCode {
 
   public defineBeforeHook(
     sourceReference: messages.SourceReference,
-    tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody,
-    name?: string
+    tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
+    body?: AnyBody
   ) {
-    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOrBody, body, name))
+    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOptionsOrBody, body))
   }
 
   public registerBeforeHook(hook: IHook) {
@@ -103,11 +102,10 @@ export default class SupportCode {
 
   public defineAfterHook(
     sourceReference: messages.SourceReference,
-    tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody,
-    name?: string
+    tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
+    body?: AnyBody
   ) {
-    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOrBody, body, name))
+    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOptionsOrBody, body))
   }
 
   public registerAfterHook(hook: IHook) {
@@ -116,12 +114,14 @@ export default class SupportCode {
 
   private makeHook(
     sourceReference: messages.SourceReference,
-    tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody,
-    name?: string
+    tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
+    body?: AnyBody
   ) {
-    const tagExpression = typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
-    body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
+    const tagExpression =
+      typeof tagExpressionOptionsOrBody === 'string' ? tagExpressionOptionsOrBody : null
+    const name =
+      typeof tagExpressionOptionsOrBody === 'object' ? tagExpressionOptionsOrBody.name : undefined
+    body = typeof tagExpressionOptionsOrBody === 'function' ? tagExpressionOptionsOrBody : body
     return new Hook(this.newId(), tagExpression, sourceReference, body, name)
   }
 }
