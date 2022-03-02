@@ -101,7 +101,6 @@ You will find examples of Cucumber Messages in the [compatibility-kit](../compat
 
 ## Utilities
 
-* [json-formatter](../json-formatter) - produce legacy JSON from Cucumber Messages
 * [json-to-messages](../json-to-messages) - produce Cucumber Messages from legacy JSON
 * [@cucumber/react](https://github.com/cucumber/cucumber-react) - React component that renders Cucumber Messages nicely
   * Used internally by [Cucumber Reports](https://reports.cucumber.io/).

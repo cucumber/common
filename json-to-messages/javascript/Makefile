@@ -80,14 +80,6 @@ acceptance/python/%.ndjson: ../python-testdata/acceptance/%.json $(TYPESCRIPT_SO
 	mkdir -p $(@D)
 	cat $< | bin/json-to-messages-dev > $@
 
-acceptance/%.ndjson.json: acceptance/%.ndjson
-	mkdir -p $(@D)
-	-../../compatibility-kit/scripts/run-formatter \
-                -e .json \
-                -o $(@D) \
-                -c "../../compatibility-kit/scripts/cucumber-json-formatter" \
-                $<
-
 acceptance/%.ndjson.html: acceptance/%.ndjson
 	mkdir -p $(@D)
 	-../../compatibility-kit/scripts/run-formatter \

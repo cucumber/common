@@ -128,17 +128,6 @@ jobs:
             cd gherkin/go
             make
 
-  json-formatter-go:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-formatter/go
-          command: |
-            cd json-formatter/go
-            make
-
   ### JavaScript
 
   message-streams-javascript:
@@ -249,22 +238,6 @@ jobs:
             cd compatibility-kit/javascript
             make
 
-  json-formatter-javascript-testdata:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-formatter/javascript-testdata
-          command: |
-            sudo npm install --global npm@7
-            cd json-formatter/javascript-testdata
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-formatter/javascript-testdata/features
-
   json-to-messages-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -365,21 +338,6 @@ jobs:
           command: |
             cd gherkin/ruby
             make
-
-  json-formatter-ruby-testdata:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-formatter/ruby-testdata
-          command: |
-            cd json-formatter/ruby-testdata
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-formatter/ruby-testdata
 
   compatibility-kit-ruby:
     executor: docker-cucumber-build
@@ -643,11 +601,6 @@ workflows:
       - gherkin-go:
           requires:
             - messages-go
-      - json-formatter-go:
-          requires:
-            - messages-go
-            - json-formatter-ruby-testdata
-            - json-formatter-javascript-testdata
 
       ### JavaScript
 
@@ -678,10 +631,6 @@ workflows:
       - compatibility-kit-javascript:
           requires:
             - prepare-parallel
-      - json-formatter-javascript-testdata:
-          requires:
-            - json-formatter-ruby-testdata
-            - fake-cucumber-javascript
       - query-javascript:
           requires:
             - prepare-parallel
@@ -720,9 +669,6 @@ workflows:
       - compatibility-kit-ruby:
           requires:
             - messages-ruby
-      - json-formatter-ruby-testdata:
-          requires:
-            - prepare-parallel
       - json-to-messages-ruby-testdata:
           requires:
             - prepare-parallel
