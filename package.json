@@ -7,7 +7,6 @@
     "messages/javascript",
     "message-streams/javascript",
     "gherkin/javascript",
-    "gherkin-streams/javascript",
     "gherkin-utils/javascript",
     "fake-cucumber/javascript",
     "query/javascript",
