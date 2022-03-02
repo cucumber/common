@@ -117,10 +117,14 @@ export default class SupportCode {
     tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
     body?: AnyBody
   ) {
-    const tagExpression =
-      typeof tagExpressionOptionsOrBody === 'string' ? tagExpressionOptionsOrBody : (typeof tagExpressionOptionsOrBody === 'object' ? tagExpressionOptionsOrBody.tagExpression : null)
     const name =
       typeof tagExpressionOptionsOrBody === 'object' ? tagExpressionOptionsOrBody.name : undefined
+    let tagExpression = null
+    if (typeof tagExpressionOptionsOrBody === 'string') {
+      tagExpression = tagExpressionOptionsOrBody
+    } else if (typeof tagExpressionOptionsOrBody === 'object') {
+      tagExpression = tagExpressionOptionsOrBody.tagExpression ?? null
+    }
     body = typeof tagExpressionOptionsOrBody === 'function' ? tagExpressionOptionsOrBody : body
     return new Hook(this.newId(), tagExpression, sourceReference, body, name)
   }
