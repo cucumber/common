@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Support for EcmaScript modules (aka ESM)
   ([#1756](https://github.com/cucumber/common/pull/1756))
+* New optional `name` property on the Hook schema ([#1914](https://github.com/cucumber/common/pull/1914))
 
 ### Changed
 
