@@ -91,9 +91,10 @@ export default class SupportCode {
   public defineBeforeHook(
     sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody
+    body?: AnyBody,
+    name?: string
   ) {
-    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
+    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOrBody, body, name))
   }
 
   public registerBeforeHook(hook: IHook) {
@@ -103,9 +104,10 @@ export default class SupportCode {
   public defineAfterHook(
     sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody
+    body?: AnyBody,
+    name?: string
   ) {
-    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
+    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOrBody, body, name))
   }
 
   public registerAfterHook(hook: IHook) {
@@ -115,10 +117,11 @@ export default class SupportCode {
   private makeHook(
     sourceReference: messages.SourceReference,
     tagExpressionOrBody: string | AnyBody,
-    body?: AnyBody
+    body?: AnyBody,
+    name?: string
   ) {
     const tagExpression = typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
     body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
-    return new Hook(this.newId(), tagExpression, sourceReference, body)
+    return new Hook(this.newId(), tagExpression, sourceReference, body, name)
   }
 }

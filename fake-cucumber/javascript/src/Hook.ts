@@ -8,7 +8,8 @@ export default class Hook implements IHook {
     public readonly id: string,
     private readonly tagExpression: string | null,
     private readonly sourceReference: messages.SourceReference,
-    private readonly body: AnyBody
+    private readonly body: AnyBody,
+    private readonly name?: string
   ) {}
 
   public match(pickle: messages.Pickle): ISupportCodeExecutor | null {
@@ -21,6 +22,10 @@ export default class Hook implements IHook {
     const hook: messages.Hook = {
       id: this.id,
       sourceReference: this.sourceReference,
+    }
+
+    if (this.name) {
+      hook.name = this.name
     }
 
     if (this.tagExpression) {

@@ -15,21 +15,23 @@ function defineStepDefinition(expression: string | RegExp, body: AnyBody) {
   global.supportCode.defineStepDefinition(getSourceReference(new Error().stack), expression, body)
 }
 
-function defineBeforeHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) {
+function defineBeforeHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody, name?: string) {
   //@ts-ignore
   global.supportCode.defineBeforeHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
-    body
+    body,
+    name
   )
 }
 
-function defineAfterHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) {
+function defineAfterHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody, name?: string) {
   //@ts-ignore
   global.supportCode.defineAfterHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
-    body
+    body,
+    name
   )
 }
 
