@@ -118,7 +118,7 @@ export default class SupportCode {
     body?: AnyBody
   ) {
     const tagExpression =
-      typeof tagExpressionOptionsOrBody === 'string' ? tagExpressionOptionsOrBody : null
+      typeof tagExpressionOptionsOrBody === 'string' ? tagExpressionOptionsOrBody : (typeof tagExpressionOptionsOrBody === 'object' ? tagExpressionOptionsOrBody.tagExpression : null)
     const name =
       typeof tagExpressionOptionsOrBody === 'object' ? tagExpressionOptionsOrBody.name : undefined
     body = typeof tagExpressionOptionsOrBody === 'function' ? tagExpressionOptionsOrBody : body
