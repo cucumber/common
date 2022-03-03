@@ -7,6 +7,15 @@ PHP_SOURCE_FILES = $(shell find . -name "*.php")
 
 ### COMMON stuff for all platforms
 
+BERP_VERSION = 1.3.0
+BERP_GRAMMAR = gherkin.berp
+
+define berp-generate-parser =
+-! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
+endef
+
+
 ### Common targets for all functionalities implemented on php
 
 default: .tested
@@ -22,6 +31,7 @@ endif
 .PHONY: update-version
 
 update-dependencies:
+	composer update
 .PHONY: update-dependencies
 
 publish:
@@ -33,20 +43,21 @@ post-release:
 .PHONY: post-release
 
 clean:
+	rm -rf .tested .deps .codegen
 	rm -rf vendor composer.lock
 .PHONY: clean
 
-.tested: .deps .codegen $(PHP_SOURCE_FILES)
+.tested: .deps $(PHP_SOURCE_FILES)
+	vendor/bin/php-cs-fixer --dry-run --diff fix
+	vendor/bin/psalm --no-cache
 	vendor/bin/phpunit
-	vendor/bin/psalm
-.PHONY: .tested
+	touch $@
 
-.deps: composer.lock
+.deps: vendor .codegen
 	touch $@
 
 .codegen:
 	touch $@
 
-composer.lock: composer.json
+vendor: composer.json
 	composer install
-	touch $@

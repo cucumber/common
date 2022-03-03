@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+/**
+ * Script that outputs debug tokens based on a list of files
+ */
+
+namespace Cucumber\Gherkin;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$parser = new Parser(new TokenFormatterBuilder());
+
+// first element is the script name
+array_shift($argv);
+
+foreach($argv as $fileName) {
+    $result = $parser->parse(
+            $fileName,
+            new StringTokenScanner(file_get_contents($fileName)),
+            new TokenMatcher(),
+    );
+    echo $result;
+}
