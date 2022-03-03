@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Add a named hooked case to the Hooks suite ([#1914](https://github.com/cucumber/common/pull/1914))
+
 ### Changed
 
 ### Deprecated

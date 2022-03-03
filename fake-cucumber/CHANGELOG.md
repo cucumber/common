@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Ability to provide a name for `Before` and `After` hooks ([#1914](https://github.com/cucumber/common/pull/1914))
+
 ### Changed
 
 ### Deprecated

@@ -794,16 +794,20 @@ module Cucumber
 
       attr_reader :id
 
+      attr_reader :name
+
       attr_reader :source_reference
 
       attr_reader :tag_expression
 
       def initialize(
         id: '',
+        name: nil,
         source_reference: SourceReference.new,
         tag_expression: nil
       )
         @id = id
+        @name = name
         @source_reference = source_reference
         @tag_expression = tag_expression
       end
