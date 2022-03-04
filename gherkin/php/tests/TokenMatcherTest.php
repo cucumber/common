@@ -243,7 +243,7 @@ final class TokenMatcherTest extends TestCase
 
         self::assertTrue($this->tokenMatcher->match_DocStringSeparator($token));
         self::assertSame(TokenType::DocStringSeparator, $token->matchedType);
-        self::assertSame(null, $token->matchedText);
+        self::assertSame('', $token->matchedText);
         self::assertSame('"""', $token->matchedKeyword);
     }
 
@@ -267,7 +267,7 @@ final class TokenMatcherTest extends TestCase
 
         self::assertTrue($this->tokenMatcher->match_DocStringSeparator($token));
         self::assertSame(TokenType::DocStringSeparator, $token->matchedType);
-        self::assertSame(null, $token->matchedText);
+        self::assertSame('', $token->matchedText);
         self::assertSame('```', $token->matchedKeyword);
     }
 

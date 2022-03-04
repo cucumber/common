@@ -44,4 +44,24 @@ final class Token
     {
         return $this->isEof() ? self::EOF_VALUE : $this->line->getLineText(-1);
     }
+
+    /**
+     * @param list<GherkinLineSpan> $items
+     */
+    public function match(
+        TokenType $matchedType,
+        GherkinDialect $gherkinDialect,
+        int $indent,
+        string $keyword,
+        string $text,
+        array $items,
+    ): void {
+        $this->matchedType = $matchedType;
+        $this->matchedKeyword = $keyword;
+        $this->matchedText = $text;
+        $this->matchedItems = $items;
+        $this->matchedGherkinDialect = $gherkinDialect;
+        $this->matchedIndent = $indent;
+        $this->location = new Location($this->location->line, $indent + 1);
+    }
 }
