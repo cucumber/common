@@ -47,14 +47,14 @@ final class GherkinDocumentBuilder implements Builder
 
     public function build(Token $token): void
     {
-        if (null === $token->matchedType) {
+        if (null === $token->match) {
             throw new LogicException('Token was not yet matched');
         }
 
-        $ruleType = RuleType::cast($token->matchedType);
+        $ruleType = RuleType::cast($token->match->tokenType);
 
-        if ($token->matchedType == TokenType::Comment) {
-            $this->comments[] = new Comment($this->getLocation($token, 0), $token->matchedText ?? '');
+        if ($token->match->tokenType == TokenType::Comment) {
+            $this->comments[] = new Comment($this->getLocation($token, 0), $token->match->text);
         } else {
             $this->currentNode()->add($ruleType, $token);
         }
@@ -170,7 +170,7 @@ final class GherkinDocumentBuilder implements Builder
     {
         return array_map(
             fn ($cellItem) => new TableCell($this->getLocation($token, $cellItem->column), $cellItem->text),
-            $token->matchedItems ?? [],
+            $token->match?->items ?? [],
         );
     }
 
@@ -184,7 +184,7 @@ final class GherkinDocumentBuilder implements Builder
         $tokens = $tagsNode->getTokens(TokenType::TagLine);
         $tags = [];
         foreach ($tokens as $token) {
-            foreach ($token->matchedItems ?? [] as $tagItem) {
+            foreach ($token->match?->items ?? [] as $tagItem) {
                 $tags[] = new Tag(
                     location: $this->getLocation($token, $tagItem->column),
                     name: $tagItem->text,
@@ -201,7 +201,7 @@ final class GherkinDocumentBuilder implements Builder
      */
     private function joinMatchedTextWithLinebreaks(array $lineTokens): string
     {
-        return join("\n", array_map(fn ($t) => $t->matchedText, $lineTokens));
+        return join("\n", array_map(fn ($t) => $t->match?->text, $lineTokens));
     }
 
     private function transformStepNode(AstNode $node): Step
@@ -210,8 +210,8 @@ final class GherkinDocumentBuilder implements Builder
 
         return new Step(
             location: $this->getLocation($stepLine, 0),
-            keyword: $stepLine->matchedKeyword ?? '',
-            text: $stepLine->matchedText ?? '',
+            keyword: $stepLine->match?->keyword ?? '',
+            text: $stepLine->match?->text ?? '',
             docString: $node->getSingle(DocString::class, RuleType::DocString),
             dataTable: $node->getSingle(DataTable::class, RuleType::DataTable),
             id: $this->idGenerator->newId(),
@@ -221,7 +221,7 @@ final class GherkinDocumentBuilder implements Builder
     private function transformDocStringNode(AstNode $node): DocString
     {
         $separatorToken = $node->getTokens(TokenType::DocStringSeparator)[0];
-        $mediaType = $separatorToken->matchedText ?: null;
+        $mediaType = $separatorToken->match?->text ?: null;
         $lineTokens = $node->getTokens(TokenType::Other);
 
         $content = $this->joinMatchedTextWithLinebreaks($lineTokens);
@@ -230,7 +230,7 @@ final class GherkinDocumentBuilder implements Builder
             location: $this->getLocation($separatorToken, 0),
             mediaType: $mediaType,
             content: $content,
-            delimiter: $separatorToken->matchedKeyword ?? '',
+            delimiter: $separatorToken->match?->keyword ?? '',
         );
     }
 
@@ -245,8 +245,8 @@ final class GherkinDocumentBuilder implements Builder
         return new Scenario(
             location: $this->getLocation($scenarioLine, 0),
             tags: $this->getTags($node),
-            keyword: $scenarioLine->matchedKeyword ?? '',
-            name: $scenarioLine->matchedText ?? '',
+            keyword: $scenarioLine->match?->keyword ?? '',
+            name: $scenarioLine->match?->text ?? '',
             description: $this->getDescription($scenarioNode),
             steps: $this->getSteps($scenarioNode),
             examples: $scenarioNode->getItems(Examples::class, RuleType::ExamplesDefinition),
@@ -269,8 +269,8 @@ final class GherkinDocumentBuilder implements Builder
         return new Examples(
             location: $this->getLocation($examplesLine, 0),
             tags: $this->getTags($node),
-            keyword: $examplesLine->matchedKeyword ?? '',
-            name: $examplesLine->matchedText ?? '',
+            keyword: $examplesLine->match?->keyword ?? '',
+            name: $examplesLine->match?->text ?? '',
             description: $this->getDescription($examplesNode),
             tableHeader: $tableHeader,
             tableBody: $tableBody,
@@ -297,8 +297,8 @@ final class GherkinDocumentBuilder implements Builder
 
         return new Background(
             location: $this->getLocation($backgroundLine, 0),
-            keyword: $backgroundLine->matchedKeyword ?? '',
-            name: $backgroundLine->matchedText ?? '',
+            keyword: $backgroundLine->match?->keyword ?? '',
+            name: $backgroundLine->match?->text ?? '',
             description: $this->getDescription($node),
             steps: $this->getSteps($node),
             id: $this->idGenerator->newId(),
@@ -342,7 +342,7 @@ final class GherkinDocumentBuilder implements Builder
             $children[] = new FeatureChild($rule, null, null);
         }
 
-        $language = $featureLine->matchedGherkinDialect?->getLanguage();
+        $language = $featureLine->match?->gherkinDialect?->getLanguage();
         if (null === $language) {
             return null;
         }
@@ -351,8 +351,8 @@ final class GherkinDocumentBuilder implements Builder
             location: $this->getLocation($featureLine, 0),
             tags: $tags,
             language: $language,
-            keyword: $featureLine->matchedKeyword ?? '',
-            name: $featureLine->matchedText ?? '',
+            keyword: $featureLine->match?->keyword ?? '',
+            name: $featureLine->match?->text ?? '',
             description: $this->getDescription($header),
             children: $children,
         );
@@ -379,8 +379,8 @@ final class GherkinDocumentBuilder implements Builder
         return new Rule(
             location: $this->getLocation($ruleLine, 0),
             tags: $tags,
-            keyword: $ruleLine->matchedKeyword ?? '',
-            name: $ruleLine->matchedText ?? '',
+            keyword: $ruleLine->match?->keyword ?? '',
+            name: $ruleLine->match?->text ?? '',
             description: $this->getDescription($header),
             children: $children,
             id: $this->idGenerator->newId(),

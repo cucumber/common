@@ -23,7 +23,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_EOF($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesEof(): void
@@ -32,7 +32,7 @@ final class TokenMatcherTest extends TestCase
         $token = new Token(null, new Location(1, 1));
 
         self::assertTrue($this->tokenMatcher->match_EOF($token));
-        self::assertSame(TokenType::EOF, $token->matchedType);
+        self::assertSame(TokenType::EOF, $token->match?->tokenType);
     }
 
     public function testItDoesNotMatchFeatureLineForNonFeature(): void
@@ -40,7 +40,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_FeatureLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesFeatureLine(): void
@@ -48,9 +48,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Feature: Feature Title');
 
         self::assertTrue($this->tokenMatcher->match_FeatureLine($token));
-        self::assertSame(TokenType::FeatureLine, $token->matchedType);
-        self::assertSame('Feature', $token->matchedKeyword);
-        self::assertSame('Feature Title', $token->matchedText);
+        self::assertSame(TokenType::FeatureLine, $token->match?->tokenType);
+        self::assertSame('Feature', $token->match?->keyword);
+        self::assertSame('Feature Title', $token->match?->text);
     }
 
     public function testItDoesNotMatchEmptyForNonEmpty(): void
@@ -58,7 +58,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_Empty($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItDoesNotMatchBackgroundLineForNonBackground(): void
@@ -66,7 +66,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_BackgroundLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesBackgroundLine(): void
@@ -74,9 +74,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Background: Background Title');
 
         self::assertTrue($this->tokenMatcher->match_BackgroundLine($token));
-        self::assertSame(TokenType::BackgroundLine, $token->matchedType);
-        self::assertSame('Background', $token->matchedKeyword);
-        self::assertSame('Background Title', $token->matchedText);
+        self::assertSame(TokenType::BackgroundLine, $token->match?->tokenType);
+        self::assertSame('Background', $token->match?->keyword);
+        self::assertSame('Background Title', $token->match?->text);
     }
 
     public function testItDoesNotMatchScenarioLineForNonScenario(): void
@@ -84,7 +84,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_ScenarioLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesScenarioLine(): void
@@ -92,9 +92,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Scenario: Scenario Title');
 
         self::assertTrue($this->tokenMatcher->match_ScenarioLine($token));
-        self::assertSame(TokenType::ScenarioLine, $token->matchedType);
-        self::assertSame('Scenario', $token->matchedKeyword);
-        self::assertSame('Scenario Title', $token->matchedText);
+        self::assertSame(TokenType::ScenarioLine, $token->match?->tokenType);
+        self::assertSame('Scenario', $token->match?->keyword);
+        self::assertSame('Scenario Title', $token->match?->text);
     }
 
     public function testItMatchesScenarioOutLine(): void
@@ -102,9 +102,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Scenario Outline: Scenario Title');
 
         self::assertTrue($this->tokenMatcher->match_ScenarioLine($token));
-        self::assertSame(TokenType::ScenarioLine, $token->matchedType);
-        self::assertSame('Scenario Outline', $token->matchedKeyword);
-        self::assertSame('Scenario Title', $token->matchedText);
+        self::assertSame(TokenType::ScenarioLine, $token->match?->tokenType);
+        self::assertSame('Scenario Outline', $token->match?->keyword);
+        self::assertSame('Scenario Title', $token->match?->text);
     }
 
     public function testItDoesNotMatchRuleLineForNonRule(): void
@@ -112,7 +112,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_RuleLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesRuleLine(): void
@@ -120,9 +120,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Rule: Rule Title');
 
         self::assertTrue($this->tokenMatcher->match_RuleLine($token));
-        self::assertSame(TokenType::RuleLine, $token->matchedType);
-        self::assertSame('Rule', $token->matchedKeyword);
-        self::assertSame('Rule Title', $token->matchedText);
+        self::assertSame(TokenType::RuleLine, $token->match?->tokenType);
+        self::assertSame('Rule', $token->match?->keyword);
+        self::assertSame('Rule Title', $token->match?->text);
     }
 
     public function testItDoesNotMatchExamplesLineForNonExamples(): void
@@ -130,7 +130,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_ExamplesLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesExampleLine(): void
@@ -138,9 +138,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Examples: Example Title');
 
         self::assertTrue($this->tokenMatcher->match_ExamplesLine($token));
-        self::assertSame(TokenType::ExamplesLine, $token->matchedType);
-        self::assertSame('Examples', $token->matchedKeyword);
-        self::assertSame('Example Title', $token->matchedText);
+        self::assertSame(TokenType::ExamplesLine, $token->match?->tokenType);
+        self::assertSame('Examples', $token->match?->keyword);
+        self::assertSame('Example Title', $token->match?->text);
     }
 
     public function testItDoesNotMatchTableRowWhenFirstCharIsNotPipe(): void
@@ -148,7 +148,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_TableRow($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesTableRowWhenFirstCharIsPipe(): void
@@ -156,11 +156,11 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents(' | one | two | ');
 
         self::assertTrue($this->tokenMatcher->match_tableRow($token));
-        self::assertSame(TokenType::TableRow, $token->matchedType);
+        self::assertSame(TokenType::TableRow, $token->match?->tokenType);
         self::assertEquals([
             new GherkinLineSpan(4, 'one'),
             new GherkinLineSpan(10, 'two'),
-        ], $token->matchedItems);
+        ], $token->match?->items);
     }
 
     public function testItDoesNotMatchStepWhenFirstWordIsNotKeyword(): void
@@ -168,7 +168,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_StepLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesStepLineWhenKeywordIsThere(): void
@@ -176,9 +176,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('Given I have a cucumber');
 
         self::assertTrue($this->tokenMatcher->match_StepLine($token));
-        self::assertSame(TokenType::StepLine, $token->matchedType);
-        self::assertSame('Given ', $token->matchedKeyword);
-        self::assertSame('I have a cucumber', $token->matchedText);
+        self::assertSame(TokenType::StepLine, $token->match?->tokenType);
+        self::assertSame('Given ', $token->match?->keyword);
+        self::assertSame('I have a cucumber', $token->match?->text);
     }
 
     public function testItMatchesEmpty(): void
@@ -186,7 +186,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('   ');
 
         self::assertTrue($this->tokenMatcher->match_Empty($token));
-        self::assertSame(TokenType::Empty, $token->matchedType);
+        self::assertSame(TokenType::Empty, $token->match?->tokenType);
     }
 
     public function testItDoesNotMatchCommentWhenFirstCharIsNotHash(): void
@@ -194,7 +194,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_Comment($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesCommentWithWholeString(): void
@@ -202,8 +202,8 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('  # This is a comment');
 
         self::assertTrue($this->tokenMatcher->match_Comment($token));
-        self::assertSame(TokenType::Comment, $token->matchedType);
-        self::assertSame(0, $token->matchedIndent);
+        self::assertSame(TokenType::Comment, $token->match?->tokenType);
+        self::assertSame(0, $token->match?->indent);
     }
 
     public function testItDoesNotMatchDocstringSeparatorIfNoSeparatorIsThere(): void
@@ -211,7 +211,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_DocStringSeparator($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesRegularDocstringSeparator(): void
@@ -219,9 +219,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('   """json');
 
         self::assertTrue($this->tokenMatcher->match_DocStringSeparator($token));
-        self::assertSame(TokenType::DocStringSeparator, $token->matchedType);
-        self::assertSame('json', $token->matchedText);
-        self::assertSame('"""', $token->matchedKeyword);
+        self::assertSame(TokenType::DocStringSeparator, $token->match?->tokenType);
+        self::assertSame('json', $token->match?->text);
+        self::assertSame('"""', $token->match?->keyword);
     }
 
     public function testItMatchesAlternativeDocstringSeparator(): void
@@ -229,9 +229,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('   ```json');
 
         self::assertTrue($this->tokenMatcher->match_DocStringSeparator($token));
-        self::assertSame(TokenType::DocStringSeparator, $token->matchedType);
-        self::assertSame('json', $token->matchedText);
-        self::assertSame('```', $token->matchedKeyword);
+        self::assertSame(TokenType::DocStringSeparator, $token->match?->tokenType);
+        self::assertSame('json', $token->match?->text);
+        self::assertSame('```', $token->match?->keyword);
     }
 
     public function testItMatchesClosingRegularDocstringSeparator(): void
@@ -242,9 +242,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('   """json');
 
         self::assertTrue($this->tokenMatcher->match_DocStringSeparator($token));
-        self::assertSame(TokenType::DocStringSeparator, $token->matchedType);
-        self::assertSame('', $token->matchedText);
-        self::assertSame('"""', $token->matchedKeyword);
+        self::assertSame(TokenType::DocStringSeparator, $token->match?->tokenType);
+        self::assertSame('', $token->match?->text);
+        self::assertSame('"""', $token->match?->keyword);
     }
 
     public function testItDoesNotMatchMismatchedClosingDocstringSeparator(): void
@@ -255,7 +255,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('   """json');
 
         self::assertFalse($this->tokenMatcher->match_DocStringSeparator($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesClosingAlternativeDocstringSeparator(): void
@@ -266,9 +266,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('   ```json');
 
         self::assertTrue($this->tokenMatcher->match_DocStringSeparator($token));
-        self::assertSame(TokenType::DocStringSeparator, $token->matchedType);
-        self::assertSame('', $token->matchedText);
-        self::assertSame('```', $token->matchedKeyword);
+        self::assertSame(TokenType::DocStringSeparator, $token->match?->tokenType);
+        self::assertSame('', $token->match?->text);
+        self::assertSame('```', $token->match?->keyword);
     }
 
     public function testItMatchesOtherPreservingIndent(): void
@@ -276,9 +276,9 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('  Arbitrary text');
 
         self::assertTrue($this->tokenMatcher->match_Other($token));
-        self::assertSame(TokenType::Other, $token->matchedType);
-        self::assertSame('  Arbitrary text', $token->matchedText);
-        self::assertSame(0, $token->matchedIndent);
+        self::assertSame(TokenType::Other, $token->match?->tokenType);
+        self::assertSame('  Arbitrary text', $token->match?->text);
+        self::assertSame(0, $token->match?->indent);
     }
 
     public function testItMatchesOtherWithIndentRemovedInsideDocstring(): void
@@ -288,9 +288,9 @@ final class TokenMatcherTest extends TestCase
 
         $token = $this->createTokenWithContents('   Arbitrary text');
         self::assertTrue($this->tokenMatcher->match_Other($token));
-        self::assertSame(TokenType::Other, $token->matchedType);
-        self::assertSame('Arbitrary text', $token->matchedText);
-        self::assertSame(0, $token->matchedIndent);
+        self::assertSame(TokenType::Other, $token->match?->tokenType);
+        self::assertSame('Arbitrary text', $token->match?->text);
+        self::assertSame(0, $token->match?->indent);
     }
 
     public function testItUnescapesAlternativeDocstringSeparatorInsideDocstring(): void
@@ -300,9 +300,9 @@ final class TokenMatcherTest extends TestCase
 
         $token = $this->createTokenWithContents('    \\`\\`\\`');
         self::assertTrue($this->tokenMatcher->match_Other($token));
-        self::assertSame(TokenType::Other, $token->matchedType);
-        self::assertSame('```', $token->matchedText);
-        self::assertSame(0, $token->matchedIndent);
+        self::assertSame(TokenType::Other, $token->match?->tokenType);
+        self::assertSame('```', $token->match?->text);
+        self::assertSame(0, $token->match?->indent);
     }
 
     public function testItUnescapesRegularDocstringSeparatorInsideDocstring(): void
@@ -312,9 +312,9 @@ final class TokenMatcherTest extends TestCase
 
         $token = $this->createTokenWithContents('    \\"\\"\\"');
         self::assertTrue($this->tokenMatcher->match_Other($token));
-        self::assertSame(TokenType::Other, $token->matchedType);
-        self::assertSame('"""', $token->matchedText);
-        self::assertSame(0, $token->matchedIndent);
+        self::assertSame(TokenType::Other, $token->match?->tokenType);
+        self::assertSame('"""', $token->match?->text);
+        self::assertSame(0, $token->match?->indent);
     }
 
     public function testItDoesNotMatchTagsWhenLineDoesNotStartWithAt(): void
@@ -322,7 +322,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_TagLine($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesTagLine(): void
@@ -330,13 +330,13 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('  @foo @bar');
 
         self::assertTrue($this->tokenMatcher->match_TagLine($token));
-        self::assertSame(TokenType::TagLine, $token->matchedType);
+        self::assertSame(TokenType::TagLine, $token->match?->tokenType);
         self::assertEquals(
             [
                 new GherkinLineSpan(3, '@foo'),
                 new GherkinLineSpan(8, '@bar'),
             ],
-            $token->matchedItems,
+            $token->match?->items,
         );
     }
 
@@ -345,7 +345,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createNonMatchingToken();
 
         self::assertFalse($this->tokenMatcher->match_Language($token));
-        self::assertNull($token->matchedType);
+        self::assertNull($token->match);
     }
 
     public function testItMatchesLanguageLine(): void
@@ -353,7 +353,7 @@ final class TokenMatcherTest extends TestCase
         $token = $this->createTokenWithContents('#language:fr');
 
         self::assertTrue($this->tokenMatcher->match_Language($token));
-        self::assertSame(TokenType::Language, $token->matchedType);
+        self::assertSame(TokenType::Language, $token->match?->tokenType);
     }
 
     public function testItChangesDialectAfterLanguageLine(): void

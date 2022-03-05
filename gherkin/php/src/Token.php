@@ -9,14 +9,7 @@ use Cucumber\Gherkin\Parser\TokenType;
 final class Token
 {
     private const EOF_VALUE = 'EOF';
-    public ?TokenType $matchedType = null;
-    public ?string $matchedKeyword = null;
-    public ?string $matchedText = null;
-    public ?int $matchedIndent = null;
-    public ?GherkinDialect $matchedGherkinDialect = null;
-
-    /** @var list<GherkinLineSpan> */
-    public ?array $matchedItems = null;
+    public ?TokenMatch $match = null;
 
     public function __construct(
         public readonly ?GherkinLine $line,
@@ -56,12 +49,16 @@ final class Token
         string $text,
         array $items,
     ): void {
-        $this->matchedType = $matchedType;
-        $this->matchedKeyword = $keyword;
-        $this->matchedText = $text;
-        $this->matchedItems = $items;
-        $this->matchedGherkinDialect = $gherkinDialect;
-        $this->matchedIndent = $indent;
         $this->location = new Location($this->location->line, $indent + 1);
+
+        $this->match = new TokenMatch(
+            $matchedType,
+            $gherkinDialect,
+            $indent,
+            $keyword,
+            $text,
+            $items,
+            new Location($this->location->line, $indent + 1),
+        );
     }
 }
