@@ -13,10 +13,7 @@ final class Token
 
     public function __construct(
         public readonly ?GherkinLine $line,
-        /**
-         * Public because the token matcher adds indent to columns
-         */
-        public Location $location,
+        public readonly Location $location,
     ) {
     }
 
@@ -30,7 +27,7 @@ final class Token
 
     public function getLocation(): Location
     {
-        return $this->location;
+        return $this->match ? $this->match->location : $this->location;
     }
 
     public function getTokenValue(): string
@@ -49,8 +46,6 @@ final class Token
         string $text,
         array $items,
     ): void {
-        $this->location = new Location($this->location->line, $indent + 1);
-
         $this->match = new TokenMatch(
             $matchedType,
             $gherkinDialect,

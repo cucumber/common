@@ -209,7 +209,7 @@ final class TokenMatcher implements TokenMatcherInterface
 
             $this->setTokenMatched($token, TokenType::Language, $language);
 
-            $this->currentDialect = $this->dialectProvider->getDialect($language, $token->location);
+            $this->currentDialect = $this->dialectProvider->getDialect($language, $token->getLocation());
 
             return true;
         }
