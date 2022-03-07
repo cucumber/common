@@ -43,7 +43,7 @@
     "@types/node": "16.11.26",
     "copyfiles": "2.4.1",
     "mocha": "9.2.1",
-    "ts-node": "10.6.0",
+    "ts-node": "10.7.0",
     "typescript": "4.6.2"
   },
   "bugs": {

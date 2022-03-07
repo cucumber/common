@@ -592,6 +592,17 @@ jobs:
             cd messages/php
             make
 
+  gherkin-php:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/php
+          command: |
+            cd gherkin/php
+            make
+
 ###
 ### Workflows ###
 ###
@@ -781,3 +792,8 @@ workflows:
       - messages-php:
           requires:
             - prepare-parallel
+
+      - gherkin-php:
+          requires:
+            - prepare-parallel
+            - messages-php

@@ -12,4 +12,4 @@ set -euf -o pipefail
 jq "del(.[].elements[]?.before[]?.result.duration)" | \
 jq "del(.[].elements[]?.steps[]?.result.duration)" | \
 jq "del(.[].elements[]?.after[]?.result.duration)" | \
-jq
+jq "."
