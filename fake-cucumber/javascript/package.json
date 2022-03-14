@@ -8,7 +8,7 @@
     "fake-cucumber": "bin/fake-cucumber"
   },
   "scripts": {
-    "test": "mocha --config .mocharc.local.json",
+    "test": "mocha",
     "lint": "eslint --ext ts --max-warnings 0 src test",
     "lint-fix": "eslint --ext ts --max-warnings 0 --fix src test",
     "coverage": "nyc --reporter=html --reporter=text mocha",
