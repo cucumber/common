@@ -2687,6 +2687,10 @@ var buildinDialects = gherkinDialectMap{
 				"Dada ",
 				"Dados ",
 				"Dadas ",
+				"Dado que ",
+				"Sabendo que ",
+				"Seja ",
+				"Sejam ",
 			},
 			when: []string{
 				"* ",
