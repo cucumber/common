@@ -10,6 +10,6 @@ namespace Cucumber\Messages\StepDefinitionPattern;
 
 enum Type : string
 {
-  case CUCUMBER_EXPRESSION = 'CUCUMBER_EXPRESSION';
-  case REGULAR_EXPRESSION = 'REGULAR_EXPRESSION';
+    case CUCUMBER_EXPRESSION = 'CUCUMBER_EXPRESSION';
+    case REGULAR_EXPRESSION = 'REGULAR_EXPRESSION';
 }

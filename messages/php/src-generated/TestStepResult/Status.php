@@ -10,11 +10,11 @@ namespace Cucumber\Messages\TestStepResult;
 
 enum Status : string
 {
-  case UNKNOWN = 'UNKNOWN';
-  case PASSED = 'PASSED';
-  case SKIPPED = 'SKIPPED';
-  case PENDING = 'PENDING';
-  case UNDEFINED = 'UNDEFINED';
-  case AMBIGUOUS = 'AMBIGUOUS';
-  case FAILED = 'FAILED';
+    case UNKNOWN = 'UNKNOWN';
+    case PASSED = 'PASSED';
+    case SKIPPED = 'SKIPPED';
+    case PENDING = 'PENDING';
+    case UNDEFINED = 'UNDEFINED';
+    case AMBIGUOUS = 'AMBIGUOUS';
+    case FAILED = 'FAILED';
 }
