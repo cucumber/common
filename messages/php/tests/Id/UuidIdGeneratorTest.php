@@ -15,9 +15,4 @@ final class UuidIdGeneratorTest extends TestCase
     {
         $this->idGenerator = new UuidIdGenerator();
     }
-
-    public function testItGeneratesUuids(): void
-    {
-        self::assertTrue(Uuid::isValid($this->idGenerator->newId()));
-    }
 }

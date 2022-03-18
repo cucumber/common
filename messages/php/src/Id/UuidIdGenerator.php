@@ -10,6 +10,11 @@ final class UuidIdGenerator implements IdGenerator
 {
     public function newId(): string
     {
-        return Uuid::uuid4()->toString();
+        // defer to ramsey/uuid if it is present
+        if (class_exists(Uuid::class)) {
+            return Uuid::uuid4()->toString();
+        } else {
+            return (new FallbackUuidGenerator())->newId();
+        }
     }
 }
