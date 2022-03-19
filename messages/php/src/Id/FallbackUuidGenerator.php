@@ -35,6 +35,10 @@ final class FallbackUuidGenerator implements IdGenerator
             | "\x40" // raise 2nd bit to 1
         ;
 
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
+        return preg_replace(
+            '/^(.{8})(.{4})(.{4})(.{4})(.{12})$/',
+            '\\1-\\2-\\3-\\4-\\5',
+            bin2hex($bytes),
+        );
     }
 }
