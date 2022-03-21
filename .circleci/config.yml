@@ -165,18 +165,6 @@ jobs:
             cd messages/javascript
             make
 
-  gherkin-streams-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin-streams/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd gherkin-streams/javascript
-            make
-
   gherkin-javascript-node-12:
     executor: docker-circleci-node-12
     steps:
@@ -666,9 +654,6 @@ workflows:
           requires:
             - prepare-parallel
       - messages-javascript:
-          requires:
-            - prepare-parallel
-      - gherkin-streams-javascript:
           requires:
             - prepare-parallel
       - gherkin-javascript-node-12:

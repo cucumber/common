@@ -3,7 +3,6 @@ BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.y
 PACKAGES ?= messages \
 	message-streams \
 	gherkin \
-	gherkin-streams \
 	gherkin-utils \
 	fake-cucumber \
 	query \
