@@ -27,7 +27,7 @@
   "devDependencies": {
     "@cucumber/gherkin": "^22.0.0",
     "@cucumber/gherkin-streams": "^5.0.0",
-    "@cucumber/message-streams": "^3.0.0",
+    "@cucumber/message-streams": "^4.0.0",
     "@types/mocha": "9.1.0",
     "@types/node": "16.11.26",
     "fast-glob": "3.2.11",
