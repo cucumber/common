@@ -141,18 +141,6 @@ jobs:
 
   ### JavaScript
 
-  message-streams-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: message-streams/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd message-streams/javascript
-            make
-
   messages-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -650,9 +638,6 @@ workflows:
 
       ### JavaScript
 
-      - message-streams-javascript:
-          requires:
-            - prepare-parallel
       - messages-javascript:
           requires:
             - prepare-parallel

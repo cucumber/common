@@ -5,7 +5,6 @@
   "license": "MIT",
   "workspaces": [
     "messages/javascript",
-    "message-streams/javascript",
     "gherkin/javascript",
     "gherkin-utils/javascript",
     "fake-cucumber/javascript",
