@@ -41,9 +41,7 @@ final class Pickle implements JsonSerializable
     public function __construct(
 
         /**
-         * A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
-         * from the source data and the `locations` of the pickle.
-         * This ID will change if source the file is modified.
+         * A unique id for the pickle
          */
         public readonly string $id = '',
 
