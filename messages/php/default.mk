@@ -21,7 +21,7 @@ endef
 default: .tested
 .PHONY: default
 
-pre-release: update-version update-dependencies
+pre-release: update-version update-dependencies default
 .PHONY: pre-release
 
 update-version:
