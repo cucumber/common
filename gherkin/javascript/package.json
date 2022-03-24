@@ -32,7 +32,7 @@
     "typescript": "4.6.2"
   },
   "dependencies": {
-    "@cucumber/messages": "^17.1.1"
+    "@cucumber/messages": "^18.0.0"
   },
   "directories": {
     "test": "test"
