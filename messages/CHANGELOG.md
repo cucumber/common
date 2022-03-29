@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [18.0.0] - 2022-03-24
+
+### Added
+
 * Support for EcmaScript modules (aka ESM)
   ([#1756](https://github.com/cucumber/common/pull/1756))
 * New optional `name` property on the Hook schema ([#1914](https://github.com/cucumber/common/pull/1914))
@@ -16,17 +28,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 * JSON Schema: some `array` fields now have `"minItems": 1`.
-* Java: Make this library more null safe. 
-    - Generate Java code that uses `Optional` in getters. 
+* Java: Make this library more null safe.
+    - Generate Java code that uses `Optional` in getters.
     - Setters are removed.
-    - Classes without required fields have public empty constructors, and static `of` methods for each field. 
+    - Classes without required fields have public empty constructors, and static `of` methods for each field.
   ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 ## [17.1.1] - 2021-09-17
 
@@ -583,7 +589,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v18.0.0...main
+[18.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.1...messages/v18.0.0
 [17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
 [17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0
 [17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1

@@ -1,2 +1,2 @@
 // This file is generated using `make src/version.ts` or `make .codegen`
-export const version = '17.1.1'
+export const version = '18.0.0'

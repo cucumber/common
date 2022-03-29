@@ -11,8 +11,5 @@
     {
       "path": "./messages/javascript/tsconfig.build-esm.json"
     },
-    {
-      "path": "./message-streams/javascript/tsconfig.build-esm.json"
-    },
   ]
 }

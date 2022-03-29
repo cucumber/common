@@ -17,6 +17,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Java] Made all internal classes package private
 * [Java] Removed unused `stopAtFirstError` property from `Parser`
 * [PHP] Implemented `Gherkin`
+* [JavaScript] `@cucumber/message-streams` has been removed from the dependencies.
+  If you are using `@cucumber/gherkin-streams` v5.0.0 or later, you have to add
+  `@cucumber/message-streams` in your dependencies in addition to `@cucumber/gherkin`.
 
 ### Deprecated
 
