@@ -16,11 +16,11 @@ final class TokenFormatter
             "(%s:%s)%s:%s/%s/%s",
             $token->getLocation()->line,
             $token->getLocation()->column,
-            $token->matchedType?->name ??  '',
-            $token->matchedKeyword ?? '',
-            $token->matchedText ?? '',
-            $token->matchedItems === null ? ''
-                : join(',', array_map(fn ($linespan) => $linespan->column . ':' . $linespan->text, $token->matchedItems)),
+            $token->match?->tokenType->name ??  '',
+            $token->match?->keyword ?? '',
+            $token->match?->text ?? '',
+            $token->match === null ? ''
+                : join(',', array_map(fn ($linespan) => $linespan->column . ':' . $linespan->text, $token->match->items)),
         );
     }
 }

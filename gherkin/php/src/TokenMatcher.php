@@ -36,13 +36,15 @@ final class TokenMatcher implements TokenMatcherInterface
         ?int $indent = null,
         ?array $items = null,
     ): void {
-        $token->matchedType = $matchedType;
-        $token->matchedKeyword = $keyword;
-        $token->matchedText = $text;
-        $token->matchedItems = $items;
-        $token->matchedGherkinDialect = $this->currentDialect;
-        $token->matchedIndent = $indent ?? $token->line?->indent() ?? 0;
-        $token->location = new Location($token->location->line, $token->matchedIndent + 1);
+        $matchedIndent = $indent ?? $token->line?->indent() ?? 0;
+        $token->match(
+            $matchedType,
+            $this->currentDialect,
+            $matchedIndent,
+            $keyword ?? '',
+            $text ?? '',
+            $items ?? [],
+        );
     }
 
     public function match_EOF(Token $token): bool
@@ -207,7 +209,7 @@ final class TokenMatcher implements TokenMatcherInterface
 
             $this->setTokenMatched($token, TokenType::Language, $language);
 
-            $this->currentDialect = $this->dialectProvider->getDialect($language, $token->location);
+            $this->currentDialect = $this->dialectProvider->getDialect($language, $token->getLocation());
 
             return true;
         }
