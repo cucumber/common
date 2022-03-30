@@ -64,13 +64,13 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.4
     working_directory: ~/cucumber
 
   # Php
   docker-circleci-php:
     docker:
-      - image: cimg/php:8.1.2
+      - image: cimg/php:8.1.4
     working_directory: ~/cucumber
 
 ###
@@ -141,18 +141,6 @@ jobs:
 
   ### JavaScript
 
-  message-streams-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: message-streams/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd message-streams/javascript
-            make
-
   messages-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -163,18 +151,6 @@ jobs:
           command: |
             sudo npm install --global npm@7
             cd messages/javascript
-            make
-
-  gherkin-streams-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin-streams/javascript
-          command: |
-            sudo npm install --global npm@7
-            cd gherkin-streams/javascript
             make
 
   gherkin-javascript-node-12:
@@ -662,13 +638,7 @@ workflows:
 
       ### JavaScript
 
-      - message-streams-javascript:
-          requires:
-            - prepare-parallel
       - messages-javascript:
-          requires:
-            - prepare-parallel
-      - gherkin-streams-javascript:
           requires:
             - prepare-parallel
       - gherkin-javascript-node-12:

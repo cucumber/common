@@ -8,7 +8,7 @@ PICKLES      = $(patsubst testdata/%,acceptance/testdata/%.pickles.ndjson,$(GOOD
 SOURCES      = $(patsubst testdata/%,acceptance/testdata/%.source.ndjson,$(GOOD_FEATURE_FILES))
 ERRORS       = $(patsubst testdata/%,acceptance/testdata/%.errors.ndjson,$(BAD_FEATURE_FILES))
 
-GHERKIN = scripts/gherkin.sh
+GHERKIN = npx gherkin
 
 .DELETE_ON_ERROR:
 

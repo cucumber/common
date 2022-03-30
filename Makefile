@@ -1,9 +1,7 @@
 SHELL := /usr/bin/env bash
 BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.yml | cut -c 16-)
 PACKAGES ?= messages \
-	message-streams \
 	gherkin \
-	gherkin-streams \
 	gherkin-utils \
 	fake-cucumber \
 	query \
