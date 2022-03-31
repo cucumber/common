@@ -19,6 +19,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [23.0.1] - 2022-03-31
+
+### Fixed
+
+* [PhP] Fix dependency of messages ([#1943](https://github.com/cucumber/common/pull/1943))
+
 ## [23.0.0] - 2022-03-30
 
 ### Changed
@@ -1087,7 +1093,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...main
+[23.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...gherkin/v23.0.1
 [23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0
 [22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0
 [21.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...gherkin/v21.0.0
