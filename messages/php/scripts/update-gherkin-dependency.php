@@ -38,14 +38,15 @@ if (!preg_match('/^(?<major>\\d+)\\.\\d+\\.\\d+$/', $newVersion, $matches)) {
 }
 
 // like ^21.0 (same as >=21.0.0 <22.0.0)
-$newDependency = ',^'.$matches['major'].'.0';
+$newDependency = '^'.$matches['major'].'.0';
 
 if (str_contains($dependencyString, $newDependency)) {
     fwrite(STDERR, 'Nothing to update, already depends on ' . $newDependency . "\n");
     $newDependency = '';
 }
 
-$newDependencyString = $dependencyString . $newDependency;
+// '||' is OR
+$newDependencyString = $dependencyString . '||' .$newDependency;
 
 $json['require']['cucumber/messages'] = $newDependencyString;
 

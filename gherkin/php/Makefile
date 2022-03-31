@@ -16,14 +16,6 @@ default: .compared
 .compared: .deps $(TOKENS) $(SOURCES) $(ASTS) $(PICKLES) $(ERRORS)
 	touch $@
 
-pre-release: remove-messages-dev-dependency
-
-remove-messages-dev-dependency:
-	# dependency on messages is like 'dev-main||^12.0,^13.0,...etc
-	jq '.require["cucumber/messages"] |= sub("dev-main(\\|\\|)?";"")' --indent 4 < composer.json > composer.json.new
-	mv composer.json.new composer.json
-.PHONY: remove-messages-dev-dependency
-
 acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens
 	mkdir -p $(@D)
 	bin/gherkin-generate-tokens $< > $@
