@@ -12,12 +12,7 @@
     "compatibility-kit/javascript",
     "json-formatter/javascript-testdata",
     "json-to-messages/javascript",
-    "json-to-messages/javascript-testdata",
-    "suggest/javascript",
-    "language-service/javascript",
-    "language-server/javascript",
-    "monaco/javascript",
-    "vscode/javascript"
+    "json-to-messages/javascript-testdata"
   ],
   "scripts": {
     "build:cjs": "tsc --build tsconfig.build-cjs.json",

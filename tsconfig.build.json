@@ -30,6 +30,9 @@
     },
     {
       "path": "./json-to-messages/javascript-testdata/tsconfig.build.json"
+    },
+    {
+      "path": "./messages/javascript/tsconfig.build-cjs.json"
     }
   ]
 }

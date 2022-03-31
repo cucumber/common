@@ -13,6 +13,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [23.0.0] - 2022-03-30
+
+### Changed
+
+* Update `messages` to v18.0.0
 * [Java] Replaced `Gherkin` with a `GherkinParser` that uses a builder to construct.
 * [Java] Made all internal classes package private
 * [Java] Removed unused `stopAtFirstError` property from `Parser`
@@ -21,13 +32,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
   If you are using `@cucumber/gherkin-streams` v5.0.0 or later, you have to add
   `@cucumber/message-streams` in your dependencies in addition to `@cucumber/gherkin`.
 
-### Deprecated
-
 ### Removed
 
 - [Java] the `io.cucumber.gherkin.Main` class is no longer part of the jar.
-
-### Fixed
 
 ## [22.0.0] - 2021-09-23
 
@@ -1080,7 +1087,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...main
+[23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0
 [22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0
 [21.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...gherkin/v21.0.0
 [20.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.0...gherkin/v20.0.1

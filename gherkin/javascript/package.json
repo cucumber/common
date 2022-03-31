@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin",
-  "version": "22.0.0",
+  "version": "23.0.0",
   "description": "Gherkin parser",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/cucumber/gherkin-javascript",
   "devDependencies": {
-    "@cucumber/gherkin-streams": "^5.0.0",
+    "@cucumber/gherkin-streams": "^5.0.1",
     "@types/mocha": "9.1.0",
     "@types/node": "16.11.26",
     "core-js": "3.21.1",
