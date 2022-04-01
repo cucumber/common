@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/compatibility-kit",
-  "version": "9.1.2",
+  "version": "9.2.0",
   "description": "Test data used to validate a Cucumber implementation",
   "repository": {
     "type": "git",
@@ -20,6 +20,6 @@
     "typescript": "4.6.3"
   },
   "dependencies": {
-    "@cucumber/message-streams": "^4.0.0"
+    "@cucumber/message-streams": "^4.0.1"
   }
 }
