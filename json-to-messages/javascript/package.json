@@ -42,7 +42,7 @@
     "@cucumber/messages": "^17.1.1",
     "@cucumber/message-streams": "^4.0.0",
     "commander": "9.1.0",
-    "glob": "7.2.0",
+    "glob": "8.0.1",
     "source-map-support": "0.5.21"
   },
   "directories": {
