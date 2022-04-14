@@ -20,4 +20,4 @@ jq "del(.[].elements[]?.after[]?.result.duration)" | \
 jq ".[].elements[]?.after[]?.result.error_message = \"some after hook error\"" | \
 jq ".[].elements[]?.after[]?.match.location = \"some_after_hook.xyz\"" | \
 
-jq
+jq "."

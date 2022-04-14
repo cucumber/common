@@ -297,6 +297,8 @@ export class Hook {
 
   id: string = ''
 
+  name?: string
+
   @Type(() => SourceReference)
   sourceReference: SourceReference = new SourceReference()
 

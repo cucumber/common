@@ -139,7 +139,7 @@
   ],
   "properties": {
     "id": {
-      "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified.",
+      "description": "*\n A unique id for the pickle",
       "type": "string"
     },
     "uri": {

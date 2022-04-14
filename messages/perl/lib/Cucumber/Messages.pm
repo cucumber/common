@@ -1913,6 +1913,7 @@ use Scalar::Util qw( blessed );
 
 my %types = (
    id => 'string',
+   name => 'string',
    source_reference => 'Cucumber::Messages::SourceReference',
    tag_expression => 'string',
 );
@@ -1934,6 +1935,16 @@ has id =>
     (is => 'ro',
      required => 1,
      default => sub { '' },
+    );
+
+
+=head4 name
+
+
+=cut
+
+has name =>
+    (is => 'ro',
     );
 
 
@@ -2570,9 +2581,7 @@ sub _types {
 =head4 id
 
 *
- A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
- from the source data and the `locations` of the pickle.
- This ID will change if source the file is modified.
+ A unique id for the pickle
 
 =cut
 

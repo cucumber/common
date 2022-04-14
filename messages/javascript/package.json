@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/messages",
-  "version": "17.1.1",
+  "version": "18.0.0",
   "description": "JSON schema-based messages for Cucumber's inter-process communication",
   "type": "module",
   "main": "dist/cjs/src/index.js",
@@ -40,11 +40,11 @@
   },
   "devDependencies": {
     "@types/mocha": "9.1.0",
-    "@types/node": "16.11.26",
+    "@types/node": "16.11.27",
     "copyfiles": "2.4.1",
-    "mocha": "9.2.1",
-    "ts-node": "10.6.0",
-    "typescript": "4.6.2"
+    "mocha": "9.2.2",
+    "ts-node": "10.7.0",
+    "typescript": "4.6.3"
   },
   "bugs": {
     "url": "https://github.com/cucumber/messages-javascript/issues"

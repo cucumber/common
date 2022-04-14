@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
                   }
 
   s.add_development_dependency 'rake', '~> 13.0', '>= 13.0.6'
-  s.add_development_dependency 'rspec', '~> 3.10', '>= 3.10.0'
+  s.add_development_dependency 'rspec', '~> 3.11', '>= 3.11.0'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = Dir[

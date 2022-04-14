@@ -12,12 +12,12 @@ Gherkin is currently implemented for the following platforms (in order of birthd
 - [Python](https://github.com/cucumber/gherkin-python)
 - [Objective-C](https://github.com/cucumber/gherkin-objective-c)
 - [Perl](https://github.com/cucumber/gherkin-perl)
+- [PHP](https://github.com/cucumber/gherkin-php)
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) if you want to contribute a parser for a new language.
 Our wish-list is (in no particular order):
 
 - C
-- PHP
 - Rust
 - Elixir
 
@@ -132,6 +132,16 @@ use Gherkin::Pickles::Compiler;
 my $parser = Gherkin::Parser->new();
 my $gherkin_document = $parser->parse("Feature: ...");
 my $pickles = Gherkin::Pickles::Compiler->compile($gherkin_document);
+```
+
+```php
+# PHP
+use Cucumber\Gherkin\GherkinParser;
+
+$path = '/path/to/my.feature';
+
+$parser = new GherkinParser();
+$pickles = $parser->parseString(uri: $path, data: file_get_contents($path));
 ```
 
 ### CLI
