@@ -27,12 +27,8 @@ defmodule CucumberMessages.MixProject do
 
   defp deps do
     [
-      {:protox, "~> 1.4.0"},
       {:jason, "~> 1.2"},
-      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
-      # {:ex_json_schema, "~> 0.9.1"},
-      {:json_xema, "~> 0.3"},
-      {:tesla, "~> 1.4"}
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
 
