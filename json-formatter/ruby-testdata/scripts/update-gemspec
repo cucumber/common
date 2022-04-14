@@ -5,7 +5,7 @@
 set -uf -o pipefail
 IFS=$'\n'
 
-gemspec=$(find . -type f -maxdepth 1 -name "*.gemspec")
+gemspec=$(find . -maxdepth 1 -type f -name "*.gemspec")
 if [ "${gemspec}" = "" ]; then
   exit 0
 fi

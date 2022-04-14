@@ -18,10 +18,166 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+
+## [23.0.1] - 2022-03-31
+
+### Fixed
+
+* [PhP] Fix dependency of messages ([#1943](https://github.com/cucumber/common/pull/1943))
+
+## [23.0.0] - 2022-03-30
+
+### Changed
+
+* Update `messages` to v18.0.0
+* [Java] Replaced `Gherkin` with a `GherkinParser` that uses a builder to construct.
+* [Java] Made all internal classes package private
+* [Java] Removed unused `stopAtFirstError` property from `Parser`
+* [PHP] Implemented `Gherkin`
+* [JavaScript] `@cucumber/message-streams` has been removed from the dependencies.
+  If you are using `@cucumber/gherkin-streams` v5.0.0 or later, you have to add
+  `@cucumber/message-streams` in your dependencies in addition to `@cucumber/gherkin`.
+
+### Removed
+
+- [Java] the `io.cucumber.gherkin.Main` class is no longer part of the jar.
+
+## [22.0.0] - 2021-09-23
+
+### Added
+
+* [Perl] Documentation for most of the modules
+  ([#1740](https://github.com/cucumber/common/pull/1740) [ehuelsmann])
+
+### Changed
+
+* [Perl] Changed API to pass around `Cucumber::Messages` instead of hashes
+  and increased minimum Perl version in accordance with `Cucumber::Messages`
+  (to 5.14; from 5.12) ([#1735](https://github.com/cucumber/common/pull/1735)
+  [ehuelsmann])
+
+### Fixed
+
+* [Perl] Failure to include CHANGELOG.md in the release tarball
+  ([#1728](https://github.com/cucumber/common/pull/1728) [ehuelsmann])
+
+## [21.0.0] - 2021-09-01
+
+### Added
+
+* [JavaScript] Expose `Errors` object.
+
+### Changed
+
+* Fixed `Rule` translation for `hi`, `sr-Cyrl`, `sr-Latn` and `tr`
+  ([aslakhellesoy])
+* [Java] Renamed `Token#mathcedItems` to `Token#matchedItems`
+  ([#1687](https://github.com/cucumber/common/issues/1687)
+   [aslakhellesoy])
+* [Perl] Minimum Perl version upgraded to 5.12 (from 5.10.1)
+  ([#1665](https://github.com/cucumber/common/pull/1665) [ehuelsmann])
+
+### Removed
+
+* [Perl] Dependency on `IO::Scalar` removed
+  ([#1665](https://github.com/cucumber/common/pull/1665) [ehuelsmann])
+
+### Fixed
+
+## [20.0.1] - 2021-07-19
+
+### Changed
+
+* Update `messages` to v17.0.1
+
+## [20.0.0] - 2021-07-08
+
+### Changed
+
+* Update messages to v17.0.0
+* Update `rule` polish translation
+  ([#1579](https://github.com/cucumber/common/pull/1579) [l310][jakzal])
+* Add US Texan translations.
+  ([#1625](https://github.com/cucumber/common/pull/1625) [willmac321])
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Ruby] Usage of Message DTOs instead of plain ruby hashes
+  ([#1603](https://github.com/cucumber/common/pull/1603))
+
+### Fixed
+* [Ruby] Rules weren't inheriting the relevant tags during the Gherkin Query stage (Where it caches the NodeID)
+  ([#1593](https://github.com/cucumber/cucumber/pull/1593) [luke-hill])
+
+* MDG parser correctly removes leading space from content in DocStrings
+
+## [19.0.3] - 2021-05-24
+
+### Fixed
+
+* MDG files must use the `.feature.md` extension.
+* Data Tables and Examples Tables in Markdown *must* be indented 2-5 spaces in order to
+  be recognised.
+
+## [19.0.2] - 2021-05-19
+
+### Fixed
+
+* Upgrade to `@cucumber/message-streams` `^2.0.0`
+* Upgrade berp to 1.3.0 (parser behavior not changed)
+  ([#1542](https://github.com/cucumber/common/pull/1542)
+   [gasparnagy])
+
+## [19.0.1] - 2021-05-17
+
+### Fixed
+
+* [Perl]   Updated to pass acceptance tests.
+  ([#1552](https://github.com/cucumber/common/pull/1552) [ehuelsmann])
+
+## [19.0.0] - 2021-05-15
+
+### Added
+
+* [JavaScript] Experimental support for Markdown. See [MARKDOWN_WITH_GHERKIN.md](./MARKDOWN_WITH_GHERKIN.md)
+  ([#1209](https://github.com/cucumber/common/pull/1209)
+   [aslakhellesoy])
+
+### Changed
+
+* [DotNet] Replaced Utf8Json with source-embedded TinyJson.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])
+
+* Update Dutch translation of the "Rule" keyword.
+  ([#1513](https://github.com/cucumber/common/pull/1513)
+   [OrhanTozan])
+
+* Update Russian translation of the "Scenario Outline" keyword.
+  ([#1499](https://github.com/cucumber/cucumber/pull/1499)
+   [hkosova])
+
+* Update Hungarian translation of the "Rule" keyword.
+  ([#1518](https://github.com/cucumber/cucumber/pull/1518)
+   [gasparnagy])
+
+* [Go, Java, JavaScript, Ruby] Upgrade to messages 16.0.0: this may have a big impact on APIs.
+  Please see [messages/CHANGELOG.md](https://github.com/cucumber/common/blob/master/messages/CHANGELOG.md#1600---2021-05-15) for more details.
+
+### Removed
+
+* [Elixir] The package was not released - it needs to be updated to pass acceptance tests.
+* [Perl]   The package was not released - it needs to be updated to pass acceptance tests.
+
+### Fixed
+
 * [Perl] Reinstate Perl 5.10.1 compatibility.
   ([#1495](https://github.com/cucumber/cucumber/pull/1495)
    [#1494](https://github.com/cucumber/cucumber/issues/1494)
    [ehuelsmann])
+
+* [DotNet] Fixed .NET Gherkin compatibility with other Gherkin implementations.
+  ([#511](https://github.com/cucumber/cucumber/pull/1511)
+   [gasparnagy])
 
 ## [18.1.1] - 2021-04-22
 
@@ -108,7 +264,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 * [JavaScript] remove `IGherkinOptions#createReadStream`. This function was introduced in `9.1.0`
   in order to decouple this lib from the Node.js `fs` library. This decoupling was improved in
-  [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.  
+  [#1333](https://github.com/cucumber/cucumber/pull/1333) which made it obsolete.
   (Fixes [#1284](https://github.com/cucumber/cucumber/issues/1284)
 
 ### Fixed
@@ -937,7 +1093,17 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...main
+[23.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...gherkin/v23.0.1
+[23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0
+[22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0
+[21.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...gherkin/v21.0.0
+[20.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.0...gherkin/v20.0.1
+[20.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.3...gherkin/v20.0.0
+[19.0.3]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.2...gherkin/v19.0.3
+[19.0.2]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.1...gherkin/v19.0.2
+[19.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v19.0.0...gherkin/v19.0.1
+[19.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.1...gherkin/v19.0.0
 [18.1.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.1.0...gherkin/v18.1.1
 [18.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v18.0.0...gherkin/v18.1.0
 [18.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v17.0.2...gherkin/v18.0.0
@@ -1006,15 +1172,20 @@ to Gherkin 2.
 [ehuelsmann]:        https://github.com/ehuelsmann
 [enkessler]:         https://github.com/enkessler
 [gabanz]:            https://github.com/gabanz
+[gasparnagy]:        https://github.com/gasparnagy
 [Haukinger]:         https://github.com/Haukinger
+[hkosova]:           https://github.com/hkosova
+[jakzal]:            https://github.com/jakzal
 [jargalan]:          https://github.com/jargalan
 [jmezach]:           https://github.com/jmezach
 [joscha]:            https://github.com/joscha
 [johnknoop]:         https://github.com/johnknoop
 [koterpillar]:       https://github.com/koterpillar
 [KniveX]:            https://github.com/KniveX
+[l310]:              https://github.com/l3l0/
 [l3pp4rd]:           https://github.com/l3pp4rd
 [LiohAu]:            https://github.com/LiohAu
+[luke-hill]:         https://github.com/luke-hill
 [mattwynne]:         https://github.com/mattwynne
 [mauriciotogneri]:   https://github.com/mauriciotogneri
 [maximeg]:           https://github.com/maximeg
@@ -1026,11 +1197,12 @@ to Gherkin 2.
 [moreau-nicolas]:    https://github.com/moreau-nicolas
 [mpkorstanje]:       https://github.com/mpkorstanje
 [nvmkpk]:            https://github.com/nvmkpk
-[ookull]:            https://github.com/ookull
 [nalekberov]:        https://github.com/nalekberov
 [nixel2007]:         https://github.com/nixel2007
 [nikolovski]:        https://github.com/nikolovski
 [noisygerman]:       https://github.com/noisygerman
+[ookull]:            https://github.com/ookull
+[OrhanTozan]:        https://github.com/OrhanTozan
 [paigehf]:           https://github.com/paigehf
 [pjlsergeant]:       https://github.com/pjlsergeant
 [plavcik]:           https://github.com/plavcik
@@ -1046,3 +1218,4 @@ to Gherkin 2.
 [zbmott]:            https://github.com/zbmott
 [Zearin]:            https://github.com/Zearin
 [WannesFransen1994]: https://github.com/WannesFransen1994
+[willmac321]:        https://github.com/willmac321

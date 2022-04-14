@@ -17,6 +17,54 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [7.0.0] - 2021-09-01
+
+### Added
+
+* Added new command-line tool for formatting Gherkin documents and converting to/from Gherkin/Markdown.
+  Run `npx @cucumber/gherkin-utils --help` for details about usage.
+
+### Changed
+
+* Upgrade to `@cucumber/messages` `17.1.0`
+* Upgrade to `@cucumber/gherkin` `21.0.0`
+
+### Deprecated
+
+## [6.0.0] - 2021-07-08
+
+### Changed
+
+* Bump `@cucumber/messages` version to 17.0.0
+
+## [5.1.0] - 2021-05-26
+
+### Added
+
+* Added `getSource`, `getFeature`, `getBackground`, `getRule`, `getScenario` and `getExamples` methods
+
+## [5.0.2] - 2021-05-17
+
+### Changed
+
+* Upgrade to `@cucumber/message-streams` `2.0.0`
+
+## [5.0.1] - 2021-05-17
+
+### Fixed
+
+* Use `^x.y.z` version for `@cucumber/*` dependencies, allowing minor and patch releases to be picked up.
+
+## [5.0.0] - 2021-05-15
+
+### Added
+
+* Added `Query#getSources(): readonly messages.ISource[]`
+
+### Changed
+
+* Upgrade to messages 16.0.0
+
 ## [4.0.0] - 2021-03-29
 
 ### Changed
@@ -70,7 +118,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v4.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v7.0.0...main
+[7.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v6.0.0...gherkin-utils/v7.0.0
+[6.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...gherkin-utils/v6.0.0
+[5.1.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.2...gherkin-utils/v5.1.0
+[5.0.2]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.1...gherkin-utils/v5.0.2
+[5.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.0.0...gherkin-utils/v5.0.1
+[5.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v4.0.0...gherkin-utils/v5.0.0
 [4.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v3.0.0...gherkin-utils/v4.0.0
 [3.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.1.1...gherkin-utils/v3.0.0
 [2.1.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v2.1.0...gherkin-utils/v2.1.1

@@ -1,2 +1,0 @@
-GO_SERVER_URL=https://cihost.com/path/to/the/build
-GO_REVISION=decafbad

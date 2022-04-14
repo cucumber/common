@@ -5,6 +5,10 @@ import { MakeErrorMessage } from './ErrorMessageGenerator'
 import { Query, Query as GherkinQuery } from '@cucumber/gherkin-utils'
 import IStopwatch from './IStopwatch'
 
+export interface RunOptions {
+  allowedRetries: number
+}
+
 export interface IWorld {
   attach: Attach
   log: Log
@@ -24,10 +28,9 @@ export interface ITestStep {
   execute(
     world: IWorld,
     testCaseStartedId: string,
-    listener: EnvelopeListener
+    listener: EnvelopeListener,
+    previousPassed: boolean
   ): Promise<messages.TestStepResult>
-
-  skip(listener: EnvelopeListener, testCaseStartedId: string): messages.TestStepResult
 }
 
 export interface ISupportCodeExecutor {
@@ -55,10 +58,19 @@ export interface IHook {
 export interface ITestCase {
   toMessage(): messages.Envelope
 
-  execute(listener: EnvelopeListener, attempt: number, testCaseStartedId: string): Promise<void>
+  execute(
+    listener: EnvelopeListener,
+    attempt: number,
+    retryable: boolean,
+    testCaseStartedId: string
+  ): Promise<messages.TestStepResultStatus>
 }
 
 export type EnvelopeListener = (envelope: messages.Envelope) => void
+export interface HookOptions {
+  name?: string
+  tagExpression?: string
+}
 export type AnyBody = (...args: readonly unknown[]) => unknown
 export type Attach = (data: string | Buffer | Readable, mediaType: string) => void | Promise<void>
 export type Log = (text: string) => void | Promise<void>
@@ -101,5 +113,6 @@ export type MakeTestCase = (
 export type MakeTestPlan<SupportCode> = (
   gherkinQuery: GherkinQuery,
   supportCode: SupportCode,
+  runOptions: RunOptions,
   makeTestCase: MakeTestCase
 ) => ITestPlan

@@ -30,10 +30,10 @@ module Gherkin
   private
 
   def self.encode_source_message(uri, data)
-    {
+    Cucumber::Messages::Source.new(
       uri: uri,
       data: data,
-      mediaType: 'text/x.cucumber.gherkin+plain'
-    }
+      media_type: 'text/x.cucumber.gherkin+plain'
+    )
   end
 end

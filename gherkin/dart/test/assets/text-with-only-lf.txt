@@ -1,0 +1,10 @@
+Testing
+break
+lines
+with
+character
+LF
+(
+Line
+Feed
+)

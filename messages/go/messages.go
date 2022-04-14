@@ -149,6 +149,7 @@ type Tag struct {
 
 type Hook struct {
 	Id              string           `json:"id"`
+	Name            string           `json:"name,omitempty"`
 	SourceReference *SourceReference `json:"sourceReference"`
 	TagExpression   string           `json:"tagExpression,omitempty"`
 }
@@ -168,9 +169,10 @@ type Meta struct {
 }
 
 type Ci struct {
-	Name string `json:"name"`
-	Url  string `json:"url,omitempty"`
-	Git  *Git   `json:"git,omitempty"`
+	Name        string `json:"name"`
+	Url         string `json:"url,omitempty"`
+	BuildNumber string `json:"buildNumber,omitempty"`
+	Git         *Git   `json:"git,omitempty"`
 }
 
 type Git struct {
@@ -243,9 +245,9 @@ type PickleTag struct {
 }
 
 type Source struct {
-	Uri       string `json:"uri"`
-	Data      string `json:"data"`
-	MediaType string `json:"mediaType"`
+	Uri       string          `json:"uri"`
+	Data      string          `json:"data"`
+	MediaType SourceMediaType `json:"mediaType"`
 }
 
 type SourceReference struct {
@@ -310,6 +312,7 @@ type TestStep struct {
 type TestCaseFinished struct {
 	TestCaseStartedId string     `json:"testCaseStartedId"`
 	Timestamp         *Timestamp `json:"timestamp"`
+	WillBeRetried     bool       `json:"willBeRetried"`
 }
 
 type TestCaseStarted struct {
@@ -337,10 +340,9 @@ type TestStepFinished struct {
 }
 
 type TestStepResult struct {
-	Duration      *Duration            `json:"duration"`
-	Message       string               `json:"message,omitempty"`
-	Status        TestStepResultStatus `json:"status"`
-	WillBeRetried bool                 `json:"willBeRetried"`
+	Duration *Duration            `json:"duration"`
+	Message  string               `json:"message,omitempty"`
+	Status   TestStepResultStatus `json:"status"`
 }
 
 type TestStepStarted struct {
@@ -374,6 +376,24 @@ func (e AttachmentContentEncoding) String() string {
 		return "BASE64"
 	default:
 		panic("Bad enum value for AttachmentContentEncoding")
+	}
+}
+
+type SourceMediaType string
+
+const (
+	SourceMediaType_TEXT_X_CUCUMBER_GHERKIN_PLAIN    SourceMediaType = "text/x.cucumber.gherkin+plain"
+	SourceMediaType_TEXT_X_CUCUMBER_GHERKIN_MARKDOWN SourceMediaType = "text/x.cucumber.gherkin+markdown"
+)
+
+func (e SourceMediaType) String() string {
+	switch e {
+	case SourceMediaType_TEXT_X_CUCUMBER_GHERKIN_PLAIN:
+		return "text/x.cucumber.gherkin+plain"
+	case SourceMediaType_TEXT_X_CUCUMBER_GHERKIN_MARKDOWN:
+		return "text/x.cucumber.gherkin+markdown"
+	default:
+		panic("Bad enum value for SourceMediaType")
 	}
 }
 

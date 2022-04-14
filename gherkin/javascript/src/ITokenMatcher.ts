@@ -26,17 +26,11 @@ export default interface ITokenMatcher<TokenType> {
 
   match_Language(token: IToken<TokenType>): boolean
 
-  match_DocStringSeparator(token: IToken<TokenType>): any
+  match_DocStringSeparator(token: IToken<TokenType>): boolean
 
   match_EOF(token: IToken<TokenType>): boolean
 
   match_StepLine(token: IToken<TokenType>): boolean
 
   match_Other(token: IToken<TokenType>): boolean
-
-  matchTitleLine(
-    token: IToken<TokenType>,
-    tokenType: TokenType,
-    keywords: readonly string[]
-  ): boolean
 }

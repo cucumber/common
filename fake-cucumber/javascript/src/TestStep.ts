@@ -24,40 +24,45 @@ export default abstract class TestStep implements ITestStep {
   public async execute(
     world: IWorld,
     testCaseStartedId: string,
-    listener: EnvelopeListener
+    listener: EnvelopeListener,
+    previousPassed: boolean
   ): Promise<messages.TestStepResult> {
     this.emitTestStepStarted(testCaseStartedId, listener)
 
-    const start = this.stopwatch.stopwatchNow()
-
     if (this.supportCodeExecutors.length === 0) {
-      const duration = millisecondsToDuration(this.clock.clockNow() - start)
-
       return this.emitTestStepFinished(
         testCaseStartedId,
         {
-          duration: duration,
+          duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.UNDEFINED,
-          willBeRetried: false,
         },
         listener
       )
     }
 
     if (this.supportCodeExecutors.length > 1) {
-      const duration = millisecondsToDuration(this.clock.clockNow() - start)
-
       return this.emitTestStepFinished(
         testCaseStartedId,
         {
-          duration: duration,
+          duration: millisecondsToDuration(0),
           status: messages.TestStepResultStatus.AMBIGUOUS,
-          willBeRetried: false,
         },
         listener
       )
     }
 
+    if (!previousPassed && !this.alwaysExecute) {
+      return this.emitTestStepFinished(
+        testCaseStartedId,
+        {
+          duration: millisecondsToDuration(0),
+          status: messages.TestStepResultStatus.SKIPPED,
+        },
+        listener
+      )
+    }
+
+    const start = this.stopwatch.stopwatchNow()
     try {
       world.attach = makeAttach(this.id, testCaseStartedId, listener)
       world.log = (text: string) => {
@@ -67,20 +72,17 @@ export default abstract class TestStep implements ITestStep {
       const result = await this.supportCodeExecutors[0].execute(world)
       const finish = this.stopwatch.stopwatchNow()
       const duration = millisecondsToDuration(finish - start)
+      const status: messages.TestStepResultStatus = this.inferStatus(result)
       return this.emitTestStepFinished(
         testCaseStartedId,
         {
           duration,
-          status:
-            result === 'pending'
-              ? messages.TestStepResultStatus.PENDING
-              : messages.TestStepResultStatus.PASSED,
-          willBeRetried: false,
+          status,
         },
         listener
       )
     } catch (error) {
-      const finish = this.clock.clockNow()
+      const finish = this.stopwatch.stopwatchNow()
 
       const message = this.makeErrorMessage(error, this.sourceFrames)
       const duration = millisecondsToDuration(finish - start)
@@ -89,25 +91,11 @@ export default abstract class TestStep implements ITestStep {
         {
           duration,
           status: messages.TestStepResultStatus.FAILED,
-          willBeRetried: false,
           message,
         },
         listener
       )
     }
-  }
-
-  public skip(listener: EnvelopeListener, testCaseStartedId: string): messages.TestStepResult {
-    this.emitTestStepStarted(testCaseStartedId, listener)
-    return this.emitTestStepFinished(
-      testCaseStartedId,
-      {
-        duration: millisecondsToDuration(0),
-        status: messages.TestStepResultStatus.SKIPPED,
-        willBeRetried: false,
-      },
-      listener
-    )
   }
 
   protected emitTestStepStarted(testCaseStartedId: string, listener: EnvelopeListener) {
@@ -134,5 +122,16 @@ export default abstract class TestStep implements ITestStep {
       },
     })
     return testStepResult
+  }
+
+  private inferStatus(result: any): messages.TestStepResultStatus {
+    switch (result) {
+      case 'pending':
+        return messages.TestStepResultStatus.PENDING
+      case 'skipped':
+        return messages.TestStepResultStatus.SKIPPED
+      default:
+        return messages.TestStepResultStatus.PASSED
+    }
   }
 }

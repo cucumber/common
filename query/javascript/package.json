@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/query",
-  "version": "9.0.2",
+  "version": "11.0.0",
   "description": "Cucumber Query - query messages",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -22,19 +22,19 @@
   },
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "devDependencies": {
-    "@cucumber/fake-cucumber": "^11.0.0",
-    "@cucumber/gherkin": "^18.1.1",
-    "@cucumber/gherkin-streams": "^1.0.0",
-    "@cucumber/gherkin-utils": "^4.0.0",
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^15.0.1",
-    "mocha": "^8.3.2",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "@cucumber/fake-cucumber": "^15.0.0",
+    "@cucumber/gherkin": "^23.0.1",
+    "@cucumber/gherkin-streams": "^5.0.1",
+    "@cucumber/gherkin-utils": "^7.0.0",
+    "@types/mocha": "9.1.0",
+    "@types/node": "16.11.27",
+    "mocha": "9.2.2",
+    "ts-node": "10.7.0",
+    "typescript": "4.6.3"
   },
   "dependencies": {
-    "@cucumber/messages": "^15.0.0",
-    "@teppeis/multimaps": "^2.0.0"
+    "@cucumber/messages": "^18.0.0",
+    "@teppeis/multimaps": "2.0.0"
   },
   "directories": {
     "test": "test"

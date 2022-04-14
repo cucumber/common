@@ -2,7 +2,7 @@ package io.cucumber.gherkin;
 
 import static java.util.stream.Collectors.joining;
 
-public class TokenFormatter {
+class TokenFormatter {
 
     public String formatToken(Token token) {
         if (token.isEOF())
@@ -14,7 +14,7 @@ public class TokenFormatter {
                 toString(token.matchedType),
                 toString(token.matchedKeyword),
                 toString(token.matchedText),
-                toString(token.mathcedItems == null ? "" : token.mathcedItems.stream()
+                toString(token.matchedItems == null ? "" : token.matchedItems.stream()
                         .map(o ->  o.column + ":" + o.text)
                         .collect(joining(",")))
         );

@@ -3,21 +3,29 @@ include default.mk
 CCK_PATH = ../../compatibility-kit
 CCK_FEATURES=$(call rwildcard,$(CCK_PATH)/javascript/features,*.feature)
 FEATURES=$(patsubst $(CCK_PATH)/javascript/%,%,$(CCK_FEATURES))
-STEP_DEFINITIONS=$(patsubst %.feature,%.ts,$(FEATURES))
-NDJSONS_GOLDEN  = $(patsubst features/%.feature,features/%.ndjson,$(FEATURES))
+STEP_DEFINITIONS=$(patsubst %,%.ts,$(FEATURES))
+NDJSONS_GOLDEN  = $(patsubst features/%,features/%.ndjson,$(FEATURES))
 
 .tested: $(NDJSONS_GOLDEN)
 
 # Dirty hack: the Ruby version we use do not support some features.
-features/rules/rules.ndjson:
+features/pending/pending.feature.ndjson:
 	mkdir -p $(@D)
 	echo "" > $@
 
-features/unknown-parameter-type/unknown-parameter-type.ndjson:
+features/rules/rules.feature.ndjson:
 	mkdir -p $(@D)
 	echo "" > $@
 
-features/%.ndjson: features/%.feature features/%.ts
+features/skipped/skipped.feature.ndjson:
+	mkdir -p $(@D)
+	echo "" > $@
+
+features/unknown-parameter-type/unknown-parameter-type.feature.ndjson:
+	mkdir -p $(@D)
+	echo "" > $@
+
+features/%.ndjson: features/% features/%.ts
 	../../fake-cucumber/javascript/scripts/fake-cucumber.sh \
 		--predictable-ids \
 		$< > $@

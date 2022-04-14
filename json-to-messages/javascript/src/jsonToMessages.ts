@@ -79,6 +79,7 @@ export default async function main(
     gherkinEnvelopeStream,
     query,
     ndjsonStream,
+    undefined,
     makePredictableTestPlan
   )
 }

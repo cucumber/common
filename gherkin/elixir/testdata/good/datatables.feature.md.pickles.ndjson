@@ -1,0 +1,1 @@
+{"pickle":{"astNodeIds":["3"],"id":"5","language":"en","name":"minimalistic","steps":[{"argument":{"dataTable":{"rows":[{"cells":[{"value":"foo"},{"value":"bar"}]},{"cells":[{"value":"boz"},{"value":"boo"}]}]}},"astNodeIds":["2"],"id":"4","text":"a simple data table"}],"tags":[],"uri":"testdata/good/datatables.feature.md"}}

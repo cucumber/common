@@ -1,7 +1,7 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Timestamp.json",
   "additionalProperties": false,
-  "description": "//// Common types\n\nFrom https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/timestamp.proto",
   "required": [
     "seconds",
     "nanos"

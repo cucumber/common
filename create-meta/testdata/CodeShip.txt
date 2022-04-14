@@ -1,4 +1,0 @@
-CF_BUILD_URL=https://cihost.com/path/to/the/build
-CF_COMMIT_URL=https://scmhost.com/path/to/the/project
-CF_BRANCH=main
-CF_REVISION=decafbad

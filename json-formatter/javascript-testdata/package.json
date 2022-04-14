@@ -7,9 +7,9 @@
     "test": "echo 'no tests'"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "^11.0.0",
-    "@types/stream-buffers": "^3.0.3",
-    "stream-buffers": "^3.0.2"
+    "@cucumber/fake-cucumber": "^14.0.0",
+    "@types/stream-buffers": "3.0.4",
+    "stream-buffers": "3.0.2"
   },
   "description": "This module is only used for testing the Go implementation. It generates cucumber messages (`.ndjson` files) from test data in `../ruby`, using `../fake-cucumber`. These files are then piped to the Go JSON formatter during acceptance tests.",
   "directories": {

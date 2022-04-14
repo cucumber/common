@@ -4,7 +4,7 @@ import {
   ParameterTypeRegistry,
 } from '@cucumber/cucumber-expressions'
 import * as messages from '@cucumber/messages'
-import { IHook, AnyBody, IStepDefinition } from './types'
+import { IHook, AnyBody, IStepDefinition, HookOptions } from './types'
 import ExpressionStepDefinition from './ExpressionStepDefinition'
 import Hook from './Hook'
 import IClock from './IClock'
@@ -90,10 +90,10 @@ export default class SupportCode {
 
   public defineBeforeHook(
     sourceReference: messages.SourceReference,
-    tagExpressionOrBody: string | AnyBody,
+    tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
     body?: AnyBody
   ) {
-    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
+    this.registerBeforeHook(this.makeHook(sourceReference, tagExpressionOptionsOrBody, body))
   }
 
   public registerBeforeHook(hook: IHook) {
@@ -102,10 +102,10 @@ export default class SupportCode {
 
   public defineAfterHook(
     sourceReference: messages.SourceReference,
-    tagExpressionOrBody: string | AnyBody,
+    tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
     body?: AnyBody
   ) {
-    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOrBody, body))
+    this.registerAfterHook(this.makeHook(sourceReference, tagExpressionOptionsOrBody, body))
   }
 
   public registerAfterHook(hook: IHook) {
@@ -114,11 +114,18 @@ export default class SupportCode {
 
   private makeHook(
     sourceReference: messages.SourceReference,
-    tagExpressionOrBody: string | AnyBody,
+    tagExpressionOptionsOrBody: string | HookOptions | AnyBody,
     body?: AnyBody
   ) {
-    const tagExpression = typeof tagExpressionOrBody === 'string' ? tagExpressionOrBody : null
-    body = typeof tagExpressionOrBody !== 'string' ? tagExpressionOrBody : body
-    return new Hook(this.newId(), tagExpression, sourceReference, body)
+    const name =
+      typeof tagExpressionOptionsOrBody === 'object' ? tagExpressionOptionsOrBody.name : undefined
+    let tagExpression = null
+    if (typeof tagExpressionOptionsOrBody === 'string') {
+      tagExpression = tagExpressionOptionsOrBody
+    } else if (typeof tagExpressionOptionsOrBody === 'object') {
+      tagExpression = tagExpressionOptionsOrBody.tagExpression ?? null
+    }
+    body = typeof tagExpressionOptionsOrBody === 'function' ? tagExpressionOptionsOrBody : body
+    return new Hook(this.newId(), tagExpression, sourceReference, body, name)
   }
 }

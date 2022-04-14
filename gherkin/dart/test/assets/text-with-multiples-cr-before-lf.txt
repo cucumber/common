@@ -1,0 +1,15 @@
+Testing
+break
+lines
+with
+multiples
+CR
+before
+LF
+(
+Carriage
+Return
+and
+Line
+Feed
+)

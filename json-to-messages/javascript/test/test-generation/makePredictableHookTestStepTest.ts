@@ -50,7 +50,7 @@ describe('makePredictableHookTestStep', () => {
       null,
       messages.IdGenerator.uuid()
     )
-    const testResult = await step.execute(null, '', () => null)
+    const testResult = await step.execute(null, '', () => null, true)
 
     assert.strictEqual(testResult.status, messages.TestStepResultStatus.PASSED)
     assert.strictEqual(testResult.duration.seconds, 123)

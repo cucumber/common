@@ -1,4 +1,0 @@
-BUILD_URI=https://cihost.com/path/to/the/build
-BUILD_REPOSITORY_URI=https://scmhost.com/path/to/the/project
-BUILD_SOURCEBRANCH=refs/heads/main
-BUILD_SOURCEVERSION=decafbad

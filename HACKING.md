@@ -26,15 +26,6 @@ are required to build it. Here is how:
 ### Branching and CI
 
 The CI build will synchronise from the monorepo to all the subrepos for the `master` branch.
-For other branches, a naming convention is used to decide what subrepos to sync to. 
-(This is to avoid an explosion of unrelated branches in every subrepo).
-
-For example, if you're making a change to `gherkin` on a branch, prefix the branch
-with `gherkin`, for example `gherkin-upgrade-dependencies`.
-
-Occasionally you want to sync to multiple subrepos. For example, if you are making changes
-in two modules (say `messages` and `gherkin`), prefix the branch with both module names, 
-separated by an underscore. For example, `messages_gherkin-use-protobuf`.
 
 ### Local Testing / Development checks
 
@@ -92,9 +83,9 @@ In the new directory, create the following files:
 `README.md` with a build badge for the new subrepo. For example:
 
     # Cucumber Tag Expressions for Java
-    
+
     [![Maven Central](https://img.shields.io/maven-central/v/io.cucumber/tag-expressions.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.cucumber%22%20AND%20a:%22tag-expressions%22)
-    
+
     [The docs are here](https://cucumber.io/docs/cucumber/api/#tag-expressions).
 
 
@@ -113,7 +104,7 @@ with a `README.md` file - it's needed to create an initial `master` branch to pu
 Log into CircleCI and set up a build for the new (empty) subrepo.
 
 Initialise the subrepo, for example:
-    
+
     echo "cucumber/tag-expressions-go" > tag-expressions/go/.subrepo
     git add tag-expressions/go/.subrepo
     git commit -m "Add cucumber/tag-expressions-go subrepo"
@@ -130,11 +121,11 @@ Write some code in the monorepo, and push whenever you want to sync to the subre
 
 The GPG key in use is cukebot@cucumber.io, which has id `E60E1F911B996560FFB135DAF4CABFB5B89B8BE6`.
 
-The secret key is encrypted and added to git (`scripts/codesigning.asc.enc`). 
+The secret key is encrypted and added to git (`scripts/codesigning.asc.enc`).
 The secret key is decrypted to `scripts/codesigning.asc` during a CI build.
 
 The secret key must be re-encrypted for each subrepo, as Travis encrypts it
-differently for each subrepo. 
+differently for each subrepo.
 
     gpg --export-secret-key E60E1F911B996560FFB135DAF4CABFB5B89B8BE6 > scripts/codesigning.asc
     # Replace SLUG with the name of the subrepo, for example cucumber-expressions-java
@@ -152,7 +143,7 @@ openssl aes-256-cbc -K $encrypted_1570928b04a6_key -iv $encrypted_1570928b04a6_i
 
 Make it executable and add to git:
 
-    chmod +x scripts/decrypt_signing_key.sh 
+    chmod +x scripts/decrypt_signing_key.sh
     git add scripts/codesigning.asc.enc scripts/decrypt_signing_key.sh
     git commit -m "Add encrypted signing key"
 
@@ -161,11 +152,11 @@ Make it executable and add to git:
 IMPORTANT: Make sure you [escape](https://docs.travis-ci.com/user/encryption-keys/#Note-on-escaping-certain-symbols)
 characters with `\` in the password/passphrase when running the commands below:
 
-Add the password for Sonatype cukebot (in 1Password) 
+Add the password for Sonatype cukebot (in 1Password)
 
     travis encrypt 'CI_SONATYPE_PASSWORD=secretvalue' --add --repo cucumber/SLUG
 
-Add the passphrase for the GPG signing key (in 1Password) 
+Add the passphrase for the GPG signing key (in 1Password)
 
     travis encrypt 'CI_GPG_PASSPHRASE=secretvalue' --add --repo cucumber/SLUG
 
@@ -173,5 +164,3 @@ Add the passphrase for the GPG signing key (in 1Password)
 
 Our CI build uses Docker. We have our own docker images defined in [cucumber-build](https://github.com/cucumber/cucumber-build).
 These need to be rebuilt and published manually whenever they change.
-
-

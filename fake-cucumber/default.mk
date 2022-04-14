@@ -44,10 +44,10 @@ pre-release-%: %
 	if [[ -d $< ]]; then cd $< && make pre-release; fi
 .PHONY: pre-release-%
 
-release: create-and-push-release-tag publish
+release: publish
 .PHONY: release
 
-publish: $(patsubst %,publish-%,$(LANGUAGES))
+publish: create-and-push-release-tag $(patsubst %,publish-%,$(LANGUAGES))
 .PHONY: publish
 
 publish-%: %

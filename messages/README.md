@@ -7,9 +7,9 @@ Cucumber Messages are currently implemented in the following versions of Cucumbe
 
 * Cucumber-JVM 6.0.0 and greater
 * Cucumber-Ruby 4.0.0 and greater
-* Cucumber.js 6.0.5 and greater
+* Cucumber.js 7.0.0 and greater
 
-The use of the `json` formatter may be deprecated and eventually removed from these implementations.
+The `json` formatter is now in maintenance mode for these these implementations, and Messages is the preferred standard.
 See [utilities](#utilities) for a list of tools that may help with backward and forward compatibility
 with the `json` format.
 
@@ -64,7 +64,7 @@ However, it does not contain the following information (but Cucumber Messages do
 * Parameter types
 
 This kind of information is required to produce rich reports and analytics, and is
-used in [@cucumber/react](../react/javascript) and [Cucumber Reports](https://reports.cucumber.io/).
+used in [@cucumber/react](https://github.com/cucumber/cucumber-react) and [Cucumber Reports](https://reports.cucumber.io/).
 
 ## Message Overview
 
@@ -76,24 +76,24 @@ The protocol aims to decouple various components of the Cucumber platform so tha
 
 ![messages.png](messages.png)
 
-## Protocol Buffers
+## JSON Schema
 
-Cucumber Messages are implemented with [Protocol Buffers](https://developers.google.com/protocol-buffers/).
-The messages are defined in [messages.proto](./messages.proto).
+The [jsonschema](jsonschema) directory contains [JSON Schema](https://json-schema.org/)
+definitions for each message type.
+
+See [messages.md](messages.md) for a detailed description of each message type.
+
+## Encoding
+
+When Cucumber Messages are stored in a file or sent over a network, they are
+encoded as [NDJSON](http://ndjson.org/). We call this a *message stream*.
+
+Each message in a message stream is of type [Envelope](messages.md#envelope).
+
+## Language implementations
 
 Each subdirectory defines language-specific implementations of these messages,
-generated from the [messages.proto](./messages.proto) schema.
-
-Cucumber outputs the JSON representation of these messages rather than the binary
-representation (which is often more common with Protocol Buffers). This does increase
-the size of the messages, but on the flip side they are readable by humans and easier
-to process with tools like `jq`, `grep` etc.
-
-Each JSON message is written as a single line (it's [NDJSON](http://ndjson.org/)).
-
-## Detailed message documentation
-
-See the generated [messages.md](messages.md) file.
+generated from the JSON schemas.
 
 ## Examples
 
@@ -103,5 +103,5 @@ You will find examples of Cucumber Messages in the [compatibility-kit](../compat
 
 * [json-formatter](../json-formatter) - produce legacy JSON from Cucumber Messages
 * [json-to-messages](../json-to-messages) - produce Cucumber Messages from legacy JSON
-* [@cucumber/react](../react) - React component that renders Cucumber Messages nicely
+* [@cucumber/react](https://github.com/cucumber/cucumber-react) - React component that renders Cucumber Messages nicely
   * Used internally by [Cucumber Reports](https://reports.cucumber.io/).

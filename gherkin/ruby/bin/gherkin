@@ -31,7 +31,7 @@ end.parse!
 
 def process_messages(messages, options)
   messages.each do |message|
-    STDOUT.write(JSON.fast_generate(message))
+    STDOUT.write(message.to_json)
     STDOUT.write("\n")
   end
 end

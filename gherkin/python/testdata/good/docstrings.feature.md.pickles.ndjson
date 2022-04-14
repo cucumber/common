@@ -1,0 +1,1 @@
+{"pickle":{"astNodeIds":["1"],"id":"3","language":"en","name":"minimalistic","steps":[{"argument":{"docString":{"content":"```"}},"astNodeIds":["0"],"id":"2","text":"a DocString with an implicitly escaped separator inside"}],"tags":[],"uri":"testdata/good/docstrings.feature.md"}}

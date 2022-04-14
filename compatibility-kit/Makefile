@@ -1,4 +1,4 @@
-LANGUAGES ?= javascript
+LANGUAGES ?= javascript ruby
 include default.mk
 
 default: cucumber-html-formatter cucumber-json-formatter

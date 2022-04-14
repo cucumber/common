@@ -1,131 +1,47 @@
 import * as messages from '@cucumber/messages'
 import assert from 'assert'
-import TestStep from '../src/TestStep'
+import {
+  ITestStep,
+  withSourceFramesOnlyStackTrace,
+  IncrementClock,
+  makePickleTestStep,
+  IncrementStopwatch,
+} from '../src'
+import ExpressionStepDefinition from '../src/ExpressionStepDefinition'
+import { CucumberExpression, ParameterTypeRegistry } from '@cucumber/cucumber-expressions'
 import TestCase from '../src/TestCase'
-import { EnvelopeListener, IWorld, withSourceFramesOnlyStackTrace } from '../src'
-import IncrementClock from '../src/IncrementClock'
-import IncrementStopwatch from '../src/IncrementStopwatch'
-
-const { millisecondsToDuration } = messages.TimeConversion
-
-class StubTestStep extends TestStep {
-  public constructor(
-    alwaysExecute: boolean,
-    private readonly status: messages.TestStepResultStatus,
-    private readonly message?: string
-  ) {
-    super(
-      'some-id',
-      'some-source-id',
-      alwaysExecute,
-      [],
-      ['some.feature:123'],
-      new IncrementClock(),
-      new IncrementStopwatch(),
-      withSourceFramesOnlyStackTrace()
-    )
-  }
-
-  public toMessage(): messages.TestStep {
-    return {
-      id: '2',
-    }
-  }
-
-  public async execute(
-    world: IWorld,
-    testCaseStartedId: string,
-    listener: EnvelopeListener
-  ): Promise<messages.TestStepResult> {
-    const testStepResult = this.emitTestStepFinished(
-      testCaseStartedId,
-      {
-        status: this.status,
-        duration: millisecondsToDuration(1005),
-        message: this.message,
-        willBeRetried: false,
-      },
-      listener
-    )
-    return Promise.resolve(testStepResult)
-  }
-}
 
 describe('TestCase', () => {
   describe('#execute', () => {
-    it('executes all passing steps', async () => {
-      const emitted: messages.Envelope[] = []
-      const testSteps: TestStep[] = [
-        new StubTestStep(false, messages.TestStepResultStatus.PASSED),
-        new StubTestStep(false, messages.TestStepResultStatus.PASSED),
-      ]
-      const testCase = new TestCase(
-        'some-test-case-id',
-        testSteps,
-        'some-pickle-id',
-        new IncrementClock()
+    let passedPickleTestStep: ITestStep
+    beforeEach(() => {
+      const stepDefinition = new ExpressionStepDefinition(
+        'an-id',
+        new CucumberExpression('an ambiguous step', new ParameterTypeRegistry()),
+        null,
+        () => {
+          throw new Error('Should now be run')
+        }
       )
-      await testCase.execute(
-        (message: messages.Envelope) => emitted.push(message),
-        0,
-        'test-case-started-id'
-      )
-      const testStepStatuses = emitted
-        .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.testStepResult.status)
 
-      assert.deepStrictEqual(testStepStatuses, ['PASSED', 'PASSED'])
-    })
-
-    it('skips steps after a failed step', async () => {
-      const emitted: messages.Envelope[] = []
-      const testSteps: TestStep[] = [
-        new StubTestStep(false, messages.TestStepResultStatus.FAILED),
-        new StubTestStep(false, messages.TestStepResultStatus.PASSED),
-      ]
-      const testCase = new TestCase(
-        'some-test-case-id',
-        testSteps,
-        'some-pickle-id',
-        new IncrementClock()
+      passedPickleTestStep = makePickleTestStep(
+        'some-test-step-id',
+        {
+          text: 'an ambiguous step',
+          astNodeIds: [],
+          id: '1',
+        },
+        [stepDefinition],
+        ['some.feature:234'],
+        new IncrementClock(),
+        new IncrementStopwatch(),
+        withSourceFramesOnlyStackTrace()
       )
-      await testCase.execute(
-        (message: messages.Envelope) => emitted.push(message),
-        0,
-        'test-case-started-id'
-      )
-      const testStepStatuses = emitted
-        .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.testStepResult.status)
-      assert.deepStrictEqual(testStepStatuses, ['FAILED', 'SKIPPED'])
-    })
-
-    it('always runs after steps regardless of previous steps status', async () => {
-      const emitted: messages.Envelope[] = []
-      const testSteps: TestStep[] = [
-        new StubTestStep(true, messages.TestStepResultStatus.FAILED),
-        new StubTestStep(true, messages.TestStepResultStatus.FAILED),
-      ]
-      const testCase = new TestCase(
-        'some-test-case-id',
-        testSteps,
-        'some-pickle-id',
-        new IncrementClock()
-      )
-      await testCase.execute(
-        (message: messages.Envelope) => emitted.push(message),
-        0,
-        'test-case-started-id'
-      )
-      const testStepStatuses = emitted
-        .filter((m) => m.testStepFinished)
-        .map((m) => m.testStepFinished.testStepResult.status)
-      assert.deepStrictEqual(testStepStatuses, ['FAILED', 'FAILED'])
     })
 
     it('emits TestCaseStarted and TestCaseFinished messages', async () => {
       const emitted: messages.Envelope[] = []
-      const testSteps: TestStep[] = [new StubTestStep(false, messages.TestStepResultStatus.PASSED)]
+      const testSteps: ITestStep[] = [passedPickleTestStep]
       const testCase = new TestCase(
         'some-test-case-id',
         testSteps,
@@ -135,6 +51,7 @@ describe('TestCase', () => {
       await testCase.execute(
         (message: messages.Envelope) => emitted.push(message),
         0,
+        false,
         'test-case-started-id'
       )
 
@@ -143,6 +60,27 @@ describe('TestCase', () => {
 
       assert.strictEqual(testCaseStarted.testCaseId, testCase.id)
       assert.strictEqual(testCaseFinished.testCaseStartedId, testCaseStarted.id)
+    })
+
+    it('indicates an upcoming retry on TestCaseFinished when FAILED', async () => {
+      const emitted: messages.Envelope[] = []
+      const testSteps: ITestStep[] = [passedPickleTestStep]
+      const testCase = new TestCase(
+        'some-test-case-id',
+        testSteps,
+        'some-pickle-id',
+        new IncrementClock()
+      )
+      await testCase.execute(
+        (message: messages.Envelope) => emitted.push(message),
+        0,
+        true,
+        'test-case-started-id'
+      )
+
+      const testCaseFinished = emitted.find((m) => m.testCaseFinished).testCaseFinished
+
+      assert.strictEqual(testCaseFinished.willBeRetried, true)
     })
   })
 })

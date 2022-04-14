@@ -1,4 +1,0 @@
-expression: a/i{int}n/y
-text: i18n
-expected: |-
-  [18]

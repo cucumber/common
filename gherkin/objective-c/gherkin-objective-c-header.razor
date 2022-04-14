@@ -13,7 +13,7 @@ typedef enum    GHTokenType
 {
     GHTokenTypeNone,
     @foreach(var rule in Model.RuleSet.TokenRules)
-    {<text>        GHTokenType@(rule.Name.Replace("#", "")),
+    {<text>        GHTokenType</text>@rule.Name.Replace("#", "")<text>,
     </text>}
 }               GHTokenType;
 
@@ -21,7 +21,7 @@ typedef enum    GHRuleType
 {
     GHRuleTypeNone,
     @foreach(var rule in Model.RuleSet.Where(r => !r.TempRule))
-    {<text>        GHRuleType@(rule.Name.Replace("#", "_")), // @rule.ToString(true)
+    {<text>        GHRuleType</text>@rule.Name.Replace("#", "_")<text>, // @rule.ToString(true)
     </text>}
 }               GHRuleType;
 
@@ -48,7 +48,8 @@ typedef enum    GHRuleType
 
 @foreach(var rule in Model.RuleSet.TokenRules)
 {
-@:- (BOOL)match@(rule.Name.Replace("#", ""))WithToken:(GHToken *)theToken;
+<text>- (BOOL)match</text>@rule.Name.Replace("#", "")<text>WithToken:(GHToken *)theToken;
+</text>
 }
 - (void)reset;
 
@@ -67,7 +68,7 @@ typedef enum    GHRuleType
 
 @@end
 
-@@interface GH@(Model.ParserClassName) : NSObject
+@@interface @{ Write("GH"); }@Model.ParserClassName : NSObject
 
 @@property (nonatomic, assign) BOOL  stopAtFirstError;
 

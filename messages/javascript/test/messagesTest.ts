@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { Envelope, parseEnvelope } from '../src/index'
+import { Envelope, parseEnvelope } from '../src/index.js'
 
 describe('messages', () => {
   it('defaults missing fields when deserialising from JSON', () => {

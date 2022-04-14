@@ -14,6 +14,7 @@ import {
   ISupportCodeExecutor,
   ITestPlan,
   ITestStep,
+  RunOptions,
 } from './types'
 import {
   MakeErrorMessage,
@@ -41,6 +42,7 @@ export {
   ParameterType,
   defineParameterType,
   runCucumber,
+  RunOptions,
   SupportCode,
   IStepDefinition,
   IHook,

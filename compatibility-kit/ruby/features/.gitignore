@@ -1,4 +1,5 @@
 *.feature
+*.feature.md
 *.ndjson
 *.json
 *_spec.rb

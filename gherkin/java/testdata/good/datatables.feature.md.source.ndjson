@@ -1,0 +1,1 @@
+{"source":{"data":"## Feature: DataTables\n\n### Scenario: minimalistic\n\n* Given a simple data table \n  | foo | bar |\n  | --- | --- |\n  | boz | boo |\n","mediaType":"text/x.cucumber.gherkin+markdown","uri":"testdata/good/datatables.feature.md"}}

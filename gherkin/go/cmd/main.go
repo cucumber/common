@@ -1,7 +1,6 @@
 /*
 This is a console application that prints Cucumber messages to
-STDOUT. By default it prints them as protobuf, but the --json flag
-will print them as JSON (useful for testing/debugging)
+STDOUT.
 */
 package main
 
@@ -10,8 +9,8 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/cucumber/gherkin-go/v18"
-	"github.com/cucumber/messages-go/v15"
+	"github.com/cucumber/common/gherkin/go/v23"
+	"github.com/cucumber/common/messages/go/v18"
 	"os"
 )
 
@@ -67,19 +66,3 @@ func main() {
 		os.Exit(1)
 	}
 }
-
-//func newWriter() gio.WriteCloser {
-//	var reader gio.WriteCloser
-//	switch *formatFlag {
-//	case "protobuf":
-//		reader = gio.NewDelimitedWriter(os.Stdout)
-//	case "ndjson":
-//		reader = fio.NewNdjsonWriter(os.Stdout)
-//	default:
-//		_, err := fmt.Fprintf(os.Stderr, "Unsupported format: %s\n", *formatFlag)
-//		if err != nil {
-//			panic(err)
-//		}
-//	}
-//	return reader
-//}

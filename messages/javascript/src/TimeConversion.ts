@@ -1,4 +1,4 @@
-import * as messages from './messages'
+import * as messages from './messages.js'
 
 const MILLISECONDS_PER_SECOND = 1e3
 const NANOSECONDS_PER_MILLISECOND = 1e6
@@ -28,7 +28,7 @@ export function addDurations(
   durationA: messages.Duration,
   durationB: messages.Duration
 ): messages.Duration {
-  let seconds = durationA.seconds + durationB.seconds
+  let seconds = +durationA.seconds + +durationB.seconds
   let nanos = durationA.nanos + durationB.nanos
   if (nanos >= NANOSECONDS_PER_SECOND) {
     seconds += 1
@@ -44,7 +44,7 @@ function toSecondsAndNanos(milliseconds: number) {
 }
 
 function toMillis(seconds: number, nanos: number): number {
-  const secondMillis = seconds * MILLISECONDS_PER_SECOND
+  const secondMillis = +seconds * MILLISECONDS_PER_SECOND
   const nanoMillis = nanos / NANOSECONDS_PER_MILLISECOND
   return secondMillis + nanoMillis
 }

@@ -9,30 +9,29 @@ NPM_MODULE = $(shell cat package.json | jq .name --raw-output)
 default: .tested
 .PHONY: default
 
+../../node_modules ../../package-lock.json: package.json
+	cd ../.. && npm install
+
 .codegen:
 	touch $@
 
 .tested: .tested-npm .built
 
-.built: $(TYPESCRIPT_SOURCE_FILES) .codegen
+.built: $(TYPESCRIPT_SOURCE_FILES) ../../node_modules ../../package-lock.json .codegen
 	pushd ../.. && \
 	npm run build && \
 	popd && \
 	touch $@
 
-.tested-npm: $(TYPESCRIPT_SOURCE_FILES) .codegen
+.tested-npm: $(TYPESCRIPT_SOURCE_FILES) ../../node_modules ../../package-lock.json .codegen
 	npm run test
 	touch $@
 
 pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
-update-dependencies:
-	../../node_modules/.bin/npm-check-updates --upgrade && \
-	pushd ../.. && \
-	npm install && \
-	npm run build && \
-	popd
+update-dependencies: ../../node_modules ../../package-lock.json
+	../../node_modules/.bin/npm-check-updates --upgrade --reject hast-util-sanitize,@types/node,react-markdown,rehype-raw,rehype-sanitize,remark-gfm
 .PHONY: update-dependencies
 
 update-version:
@@ -43,8 +42,7 @@ ifdef NEW_VERSION
 	npm --no-git-tag-version --allow-same-version version "$(NEW_VERSION)"
 	# Update all npm packages that depend on us
 	pushd ../.. && \
-		./scripts/npm-each update_npm_dependency_if_exists package.json "$(NPM_MODULE)" "^$(NEW_VERSION)"
-		# npm install
+		./scripts/npm-each update_npm_dependency_if_exists package.json "$(NPM_MODULE)" "$(NEW_VERSION)"
 else
 	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't update version :-(\033[0m"
 	exit 1
@@ -71,5 +69,19 @@ clean: clean-javascript
 .PHONY: clean
 
 clean-javascript:
-	rm -rf .deps .codegen .tested* node_modules coverage dist acceptance
+	rm -rf .deps .codegen .tested* coverage dist acceptance
 .PHONY: clean-javascript
+
+clobber: clean
+	rm -rf node_modules ../../node_modules
+.PHONY: clobber
+
+### COMMON stuff for all platforms
+
+BERP_VERSION = 1.3.0
+BERP_GRAMMAR = gherkin.berp
+
+define berp-generate-parser =
+-! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
+endef

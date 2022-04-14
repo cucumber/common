@@ -1,19 +1,7 @@
-import * as assert from 'assert'
+import assert from 'assert'
 import GherkinLine from '../src/GherkinLine'
 
 describe('GherkinLine', () => {
-  describe('#getTags', () => {
-    function getTags(line: string) {
-      const gl = new GherkinLine(line, 1)
-
-      return gl.getTags().map((span) => span.text)
-    }
-
-    it('allows any non-space characters in a tag', () => {
-      assert.deepStrictEqual(getTags('   @foo:bar  @zap🥒yo'), ['@foo:bar', '@zap🥒yo'])
-    })
-  })
-
   describe('#getTableCells', () => {
     function getCellsText(line: string) {
       const gl = new GherkinLine(line, 1)
@@ -35,6 +23,16 @@ describe('GherkinLine', () => {
 
     it('does not delete white spaces inside a cell', () => {
       assert.deepStrictEqual(getCellsText('| foo()\n  bar\nbaz |'), ['foo()\n  bar\nbaz'])
+    })
+  })
+
+  describe('#match', () => {
+    it('provides capture groups', () => {
+      const gl = new GherkinLine('#### Scenario: hello', 1)
+      const match = gl.match(/(##?#?#?) (Scenario):(.*)/)
+      assert.strictEqual(match[1], '####')
+      assert.strictEqual(match[2], 'Scenario')
+      assert.strictEqual(match[3], ' hello')
     })
   })
 })

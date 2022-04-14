@@ -1,2 +1,2 @@
-# Cucumber Messages for JavaScript (Protocol Buffers)
+# Cucumber Messages for JavaScript (JSON schema)
 

@@ -28,9 +28,9 @@ our @RULE_TYPES = [
     'Rule',  # Rule! := RuleHeader Background? ScenarioDefinition*
     'RuleHeader',  # RuleHeader! := Tags? #RuleLine DescriptionHelper
     'Background',  # Background! := #BackgroundLine DescriptionHelper Step*
-    'ScenarioDefinition',  # ScenarioDefinition! [#Empty|#Comment|#TagLine-&gt;#ScenarioLine] := Tags? Scenario
+    'ScenarioDefinition',  # ScenarioDefinition! [#Empty|#Comment|#TagLine->#ScenarioLine] := Tags? Scenario
     'Scenario',  # Scenario! := #ScenarioLine DescriptionHelper Step* ExamplesDefinition*
-    'ExamplesDefinition',  # ExamplesDefinition! [#Empty|#Comment|#TagLine-&gt;#ExamplesLine] := Tags? Examples
+    'ExamplesDefinition',  # ExamplesDefinition! [#Empty|#Comment|#TagLine->#ExamplesLine] := Tags? Examples
     'Examples',  # Examples! := #ExamplesLine DescriptionHelper ExamplesTable?
     'ExamplesTable',  # ExamplesTable! := #TableRow #TableRow*
     'Step',  # Step! := #StepLine StepArg?
@@ -347,7 +347,7 @@ sub match_token_at_0 {
     $self->add_error( $context, $@ );
 
     return 0;
-} 
+}
 
 # GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0
 sub match_token_at_1 {
@@ -388,7 +388,7 @@ sub match_token_at_1 {
     $self->add_error( $context, $@ );
 
     return 1;
-} 
+}
 
 # GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0
 sub match_token_at_2 {
@@ -429,7 +429,7 @@ sub match_token_at_2 {
     $self->add_error( $context, $@ );
 
     return 2;
-} 
+}
 
 # GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0
 sub match_token_at_3 {
@@ -509,7 +509,7 @@ sub match_token_at_3 {
     $self->add_error( $context, $@ );
 
     return 3;
-} 
+}
 
 # GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_4 {
@@ -591,7 +591,7 @@ sub match_token_at_4 {
     $self->add_error( $context, $@ );
 
     return 4;
-} 
+}
 
 # GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0
 sub match_token_at_5 {
@@ -666,7 +666,7 @@ sub match_token_at_5 {
     $self->add_error( $context, $@ );
 
     return 5;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0
 sub match_token_at_6 {
@@ -745,7 +745,7 @@ sub match_token_at_6 {
     $self->add_error( $context, $@ );
 
     return 6;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_7 {
@@ -826,7 +826,7 @@ sub match_token_at_7 {
     $self->add_error( $context, $@ );
 
     return 7;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0
 sub match_token_at_8 {
@@ -900,7 +900,7 @@ sub match_token_at_8 {
     $self->add_error( $context, $@ );
 
     return 8;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
 sub match_token_at_9 {
@@ -990,7 +990,7 @@ sub match_token_at_9 {
     $self->add_error( $context, $@ );
 
     return 9;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 sub match_token_at_10 {
@@ -1080,7 +1080,7 @@ sub match_token_at_10 {
     $self->add_error( $context, $@ );
 
     return 10;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
 sub match_token_at_11 {
@@ -1122,7 +1122,7 @@ sub match_token_at_11 {
     $self->add_error( $context, $@ );
 
     return 11;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
 sub match_token_at_12 {
@@ -1220,7 +1220,7 @@ sub match_token_at_12 {
     $self->add_error( $context, $@ );
 
     return 12;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_13 {
@@ -1322,7 +1322,7 @@ sub match_token_at_13 {
     $self->add_error( $context, $@ );
 
     return 13;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
 sub match_token_at_14 {
@@ -1415,7 +1415,7 @@ sub match_token_at_14 {
     $self->add_error( $context, $@ );
 
     return 14;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
 sub match_token_at_15 {
@@ -1526,7 +1526,7 @@ sub match_token_at_15 {
     $self->add_error( $context, $@ );
 
     return 15;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 sub match_token_at_16 {
@@ -1639,7 +1639,7 @@ sub match_token_at_16 {
     $self->add_error( $context, $@ );
 
     return 16;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
 sub match_token_at_17 {
@@ -1681,7 +1681,7 @@ sub match_token_at_17 {
     $self->add_error( $context, $@ );
 
     return 17;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
 sub match_token_at_18 {
@@ -1793,7 +1793,7 @@ sub match_token_at_18 {
     $self->add_error( $context, $@ );
 
     return 18;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_19 {
@@ -1909,7 +1909,7 @@ sub match_token_at_19 {
     $self->add_error( $context, $@ );
 
     return 19;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
 sub match_token_at_20 {
@@ -2016,7 +2016,7 @@ sub match_token_at_20 {
     $self->add_error( $context, $@ );
 
     return 20;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
 sub match_token_at_21 {
@@ -2129,7 +2129,7 @@ sub match_token_at_21 {
     $self->add_error( $context, $@ );
 
     return 21;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0
 sub match_token_at_22 {
@@ -2170,7 +2170,7 @@ sub match_token_at_22 {
     $self->add_error( $context, $@ );
 
     return 22;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0
 sub match_token_at_23 {
@@ -2253,7 +2253,7 @@ sub match_token_at_23 {
     $self->add_error( $context, $@ );
 
     return 23;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_24 {
@@ -2338,7 +2338,7 @@ sub match_token_at_24 {
     $self->add_error( $context, $@ );
 
     return 24;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:2>#Comment:0
 sub match_token_at_25 {
@@ -2416,7 +2416,7 @@ sub match_token_at_25 {
     $self->add_error( $context, $@ );
 
     return 25;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
 sub match_token_at_26 {
@@ -2498,7 +2498,7 @@ sub match_token_at_26 {
     $self->add_error( $context, $@ );
 
     return 26;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_27 {
@@ -2582,7 +2582,7 @@ sub match_token_at_27 {
     $self->add_error( $context, $@ );
 
     return 27;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
 sub match_token_at_28 {
@@ -2659,7 +2659,7 @@ sub match_token_at_28 {
     $self->add_error( $context, $@ );
 
     return 28;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
 sub match_token_at_29 {
@@ -2752,7 +2752,7 @@ sub match_token_at_29 {
     $self->add_error( $context, $@ );
 
     return 29;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 sub match_token_at_30 {
@@ -2845,7 +2845,7 @@ sub match_token_at_30 {
     $self->add_error( $context, $@ );
 
     return 30;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
 sub match_token_at_31 {
@@ -2887,7 +2887,7 @@ sub match_token_at_31 {
     $self->add_error( $context, $@ );
 
     return 31;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
 sub match_token_at_32 {
@@ -2988,7 +2988,7 @@ sub match_token_at_32 {
     $self->add_error( $context, $@ );
 
     return 32;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_33 {
@@ -3093,7 +3093,7 @@ sub match_token_at_33 {
     $self->add_error( $context, $@ );
 
     return 33;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
 sub match_token_at_34 {
@@ -3189,7 +3189,7 @@ sub match_token_at_34 {
     $self->add_error( $context, $@ );
 
     return 34;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
 sub match_token_at_35 {
@@ -3303,7 +3303,7 @@ sub match_token_at_35 {
     $self->add_error( $context, $@ );
 
     return 35;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 sub match_token_at_36 {
@@ -3419,7 +3419,7 @@ sub match_token_at_36 {
     $self->add_error( $context, $@ );
 
     return 36;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
 sub match_token_at_37 {
@@ -3461,7 +3461,7 @@ sub match_token_at_37 {
     $self->add_error( $context, $@ );
 
     return 37;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
 sub match_token_at_38 {
@@ -3576,7 +3576,7 @@ sub match_token_at_38 {
     $self->add_error( $context, $@ );
 
     return 38;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
 sub match_token_at_39 {
@@ -3695,7 +3695,7 @@ sub match_token_at_39 {
     $self->add_error( $context, $@ );
 
     return 39;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
 sub match_token_at_40 {
@@ -3805,7 +3805,7 @@ sub match_token_at_40 {
     $self->add_error( $context, $@ );
 
     return 40;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
 sub match_token_at_41 {
@@ -3921,7 +3921,7 @@ sub match_token_at_41 {
     $self->add_error( $context, $@ );
 
     return 41;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_43 {
@@ -3953,7 +3953,7 @@ sub match_token_at_43 {
     $self->add_error( $context, $@ );
 
     return 43;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_44 {
@@ -4065,7 +4065,7 @@ sub match_token_at_44 {
     $self->add_error( $context, $@ );
 
     return 44;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_45 {
@@ -4097,7 +4097,7 @@ sub match_token_at_45 {
     $self->add_error( $context, $@ );
 
     return 45;
-} 
+}
 
 # GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_46 {
@@ -4186,7 +4186,7 @@ sub match_token_at_46 {
     $self->add_error( $context, $@ );
 
     return 46;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_47 {
@@ -4218,7 +4218,7 @@ sub match_token_at_47 {
     $self->add_error( $context, $@ );
 
     return 47;
-} 
+}
 
 # GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_48 {
@@ -4327,7 +4327,7 @@ sub match_token_at_48 {
     $self->add_error( $context, $@ );
 
     return 48;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
 sub match_token_at_49 {
@@ -4359,7 +4359,7 @@ sub match_token_at_49 {
     $self->add_error( $context, $@ );
 
     return 49;
-} 
+}
 
 # GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
 sub match_token_at_50 {
@@ -4445,7 +4445,7 @@ sub match_token_at_50 {
     $self->add_error( $context, $@ );
 
     return 50;
-} 
+}
 
 
 sub lookahead_0 {

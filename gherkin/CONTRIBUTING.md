@@ -19,8 +19,7 @@ When you're done, just create a pull request against *this* repository.
 
 Prerequisites:
 
-* .NET or Mono (needed to run `berp` to generate parsers)
-* .NET Core 1.0.1
+* .NET 5.0 (also needed for non-dotnet, to run `berp` to generate parsers)
 * JDK
   * Maven
 * Node.js or IO.js
@@ -36,11 +35,6 @@ Prerequisites:
 With all this installed, just run `make` from the root directory.
 
 Notes:
-* Mono might complain about NuGet.CommandLine authentication or decryption failing, you can type
-```
-mozroots --import --sync
-```
-to import Mozilla certificates & solve the problem
 * on Ubuntu you need to create a symbolic link from `/usr/bin/nodejs` to `/usr/bin/node`
 
 ## Contributing changes

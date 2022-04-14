@@ -4,7 +4,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-public class Stdio {
+class Stdio {
     /**
      * UTF-8 STDOUT
      */

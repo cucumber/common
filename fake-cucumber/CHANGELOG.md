@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Ability to provide a name for `Before` and `After` hooks ([#1914](https://github.com/cucumber/common/pull/1914))
+
 ### Changed
 
 ### Deprecated
@@ -16,6 +18,55 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [15.0.0] - 2021-10-01
+
+### Changed
+
+- Pending results are now properly failing the execution
+  ([PR#1751](https://github.com/cucumber/common/pull/1751))
+
+## [14.0.0] - 2021-09-02
+
+### Changed
+
+* Upgrade to `@cucumber/messages` `17.1.0`
+* Upgrade to `@cucumber/gherkin` `21.0.0`
+
+## [13.0.0] - 2021-07-08
+
+### Added
+
+* Add support for retrying failed scenarios via `--retry <COUNT>` option ([#1631](https://github.com/cucumber/common/pull/1631))
+
+### Changed
+
+* Upgrade dependencies including `@cucumber/gherkin` v20.0 and `@cucumber/messages` v17.0
+
+## [12.0.2] - 2021-05-18
+
+### Fixed
+
+* `UNDEFINED` steps are always reported as `UNDEFINED`. They used to be reported as `SKIPPED`
+  if the previous step was not `PASSED`.
+
+## [12.0.1] - 2021-05-17
+
+### Changed
+
+* Upgrade to `@cucumber/message-streams` `2.0.0`
+
+## [12.0.0] - 2021-05-17
+
+### Changed
+
+* Upgrade messages to 16.0.0
+
+### Fixed
+
+* The `TestRunFinished` message now has `success` set to `false` if there was a step with
+  status `AMBIGUOUS`, `FAILED` or `UNDEFINED`.
+* After hooks are executed in reverse order of definition.
 
 ## [11.0.0] - 2021-03-29
 
@@ -214,7 +265,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v11.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/fake-cucumber/v15.0.0...main
+[15.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v14.0.0...fake-cucumber/v15.0.0
+[14.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v13.0.0...fake-cucumber/v14.0.0
+[13.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.2...fake-cucumber/v13.0.0
+[12.0.2]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.1...fake-cucumber/v12.0.2
+[12.0.1]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v12.0.0...fake-cucumber/v12.0.1
+[12.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v11.0.0...fake-cucumber/v12.0.0
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v10.0.0...fake-cucumber/v11.0.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v9.0.0...fake-cucumber/v10.0.0
 [9.0.0]:      https://github.com/cucumber/cucumber/compare/fake-cucumber/v8.0.0...fake-cucumber/v9.0.0

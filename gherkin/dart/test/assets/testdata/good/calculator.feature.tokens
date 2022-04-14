@@ -1,0 +1,10 @@
+(1:1)FeatureLine:Feature/Adding numbers with a Calculator/
+(2:1)Other:/  In order to not learn math/
+(3:1)Other:/  As someone who is bad at math/
+(4:1)Other:/  I want to be able to add numbers using a Calculator/
+(5:1)Other://
+(6:3)ScenarioLine:Scenario/Add two positive numbers/
+(7:5)StepLine:Given /I have a Calculator/
+(8:5)StepLine:When /I add 1 and 1/
+(9:5)StepLine:Then /the sum should be 2/
+EOF

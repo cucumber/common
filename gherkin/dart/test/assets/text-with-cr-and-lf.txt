@@ -1,0 +1,15 @@
+Testing
+break
+lines
+with
+sequence
+CR
+and
+LF
+(
+Carriage
+Return
+and
+Line
+Feed
+)

@@ -1,0 +1,8 @@
+<% @enums.each do |enum| -%>
+export enum <%= enum[:name] %> {
+<% enum[:values].each do |value| -%>
+  <%= enum_constant(value) %> = '<%= value %>',
+<% end -%>
+}
+
+<% end -%>

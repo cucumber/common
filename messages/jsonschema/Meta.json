@@ -1,5 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Meta.json",
   "additionalProperties": false,
   "definitions": {
     "Ci": {
@@ -15,6 +16,10 @@
         },
         "url": {
           "description": "Link to the build",
+          "type": "string"
+        },
+        "buildNumber": {
+          "description": "The build number. Some CI servers use non-numeric build numbers, which is why this is a string",
           "type": "string"
         },
         "git": {
@@ -47,10 +52,9 @@
       "type": "object"
     },
     "Product": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "description": "Used to describe various properties of Meta",
-      "id": "Product",
       "required": [
         "name"
       ],

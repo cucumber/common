@@ -1,25 +1,17 @@
-[![CircleCI](https://circleci.com/gh/cucumber/cucumber.svg?style=svg)](https://circleci.com/gh/cucumber/cucumber)
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)
+
+[![CircleCI](https://circleci.com/gh/cucumber/common.svg?style=svg)](https://circleci.com/gh/cucumber/common)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
-[![pull requests](https://www.oselvar.com/api/badge?label=pull+requests&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcucumber%2FpullRequests.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/cucumber)
-[![issues](https://www.oselvar.com/api/badge?label=issues&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcucumber%2Fissues.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/cucumber)
+[![pull requests](https://www.oselvar.com/api/badge?label=pull+requests&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcommon%2FpullRequests.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/common '3rd quartile cycle time')
+[![issues](https://www.oselvar.com/api/badge?label=issues&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcommon%2Fissues.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/common '3rd quartile cycle time')
 
+# Cucumber Common Components
 
-# ![Cucumber Logo](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-black/cucumber-black-128.png)
+This repo contains the libraries/modules for behaviour that's common between the various Cucumber implementations. These include:
 
-Cucumber is a tool that supports [Behaviour-Driven Development
-(BDD)](https://cucumber.io/blog/intro-to-bdd-and-tdd/) - a software
-development process that aims to enhance software quality and reduce
-maintenance costs.
+- [parsing Gherkin documents](https://github.com/cucumber/common/tree/main/gherkin) into a machine-readable object model.
 
-Cucumber executes *executable specifications* written in [plain language](https://cucumber.io/docs/gherkin/)
-and produces reports indicating whether the software behaves according to the
-specification or not.
-
-Cucumber reduces the effort to keep requirements specifications, tests and documentation
-in sync - with Cucumber they are all the same documents - a single source of truth
-for everyone on the team.
-
-Cucumber is compatible with all the major software platforms.
+Most of these modules have implemnentations in multiple langages, and use shared test suites to ensure behaviour is consistent. See the [contributing guide](https://github.com/cucumber/common/blob/master/CONTRIBUTING.md) for more details.
 
 ## Backers
 

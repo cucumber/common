@@ -15,7 +15,7 @@
   }
 }
 @helper HandleParserError(IEnumerable<string> expectedTokens, State state)
-{<text>state_comment = "State: @state.Id - @Raw(state.Comment)"
+{<text>        state_comment = "State: @state.Id - @Raw(state.Comment)"
         token.detach
         expected_tokens = ["@Raw(string.Join("\", \"", expectedTokens))"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
@@ -89,9 +89,10 @@ class @(Model.ParserClassName)(object):
         self.handle_ast_error(context, token, self.ast_builder.build)
 
     def add_error(self, context, error):
-        context.errors.append(error)
-        if len(context.errors) > 10:
-            raise CompositeParserException(context.errors)
+        if str(error) not in (str(e) for e in context.errors):
+            context.errors.append(error)
+            if len(context.errors) > 10:
+                raise CompositeParserException(context.errors)
 
     def start_rule(self, context, rule_type):
         self.handle_ast_error(context, rule_type, self.ast_builder.start_rule)

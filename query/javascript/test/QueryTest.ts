@@ -10,6 +10,7 @@ import {
   makeTestCase,
   IncrementClock,
   IncrementStopwatch,
+  RunOptions,
 } from '@cucumber/fake-cucumber'
 
 import { promisify } from 'util'
@@ -23,29 +24,6 @@ describe('Query', () => {
   beforeEach(() => {
     gherkinQuery = new GherkinQuery()
     cucumberQuery = new Query()
-  })
-
-  describe('#getWorstTestStepResult(testStepResults)', () => {
-    it('returns a FAILED result for PASSED,FAILED,PASSED', () => {
-      const result = cucumberQuery.getWorstTestStepResult([
-        {
-          status: messages.TestStepResultStatus.PASSED,
-          duration: { seconds: 0, nanos: 0 },
-          willBeRetried: false,
-        },
-        {
-          status: messages.TestStepResultStatus.FAILED,
-          duration: { seconds: 0, nanos: 0 },
-          willBeRetried: false,
-        },
-        {
-          status: messages.TestStepResultStatus.PASSED,
-          duration: { seconds: 0, nanos: 0 },
-          willBeRetried: false,
-        },
-      ])
-      assert.strictEqual(result.status, messages.TestStepResultStatus.FAILED)
-    })
   })
 
   describe('#getPickleStepTestStepResults(pickleStepIds)', () => {
@@ -404,6 +382,24 @@ describe('Query', () => {
         assert.deepStrictEqual(results.length, 1)
         assert.deepStrictEqual(results[0].status, 'PASSED')
       })
+
+      it('returns the result from the last attempt only where retry has been used', async () => {
+        const emittedMessages: Array<messages.Envelope> = []
+        await execute(
+          `Feature: hello
+Scenario: hi
+  Given a step that passes the second time
+`,
+          (message) => emittedMessages.push(message),
+          { allowedRetries: 1 }
+        )
+        const testCase = emittedMessages.find((child) => child.testCase).testCase
+        const testStep = testCase.testSteps[0]
+        const results = cucumberQuery.getTestStepResults(testStep.id)
+
+        assert.deepStrictEqual(results.length, 1)
+        assert.deepStrictEqual(results[0].status, 'PASSED')
+      })
     })
 
     describe('#getHook(HookId)', () => {
@@ -446,14 +442,84 @@ describe('Query', () => {
 
         assert.strictEqual(attachments[0].body, 'Hello')
       })
+
+      it('returns attachments from the last attempt only where retry has been used', async () => {
+        const testCases: messages.TestCase[] = []
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step with attachment
+      And a step that passes the second time
+  `,
+          (envelope) => {
+            if (envelope.testCase) {
+              testCases.push(envelope.testCase)
+            }
+          },
+          { allowedRetries: 1 }
+        )
+
+        const attachments = cucumberQuery.getTestStepsAttachments([testCases[0].testSteps[0].id])
+        assert.strictEqual(attachments.length, 1)
+
+        assert.strictEqual(attachments[0].body, 'Hello')
+      })
+    })
+
+    describe('#getStatusCounts', () => {
+      it('returns the number of pickles for each status', async () => {
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step
+  `,
+          () => undefined
+        )
+
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a passed step
+  `,
+          () => undefined
+        )
+
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given a failed step
+  `,
+          () => undefined
+        )
+
+        await execute(
+          `Feature: hello
+    Scenario: ok
+      Given an undefined step
+  `,
+          () => undefined
+        )
+
+        const statuses = cucumberQuery.getStatusCounts(
+          gherkinQuery.getPickles().map((pickle) => pickle.id)
+        )
+
+        const expectedStatuses: Partial<Record<messages.TestStepResultStatus, number>> = {
+          PASSED: 2,
+          FAILED: 1,
+          UNDEFINED: 1,
+        }
+        assert.deepStrictEqual(statuses, expectedStatuses)
+      })
     })
   })
 
   async function execute(
     gherkinSource: string,
-    messagesHandler: (envelope: messages.Envelope) => void = () => null
+    messagesHandler: (envelope: messages.Envelope) => void = () => null,
+    runOptions: RunOptions = { allowedRetries: 0 }
   ): Promise<void> {
-    const newId = messages.IdGenerator.incrementing()
+    const newId = messages.IdGenerator.uuid()
     const clock = new IncrementClock()
     const stopwatch = new IncrementStopwatch()
     const makeErrorMessage = withFullStackTrace()
@@ -476,6 +542,13 @@ describe('Query', () => {
     supportCode.defineStepDefinition(null, 'I have {int} cukes in my {word}', (cukes: number) => {
       assert.ok(cukes)
     })
+    let passesSecondTime = 0
+    supportCode.defineStepDefinition(null, 'a step that passes the second time', () => {
+      passesSecondTime++
+      if (passesSecondTime < 2) {
+        throw new Error(`This step failed.`)
+      }
+    })
 
     const queryUpdateStream = new Writable({
       objectMode: true,
@@ -496,7 +569,7 @@ describe('Query', () => {
     })
     await pipelinePromise(gherkinMessages(gherkinSource, 'test.feature', newId), queryUpdateStream)
 
-    const testPlan = makeTestPlan(gherkinQuery, supportCode, makeTestCase)
+    const testPlan = makeTestPlan(gherkinQuery, supportCode, runOptions, makeTestCase)
     await testPlan.execute((envelope: messages.Envelope) => {
       messagesHandler(envelope)
       cucumberQuery.update(envelope)
@@ -512,7 +585,7 @@ describe('Query', () => {
       source: {
         uri,
         data: gherkinSource,
-        mediaType: 'text/x.cucumber.gherkin+plain',
+        mediaType: messages.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN,
       },
     }
     return GherkinStreams.fromSources([source], { newId })

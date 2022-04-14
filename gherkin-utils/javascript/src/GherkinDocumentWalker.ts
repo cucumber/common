@@ -1,3 +1,4 @@
+// This file is DEPRECATED - use ./walkGherkinDocument instead
 import * as messages from '@cucumber/messages'
 
 export interface IFilters {

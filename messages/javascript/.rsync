@@ -1,4 +1,3 @@
 ../../LICENSE LICENSE
 ../../.templates/github/ .github/
-../../.templates/javascript/ .
-../messages.proto messages.proto
+../../.templates/javascript-esm/ .

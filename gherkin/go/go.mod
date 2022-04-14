@@ -1,11 +1,8 @@
-module github.com/cucumber/gherkin-go/v18
+module github.com/cucumber/common/gherkin/go/v23
 
 require (
-	github.com/cucumber/messages-go/v15 v15.0.0
-	github.com/gogo/protobuf v1.3.2
-	github.com/stretchr/testify v1.7.0
+	github.com/cucumber/common/messages/go/v18 v18.0.0
+	github.com/stretchr/testify v1.7.1
 )
-
-replace github.com/cucumber/messages-go/v15 => ../../messages/go
 
 go 1.13

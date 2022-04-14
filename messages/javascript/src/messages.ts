@@ -297,6 +297,8 @@ export class Hook {
 
   id: string = ''
 
+  name?: string
+
   @Type(() => SourceReference)
   sourceReference: SourceReference = new SourceReference()
 
@@ -335,6 +337,8 @@ export class Ci {
   name: string = ''
 
   url?: string
+
+  buildNumber?: string
 
   @Type(() => Git)
   git?: Git
@@ -456,7 +460,7 @@ export class Source {
 
   data: string = ''
 
-  mediaType: string = ''
+  mediaType: SourceMediaType = SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN
 }
 
 export class SourceReference {
@@ -563,6 +567,8 @@ export class TestCaseFinished {
 
   @Type(() => Timestamp)
   timestamp: Timestamp = new Timestamp()
+
+  willBeRetried: boolean = false
 }
 
 export class TestCaseStarted {
@@ -614,8 +620,6 @@ export class TestStepResult {
   message?: string
 
   status: TestStepResultStatus = TestStepResultStatus.UNKNOWN
-
-  willBeRetried: boolean = false
 }
 
 export class TestStepStarted {
@@ -645,6 +649,11 @@ export class UndefinedParameterType {
 export enum AttachmentContentEncoding {
   IDENTITY = 'IDENTITY',
   BASE64 = 'BASE64',
+}
+
+export enum SourceMediaType {
+  TEXT_X_CUCUMBER_GHERKIN_PLAIN = 'text/x.cucumber.gherkin+plain',
+  TEXT_X_CUCUMBER_GHERKIN_MARKDOWN = 'text/x.cucumber.gherkin+markdown',
 }
 
 export enum StepDefinitionPatternType {

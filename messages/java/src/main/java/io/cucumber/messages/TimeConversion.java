@@ -3,7 +3,12 @@ package io.cucumber.messages;
 import io.cucumber.messages.types.Duration;
 import io.cucumber.messages.types.Timestamp;
 
-public class TimeConversion {
+public final class TimeConversion {
+
+    private TimeConversion(){
+
+    }
+
     public static Timestamp javaInstantToTimestamp(java.time.Instant instant) {
         return new Timestamp(instant.getEpochSecond(), (long) instant.getNano());
     }

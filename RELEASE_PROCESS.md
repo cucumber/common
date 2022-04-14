@@ -6,7 +6,7 @@ When a package is released, _all_ implementations of the package are released.
 For example, when you release `cucumber-expressions`, it will release the Java, Ruby,
 Go and JavaScript implementations of that library, with the same version number.
 
-You *must* be on the `master` branch when you make a release. The steps below
+You *must* be on the `main` branch when you make a release. The steps below
 outline the process:
 
 * Start the docker container with secrets
@@ -37,15 +37,6 @@ Open `CHANGELOG.md` and remove any `###` headers without content. Do not commit.
 No further edits should be made. The markdown headers and links will be updated
 automatically in the next step.
 
-## Build all TypeScript code
-
-Before you can make a release, the TypeScript code has to be built.
-This is because compiling TypeScript is done at the root directory
-using npm workspaces, and not in individual module directories.
-
-    cd /app
-    make .typescript-built
-
 ## Decide what the next version should be
 
 This depends on what's changed (see `CHANGELOG.md`):
@@ -60,6 +51,7 @@ This depends on what's changed (see `CHANGELOG.md`):
 
 ## Prepare the release
 
+    npm run clean
     cd thepackage
     make clean
 
@@ -67,20 +59,18 @@ Run the `pre-release` target:
 
     NEW_VERSION=X.Y.Z make pre-release
 
-This will update the package version in the package descriptor and `CHANGELOG.md`.
+This will update the package version in the package descriptors and `CHANGELOG.md`.
 It will also update dependencies and verify that the build passes.
 
 The changes made *will not* be committed to git. Examine what changed:
 
     git diff
 
-Inspect the diff, and undo any changes that you think shouldn't have been made.
-Make sure the package still builds, and that the tests are still passing:
+Inspect the diff. If all is good, proceed to the next step to release.
+
+Otherwise, undo any changes that you think shouldn't have been made and make the necessary edits until the build passes. Make sure the package still builds, and that the tests are still passing:
 
     make clean && make
-
-If all is good, proceed to the next step. Otherwise, make the necessary edits
-until the build passes.
 
 ## Release packages
 
@@ -112,11 +102,5 @@ Run the following command (using the same NEW_VERSION as you used for the releas
 This should update the version in `java/pom.xml` file to use a `-SNAPSHOT` suffix and add
 `replace` directives in the `go.mod` file.
 This is automatically committed, and pushed along with the tag of the release.
-
-If you did a new major release of a Go package, you must also update all the references in the
-libraries using it:
-
-    # Run this in the root directory
-    source scripts/functions.sh && update_go_library_version libraryName X.Y.Z
 
 For the time being you have to do the same for Java (`pom.xml`) manually.

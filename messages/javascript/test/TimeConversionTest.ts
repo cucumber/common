@@ -1,6 +1,6 @@
 import assert from 'assert'
-import { TimeConversion } from '../src'
-import { addDurations } from '../src/TimeConversion'
+import { Duration, TimeConversion } from '../src/index.js'
+import { addDurations } from '../src/TimeConversion.js'
 
 const {
   durationToMilliseconds,
@@ -10,6 +10,17 @@ const {
 } = TimeConversion
 
 describe('TimeConversion', () => {
+  it('converts legacy string seconds', () => {
+    const duration: Duration = {
+      // @ts-ignore
+      seconds: '3',
+      nanos: 40000,
+    }
+    const millis = durationToMilliseconds(duration)
+
+    assert.strictEqual(millis, 3000.04)
+  })
+
   it('converts to and from milliseconds since epoch', () => {
     const millisecondsSinceEpoch = Date.now()
     const timestamp = millisecondsSinceEpochToTimestamp(millisecondsSinceEpoch)
@@ -53,6 +64,18 @@ describe('TimeConversion', () => {
   it('adds durations (seconds and nanos)', () => {
     const durationA = millisecondsToDuration(1500)
     const durationB = millisecondsToDuration(1600)
+    const sumDuration = addDurations(durationA, durationB)
+
+    assert.deepStrictEqual(sumDuration, { seconds: 3, nanos: 1e8 })
+  })
+
+  it('adds durations (seconds and nanos) with legacy string seconds', () => {
+    const durationA = millisecondsToDuration(1500)
+    // @ts-ignore
+    durationA.seconds = String(durationA.seconds)
+    const durationB = millisecondsToDuration(1600)
+    // @ts-ignore
+    durationB.seconds = String(durationB.seconds)
     const sumDuration = addDurations(durationA, durationB)
 
     assert.deepStrictEqual(sumDuration, { seconds: 3, nanos: 1e8 })

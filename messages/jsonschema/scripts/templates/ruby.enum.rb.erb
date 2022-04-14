@@ -1,0 +1,9 @@
+
+<% @enums.each do |enum| -%>
+class Cucumber::Messages::<%= enum[:name] %>
+<%- enum[:values].each_with_index do |value, index| -%>
+  <%= enum_constant(value) %> = '<%= value %>'
+<%- end -%>
+end
+
+<%- end -%>

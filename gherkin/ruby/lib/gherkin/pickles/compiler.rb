@@ -8,10 +8,10 @@ module Gherkin
       def compile(gherkin_document, source)
         pickles = []
 
-        return pickles unless gherkin_document[:feature]
-        feature = gherkin_document[:feature]
-        language = feature[:language]
-        tags = feature[:tags]
+        return pickles unless gherkin_document.feature
+        feature = gherkin_document.feature
+        language = feature.language
+        tags = feature.tags
 
         compile_feature(pickles, language, tags, feature, source)
         pickles
@@ -21,14 +21,14 @@ module Gherkin
 
       def compile_feature(pickles, language, tags, feature, source)
         feature_background_steps = []
-        feature[:children].each do |child|
-          if child[:background]
-            feature_background_steps.concat(child[:background][:steps])
-          elsif child[:rule]
-            compile_rule(pickles, language, tags, feature_background_steps, child[:rule], source)
+        feature.children.each do |child|
+          if child.background
+            feature_background_steps.concat(child.background.steps)
+          elsif child.rule
+            compile_rule(pickles, language, tags, feature_background_steps, child.rule, source)
           else
-            scenario = child[:scenario]
-            if scenario[:examples].empty?
+            scenario = child.scenario
+            if scenario.examples.empty?
               compile_scenario(tags, feature_background_steps, scenario, language, pickles, source)
             else
               compile_scenario_outline(tags, feature_background_steps, scenario, language, pickles, source)
@@ -38,15 +38,15 @@ module Gherkin
       end
 
       def compile_rule(pickles, language, feature_tags, feature_background_steps, rule, source)
-        tags = [].concat(feature_tags).concat(rule[:tags])
+        tags = [].concat(feature_tags).concat(rule.tags)
 
         rule_background_steps = feature_background_steps.dup
-        rule[:children].each do |child|
-          if child[:background]
-            rule_background_steps.concat(child[:background][:steps])
+        rule.children.each do |child|
+          if child.background
+            rule_background_steps.concat(child.background.steps)
           else
-            scenario = child[:scenario]
-            if scenario[:examples].empty?
+            scenario = child.scenario
+            if scenario.examples.empty?
               compile_scenario(tags, rule_background_steps, scenario, language, pickles, source)
             else
               compile_scenario_outline(tags, rule_background_steps, scenario, language, pickles, source)
@@ -56,51 +56,51 @@ module Gherkin
       end
 
       def compile_scenario(inherited_tags, background_steps, scenario, language, pickles, source)
-        steps = scenario[:steps].empty? ? [] : [].concat(pickle_steps(background_steps))
+        steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
 
-        tags = [].concat(inherited_tags).concat(scenario[:tags])
+        tags = [].concat(inherited_tags).concat(scenario.tags)
 
-        scenario[:steps].each do |step|
+        scenario.steps.each do |step|
           steps.push(pickle_step(step))
         end
 
-        pickle = {
-          uri: source[:uri],
+        pickle = Cucumber::Messages::Pickle.new(
+          uri: source.uri,
           id: @id_generator.new_id,
           tags: pickle_tags(tags),
-          name: scenario[:name],
+          name: scenario.name,
           language: language,
-          astNodeIds: [scenario[:id]],
+          ast_node_ids: [scenario.id],
           steps: steps
-        }
+        )
         pickles.push(pickle)
       end
 
       def compile_scenario_outline(inherited_tags, background_steps, scenario, language, pickles, source)
-        scenario[:examples].reject { |examples| examples[:tableHeader].nil? }.each do |examples|
-          variable_cells = examples[:tableHeader][:cells]
-          examples[:tableBody].each do |values_row|
-            value_cells = values_row[:cells]
-            steps = scenario[:steps].empty? ? [] : [].concat(pickle_steps(background_steps))
-            tags = [].concat(inherited_tags).concat(scenario[:tags]).concat(examples[:tags])
+        scenario.examples.reject { |examples| examples.table_header.nil? }.each do |examples|
+          variable_cells = examples.table_header.cells
+          examples.table_body.each do |values_row|
+            value_cells = values_row.cells
+            steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
+            tags = [].concat(inherited_tags).concat(scenario.tags).concat(examples.tags)
 
-            scenario[:steps].each do |scenario_step|
-              step = pickle_step_props(scenario_step, variable_cells, values_row)
-              steps.push(step)
+            scenario.steps.each do |scenario_step|
+              step_props = pickle_step_props(scenario_step, variable_cells, values_row)
+              steps.push(Cucumber::Messages::PickleStep.new(**step_props))
             end
 
-            pickle = {
-              uri: source[:uri],
+            pickle = Cucumber::Messages::Pickle.new(
+              uri: source.uri,
               id: @id_generator.new_id,
-              name: interpolate(scenario[:name], variable_cells, value_cells),
+              name: interpolate(scenario.name, variable_cells, value_cells),
               language: language,
               steps: steps,
               tags: pickle_tags(tags),
-              astNodeIds: [
-                scenario[:id],
-                values_row[:id]
-              ],
-            }
+              ast_node_ids: [
+                scenario.id,
+                values_row.id
+              ]
+            )
             pickles.push(pickle)
 
           end
@@ -110,7 +110,7 @@ module Gherkin
       def interpolate(name, variable_cells, value_cells)
         variable_cells.each_with_index do |variable_cell, n|
           value_cell = value_cells[n]
-          name = name.gsub('<' + variable_cell[:value] + '>', value_cell[:value])
+          name = name.gsub('<' + variable_cell.value + '>', value_cell.value)
         end
         name
       end
@@ -122,57 +122,57 @@ module Gherkin
       end
 
       def pickle_step(step)
-        pickle_step_props(step, [], nil)
+        Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil))
       end
 
       def pickle_step_props(step, variable_cells, values_row)
-        value_cells = values_row ? values_row[:cells] : []
+        value_cells = values_row ? values_row.cells : []
         props = {
           id: @id_generator.new_id,
-          astNodeIds: [step[:id]],
-          text: interpolate(step[:text], variable_cells, value_cells),
+          ast_node_ids: [step.id],
+          text: interpolate(step.text, variable_cells, value_cells),
         }
         if values_row
-          props[:astNodeIds].push(values_row[:id])
+          props[:ast_node_ids].push(values_row.id)
         end
 
-        if step[:dataTable]
-          data_table = {
-            dataTable: pickle_data_table(step[:dataTable], variable_cells, value_cells)
-          }
+        if step.data_table
+          data_table = Cucumber::Messages::PickleStepArgument.new(
+            data_table: pickle_data_table(step.data_table, variable_cells, value_cells)
+          )
           props[:argument] = data_table
         end
-        if step[:docString]
-          doc_string = {
-            docString: pickle_doc_string(step[:docString], variable_cells, value_cells)
-          }
+        if step.doc_string
+          doc_string = Cucumber::Messages::PickleStepArgument.new(
+            doc_string: pickle_doc_string(step.doc_string, variable_cells, value_cells)
+          )
           props[:argument] = doc_string
         end
         props
       end
 
       def pickle_data_table(data_table, variable_cells, value_cells)
-        {
-          rows: data_table[:rows].map do |row|
-            {
-              cells: row[:cells].map do |cell|
-                {
-                  value: interpolate(cell[:value], variable_cells, value_cells)
-                }
+        Cucumber::Messages::PickleTable.new(
+          rows: data_table.rows.map do |row|
+            Cucumber::Messages::PickleTableRow.new(
+              cells: row.cells.map do |cell|
+                Cucumber::Messages::PickleTableCell.new(
+                  value: interpolate(cell.value, variable_cells, value_cells)
+                )
               end
-            }
+            )
           end
-        }
+        )
       end
 
       def pickle_doc_string(doc_string, variable_cells, value_cells)
         props = {
-          content: interpolate(doc_string[:content], variable_cells, value_cells)
+          content: interpolate(doc_string.content, variable_cells, value_cells)
         }
-        if doc_string[:mediaType]
-          props[:mediaType] = interpolate(doc_string[:mediaType], variable_cells, value_cells)
+        if doc_string.media_type
+          props[:media_type] = interpolate(doc_string.media_type, variable_cells, value_cells)
         end
-        props
+        Cucumber::Messages::PickleDocString.new(**props)
       end
 
       def pickle_tags(tags)
@@ -180,10 +180,10 @@ module Gherkin
       end
 
       def pickle_tag(tag)
-        {
-          name: tag[:name],
-          astNodeId: tag[:id]
-        }
+        Cucumber::Messages::PickleTag.new(
+          name: tag.name,
+          ast_node_id: tag.id
+        )
       end
     end
   end

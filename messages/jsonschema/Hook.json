@@ -1,5 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Hook.json",
   "additionalProperties": false,
   "required": [
     "id",
@@ -9,10 +10,11 @@
     "id": {
       "type": "string"
     },
+    "name": {
+      "type": "string"
+    },
     "sourceReference": {
-      "$ref": "./SourceReference.json",
-      "additionalProperties": false,
-      "type": "object"
+      "$ref": "./SourceReference.json"
     },
     "tagExpression": {
       "type": "string"

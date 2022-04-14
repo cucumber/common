@@ -16,3 +16,4 @@ acceptance/
 storybook-static
 *-go
 *.iml
+.vscode-test

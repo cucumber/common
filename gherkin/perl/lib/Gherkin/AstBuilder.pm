@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Scalar::Util qw(reftype);
 
+use Cucumber::Messages;
+
 use Gherkin::Exceptions;
 use Gherkin::AstNode;
 
@@ -54,13 +56,11 @@ sub end_rule {
 sub build {
     my ( $self, $token ) = @_;
     if ( $token->matched_type eq 'Comment' ) {
-        push(
-            @{ $self->{'comments'} },
-            {
+        push @{ $self->{'comments'} },
+            Cucumber::Messages::Comment->new(
                 location => $self->get_location($token),
                 text     => $token->matched_text
-            }
-        );
+            );
     } else {
         $self->current_node->add( $token->matched_type, $token );
     }
@@ -77,14 +77,10 @@ sub get_location {
     use Carp qw/confess/;
     confess "What no token?" unless $token;
 
-    if ( !defined $column ) {
-        return $token->location;
-    } else {
-        return {
-            line   => $token->location->{'line'},
-            column => $column
-        };
-    }
+    return Cucumber::Messages::Location->new(
+        line   => $token->location->{'line'},
+        column => $column // $token->location->{'column'}
+        );
 }
 
 sub get_tags {
@@ -95,15 +91,12 @@ sub get_tags {
 
     for my $token ( @{ $tags_node->get_tokens('TagLine') } ) {
         for my $item ( @{ $token->matched_items } ) {
-            push(
-                @tags,
-                {
+            push @tags,
+                Cucumber::Messages::Tag->new(
                     id       => $self->next_id,
-                    location =>
-                      $self->get_location( $token, $item->{'column'} ),
-                    name => $item->{'text'}
-                }
-            );
+                    location => $self->get_location( $token, $item->{'column'} ),
+                    name     => $item->{'text'}
+                );
         }
     }
 
@@ -115,14 +108,11 @@ sub get_table_rows {
     my @rows;
 
     for my $token ( @{ $node->get_tokens('TableRow') } ) {
-        push(
-            @rows,
-            {
-                id       => $self->next_id,
-                location => $self->get_location($token),
-                cells    => $self->get_cells($token)
-            }
-        );
+        push @rows, Cucumber::Messages::TableRow->new(
+            id       => $self->next_id,
+            location => $self->get_location($token),
+            cells    => $self->get_cells($token)
+            );
     }
 
     $self->ensure_cell_count( \@rows );
@@ -136,12 +126,12 @@ sub ensure_cell_count {
     my $cell_count;
 
     for my $row (@$rows) {
-        my $this_row_count = @{ $row->{'cells'} };
+        my $this_row_count = @{ $row->cells };
         $cell_count = $this_row_count unless defined $cell_count;
         unless ( $cell_count == $this_row_count ) {
             Gherkin::Exceptions::AstBuilder->throw(
                 "inconsistent cell count within the table",
-                $row->{'location'} );
+                $row->location );
         }
     }
 }
@@ -150,49 +140,20 @@ sub get_cells {
     my ( $self, $table_row_token ) = @_;
     my @cells;
     for my $cell_item ( @{ $table_row_token->matched_items } ) {
-        push(
-            @cells,
-            $self->reject_nones(
-                {
-                    location => $self->get_location(
-                        $table_row_token, $cell_item->{'column'}
-                        ),
-                    value => $cell_item->{'text'}
-                })
-        );
+        push @cells,
+            Cucumber::Messages::TableCell->new(
+                location => $self->get_location(
+                    $table_row_token, $cell_item->{'column'}
+                ),
+                value => $cell_item->{'text'}
+            );
     }
 
     return \@cells;
 }
 
-sub get_description { return $_[1]->get_single('Description') }
+sub get_description { return ($_[1]->get_single('Description') || '') }
 sub get_steps       { return $_[1]->get_items('Step') }
-
-sub reject_nones {
-    my ( $self, $values ) = @_;
-
-    my $defined_only = {};
-    for my $key ( keys %$values ) {
-        my $value = $values->{$key};
-        if (defined $value) {
-            if (ref $value) {
-                if (reftype $value eq 'ARRAY') {
-                    $defined_only->{$key} = $value
-                        if (scalar(@$value) > 0);
-                }
-                else {
-                    $defined_only->{$key} = $value;
-                }
-            }
-            elsif (not ref $value) {
-                $defined_only->{$key} = $value
-                    unless "$value" eq '';
-            }
-        }
-    }
-
-    return $defined_only;
-}
 
 sub next_id {
     my $self = shift;
@@ -207,16 +168,14 @@ sub transform_node {
         my $data_table = $node->get_single('DataTable') || undef;
         my $doc_string = $node->get_single('DocString') || undef;
 
-        return $self->reject_nones(
-            {
-                id        => $self->next_id,
-                location  => $self->get_location($step_line),
-                keyword   => $step_line->matched_keyword,
-                text      => $step_line->matched_text,
-                docString => $doc_string,
-                dataTable => $data_table,
-            }
-        );
+        return Cucumber::Messages::Step->new(
+            id         => $self->next_id,
+            location   => $self->get_location($step_line),
+            keyword    => $step_line->matched_keyword,
+            text       => $step_line->matched_text,
+            doc_string => $doc_string,
+            data_table => $data_table,
+            );
     } elsif ( $node->rule_type eq 'DocString' ) {
         my $separator_token = $node->get_tokens('DocStringSeparator')->[0];
         my $media_type      = $separator_token->matched_text;
@@ -224,37 +183,31 @@ sub transform_node {
         my $line_tokens     = $node->get_tokens('Other');
         my $content = join( "\n", map { $_->matched_text } @$line_tokens );
 
-        return $self->reject_nones(
-            {
-                location    => $self->get_location($separator_token),
-                content     => $content,
-                mediaType   => $media_type,
-                delimiter   => $delimiter
-            }
-        );
+        return Cucumber::Messages::DocString->new(
+            location    => $self->get_location($separator_token),
+            content     => $content,
+            media_type  => ($media_type eq '' ) ? undef : $media_type,
+            delimiter   => $delimiter
+            );
     } elsif ( $node->rule_type eq 'DataTable' ) {
         my $rows = $self->get_table_rows($node);
-        return $self->reject_nones(
-            {
-                location => $rows->[0]->{'location'},
-                rows     => $rows
-            }
+        return Cucumber::Messages::DataTable->new(
+            location => $rows->[0]->{'location'},
+            rows     => $rows
         );
     } elsif ( $node->rule_type eq 'Background' ) {
         my $background_line = $node->get_token('BackgroundLine');
         my $description     = $self->get_description($node);
         my $steps           = $self->get_steps($node);
 
-        return $self->reject_nones(
-            {
-                id          => $self->next_id,
-                location    => $self->get_location($background_line),
-                keyword     => $background_line->matched_keyword,
-                name        => $background_line->matched_text,
-                description => $description,
-                steps       => $steps
-            }
-        );
+        return Cucumber::Messages::Background->new(
+            id          => $self->next_id,
+            location    => $self->get_location($background_line),
+            keyword     => $background_line->matched_keyword,
+            name        => $background_line->matched_text,
+            description => $description,
+            steps       => $steps
+            );
     } elsif ( $node->rule_type eq 'ScenarioDefinition' ) {
         my $tags          = $self->get_tags($node);
         my $scenario_node = $node->get_single('Scenario');
@@ -263,17 +216,15 @@ sub transform_node {
         my $steps         = $self->get_steps($scenario_node);
         my $examples      = $scenario_node->get_items('ExamplesDefinition');
 
-        return $self->reject_nones(
-            {
-                id          => $self->next_id,
-                tags        => $tags,
-                location    => $self->get_location($scenario_line),
-                keyword     => $scenario_line->matched_keyword,
-                name        => $scenario_line->matched_text,
-                description => $description,
-                steps       => $steps,
-                examples    => $examples
-            }
+        return Cucumber::Messages::Scenario->new(
+            id          => $self->next_id,
+            tags        => $tags,
+            location    => $self->get_location($scenario_line),
+            keyword     => $scenario_line->matched_keyword,
+            name        => $scenario_line->matched_text,
+            description => $description,
+            steps       => $steps,
+            examples    => $examples
             );
     } elsif ( $node->rule_type eq 'Rule' ) {
         my $header = $node->get_single('RuleHeader');
@@ -288,57 +239,51 @@ sub transform_node {
         }
         my $tags = $self->get_tags($header);
 
-        my $children = [];
+        my @children;
         my $background = $node->get_single('Background');
         if ( $background ) {
-            push( @{ $children }, { background => $background })
+            push @children,
+                Cucumber::Messages::RuleChild->new(
+                    background => $background
+                );
         }
-        for my $scenario_definition ( @{ $node->get_items('ScenarioDefinition') } ) {
-            push( @{ $children }, { scenario => $scenario_definition })
-        }
+        push @children, (
+            map {
+                Cucumber::Messages::RuleChild->new(
+                    scenario => $_
+                    )
+            } @{ $node->get_items('ScenarioDefinition') }
+            );
 
         my $description          = $self->get_description($header);
 
-        return $self->reject_nones(
-            {
-                id                  => $self->next_id,
-                tags                => $tags,
-                location            => $self->get_location($rule_line),
-                keyword             => $rule_line->matched_keyword,
-                name                => $rule_line->matched_text,
-                description         => $description,
-                children            => $children
-            }
+        return Cucumber::Messages::Rule->new(
+            id                  => $self->next_id,
+            tags                => $tags,
+            location            => $self->get_location($rule_line),
+            keyword             => $rule_line->matched_keyword,
+            name                => $rule_line->matched_text,
+            description         => $description,
+            children            => \@children
         );
     } elsif ( $node->rule_type eq 'ExamplesDefinition' ) {
-        my $tags           = $self->get_tags($node);
         my $examples_node  = $node->get_single('Examples');
         my $examples_line  = $examples_node->get_token('ExamplesLine');
         my $description    = $self->get_description($examples_node);
         my $examples_table = $examples_node->get_single('ExamplesTable');
+        my $rows           =
+            $examples_table ? $self->get_table_rows($examples_table) : undef;
+        my $tags           = $self->get_tags($node);
 
-        return $self->reject_nones(
-            {
-                id          => $self->next_id,
-                tags        => $tags,
-                location    => $self->get_location($examples_line),
-                keyword     => $examples_line->matched_keyword,
-                name        => $examples_line->matched_text,
-                description => $description,
-                tableHeader => $examples_table->{'tableHeader'} || undef,
-                tableBody   => $examples_table->{'tableBody'} || undef
-            }
-        );
-    } elsif ( $node->rule_type eq 'ExamplesTable' ) {
-        my $rows = $self->get_table_rows($node);
-
-        my $table_header = shift(@$rows) if $rows;
-
-        return $self->reject_nones(
-            {
-                tableHeader => $table_header,
-                tableBody   => $rows
-            }
+        return Cucumber::Messages::Examples->new(
+            id          => $self->next_id,
+            tags        => $tags,
+            location    => $self->get_location($examples_line),
+            keyword     => $examples_line->matched_keyword,
+            name        => $examples_line->matched_text,
+            description => $description,
+            table_header => ($rows ? shift @{ $rows } : undef),
+            table_body   => ($rows ? $rows : [])
         );
     } elsif ( $node->rule_type eq 'Description' ) {
         my @description = @{ $node->get_tokens('Other') };
@@ -361,42 +306,48 @@ sub transform_node {
         }
         my $tags = $self->get_tags($header);
 
-        my $children = [];
+        my @children;
         my $background = $node->get_single('Background');
         if ( $background ) {
-            push( @{ $children }, { background => $background })
+            push @children,
+                Cucumber::Messages::FeatureChild->new(
+                    background => $background
+                );
         }
-        for my $scenario_definition ( @{ $node->get_items('ScenarioDefinition') } ) {
-            push( @{ $children }, { scenario => $scenario_definition })
-        }
-        for my $rule_definition ( @{ $node->get_items('Rule') } ) {
-            push( @{ $children }, { rule => $rule_definition })
-        }
+        push @children,
+            map {
+                Cucumber::Messages::FeatureChild->new(
+                    scenario => $_
+                    )
+            } @{ $node->get_items('ScenarioDefinition') };
+        push @children,
+            map {
+                Cucumber::Messages::FeatureChild->new(
+                    rule => $_
+                    )
+            } @{ $node->get_items('Rule') };
+
         my $description          = $self->get_description($header);
         my $language             = $feature_line->matched_gherkin_dialect;
 
-        return $self->reject_nones(
-            {
-                tags                => $tags,
-                location            => $self->get_location($feature_line),
-                language            => $language,
-                keyword             => $feature_line->matched_keyword,
-                name                => $feature_line->matched_text,
-                description         => $description,
-                children            => $children
-            }
-        );
+        return Cucumber::Messages::Feature->new(
+            tags        => $tags,
+            location    => $self->get_location($feature_line),
+            language    => $language,
+            keyword     => $feature_line->matched_keyword,
+            name        => $feature_line->matched_text,
+            description => $description,
+            children    => \@children
+            );
     } elsif ( $node->rule_type eq 'GherkinDocument' ) {
          my $feature = $node->get_single('Feature');
 
-         return {
-             gherkinDocument => $self->reject_nones(
-                 {
-                     uri                 => $self->{'uri'},
-                     feature             => $feature,
-                     comments            => $self->{'comments'},
-                 })
-         };
+         return Cucumber::Messages::Envelope->new(
+             gherkin_document => Cucumber::Messages::GherkinDocument->new(
+                 uri      => $self->{'uri'},
+                 feature  => $feature,
+                 comments => $self->{'comments'},
+             ));
     } else {
         return $node;
     }

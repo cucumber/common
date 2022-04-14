@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Gherkin.Specs
 {
-    public class StringUtilseTests
+    public class StringUtilsTests
     {
         [Fact]
         public void StartsWithWorks()

@@ -52,11 +52,11 @@ describe('#attach', () => {
 
     const attach = makeAttach('the-test-step-id', 'the-test-case-started-id', listener)
 
-    const stream = fs.createReadStream(__dirname + '/cucumber-growing-on-vine.jpg')
+    const stream = fs.createReadStream(__dirname + '/cucumber.png')
 
-    await attach(stream, 'image/jpg')
+    await attach(stream, 'image/png')
 
-    const expectedLength = 851133 // wc -c < ./attachments/cucumber-growing-on-vine.jpg
+    const expectedLength = 1739 // wc -c < ./attachments/cucumber.png
     const buffer = Buffer.from(envelopes[0].attachment.body, 'base64')
     assert.strictEqual(buffer.length, expectedLength)
   })

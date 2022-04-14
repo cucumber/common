@@ -2,12 +2,12 @@ package io.cucumber.gherkin;
 
 import java.util.List;
 
-public class Token {
+class Token {
     public final IGherkinLine line;
     public Parser.TokenType matchedType;
     public String matchedKeyword;
     public String matchedText;
-    public List<GherkinLineSpan> mathcedItems;
+    public List<GherkinLineSpan> matchedItems;
     public int matchedIndent;
     public GherkinDialect matchedGherkinDialect;
     public Location location;

@@ -1,4 +1,4 @@
-import { Envelope } from './messages'
+import { Envelope } from './messages.js'
 import { plainToClass } from 'class-transformer'
 
 /**

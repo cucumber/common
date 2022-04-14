@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Ruby] The generated code is added to Git.
-  ([#1461](https://github.com/cucumber/cucumber/pull/1461)
-   [aslakhellesoy])
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +16,92 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [18.0.0] - 2022-03-24
+
+### Added
+
+* Support for EcmaScript modules (aka ESM)
+  ([#1756](https://github.com/cucumber/common/pull/1756))
+* New optional `name` property on the Hook schema ([#1914](https://github.com/cucumber/common/pull/1914))
+
+### Changed
+
+* JSON Schema: some `array` fields now have `"minItems": 1`.
+* Java: Make this library more null safe.
+    - Generate Java code that uses `Optional` in getters.
+    - Setters are removed.
+    - Classes without required fields have public empty constructors, and static `of` methods for each field.
+  ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
+
+## [17.1.1] - 2021-09-17
+
+### Fixed
+
+* Perl: incorrectly included `null` values & guaranteed field order
+  ([#1727](https://github.com/cucumber/common/pull/1727) [ehuelsmann])
+
+## [17.1.0] - 2021-09-01
+
+### Added
+
+* Initial Perl implementation
+  ([#1670](https://github.com/cucumber/common/pull/1670) [ehuelsmann])
+
+## [17.0.1] - 2021-07-19
+
+### Fixed
+
+- [Ruby] `seconds_to_duration` convert nanos to an integer to match the json schema
+  ([#1655](https://github.com/cucumber/common/pull/1655))
+
+## [17.0.0] - 2021-07-08
+
+### Added
+
+* Added `Ci#buildNumber` field
+  ([#1632](https://github.com/cucumber/common/pull/1632)
+   [#1606](https://github.com/cucumber/common/issues/1606)
+   [aslakhellesoy])
+* [Ruby] Generate DTOs from the json schemas to avoid usage of plain ruby hashes
+  ([#1574](https://github.com/cucumber/common/issues/1574)
+   [#1605](https://github.com/cucumber/common/pull/1605))
+* [Java] Added various overloads to `JSON` to work with streams efficiently
+
+### Changed
+
+* **BREAKING** Move `willBeRetried` field from `TestStepResult` to `TestCaseFinished`
+  ([#902](https://github.com/cucumber/common/issues/902) [#1631](https://github.com/cucumber/common/pull/1631))
+* [Go] Move module paths to point to monorepo
+  ([#1550](https://github.com/cucumber/common/issues/1550))
+* [Java] Removed implicit utility class constructors and made classes final
+
+## [16.0.1] - 2021-05-24
+
+### Fixed
+
+* [JavaScript] `addDurations` works with legacy messages that represent `seconds` as a `string`.
+
+## [16.0.0] - 2021-05-15
+
+### Added
+
+* [Ruby] The generated code is added to Git.
+  ([#1461](https://github.com/cucumber/cucumber/pull/1461)
+   [aslakhellesoy])
+* [JavaScript] Added `getWorstTestStepResult` function (moved from `@cucumber/query`)
+
+### Changed
+
+* [Go, Java, JavaScript, Ruby] The library no longer depends on protocol buffers. The message classes are generated from [JSON Schemas](https://github.com/cucumber/common/tree/messages/v16.0.0/messages).
+  ([#1414](https://github.com/cucumber/cucumber/pull/1414)
+   [aslakhellesoy])
+   * Empty `string` properties are set to `""` rather than being omitted.
+   * Empty `Array` properties are set to `[]` rather than being omitted.
+   * The `seconds` property on `Timestamp` and `Diration` is now a `number` rather than a `string`.
+* [Go, Java, JavaScript, Ruby] Packages and structs have changed:
+  * [JavaScript]: Import with `import * as messages from '@cucumber/messages'`
+  * [Ruby] Messages are now plain ruby hashes with camelCase symbol keys instead of objects with snake_case properties.
 
 ## [15.0.0] - 2021-03-23
 
@@ -507,7 +589,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v15.0.0...master
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v18.0.0...main
+[18.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.1...messages/v18.0.0
+[17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
+[17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0
+[17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1
+[17.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.1...messages/v17.0.0
+[16.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v16.0.0...messages/v16.0.1
+[16.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v15.0.0...messages/v16.0.0
 [15.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.2...messages/v15.0.0
 [14.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v14.0.1...messages/v14.1.2
 [14.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v14.1.0...messages/v14.1.1
@@ -565,6 +654,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [brasmusson]:       https://github.com/brasmusson
 [charlierudolph]:   https://github.com/charlierudolph
 [david1995]:        https://github.com/david1995
+[ehuelsmann]:       https://github.com/ehuelsmann
 [luke-hill]:        https://github.com/luke-hill
 [mpkorstanje]:      https://github.com/mpkorstanje
 [mvz]:              https://github.com/mvz

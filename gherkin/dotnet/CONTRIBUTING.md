@@ -6,30 +6,32 @@ to contribute.
 
 ### MacOS/Linux
 
-Install [.NET Core 2.0.7](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.7-download.md)
-    
+Install [.NET 5](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.7-download.md)
+
 Just run `make` from this directory.
 
 ### Windows
 
-Open `Gherkin.CSharp.sln` from this directory in Visual Studio 2017 and build.
+Open `Gherkin.DotNet.sln` from this directory in Visual Studio 2019 and build.
 
-Alternatively, run `msbuild` from this directory.
+Alternatively, run `dotnet build` and `dotnet test` from this directory.
 
-Keep in mind that this will only run unit tests. The acceptance tests are only
-run when you build with `make`.
+The `dotnet test` command will run the unit tests and the .NET-transformed acceptance tests. This is good as a first pass check and for debugging.
+For a complete verification, run the `make` command as well (or let the PR build run it for you), so that the standard version of the acceptance tests are also executed.
 
 ## Make a release
 
-If this is your first time, read through NuGet's guidelines for
-[Creating and Publishing a Package](https://docs.nuget.org/create/creating-and-publishing-a-package).
+The 'make' command is now prepared to make NuGet package releases as well, ie the `make update-version` command will update the version number in the project file. For the general release procedure, check [CONTRIBUTING](https://github.com/cucumber/common/blob/main/gherkin/CONTRIBUTING.md).
 
-    # Replace X.Y.Z with the version
-    # Change version in `Gherkin\Gherkin.csproj`
-    git clean -dfx
-    msbuild /t:Pack /p:Configuration=Release Gherkin
-    mono .nuget/NuGet.exe push Gherkin/bin/Release/Gherkin.X.Y.Z.nupkg
-    git commit -am "Release X.Y.Z"
+    # prepare new version
+    echo "X.Y.Z" > VERSION
+    make update-version
+    git commit -m "Release X.Y.Z"
     git tag -a -m "Version X.Y.Z" vX.Y.Z
+
+    # verify and publish
+    make publish
+
+    # push
     git push
     git push --tags

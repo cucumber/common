@@ -1,12 +1,20 @@
-require_relative '../../shared_examples.rb'
+require 'cucumber-compatibility-kit'
 
-describe __dir__ do
-  let(:current_path) { __dir__ }
-  let(:monorepo_path) { ENV['MONOREPO_PATH'] || '../..' }
-  let(:examples_name) { File.basename(current_path) }
+describe 'Cucumber Compatibility Kit' do
+  let(:cucumber_bin) { './bin/cucumber' }
+  let(:cucumber_common_args) { '--publish-quiet --profile none --format message' }
+  let(:cucumber_command) { "#{cucumber_bin} #{cucumber_common_args}" }
 
-  let(:generated) { "#{current_path}/#{examples_name}.ndjson" }
-  let(:original) { "#{monorepo_path}/compatibility-kit/javascript/features/#{examples_name}/#{examples_name}.ndjson" }
+  examples = Cucumber::CompatibilityKit.gherkin_examples.reject { |example|
+    example == 'retry'
+  }
 
-  include_examples 'equivalent messages'
+  examples.each do |example_name|
+    describe "'#{example_name}' example" do
+      include_examples 'cucumber compatibility kit' do
+        let(:example) { example_name }
+        let(:messages) { `#{cucumber_command} --require #{example_path} #{example_path}` }
+      end
+    end
+  end
 end

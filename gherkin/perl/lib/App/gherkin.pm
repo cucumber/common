@@ -8,7 +8,7 @@ use open ':std', ':encoding(UTF-8)';
 
 use Class::XSAccessor accessors =>
   [ qw/out_handle include_source include_ast
-    include_pickles predictable_ids _json/, ];
+    include_pickles predictable_ids /, ];
 
 use Cpanel::JSON::XS;
 use Data::UUID;
@@ -25,7 +25,6 @@ sub new {
         include_ast     => 1,
         include_pickles => 1,
         predictable_ids => 0,
-        _json           => Cpanel::JSON::XS->new->canonical,
     }, $class;
 }
 
@@ -71,10 +70,9 @@ sub formatter {
     my ($self) = @_;
 
     my $fh   = $self->out_handle;
-    my $json = $self->_json;
     return sub {
         my $msg = shift;
-        print $fh $json->encode( $msg ) . "\n";
+        print $fh $msg->to_json . "\n";
     };
 }
 

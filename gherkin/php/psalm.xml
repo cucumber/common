@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <file name="bin/gherkin-generate-tokens"/>
+        <file name="bin/gherkin"/>
+        <directory name="src"/>
+        <directory name="src-generated"/>
+        <directory name="tests"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <TypeDoesNotContainType>
+            <errorLevel type="suppress">
+                <!-- Parser has a `false | condition` format to ease generation, retained for clarity -->
+                <file name="src-generated/Parser.php"/>
+            </errorLevel>
+        </TypeDoesNotContainType>
+    </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>

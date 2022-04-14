@@ -64,7 +64,7 @@ describe('makeTestCase', () => {
 
       const messageList: messages.Envelope[] = []
       const listener: EnvelopeListener = (message: messages.Envelope) => messageList.push(message)
-      await testCase.execute(listener, 0, 'some-test-case-started-id')
+      await testCase.execute(listener, 0, false, 'some-test-case-started-id')
       assert.strictEqual(messageList.length, 4)
     })
   })

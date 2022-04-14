@@ -42,6 +42,14 @@ namespace Gherkin
 
     }
 
+    public class InvalidTagException : ParserException
+    {
+        public InvalidTagException(string message, Ast.Location location = null) :
+            base(message, location)
+        {
+        }
+    }
+
     public abstract class TokenParserException : ParserException
     {
         protected TokenParserException(string message, Token receivedToken)

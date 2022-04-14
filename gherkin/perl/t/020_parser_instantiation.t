@@ -4,7 +4,8 @@ use strict;
 use warnings;
 
 use Path::Class qw/file/;
-use Test::More;
+use Test2::V0;
+use Test2::Tools::ClassicCompare qw/ is_deeply /;
 
 use Gherkin::Parser;
 use Gherkin::TokenScanner;

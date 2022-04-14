@@ -10,16 +10,14 @@ EXE_BASE_NAME := cucumber-$(LIBNAME)
 LDFLAGS := "-X main.version=${NEW_VERSION}"
 
 # Enumerating Cross compilation targets
-PLATFORMS = darwin-amd64 linux-386 linux-amd64 linux-arm freebsd-386 freebsd-amd64 openbsd-386 openbsd-amd64 windows-386 windows-amd64 freebsd-arm netbsd-386 netbsd-amd64 netbsd-arm
+PLATFORMS = darwin-amd64 linux-386 linux-amd64 linux-arm linux-arm64 freebsd-386 freebsd-amd64 openbsd-386 openbsd-amd64 windows-386 windows-amd64 freebsd-arm netbsd-386 netbsd-amd64 netbsd-arm
 PLATFORM = $(patsubst dist/$(EXE_BASE_NAME)-%,%,$@)
 OS_ARCH = $(subst -, ,$(PLATFORM))
 X-OS = $(word 1, $(OS_ARCH))
 X-ARCH = $(word 2, $(OS_ARCH))
 
-# Determine if we're on linux or osx (ignoring other OSes as we're not building on them)
-OS := $(shell [[ "$$(uname)" == "Darwin" ]] && echo "darwin" || echo "linux")
-# Determine if we're on 386 or amd64 (ignoring other processors as we're not building on them)
-ARCH := $(shell [[ "$$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "386")
+OS := $(shell go env GOOS)
+ARCH := $(shell go env GOARCH)
 EXE := dist/$(EXE_BASE_NAME)-$(OS)-$(ARCH)
 
 ifndef NO_CROSS_COMPILE
@@ -28,8 +26,8 @@ else
 EXES = $(EXE)
 endif
 
-GO_REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/(.*)-go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
-CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | awk '{ print $$0 "/v1" }' | cut -d'/' -f4 | cut -d'v' -f2)
+GO_REPLACEMENTS := $(shell sed -n "/^\s*github.com\/cucumber\/common/p" go.mod | perl -wpe 's/\s*(github.com\/cucumber\/common\/(.*)\/go\/v\d+).*/q{replace } . $$1 . q{ => ..\/..\/} . $$2 . q{\/go}/eg')
+CURRENT_MAJOR := $(shell sed -n "/^module/p" go.mod | awk '{ print $$0 "/v1" }' | cut -d'/' -f6 | cut -d'v' -f2)
 NEW_MAJOR := $(shell echo ${NEW_VERSION} | awk -F'.' '{print $$1}')
 
 GO_MAJOR_V = $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f1)
@@ -53,7 +51,7 @@ endif
 
 dist: $(EXES)
 
-dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES)
+dist/$(EXE_BASE_NAME)-%: .deps $(GO_SOURCE_FILES) go.mod
 	mkdir -p dist
 	echo "EXES=$(EXES)"
 	echo "Building $@"
@@ -102,7 +100,13 @@ else
 endif
 else
 publish:
-	# no-op
+ifdef NEW_VERSION
+	git tag --sign "$(LIBNAME)/go/v$(NEW_VERSION)" -m "Release $(LIBNAME)/go v$(NEW_VERSION)"
+	git push --tags
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't publish :-(\033[0m"
+	exit 1
+endif
 endif
 .PHONY: publish
 
@@ -115,6 +119,14 @@ endif
 	touch $@
 
 post-release: add-replaces
+ifdef NEW_VERSION
+	pushd ../.. && \
+	source scripts/functions.sh && update_go_library_version $(LIBNAME) $(NEW_VERSION) && \
+	popd
+else
+	@echo -e "\033[0;31mNEW_VERSION is not defined. Can't post-release :-(\033[0m"
+	exit 1
+endif
 .PHONY: post-release
 
 clean: clean-go
@@ -142,7 +154,17 @@ ifeq ($(CURRENT_MAJOR), $(NEW_MAJOR))
 	# echo "No major version change"
 else
 	echo "Updating major from $(CURRENT_MAJOR) to $(NEW_MAJOR)"
-	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" go.mod
-	sed -Ei "s/$(LIBNAME)-go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)-go\/v$(NEW_MAJOR)/" $(shell find . -name "*.go")
+	sed -Ei "s/$(LIBNAME)\/go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)\/go\/v$(NEW_MAJOR)/" go.mod
+	sed -Ei "s/$(LIBNAME)\/go(\/v$(CURRENT_MAJOR))?/$(LIBNAME)\/go\/v$(NEW_MAJOR)/" $(shell find . -name "*.go")
 endif
 .PHONY: update-major
+
+### COMMON stuff for all platforms
+
+BERP_VERSION = 1.3.0
+BERP_GRAMMAR = gherkin.berp
+
+define berp-generate-parser =
+-! dotnet tool list --tool-path /usr/bin | grep "berp\s*$(BERP_VERSION)" && dotnet tool update Berp --version $(BERP_VERSION) --tool-path /usr/bin
+berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
+endef
