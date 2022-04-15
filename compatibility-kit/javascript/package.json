@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@cucumber/fake-cucumber": "^15.0.0",
-    "@cucumber/html-formatter": "19.0.0",
+    "@cucumber/html-formatter": "19.1.0",
     "@types/stream-buffers": "3.0.4",
     "stream-buffers": "3.0.2",
     "typescript": "4.6.3"
