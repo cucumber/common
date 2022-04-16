@@ -9,7 +9,9 @@ use Class::XSAccessor accessors => [
     qw/dialect _default_dialect_name _indent_to_remove _active_doc_string_separator/,
 ];
 
+use Cucumber::Messages;
 use Gherkin::Dialect;
+
 
 sub new {
     my ( $class, $options ) = @_;
@@ -175,19 +177,19 @@ sub _unescaped_docstring {
 }
 
 
-my %keyword_type = (
-    Given => 'Context',
-    When  => 'Action',
-    Then  => 'Outcome',
-    And   => 'Conjunction',
-    But   => 'Conjunction',
+my %step_keyword_type = (
+    Given => Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT,
+    When  => Cucumber::Messages::Step::KEYWORDTYPE_ACTION,
+    Then  => Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME,
+    And   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
+    But   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
     );
 
 sub match_StepLine {
     my ( $self, $token ) = @_;
     my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
 
-    for my $step_keyword (qw/Given When Then And But/) {
+    for my $step_keyword (keys %step_keyword_type) {
         for my $translation (@{ $self->dialect->$step_keyword() }) {
             if ( $token->line->startswith($translation) ) {
                 my $title = $token->line->get_rest_trimmed(
@@ -195,8 +197,8 @@ sub match_StepLine {
                     );
                 my $keyword_type =
                     ($self->dialect->type_unknown_keywords->{$translation}
-                     ? $Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
-                     : $keyword_type{$step_keyword});
+                     ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+                     : $step_keyword_type{$step_keyword});
                 $self->_set_token_matched(
                     $token,
                     StepLine => {
