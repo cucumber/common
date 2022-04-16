@@ -3,6 +3,8 @@ package Gherkin::TokenMatcher;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 our $LANGUAGE_RE = qr/^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/o;
 
 use Class::XSAccessor accessors => [
@@ -189,28 +191,28 @@ sub match_StepLine {
     my ( $self, $token ) = @_;
     my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
 
+    my $keyword;
     for my $step_keyword (keys %step_keyword_type) {
-        for my $translation (@{ $self->dialect->$step_keyword() }) {
-            if ( $token->line->startswith($translation) ) {
-                my $title = $token->line->get_rest_trimmed(
-                    length($translation)
-                    );
-                my $keyword_type =
-                    ($self->dialect->type_unknown_keywords->{$translation}
-                     ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
-                     : $step_keyword_type{$step_keyword});
-                $self->_set_token_matched(
-                    $token,
-                    StepLine => {
-                        text         => $title,
-                        keyword      => $translation,
-                        keyword_type => $keyword_type,
-                    } );
-                return 1;
-            }
-        }
+        my @translations = @{ $self->dialect->$step_keyword() };
+        $keyword = first { $token->line->startswith($_) } @translations;
+
+        last if $keyword;
     }
-    return;
+    return unless $keyword;
+
+    my $title = $token->line->get_rest_trimmed(length($translation));
+    my $keyword_type =
+        ($self->dialect->type_unknown_keywords->{$translation}
+         ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+         : $step_keyword_type{$step_keyword});
+    $self->_set_token_matched(
+        $token,
+        StepLine => {
+            text         => $title,
+            keyword      => $translation,
+            keyword_type => $keyword_type,
+        } );
+    return 1;
 }
 
 sub match_DocStringSeparator {
