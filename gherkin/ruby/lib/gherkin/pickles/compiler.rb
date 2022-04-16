@@ -1,5 +1,13 @@
 module Gherkin
   module Pickles
+    INHERITING_KEYWORD = {
+      :given => 0,
+      :when => 0,
+      :then => 0,
+      :and => 1,
+      :but => 1
+    }
+
     class Compiler
       def initialize(id_generator)
         @id_generator = id_generator
@@ -56,12 +64,14 @@ module Gherkin
       end
 
       def compile_scenario(inherited_tags, background_steps, scenario, language, pickles, source)
-        steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
-
         tags = [].concat(inherited_tags).concat(scenario.tags)
 
-        scenario.steps.each do |step|
-          steps.push(pickle_step(step))
+        last_keyword = nil
+        steps = []
+        [].concat(background_steps).concat(scenario.steps).each do |step|
+          last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
+                           last_keyword : step.keyword_type
+          steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword)))
         end
 
         pickle = Cucumber::Messages::Pickle.new(
@@ -81,11 +91,14 @@ module Gherkin
           variable_cells = examples.table_header.cells
           examples.table_body.each do |values_row|
             value_cells = values_row.cells
-            steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
             tags = [].concat(inherited_tags).concat(scenario.tags).concat(examples.tags)
 
-            scenario.steps.each do |scenario_step|
-              step_props = pickle_step_props(scenario_step, variable_cells, values_row)
+            last_keyword = nil
+            steps = []
+            [].concat(background_steps).concat(scenario.steps).each do |scenario_step|
+              last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
+                               last_keyword : step.keyword_type
+              step_props = pickle_step_props(scenario_step, variable_cells, values_row, last_keyword)
               steps.push(Cucumber::Messages::PickleStep.new(**step_props))
             end
 
@@ -115,21 +128,12 @@ module Gherkin
         name
       end
 
-      def pickle_steps(steps)
-        steps.map do |step|
-          pickle_step(step)
-        end
-      end
-
-      def pickle_step(step)
-        Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil))
-      end
-
-      def pickle_step_props(step, variable_cells, values_row)
+      def pickle_step_props(step, variable_cells, values_row, keyword_type)
         value_cells = values_row ? values_row.cells : []
         props = {
           id: @id_generator.new_id,
           ast_node_ids: [step.id],
+          type: keyword_type,
           text: interpolate(step.text, variable_cells, value_cells),
         }
         if values_row

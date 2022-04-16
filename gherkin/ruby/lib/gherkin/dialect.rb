@@ -13,6 +13,14 @@ module Gherkin
 
     def initialize(spec)
       @spec = spec
+
+      all_translations = Array.new
+      ['given', 'when', 'then', 'and', 'but'].each {
+        |keywords| all_translations += @spec.fetch(keywords)
+      }
+      @type_unknown_keywords = all_translations.map {
+        |translation| [ translation, all_translations.count(translation) ]
+      }.to_h.select { |k, v| v > 1 }
     end
 
     def feature_keywords
@@ -57,6 +65,10 @@ module Gherkin
 
     def but_keywords
       @spec.fetch('but')
+    end
+
+    def type_unknown_keywords
+      @type_unknown_keywords
     end
   end
 end

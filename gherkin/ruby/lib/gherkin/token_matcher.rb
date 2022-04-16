@@ -1,7 +1,16 @@
+require 'cucumber/messages'
 require_relative 'dialect'
 require_relative 'errors'
 
 module Gherkin
+  STEP_KEYWORD_TYPE = {
+    :given => Cucumber::Messages::StepKeywordType::CONTEXT,
+    :when => Cucumber::Messages::StepKeywordType::ACTION,
+    :then => Cucumber::Messages::StepKeywordType::OUTCOME,
+    :and => Cucumber::Messages::StepKeywordType::CONJUNCTION,
+    :but => Cucumber::Messages::StepKeywordType::CONJUNCTION
+  }
+
   class TokenMatcher
     LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
@@ -20,7 +29,7 @@ module Gherkin
     def match_TagLine(token)
       return false unless token.line.start_with?('@')
 
-      set_token_matched(token, :TagLine, nil, nil, nil, token.line.tags)
+      set_token_matched(token, :TagLine, nil, nil, nil, nil, token.line.tags)
       true
     end
 
@@ -48,7 +57,8 @@ module Gherkin
     def match_TableRow(token)
       return false unless token.line.start_with?('|')
       # TODO: indent
-      set_token_matched(token, :TableRow, nil, nil, nil, token.line.table_cells)
+      set_token_matched(token, :TableRow, nil, nil, nil, nil,
+                        token.line.table_cells)
       true
     end
 
@@ -117,18 +127,25 @@ module Gherkin
     end
 
     def match_StepLine(token)
-      keywords = @dialect.given_keywords +
-          @dialect.when_keywords +
-          @dialect.then_keywords +
-          @dialect.and_keywords +
-          @dialect.but_keywords
 
-      keyword = keywords.detect { |k| token.line.start_with?(k) }
+      found_translation = nil
+      found_keyword = nil
+      STEP_KEYWORD_TYPE.keys.each do |keyword|
 
-      return false unless keyword
+        found_translation = @dialect.public_send("#{keyword}_keywords")
+                              .detect { |k| token.line.start_with?(k) }
+        found_keyword = keyword
 
-      title = token.line.get_rest_trimmed(keyword.length)
-      set_token_matched(token, :StepLine, title, keyword)
+        break if found_translation
+      end
+      return false unless found_translation
+
+      title = token.line.get_rest_trimmed(found_translation.length)
+      keyword_type = @dialect.type_unknown_keywords().has_key?(found_translation) ?
+                       Cucumber::Messages::StepKeywordType::UNKNOWN
+                     : STEP_KEYWORD_TYPE[found_keyword]
+      set_token_matched(token,
+                        :StepLine, title, found_translation, nil, keyword_type)
       return true
     end
 
@@ -152,12 +169,13 @@ module Gherkin
       true
     end
 
-    def set_token_matched(token, matched_type, text = nil, keyword = nil, indent = nil, items = [])
+    def set_token_matched(token, matched_type, text = nil, keyword = nil, indent = nil, keyword_type = nil, items = [])
       token.matched_type = matched_type
       token.matched_text = text && text.chomp
       token.matched_keyword = keyword
       token.matched_indent = indent || (token.line && token.line.indent) || 0
       token.matched_items = items
+      token.keyword_type = keyword_type
       token.location[:column] = token.matched_indent + 1
       token.matched_gherkin_dialect = @dialect_name
     end
