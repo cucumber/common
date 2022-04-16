@@ -180,11 +180,11 @@ sub _unescaped_docstring {
 
 
 my %step_keyword_type = (
-    Given => Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT,
-    When  => Cucumber::Messages::Step::KEYWORDTYPE_ACTION,
-    Then  => Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME,
-    And   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
-    But   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
+    Given => Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT(),
+    When  => Cucumber::Messages::Step::KEYWORDTYPE_ACTION(),
+    Then  => Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME(),
+    And   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION(),
+    But   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION(),
     );
 
 sub match_StepLine {
@@ -192,7 +192,8 @@ sub match_StepLine {
     my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
 
     my $keyword;
-    for my $step_keyword (keys %step_keyword_type) {
+    my $step_keyword;
+    for $step_keyword (keys %step_keyword_type) {
         my @translations = @{ $self->dialect->$step_keyword() };
         $keyword = first { $token->line->startswith($_) } @translations;
 
@@ -200,16 +201,16 @@ sub match_StepLine {
     }
     return unless $keyword;
 
-    my $title = $token->line->get_rest_trimmed(length($translation));
+    my $title = $token->line->get_rest_trimmed(length($keyword));
     my $keyword_type =
-        ($self->dialect->type_unknown_keywords->{$translation}
-         ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+        ($self->dialect->type_unknown_keywords->{$keyword}
+         ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN()
          : $step_keyword_type{$step_keyword});
     $self->_set_token_matched(
         $token,
         StepLine => {
             text         => $title,
-            keyword      => $translation,
+            keyword      => $keyword,
             keyword_type => $keyword_type,
         } );
     return 1;
