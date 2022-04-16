@@ -194,8 +194,9 @@ sub match_StepLine {
                     length($translation)
                     );
                 my $keyword_type =
-                    $self->dialect->general_keywords->{$translation} ?
-                    'General' : $keyword_type{$step_keyword};
+                    ($self->dialect->type_unknown_keywords->{$translation}
+                     ? $Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+                     : $keyword_type{$step_keyword});
                 $self->_set_token_matched(
                     $token,
                     StepLine => {
