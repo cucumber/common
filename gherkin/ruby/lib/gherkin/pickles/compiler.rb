@@ -1,3 +1,5 @@
+require 'cucumber/messages'
+
 module Gherkin
   module Pickles
     INHERITING_KEYWORD = {
@@ -66,13 +68,13 @@ module Gherkin
       def compile_scenario(inherited_tags, background_steps, scenario, language, pickles, source)
         tags = [].concat(inherited_tags).concat(scenario.tags)
 
-        last_keyword = nil
+        last_keyword_type = Cucumber::Messages::PickleStepType::UNKNOWN
         steps = []
         unless scenario.steps.empty?
           [].concat(background_steps).concat(scenario.steps).each do |step|
-            last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
-                             last_keyword : step.keyword_type
-            steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword)))
+            last_keyword_type = INHERITING_KEYWORD[step.keyword_type] ?
+                             last_keyword_type : step.keyword_type
+            steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword_type)))
           end
         end
 

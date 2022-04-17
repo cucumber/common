@@ -58,7 +58,7 @@ sub _compile_scenario {
 
     my @steps;
     if ($scenario->steps and @{ $scenario->steps }) {
-        my $last_keyword;
+        my $last_keyword = Cucumber::Messages::PickleStep::TYPE_UNKNOWN();
         @steps = @{ $class->_pickle_steps($background_steps,
                                           $id_generator) };
         for my $step (@{ $scenario->steps } ) {
