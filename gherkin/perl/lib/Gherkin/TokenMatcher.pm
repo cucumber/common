@@ -180,37 +180,38 @@ sub _unescaped_docstring {
 
 
 my %step_keyword_type = (
-    Given => Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT(),
-    When  => Cucumber::Messages::Step::KEYWORDTYPE_ACTION(),
-    Then  => Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME(),
-    And   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION(),
-    But   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION(),
+    Given => Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT,
+    When  => Cucumber::Messages::Step::KEYWORDTYPE_ACTION,
+    Then  => Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME,
+    And   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
+    But   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
     );
 
 sub match_StepLine {
     my ( $self, $token ) = @_;
     my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
 
-    my $keyword;
-    my $step_keyword;
-    for $step_keyword (keys %step_keyword_type) {
+    my $found_translation;
+    my $found_keyword;
+    for my $step_keyword (keys %step_keyword_type) {
         my @translations = @{ $self->dialect->$step_keyword() };
-        $keyword = first { $token->line->startswith($_) } @translations;
+        $found_translation = first { $token->line->startswith($_) } @translations;
+        $found_keyword = $step_keyword;
 
-        last if $keyword;
+        last if $found_translation;
     }
-    return unless $keyword;
+    return unless $found_translation;
 
-    my $title = $token->line->get_rest_trimmed(length($keyword));
+    my $title = $token->line->get_rest_trimmed(length($found_translation));
     my $keyword_type =
-        ($self->dialect->type_unknown_keywords->{$keyword}
-         ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN()
-         : $step_keyword_type{$step_keyword});
+        ($self->dialect->type_unknown_keywords->{$found_translation}
+         ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+         : $step_keyword_type{$found_keyword});
     $self->_set_token_matched(
         $token,
         StepLine => {
             text         => $title,
-            keyword      => $keyword,
+            keyword      => $found_translation,
             keyword_type => $keyword_type,
         } );
     return 1;
