@@ -34,8 +34,9 @@ sub format_token {
         "(%s:%s)%s:%s/%s/%s",
         $token->location->{'line'},
         $token->location->{'column'},
-        $token->matched_type,
-        $token->matched_keyword || '',
+        $token->matched_type || '',
+        ( $token->matched_keyword ?
+          sprintf('(%s)%s',$token->keyword_type || '',$token->matched_keyword || '') : ''),
         $token->matched_text    || '',
         join( ',',
             map { $_->{'column'} . ':' . $_->{'text'} }
