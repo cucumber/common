@@ -68,10 +68,12 @@ module Gherkin
 
         last_keyword = nil
         steps = []
-        [].concat(background_steps).concat(scenario.steps).each do |step|
-          last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
-                           last_keyword : step.keyword_type
-          steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword)))
+        unless scenario.steps.empty?
+          [].concat(background_steps).concat(scenario.steps).each do |step|
+            last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
+                             last_keyword : step.keyword_type
+            steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword)))
+          end
         end
 
         pickle = Cucumber::Messages::Pickle.new(
@@ -95,11 +97,13 @@ module Gherkin
 
             last_keyword = nil
             steps = []
-            [].concat(background_steps).concat(scenario.steps).each do |scenario_step|
-              last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
-                               last_keyword : step.keyword_type
-              step_props = pickle_step_props(scenario_step, variable_cells, values_row, last_keyword)
-              steps.push(Cucumber::Messages::PickleStep.new(**step_props))
+            unless scenario.steps.empty?
+              [].concat(background_steps).concat(scenario.steps).each do |step|
+                last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
+                                 last_keyword : step.keyword_type
+                step_props = pickle_step_props(step, variable_cells, values_row, last_keyword)
+                steps.push(Cucumber::Messages::PickleStep.new(**step_props))
+              end
             end
 
             pickle = Cucumber::Messages::Pickle.new(
