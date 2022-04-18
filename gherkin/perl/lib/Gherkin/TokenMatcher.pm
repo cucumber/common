@@ -3,7 +3,7 @@ package Gherkin::TokenMatcher;
 use strict;
 use warnings;
 
-use List::Util qw(first);
+use List::Util qw(any first reduce);
 
 our $LANGUAGE_RE = qr/^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/o;
 
@@ -178,40 +178,35 @@ sub _unescaped_docstring {
     }
 }
 
-
-my %step_keyword_type = (
-    Given => Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT,
-    When  => Cucumber::Messages::Step::KEYWORDTYPE_ACTION,
-    Then  => Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME,
-    And   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
-    But   => Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION,
-    );
-
 sub match_StepLine {
     my ( $self, $token ) = @_;
-    my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
+    my $line = $token->line;
 
-    my $found_translation;
-    my $found_keyword;
-    for my $step_keyword (keys %step_keyword_type) {
-        my @translations = @{ $self->dialect->$step_keyword() };
-        $found_translation = first { $token->line->startswith($_) } @translations;
-        $found_keyword = $step_keyword;
+    my $found = reduce {
+        my ($keyword_type, $keyword) = @$a;
+        my ($type, $translations)    = @$b;
 
-        last if $found_translation;
-    }
-    return unless $found_translation;
+        if ($keyword) {
+            # If the keyword exists for multiple step types, it's UNKNOWN type
+            return [ Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN, $keyword ]
+                if (any { $keyword eq $_ } @$translations);
+        }
+        else {
+            $keyword = first { $line->startswith($_) } @$translations;
+            return [ $type, $keyword ] if $keyword;
+        }
 
-    my $title = $token->line->get_rest_trimmed(length($found_translation));
-    my $keyword_type =
-        ($self->dialect->type_unknown_keywords->{$found_translation}
-         ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
-         : $step_keyword_type{$found_keyword});
+        return $a;
+    } [], $self->dialect->stepKeywordsByType;
+    my ($keyword_type, $keyword) = @{ $found };
+    return unless $keyword;
+
+    my $title = $token->line->get_rest_trimmed(length($keyword));
     $self->_set_token_matched(
         $token,
         StepLine => {
             text         => $title,
-            keyword      => $found_translation,
+            keyword      => $keyword,
             keyword_type => $keyword_type,
         } );
     return 1;

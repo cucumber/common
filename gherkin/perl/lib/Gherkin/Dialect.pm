@@ -3,11 +3,11 @@ package Gherkin::Dialect;
 use strict;
 use warnings;
 
+use Cucumber::Messages;
 use Gherkin::Exceptions;
 
 use Class::XSAccessor accessors =>
-  [ qw/_current_dialect dialect dictionary_location dictionary
-       type_unknown_keywords /, ];
+  [ qw/_current_dialect dialect dictionary_location dictionary /, ];
 
 sub new {
     my ( $class, $options ) = @_;
@@ -41,15 +41,12 @@ sub change_dialect {
       unless $self->dictionary->{$name};
     $self->{'dialect'} = $name;
     $self->{'_current_dialect'} = $self->dictionary->{$name};
-
-    my %type_unknown_keywords;
-    $type_unknown_keywords{$_}++ for (map { @{ $self->$_() } }
-                                 qw/ Given When Then And But /);
-    $self->{'type_unknown_keywords'} = {
-        map { $_ => 1 }
-        grep { $type_unknown_keywords{$_} > 1 }
-        keys %type_unknown_keywords
-    };
+    $self->{'_step_keywords'} = [
+        [ Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT,     $self->Given ],
+        [ Cucumber::Messages::Step::KEYWORDTYPE_ACTION,      $self->When  ],
+        [ Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME,     $self->Then  ],
+        [ Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION, $self->And   ],
+        [ Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION, $self->But   ] ];
 }
 
 sub Feature    { $_[0]->_current_dialect->{'feature'}; }
@@ -62,6 +59,11 @@ sub When       { $_[0]->_current_dialect->{'when'}; }
 sub Then       { $_[0]->_current_dialect->{'then'}; }
 sub And        { $_[0]->_current_dialect->{'and'}; }
 sub But        { $_[0]->_current_dialect->{'but'}; }
+
+
+sub stepKeywordsByType {
+    return @{ $_[0]->{'_step_keywords'} };
+}
 
 sub ScenarioOutline {
     $_[0]->_current_dialect->{'scenarioOutline'};

@@ -3,14 +3,6 @@ require_relative 'dialect'
 require_relative 'errors'
 
 module Gherkin
-  STEP_KEYWORD_TYPE = {
-    :given => Cucumber::Messages::StepKeywordType::CONTEXT,
-    :when => Cucumber::Messages::StepKeywordType::ACTION,
-    :then => Cucumber::Messages::StepKeywordType::OUTCOME,
-    :and => Cucumber::Messages::StepKeywordType::CONJUNCTION,
-    :but => Cucumber::Messages::StepKeywordType::CONJUNCTION
-  }
-
   class TokenMatcher
     LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
@@ -127,25 +119,26 @@ module Gherkin
     end
 
     def match_StepLine(token)
+      (keyword_type, keyword) = @dialect.step_keywords_by_type
+                                  .reduce([]) do |accum, (type, translations)|
+        (keyword_type, keyword) = accum
 
-      found_translation = nil
-      found_keyword = nil
-      STEP_KEYWORD_TYPE.keys.each do |keyword|
+        if keyword
+          # If the keyword exists for multiple step types, it's UNKNOWN type
+          next [ Cucumber::Messages::StepKeywordType::UNKNOWN,
+                 keyword ] if translations.index(keyword)
+        else
+          keyword = translations.detect { |t| token.line.start_with?(t) }
+          next [ type, keyword ] if keyword
+        end
 
-        found_translation = @dialect.public_send("#{keyword}_keywords")
-                              .detect { |k| token.line.start_with?(k) }
-        found_keyword = keyword
-
-        break if found_translation
+        accum
       end
-      return false unless found_translation
+      return false unless keyword
 
-      title = token.line.get_rest_trimmed(found_translation.length)
-      keyword_type = @dialect.type_unknown_keywords().has_key?(found_translation) ?
-                       Cucumber::Messages::StepKeywordType::UNKNOWN
-                     : STEP_KEYWORD_TYPE[found_keyword]
+      title = token.line.get_rest_trimmed(keyword.length)
       set_token_matched(token,
-                        :StepLine, title, found_translation, nil, keyword_type)
+                        :StepLine, title, keyword, nil, keyword_type)
       return true
     end
 

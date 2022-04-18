@@ -109,7 +109,18 @@ sub _compile_scenario_outline {
             my $last_keyword;
             my @steps;
             if ( @{ $scenario->steps } ) {
-                for my $step (@{ $background_steps }, @{ $scenario->steps }) {
+                for my $step (@{ $background_steps }) {
+                    $last_keyword =
+                        $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
+                        ? $last_keyword : $step->keyword_type;
+                    push @steps,
+                        Cucumber::Messages::PickleStep->new(
+                            $class->_pickle_step_props($step, [], undef,
+                                                       $last_keyword,
+                                                       $id_generator->()));
+                }
+
+                for my $step (@{ $scenario->steps }) {
                     $last_keyword =
                         $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
                         ? $last_keyword : $step->keyword_type;

@@ -1,3 +1,4 @@
+require 'cucumber/messages'
 require 'json'
 
 module Gherkin
@@ -13,14 +14,12 @@ module Gherkin
 
     def initialize(spec)
       @spec = spec
-
-      all_translations = Array.new
-      ['given', 'when', 'then', 'and', 'but'].each {
-        |keywords| all_translations += @spec.fetch(keywords)
+      @step_keywords_by_type = {
+        Cucumber::Messages::StepKeywordType::CONTEXT => given_keywords(),
+        Cucumber::Messages::StepKeywordType::ACTION => when_keywords(),
+        Cucumber::Messages::StepKeywordType::OUTCOME => then_keywords(),
+        Cucumber::Messages::StepKeywordType::CONJUNCTION => [].concat(and_keywords()).concat(but_keywords())
       }
-      @type_unknown_keywords = all_translations.map {
-        |translation| [ translation, all_translations.count(translation) ]
-      }.to_h.select { |k, v| v > 1 }
     end
 
     def feature_keywords
@@ -67,8 +66,8 @@ module Gherkin
       @spec.fetch('but')
     end
 
-    def type_unknown_keywords
-      @type_unknown_keywords
+    def step_keywords_by_type
+      @step_keywords_by_type
     end
   end
 end

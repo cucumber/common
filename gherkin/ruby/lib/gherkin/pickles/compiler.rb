@@ -93,7 +93,14 @@ module Gherkin
             last_keyword_type = nil
             steps = []
             unless scenario.steps.empty?
-              [].concat(background_steps).concat(scenario.steps).each do |step|
+              background_steps.each do |step|
+                last_keyword_type =
+                  step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
+                    last_keyword_type : step.keyword_type
+                step_props = pickle_step_props(step, [], nil, last_keyword_type)
+                steps.push(Cucumber::Messages::PickleStep.new(**step_props))
+              end
+              scenario.steps.each do |step|
                 last_keyword_type =
                   step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
                     last_keyword_type : step.keyword_type
