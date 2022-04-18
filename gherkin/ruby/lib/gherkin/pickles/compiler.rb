@@ -2,14 +2,6 @@ require 'cucumber/messages'
 
 module Gherkin
   module Pickles
-    INHERITING_KEYWORD = {
-      :given => 0,
-      :when => 0,
-      :then => 0,
-      :and => 1,
-      :but => 1
-    }
-
     class Compiler
       def initialize(id_generator)
         @id_generator = id_generator
@@ -72,8 +64,9 @@ module Gherkin
         steps = []
         unless scenario.steps.empty?
           [].concat(background_steps).concat(scenario.steps).each do |step|
-            last_keyword_type = INHERITING_KEYWORD[step.keyword_type] ?
-                             last_keyword_type : step.keyword_type
+            last_keyword_type =
+              step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
+                last_keyword_type : step.keyword_type
             steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword_type)))
           end
         end
@@ -97,13 +90,14 @@ module Gherkin
             value_cells = values_row.cells
             tags = [].concat(inherited_tags).concat(scenario.tags).concat(examples.tags)
 
-            last_keyword = nil
+            last_keyword_type = nil
             steps = []
             unless scenario.steps.empty?
               [].concat(background_steps).concat(scenario.steps).each do |step|
-                last_keyword = INHERITING_KEYWORD[step.keyword_type] ?
-                                 last_keyword : step.keyword_type
-                step_props = pickle_step_props(step, variable_cells, values_row, last_keyword)
+                last_keyword_type =
+                  step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
+                    last_keyword_type : step.keyword_type
+                step_props = pickle_step_props(step, variable_cells, values_row, last_keyword_type)
                 steps.push(Cucumber::Messages::PickleStep.new(**step_props))
               end
             end

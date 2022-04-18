@@ -68,8 +68,8 @@ sub _compile_scenario {
         my $last_keyword = Cucumber::Messages::PickleStep::TYPE_UNKNOWN;
         for my $step (@{ $background_steps }, @{ $scenario->steps } ) {
             $last_keyword =
-                $inheriting_keyword{$step->keyword_type} ?
-                $last_keyword : $step->keyword_type;
+                $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
+                ? $last_keyword : $step->keyword_type;
 
             push @steps,
                 Cucumber::Messages::PickleStep->new(
@@ -78,6 +78,7 @@ sub _compile_scenario {
         }
     }
 
+    my @all_tags = (@$tags, @{ $scenario->tags || [] });
     $pickle_sink->(
         Cucumber::Messages::Envelope->new(
             pickle => Cucumber::Messages::Pickle->new(
@@ -85,7 +86,7 @@ sub _compile_scenario {
                 name         => $scenario->name,
                 language     => $language,
                 steps        => \@steps,
-                tags         => $class->_pickle_tags( $tags ),
+                tags         => $class->_pickle_tags( \@all_tags ),
                 uri          => $uri,
                 ast_node_ids => [ $scenario->id ]
             )));
@@ -110,8 +111,8 @@ sub _compile_scenario_outline {
             if ( @{ $scenario->steps } ) {
                 for my $step (@{ $background_steps }, @{ $scenario->steps }) {
                     $last_keyword =
-                        $inheriting_keyword{$step->keyword_type} ?
-                        $last_keyword : $step->keyword_type;
+                        $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
+                        ? $last_keyword : $step->keyword_type;
                     push @steps,
                         Cucumber::Messages::PickleStep->new(
                             $class->_pickle_step_props($step, $variables, $values,
