@@ -20,6 +20,7 @@ public final class GherkinDialect {
     private final List<String> thenKeywords;
     private final List<String> andKeywords;
     private final List<String> butKeywords;
+    private final List<String> stepKeywords;
 
     GherkinDialect(String language, String name, String nativeName, List<String> featureKeywords, List<String> ruleKeywords, List<String> scenarioKeywords, List<String> scenarioOutlineKeywords, List<String> backgroundKeywords, List<String> examplesKeywords, List<String> givenKeywords, List<String> whenKeywords, List<String> thenKeywords, List<String> andKeywords, List<String> butKeywords) {
         this.language = language;
@@ -36,6 +37,14 @@ public final class GherkinDialect {
         this.thenKeywords = thenKeywords;
         this.andKeywords = andKeywords;
         this.butKeywords = butKeywords;
+
+        List<String> stepKeywords = new ArrayList<>();
+        stepKeywords.addAll(givenKeywords);
+        stepKeywords.addAll(whenKeywords);
+        stepKeywords.addAll(thenKeywords);
+        stepKeywords.addAll(andKeywords);
+        stepKeywords.addAll(butKeywords);
+        this.stepKeywords = unmodifiableList(stepKeywords);
     }
 
     public List<String> getFeatureKeywords() {
@@ -63,13 +72,7 @@ public final class GherkinDialect {
     }
 
     public List<String> getStepKeywords() {
-        List<String> result = new ArrayList<>();
-        result.addAll(getGivenKeywords());
-        result.addAll(getWhenKeywords());
-        result.addAll(getThenKeywords());
-        result.addAll(getAndKeywords());
-        result.addAll(getButKeywords());
-        return unmodifiableList(result);
+        return stepKeywords;
     }
 
     public List<String> getBackgroundKeywords() {
