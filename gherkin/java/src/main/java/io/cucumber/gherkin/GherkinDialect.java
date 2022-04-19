@@ -1,7 +1,11 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.types.StepKeywordType;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.unmodifiableList;
 
@@ -73,6 +77,18 @@ public final class GherkinDialect {
 
     public List<String> getStepKeywords() {
         return stepKeywords;
+    }
+
+    public Map<StepKeywordType, List<String>> getStepKeywordsByType() {
+        Map<StepKeywordType, List<String>> result = new HashMap<>();
+        result.put(StepKeywordType.CONTEXT, getGivenKeywords());
+        result.put(StepKeywordType.ACTION, getWhenKeywords());
+        result.put(StepKeywordType.OUTCOME, getThenKeywords());
+        List<String> conjunctions = new ArrayList<>();
+        conjunctions.addAll(getAndKeywords());
+        conjunctions.addAll(getButKeywords());
+        result.put(StepKeywordType.CONJUNCTION, conjunctions);
+        return result;
     }
 
     public List<String> getBackgroundKeywords() {
