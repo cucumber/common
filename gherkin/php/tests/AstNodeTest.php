@@ -57,35 +57,40 @@ final class AstNodeTest extends TestCase
 
     public function testItGetsNoTokensWhenNoneAreAdded(): void
     {
-        $tokens = $this->astNode->getTokens(TokenType::Empty);
+        $tokens = $this->astNode->getTokenMatches(TokenType::Empty);
 
         self::assertSame([], $tokens);
     }
 
     public function testItGetsTokensWhenTheyAreAddedByRuletype(): void
     {
-        $this->astNode->add(RuleType::_Empty, $token1 = new Token(null, new Location(1, 1)));
-        $this->astNode->add(RuleType::_Empty, $token2 = new Token(null, new Location(1, 1)));
+        $this->astNode->add(RuleType::_Empty, $token1 = $this->getTokenMatch());
+        $this->astNode->add(RuleType::_Empty, $token2 = $this->getTokenMatch());
 
-        $tokens = $this->astNode->getTokens(TokenType::Empty);
+        $tokens = $this->astNode->getTokenMatches(TokenType::Empty);
 
         self::assertSame([$token1, $token2], $tokens);
     }
 
-    public function testItGetsADefaultTokenWhenNoneAreAdded(): void
+    public function testItThrowsWhenGettingATokenThatIsNotAdded(): void
     {
-        $token = $this->astNode->getToken(TokenType::Empty);
+        $this->expectException(\LogicException::class);
 
-        self::assertEquals(new Token(null, new Location(-1, -1)), $token);
+        $this->astNode->getTokenMatch(TokenType::Empty);
     }
 
     public function testItGetsTheFirstTokenWhenSomeAreAdded(): void
     {
-        $this->astNode->add(RuleType::_Empty, $token1 = new Token(null, new Location(1, 1)));
-        $this->astNode->add(RuleType::_Empty, $token2 = new Token(null, new Location(1, 1)));
+        $this->astNode->add(RuleType::_Empty, $token1 = $this->getTokenMatch());
+        $this->astNode->add(RuleType::_Empty, $this->getTokenMatch());
 
-        $token = $this->astNode->getToken(TokenType::Empty);
+        $token = $this->astNode->getTokenMatch(TokenType::Empty);
 
         self::assertSame($token1, $token);
+    }
+
+    private function getTokenMatch(): TokenMatch
+    {
+        return new TokenMatch(TokenType::Other, (new GherkinDialectProvider())->getDefaultDialect(), 100, 'keyword', 'text', [], new Location(1, 1));
     }
 }

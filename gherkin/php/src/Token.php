@@ -9,21 +9,11 @@ use Cucumber\Gherkin\Parser\TokenType;
 final class Token
 {
     private const EOF_VALUE = 'EOF';
-    public ?TokenType $matchedType = null;
-    public ?string $matchedKeyword = null;
-    public ?string $matchedText = null;
-    public ?int $matchedIndent = null;
-    public ?GherkinDialect $matchedGherkinDialect = null;
-
-    /** @var list<GherkinLineSpan> */
-    public ?array $matchedItems = null;
+    public ?TokenMatch $match = null;
 
     public function __construct(
         public readonly ?GherkinLine $line,
-        /**
-         * Public because the token matcher adds indent to columns
-         */
-        public Location $location,
+        public readonly Location $location,
     ) {
     }
 
@@ -37,11 +27,33 @@ final class Token
 
     public function getLocation(): Location
     {
-        return $this->location;
+        return $this->match ? $this->match->location : $this->location;
     }
 
     public function getTokenValue(): string
     {
         return $this->isEof() ? self::EOF_VALUE : $this->line->getLineText(-1);
+    }
+
+    /**
+     * @param list<GherkinLineSpan> $items
+     */
+    public function match(
+        TokenType $matchedType,
+        GherkinDialect $gherkinDialect,
+        int $indent,
+        string $keyword,
+        string $text,
+        array $items,
+    ): void {
+        $this->match = new TokenMatch(
+            $matchedType,
+            $gherkinDialect,
+            $indent,
+            $keyword,
+            $text,
+            $items,
+            new Location($this->location->line, $indent + 1),
+        );
     }
 }

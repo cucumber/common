@@ -38,13 +38,17 @@ final class TokenFormatterTest extends TestCase
             new StringGherkinLine('hello', 1),
             new Location(100, 300),
         );
-        $token->matchedType = TokenType::ScenarioLine;
-        $token->matchedKeyword = 'MyScenario';
-        $token->matchedText = 'Foo';
-        $token->matchedItems = [
-            new GherkinLineSpan(1, 'bar'),
-            new GherkinLineSpan(2, 'baz'),
-        ];
+        $token->match(
+            TokenType::ScenarioLine,
+            (new GherkinDialectProvider())->getDefaultDialect(),
+            299,
+            'MyScenario',
+            'Foo',
+            [
+                new GherkinLineSpan(1, 'bar'),
+                new GherkinLineSpan(2, 'baz'),
+            ],
+        );
 
         self::assertSame('(100:300)ScenarioLine:MyScenario/Foo/1:bar,2:baz', $formatter->formatToken($token));
     }

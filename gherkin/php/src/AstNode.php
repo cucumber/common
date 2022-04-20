@@ -76,21 +76,25 @@ final class AstNode
     }
 
     /**
-     * @return list<Token>
+     * @return list<TokenMatch>
      */
-    public function getTokens(TokenType $tokenType): array
+    public function getTokenMatches(TokenType $tokenType): array
     {
-        $items = $this->getItems(Token::class, RuleType::cast($tokenType));
+        $items = $this->getItems(TokenMatch::class, RuleType::cast($tokenType));
 
         return $items;
     }
 
 
-    public function getToken(TokenType $tokenType): Token
+    public function getTokenMatch(TokenType $tokenType): TokenMatch
     {
         $ruleType = RuleType::cast($tokenType);
 
-        $item = $this->getSingle(Token::class, $ruleType) ?? new Token(null, new Location(-1, -1));
+        $item = $this->getSingle(TokenMatch::class, $ruleType);
+
+        if (!$item) {
+            throw new \LogicException('Requested token type was not in stack');
+        }
 
         return $item;
     }

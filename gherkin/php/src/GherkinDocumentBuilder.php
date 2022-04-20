@@ -47,16 +47,16 @@ final class GherkinDocumentBuilder implements Builder
 
     public function build(Token $token): void
     {
-        if (null === $token->matchedType) {
+        if (null === $token->match) {
             throw new LogicException('Token was not yet matched');
         }
 
-        $ruleType = RuleType::cast($token->matchedType);
+        $ruleType = RuleType::cast($token->match->tokenType);
 
-        if ($token->matchedType == TokenType::Comment) {
-            $this->comments[] = new Comment($this->getLocation($token, 0), $token->matchedText ?? '');
+        if ($token->match->tokenType == TokenType::Comment) {
+            $this->comments[] = new Comment($this->getLocation($token->match, 0), $token->match->text);
         } else {
-            $this->currentNode()->add($ruleType, $token);
+            $this->currentNode()->add($ruleType, $token->match);
         }
     }
 
@@ -116,7 +116,7 @@ final class GherkinDocumentBuilder implements Builder
         };
     }
 
-    private function getLocation(Token $token, int $column): MessageLocation
+    private function getLocation(TokenMatch $token, int $column): MessageLocation
     {
         $column = ($column === 0) ? $token->location->column : $column;
 
@@ -139,7 +139,7 @@ final class GherkinDocumentBuilder implements Builder
     {
         $rows = array_map(
             fn ($token) => new TableRow($this->getLocation($token, 0), $this->getCells($token), $this->idGenerator->newId()),
-            $node->getTokens(TokenType::TableRow),
+            $node->getTokenMatches(TokenType::TableRow),
         );
 
         $this->ensureCellCount($rows);
@@ -166,11 +166,11 @@ final class GherkinDocumentBuilder implements Builder
     /**
      * @return list<TableCell>
      */
-    private function getCells(Token $token): array
+    private function getCells(TokenMatch $token): array
     {
         return array_map(
             fn ($cellItem) => new TableCell($this->getLocation($token, $cellItem->column), $cellItem->text),
-            $token->matchedItems ?? [],
+            $token->items,
         );
     }
 
@@ -181,10 +181,10 @@ final class GherkinDocumentBuilder implements Builder
     {
         $tagsNode = $node->getSingle(AstNode::class, RuleType::Tags, new AstNode(RuleType::None));
 
-        $tokens = $tagsNode->getTokens(TokenType::TagLine);
+        $tokens = $tagsNode->getTokenMatches(TokenType::TagLine);
         $tags = [];
         foreach ($tokens as $token) {
-            foreach ($token->matchedItems ?? [] as $tagItem) {
+            foreach ($token->items as $tagItem) {
                 $tags[] = new Tag(
                     location: $this->getLocation($token, $tagItem->column),
                     name: $tagItem->text,
@@ -197,21 +197,21 @@ final class GherkinDocumentBuilder implements Builder
     }
 
     /**
-     * @param array<Token> $lineTokens
+     * @param array<TokenMatch> $lineTokens
      */
     private function joinMatchedTextWithLinebreaks(array $lineTokens): string
     {
-        return join("\n", array_map(fn ($t) => $t->matchedText, $lineTokens));
+        return join("\n", array_map(fn ($t) => $t->text, $lineTokens));
     }
 
     private function transformStepNode(AstNode $node): Step
     {
-        $stepLine = $node->getToken(TokenType::StepLine);
+        $stepLine = $node->getTokenMatch(TokenType::StepLine);
 
         return new Step(
             location: $this->getLocation($stepLine, 0),
-            keyword: $stepLine->matchedKeyword ?? '',
-            text: $stepLine->matchedText ?? '',
+            keyword: $stepLine->keyword,
+            text: $stepLine->text,
             docString: $node->getSingle(DocString::class, RuleType::DocString),
             dataTable: $node->getSingle(DataTable::class, RuleType::DataTable),
             id: $this->idGenerator->newId(),
@@ -220,17 +220,17 @@ final class GherkinDocumentBuilder implements Builder
 
     private function transformDocStringNode(AstNode $node): DocString
     {
-        $separatorToken = $node->getTokens(TokenType::DocStringSeparator)[0];
-        $mediaType = $separatorToken->matchedText ?: null;
-        $lineTokens = $node->getTokens(TokenType::Other);
+        $separatorToken = $node->getTokenMatches(TokenType::DocStringSeparator)[0];
+        $mediaType = $separatorToken->text;
+        $lineTokens = $node->getTokenMatches(TokenType::Other);
 
         $content = $this->joinMatchedTextWithLinebreaks($lineTokens);
 
         return new DocString(
             location: $this->getLocation($separatorToken, 0),
-            mediaType: $mediaType,
+            mediaType: $mediaType ?: null, // special case turns '' into null
             content: $content,
-            delimiter: $separatorToken->matchedKeyword ?? '',
+            delimiter: $separatorToken->keyword,
         );
     }
 
@@ -240,13 +240,13 @@ final class GherkinDocumentBuilder implements Builder
         if (null === $scenarioNode) {
             return null;
         }
-        $scenarioLine = $scenarioNode->getToken(TokenType::ScenarioLine);
+        $scenarioLine = $scenarioNode->getTokenMatch(TokenType::ScenarioLine);
 
         return new Scenario(
             location: $this->getLocation($scenarioLine, 0),
             tags: $this->getTags($node),
-            keyword: $scenarioLine->matchedKeyword ?? '',
-            name: $scenarioLine->matchedText ?? '',
+            keyword: $scenarioLine->keyword,
+            name: $scenarioLine->text,
             description: $this->getDescription($scenarioNode),
             steps: $this->getSteps($scenarioNode),
             examples: $scenarioNode->getItems(Examples::class, RuleType::ExamplesDefinition),
@@ -260,7 +260,7 @@ final class GherkinDocumentBuilder implements Builder
         if (null === $examplesNode) {
             return null;
         }
-        $examplesLine = $examplesNode->getToken(TokenType::ExamplesLine);
+        $examplesLine = $examplesNode->getTokenMatch(TokenType::ExamplesLine);
         /** @var list<TableRow>|null $rows */
         $rows = $examplesNode->getSingleUntyped(RuleType::ExamplesTable);
         $tableHeader = is_array($rows) && count($rows) ? $rows[0] : null;
@@ -269,8 +269,8 @@ final class GherkinDocumentBuilder implements Builder
         return new Examples(
             location: $this->getLocation($examplesLine, 0),
             tags: $this->getTags($node),
-            keyword: $examplesLine->matchedKeyword ?? '',
-            name: $examplesLine->matchedText ?? '',
+            keyword: $examplesLine->keyword,
+            name: $examplesLine->text,
             description: $this->getDescription($examplesNode),
             tableHeader: $tableHeader,
             tableBody: $tableBody,
@@ -293,12 +293,12 @@ final class GherkinDocumentBuilder implements Builder
 
     private function transformBackgroundNode(AstNode $node): Background
     {
-        $backgroundLine = $node->getToken(TokenType::BackgroundLine);
+        $backgroundLine = $node->getTokenMatch(TokenType::BackgroundLine);
 
         return new Background(
             location: $this->getLocation($backgroundLine, 0),
-            keyword: $backgroundLine->matchedKeyword ?? '',
-            name: $backgroundLine->matchedText ?? '',
+            keyword: $backgroundLine->keyword,
+            name: $backgroundLine->text,
             description: $this->getDescription($node),
             steps: $this->getSteps($node),
             id: $this->idGenerator->newId(),
@@ -307,7 +307,7 @@ final class GherkinDocumentBuilder implements Builder
 
     private function transformDescriptionNode(AstNode $node): string
     {
-        $lineTokens = $node->getTokens(TokenType::Other);
+        $lineTokens = $node->getTokenMatches(TokenType::Other);
 
         $lineText = preg_replace(
             '/(\\n\\s*)*$/u',
@@ -325,7 +325,7 @@ final class GherkinDocumentBuilder implements Builder
             return null;
         }
         $tags = $this->getTags($header);
-        $featureLine = $header->getToken(TokenType::FeatureLine);
+        $featureLine = $header->getTokenMatch(TokenType::FeatureLine);
 
         $children = [];
 
@@ -342,17 +342,14 @@ final class GherkinDocumentBuilder implements Builder
             $children[] = new FeatureChild($rule, null, null);
         }
 
-        $language = $featureLine->matchedGherkinDialect?->getLanguage();
-        if (null === $language) {
-            return null;
-        }
+        $language = $featureLine->gherkinDialect->getLanguage();
 
         return new Feature(
             location: $this->getLocation($featureLine, 0),
             tags: $tags,
             language: $language,
-            keyword: $featureLine->matchedKeyword ?? '',
-            name: $featureLine->matchedText ?? '',
+            keyword: $featureLine->keyword,
+            name: $featureLine->text,
             description: $this->getDescription($header),
             children: $children,
         );
@@ -362,7 +359,7 @@ final class GherkinDocumentBuilder implements Builder
     {
         $header = $node->getSingle(AstNode::class, RuleType::RuleHeader, new AstNode(RuleType::RuleHeader));
 
-        $ruleLine = $header->getToken(TokenType::RuleLine);
+        $ruleLine = $header->getTokenMatch(TokenType::RuleLine);
 
         $children = [];
         $tags = $this->getTags($header);
@@ -379,8 +376,8 @@ final class GherkinDocumentBuilder implements Builder
         return new Rule(
             location: $this->getLocation($ruleLine, 0),
             tags: $tags,
-            keyword: $ruleLine->matchedKeyword ?? '',
-            name: $ruleLine->matchedText ?? '',
+            keyword: $ruleLine->keyword,
+            name: $ruleLine->text,
             description: $this->getDescription($header),
             children: $children,
             id: $this->idGenerator->newId(),
