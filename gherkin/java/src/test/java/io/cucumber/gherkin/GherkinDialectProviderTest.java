@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class GherkinDialectProviderTest {
     @Test
     public void provides_emoji_dialect() {
-        GherkinDialect em = new GherkinDialectProvider().getDialect("em").get();
+        GherkinDialect em = new GherkinDialectProvider().getDialect("em").orElseThrow(() -> new RuntimeException("Missing dialect: em"));
         assertEquals(1, symbolCount(em.getScenarioKeywords().get(0)));
     }
 
@@ -24,7 +24,7 @@ public class GherkinDialectProviderTest {
 
     @Test
     public void provides_native_name_which_is_used_in_cucumber_jvm_code_generation() {
-        GherkinDialect no = new GherkinDialectProvider().getDialect("no").get();
+        GherkinDialect no = new GherkinDialectProvider().getDialect("no").orElseThrow(() -> new RuntimeException("Missing dialect: no"));
         assertEquals("norsk", no.getNativeName());
     }
 }
