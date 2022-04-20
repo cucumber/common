@@ -1,9 +1,9 @@
 package io.cucumber.gherkin;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.requireNonNull;
 
 public final class GherkinDialectProvider {
@@ -19,21 +19,15 @@ public final class GherkinDialectProvider {
     }
 
     public GherkinDialect getDefaultDialect() {
-        return getDialect(defaultDialectName, null);
+        return getDialect(defaultDialectName).orElseThrow(() -> new ParserException.NoSuchLanguageException(defaultDialectName, null));
     }
 
-    public GherkinDialect getDialect(String language, Location location) {
+    public Optional<GherkinDialect> getDialect(String language) {
         requireNonNull(language);
-        GherkinDialect dialect = GherkinDialects.DIALECTS.get(language);
-
-        if (dialect == null) {
-            throw new ParserException.NoSuchLanguageException(language, location);
-        }
-
-        return dialect;
+        return Optional.ofNullable(GherkinDialects.DIALECTS.get(language));
     }
 
-    public List<String> getLanguages() {
-        return unmodifiableList(asList("en", "no"));
+    public Set<String> getLanguages() {
+        return unmodifiableSet(GherkinDialects.DIALECTS.keySet());
     }
 }
