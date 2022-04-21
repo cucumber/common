@@ -13,11 +13,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
+* [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
+
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* [Java] remove shaded dependency on `com.eclipsesource.minimal-json:minimal-json`
+  ([#1957](https://github.com/cucumber/common/issues/1957)
+   [#1959](https://github.com/cucumber/common/pull/1959))
 
 ## [23.0.1] - 2022-03-31
 
