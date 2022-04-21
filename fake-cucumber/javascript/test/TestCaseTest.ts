@@ -28,6 +28,7 @@ describe('TestCase', () => {
         'some-test-step-id',
         {
           text: 'an ambiguous step',
+          type: messages.PickleStepType.UNKNOWN,
           astNodeIds: [],
           id: '1',
         },

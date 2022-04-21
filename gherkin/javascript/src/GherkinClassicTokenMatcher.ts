@@ -40,7 +40,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
 
   match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
-      this.setTokenMatched(token, TokenType.TagLine, null, null, null, this.getTags(token.line))
+      this.setTokenMatched(token, TokenType.TagLine, null, null, null, null, this.getTags(token.line))
       return true
     }
     return false
@@ -72,7 +72,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
   match_TableRow(token: IToken<TokenType>) {
     if (token.line.startsWith('|')) {
       // TODO: indent
-      this.setTokenMatched(token, TokenType.TableRow, null, null, null, token.line.getTableCells())
+      this.setTokenMatched(token, TokenType.TableRow, null, null, null, null, token.line.getTableCells())
       return true
     }
     return false
@@ -143,20 +143,35 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
   }
 
   match_StepLine(token: IToken<TokenType>) {
-    const keywords = []
-      .concat(this.dialect.given)
-      .concat(this.dialect.when)
-      .concat(this.dialect.then)
-      .concat(this.dialect.and)
-      .concat(this.dialect.but)
-    for (const keyword of keywords) {
-      if (token.line.startsWith(keyword)) {
-        const title = token.line.getRestTrimmed(keyword.length)
-        this.setTokenMatched(token, TokenType.StepLine, title, keyword)
-        return true
+    const keywords = this.getStepKeywordsByType()
+
+    let keyword: string = null
+    let keywordType: messages.StepKeywordType = messages.StepKeywordType.UNKNOWN
+    Object.keys(keywords).forEach((type: messages.StepKeywordType) => {
+      let translations = keywords[type]
+      if (keyword !== null) {
+        if (translations.includes(keyword)) {
+          keywordType = messages.StepKeywordType.UNKNOWN
+        }
       }
+      else {
+        for (const translation of translations) {
+          if (token.line.startsWith(translation)) {
+            keywordType = type
+            keyword = translation
+            break
+          }
+        }
+      }
+    })
+
+    if (keyword === null) {
+      return false
     }
-    return false
+
+    const title = token.line.getRestTrimmed(keyword.length)
+    this.setTokenMatched(token, TokenType.StepLine, title, keyword, null, keywordType)
+    return true
   }
 
   match_Other(token: IToken<TokenType>) {
@@ -206,11 +221,13 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     text?: string,
     keyword?: string,
     indent?: number,
+    keywordType?: messages.StepKeywordType,
     items?: readonly Item[]
   ) {
     token.matchedType = matchedType
     token.matchedText = text
     token.matchedKeyword = keyword
+    token.keywordType = keywordType
     token.matchedIndent =
       typeof indent === 'number' ? indent : token.line == null ? 0 : token.line.indent
     token.matchedItems = items || []
@@ -227,5 +244,15 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
       return text.replace('\\`\\`\\`', '```')
     }
     return text
+  }
+
+  private getStepKeywordsByType(): { [key in messages.StepKeywordType]: readonly string[] } {
+    return {
+      [messages.StepKeywordType.UNKNOWN]:     [],
+      [messages.StepKeywordType.CONTEXT]:     this.dialect.given,
+      [messages.StepKeywordType.ACTION]:      this.dialect.when,
+      [messages.StepKeywordType.OUTCOME]:     this.dialect.then,
+      [messages.StepKeywordType.CONJUNCTION]: [].concat(this.dialect.and).concat(this.dialect.but)
+    }
   }
 }

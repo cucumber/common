@@ -125,6 +125,7 @@ export default class AstBuilder implements IAstBuilder<AstNode, TokenType, RuleT
           id: this.newId(),
           location,
           keyword: stepLine.matchedKeyword,
+          keywordType: stepLine.keywordType,
           text: stepLine.matchedText,
           dataTable: dataTable,
           docString: docString,
