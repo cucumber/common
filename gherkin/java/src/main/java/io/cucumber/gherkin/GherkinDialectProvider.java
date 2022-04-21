@@ -28,6 +28,6 @@ public final class GherkinDialectProvider {
     }
 
     public Set<String> getLanguages() {
-        return unmodifiableSet(GherkinDialects.DIALECTS.keySet());
+        return GherkinDialects.DIALECTS.keySet();
     }
 }
