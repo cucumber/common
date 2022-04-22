@@ -60,7 +60,7 @@ public final class GherkinDialect {
         conjunctionKeywords.addAll(getAndKeywords());
         conjunctionKeywords.addAll(getButKeywords());
         addStepKeywordsTypes(stepKeywordsTypes, conjunctionKeywords, StepKeywordType.CONJUNCTION);
-        this.stepKEywordsTypes = stepKeywordsTypes;
+        this.stepKeywordsTypes = stepKeywordsTypes;
     }
 
     private static void addStepKeywordsTypes(Map<String, StepKeywordType> h, List<String> keywords, StepKeywordType type) {
