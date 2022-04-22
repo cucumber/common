@@ -266,7 +266,7 @@ export default class GherkinInMarkdownTokenMatcher implements ITokenMatcher<Toke
     if (match) {
       token.matchedType = matchedType
       token.matchedKeyword = match[2]
-      token.keywordType = this.keywordTypeMap[match[2]]
+      token.matchedKeywordType = this.keywordTypeMap[match[2]]
       token.matchedText = match[3].trim()
       indent += match[1].length
       result = true

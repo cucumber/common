@@ -1,7 +1,7 @@
 module Gherkin
   class Token < Struct.new(:line, :location)
     attr_accessor :matched_type, :matched_text, :matched_keyword, :matched_indent,
-                  :matched_items, :matched_gherkin_dialect, :keyword_type
+                  :matched_items, :matched_gherkin_dialect, :matched_keyword_type
 
     def eof?
       line.nil?

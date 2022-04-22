@@ -146,6 +146,8 @@ sub _set_token_matched {
 
     $token->matched_keyword( $options->{'keyword'} )
       if defined $options->{'keyword'};
+    $token->matched_keyword_type( $options->{'keyword_type'} )
+      if defined $options->{'keyword_type'};
 
     if ( defined $options->{'indent'} ) {
         $token->matched_indent( $options->{'indent'} );

@@ -32,7 +32,7 @@ export default interface IToken<TokenType> {
   matchedType: TokenType
   matchedItems: readonly Item[]
   matchedKeyword: string
-  keywordType?: messages.StepKeywordType
+  matchedKeywordType: messages.StepKeywordType
   matchedIndent: number
   matchedGherkinDialect: string
   getTokenValue(): string

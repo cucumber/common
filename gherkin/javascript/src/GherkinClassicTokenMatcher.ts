@@ -236,7 +236,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     token.matchedType = matchedType
     token.matchedText = text
     token.matchedKeyword = keyword
-    token.keywordType = keywordType
+    token.matchedKeywordType = keywordType
     token.matchedIndent =
       typeof indent === 'number' ? indent : token.line == null ? 0 : token.line.indent
     token.matchedItems = items || []
