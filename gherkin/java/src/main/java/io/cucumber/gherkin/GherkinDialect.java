@@ -66,6 +66,9 @@ public final class GherkinDialect {
     private static void addStepKeywordsTypes(Map<String, StepKeywordType> h, List<String> keywords, StepKeywordType type) {
         for (String keyword : keywords) {
             if (h.containsKey(keyword)) {
+                // If the keyword was already added, it has multiple mappings
+                // since the mapping isn't 1-to-1, the type of the keyword
+                // can't be known; instead of an exact type, return 'UNKNOWN'
                 h.put(keyword, StepKeywordType.UNKNOWN);
             }
             else {
