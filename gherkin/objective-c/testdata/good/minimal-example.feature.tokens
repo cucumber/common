@@ -1,5 +1,5 @@
-(1:1)FeatureLine:Feature/Minimal/
+(1:1)FeatureLine:()Feature/Minimal/
 (2:1)Empty://
-(3:3)ScenarioLine:Example/minimalistic/
-(4:5)StepLine:Given /the minimalism/
+(3:3)ScenarioLine:()Example/minimalistic/
+(4:5)StepLine:(Context)Given /the minimalism/
 EOF

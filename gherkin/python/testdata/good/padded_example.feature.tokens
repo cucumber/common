@@ -1,7 +1,7 @@
-(1:1)FeatureLine:Feature/test/
+(1:1)FeatureLine:()Feature/test/
 (2:1)Empty://
-(3:3)ScenarioLine:Scenario/test/
-(4:5)StepLine:Given /a <color> ball with:/
+(3:3)ScenarioLine:()Scenario/test/
+(4:5)StepLine:(Context)Given /a <color> ball with:/
 (5:7)TableRow://9:type,20:diameter
 (6:7)TableRow://9:football,26:69
 (7:7)TableRow://11:pool,25:5.6
@@ -13,7 +13,7 @@
 (13:1)Comment:/    # - U+0009 (tab)/
 (14:1)Comment:/    # This is generated with `ruby -e 'STDOUT.write "\u00A0\u0020\u0009".encode("utf-8")' | pbcopy`/
 (15:1)Comment:/    # and pasted. /
-(16:5)ExamplesLine:Examples//
+(16:5)ExamplesLine:()Examples//
 (17:7)TableRow://9:color
 (18:7)TableRow://11:red
 EOF
