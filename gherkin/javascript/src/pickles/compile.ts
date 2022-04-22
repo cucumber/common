@@ -115,7 +115,7 @@ function compileScenario(
   let lastKeywordType = messages.StepKeywordType.UNKNOWN
   const steps = [] as messages.PickleStep[]
 
-  if (scenario.steps.length === 0) {
+  if (scenario.steps.length !== 0) {
     backgroundSteps.forEach((step) => {
        lastKeywordType = (step.keywordType === messages.StepKeywordType.CONJUNCTION) ?
          lastKeywordType : step.keywordType
@@ -159,7 +159,7 @@ function compileScenarioOutline(
       examples.tableBody.forEach((valuesRow) => {
         let lastKeywordType = messages.StepKeywordType.UNKNOWN
         const steps = [] as messages.PickleStep[]
-        if (scenario.steps.length === 0) {
+        if (scenario.steps.length !== 0) {
           backgroundSteps.forEach((step) => {
             lastKeywordType = (step.keywordType === messages.StepKeywordType.CONJUNCTION) ?
               lastKeywordType : step.keywordType
