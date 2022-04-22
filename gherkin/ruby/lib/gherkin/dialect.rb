@@ -14,12 +14,6 @@ module Gherkin
 
     def initialize(spec)
       @spec = spec
-      @step_keywords_by_type = {
-        Cucumber::Messages::StepKeywordType::CONTEXT => given_keywords(),
-        Cucumber::Messages::StepKeywordType::ACTION => when_keywords(),
-        Cucumber::Messages::StepKeywordType::OUTCOME => then_keywords(),
-        Cucumber::Messages::StepKeywordType::CONJUNCTION => [].concat(and_keywords()).concat(but_keywords())
-      }
     end
 
     def feature_keywords
@@ -64,10 +58,6 @@ module Gherkin
 
     def but_keywords
       @spec.fetch('but')
-    end
-
-    def step_keywords_by_type
-      @step_keywords_by_type
     end
   end
 end

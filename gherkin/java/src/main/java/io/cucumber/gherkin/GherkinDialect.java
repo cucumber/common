@@ -25,6 +25,7 @@ public final class GherkinDialect {
     private final List<String> andKeywords;
     private final List<String> butKeywords;
     private final List<String> stepKeywords;
+    private final Map<String, StepKeywordType> stepKeywordsTypes;
 
     GherkinDialect(String language, String name, String nativeName, List<String> featureKeywords, List<String> ruleKeywords, List<String> scenarioKeywords, List<String> scenarioOutlineKeywords, List<String> backgroundKeywords, List<String> examplesKeywords, List<String> givenKeywords, List<String> whenKeywords, List<String> thenKeywords, List<String> andKeywords, List<String> butKeywords) {
         this.language = language;
@@ -49,6 +50,28 @@ public final class GherkinDialect {
         stepKeywords.addAll(andKeywords);
         stepKeywords.addAll(butKeywords);
         this.stepKeywords = unmodifiableList(stepKeywords);
+
+        Map<String, StepKeywordType> stepKeywordsTypes = new HashMap<>();
+        addStepKeywordsTypes(stepKeywordsTypes, getGivenKeywords(), StepKeywordType.CONTEXT);
+        addStepKeywordsTypes(stepKeywordsTypes, getWhenKeywords(), StepKeywordType.ACTION);
+        addStepKeywordsTypes(stepKeywordsTypes, getThenKeywords(), StepKeywordType.OUTCOME);
+
+        List<String> conjunctionKeywords = new ArrayList<>();
+        conjunctionKeywords.addAll(getAndKeywords());
+        conjunctionKeywords.addAll(getButKeywords());
+        addStepKeywordsTypes(stepKeywordsTypes, conjunctionKeywords, StepKeywordType.CONJUNCTION);
+        this.stepKEywordsTypes = stepKeywordsTypes;
+    }
+
+    private static void addStepKeywordsTypes(Map<String, StepKeywordType> h, List<String> keywords, StepKeywordType type) {
+        for (String keyword : keywords) {
+            if (h.containsKey(keyword)) {
+                h.put(keyword, StepKeywordType.UNKNOWN);
+            }
+            else {
+                h.put(keyword, type);
+            }
+        }
     }
 
     public List<String> getFeatureKeywords() {
@@ -79,16 +102,8 @@ public final class GherkinDialect {
         return stepKeywords;
     }
 
-    public Map<StepKeywordType, List<String>> getStepKeywordsByType() {
-        Map<StepKeywordType, List<String>> result = new HashMap<>();
-        result.put(StepKeywordType.CONTEXT, getGivenKeywords());
-        result.put(StepKeywordType.ACTION, getWhenKeywords());
-        result.put(StepKeywordType.OUTCOME, getThenKeywords());
-        List<String> conjunctions = new ArrayList<>();
-        conjunctions.addAll(getAndKeywords());
-        conjunctions.addAll(getButKeywords());
-        result.put(StepKeywordType.CONJUNCTION, conjunctions);
-        return result;
+    public Map<String, StepKeywordType> getStepKeywordsTypes() {
+        return stepKeywordsTypes;
     }
 
     public List<String> getBackgroundKeywords() {

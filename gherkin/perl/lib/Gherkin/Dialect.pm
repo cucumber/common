@@ -41,12 +41,6 @@ sub change_dialect {
       unless $self->dictionary->{$name};
     $self->{'dialect'} = $name;
     $self->{'_current_dialect'} = $self->dictionary->{$name};
-    $self->{'_step_keywords'} = [
-        [ Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT,     $self->Given ],
-        [ Cucumber::Messages::Step::KEYWORDTYPE_ACTION,      $self->When  ],
-        [ Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME,     $self->Then  ],
-        [ Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION, $self->And   ],
-        [ Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION, $self->But   ] ];
 }
 
 sub Feature    { $_[0]->_current_dialect->{'feature'}; }

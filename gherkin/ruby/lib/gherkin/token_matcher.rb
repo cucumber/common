@@ -119,30 +119,33 @@ module Gherkin
     end
 
     def match_StepLine(token)
-      (keyword_type, keyword) = @dialect.step_keywords_by_type
-                                  .reduce([]) do |accum, (type, translations)|
-        (keyword_type, keyword) = accum
+      keywords = @dialect.given_keywords +
+          @dialect.when_keywords +
+          @dialect.then_keywords +
+          @dialect.and_keywords +
+          @dialect.but_keywords
 
-        if keyword
-          # If the keyword exists for multiple step types, it's UNKNOWN type
-          next [ Cucumber::Messages::StepKeywordType::UNKNOWN,
-                 keyword ] if translations.index(keyword)
-        else
-          keyword = translations.detect { |t| token.line.start_with?(t) }
-          next [ type, keyword ] if keyword
-        end
+      keyword = keywords.detect { |k| token.line.start_with?(k) }
 
-        accum
-      end
       return false unless keyword
 
       title = token.line.get_rest_trimmed(keyword.length)
       set_token_matched(token,
-                        :StepLine, title, keyword, nil, keyword_type)
+                        :StepLine, title, keyword, nil, @keyword_types[keyword])
       return true
     end
 
     private
+
+    def add_keyword_type_mappings(keywords, type)
+      keywords.each do |keyword|
+        if @keyword_types.has_key?(keyword)
+          @keyword_types[keyword] = Cucumber::Messages::StepKeywordType::UNKNOWN
+        else
+          @keyword_types[keyword] = type
+        end
+      end
+    end
 
     def change_dialect(dialect_name, location)
       dialect = Dialect.for(dialect_name)
@@ -150,6 +153,12 @@ module Gherkin
 
       @dialect_name = dialect_name
       @dialect = dialect
+      @keyword_types = {}
+      add_keyword_type_mappings(@dialect.given_keywords, Cucumber::Messages::StepKeywordType::CONTEXT)
+      add_keyword_type_mappings(@dialect.when_keywords, Cucumber::Messages::StepKeywordType::ACTION)
+      add_keyword_type_mappings(@dialect.then_keywords, Cucumber::Messages::StepKeywordType::OUTCOME)
+      add_keyword_type_mappings(@dialect.and_keywords + @dialect.but_keywords,
+                                Cucumber::Messages::StepKeywordType::CONJUNCTION)
     end
 
     def match_title_line(token, token_type, keywords)

@@ -182,37 +182,16 @@ class TokenMatcher implements ITokenMatcher {
 
     @Override
     public boolean match_StepLine(Token token) {
-        Map<StepKeywordType, List<String>> keywords = currentDialect.getStepKeywordsByType();
-
-        String keyword = null;
-        StepKeywordType keywordType = StepKeywordType.UNKNOWN;
-        for (Entry<StepKeywordType,List<String>> entry : keywords.entrySet()) {
-            List<String> translations = entry.getValue();
-
-            if (keyword != null) { // we have a keyword already
-                if (translations.contains(keyword)) {
-                    keywordType = StepKeywordType.UNKNOWN;
-                }
-            }
-            else {
-                Optional<String> t = translations.stream()
-                    .filter((k) -> token.line.startsWith(k))
-                    .findFirst();
-
-                if (t.isPresent()) {
-                    keyword = t.get();
-                    keywordType = entry.getKey();
-                }
+        List<String> keywords = currentDialect.getStepKeywords();
+        for (String keyword : keywords) {
+            if (token.line.startsWith(keyword)) {
+                String stepText = token.line.getRestTrimmed(keyword.length());
+                StepKeywordType keywordType = currentDialect.getStepKeywordsTypes().get(keyword);
+                setTokenMatched(token, TokenType.StepLine, stepText, keyword, null, keywordType, null);
+                return true;
             }
         }
-
-        if (keyword == null) {
-            return false;
-        }
-
-        String stepText = token.line.getRestTrimmed(keyword.length());
-        setTokenMatched(token, TokenType.StepLine, stepText, keyword, null, keywordType, null);
-        return true;
+        return false;
     }
 
     @Override
