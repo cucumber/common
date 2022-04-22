@@ -10,11 +10,23 @@ import countSymbols from './countSymbols'
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
+function addKeywordTypeMappings(h: { [key: string]: messages.StepKeywordType }, keywords: readonly string[], keywordType: messages.StepKeywordType) {
+  for (const k of keywords) {
+    if (k in h) {
+      h[k] = messages.StepKeywordType.UNKNOWN
+    }
+    else {
+      h[k] = keywordType
+    }
+  }
+}
+
 export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenType> {
   private dialect: Dialect
   private dialectName: string
   private activeDocStringSeparator: string
   private indentToRemove: number
+  private keywordTypeMap: { [key: string]: messages.StepKeywordType }
 
   constructor(private readonly defaultDialectName: string = 'en') {
     this.reset()
@@ -28,6 +40,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
 
     this.dialectName = newDialectName
     this.dialect = newDialect
+    this.initializeKeywordTypes()
   }
 
   reset() {
@@ -36,6 +49,16 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     }
     this.activeDocStringSeparator = null
     this.indentToRemove = 0
+  }
+
+  initializeKeywordTypes() {
+    this.keywordTypeMap = {}
+    addKeywordTypeMappings(this.keywordTypeMap, this.dialect.given, messages.StepKeywordType.CONTEXT)
+    addKeywordTypeMappings(this.keywordTypeMap, this.dialect.when, messages.StepKeywordType.ACTION)
+    addKeywordTypeMappings(this.keywordTypeMap, this.dialect.then, messages.StepKeywordType.OUTCOME)
+    addKeywordTypeMappings(this.keywordTypeMap,
+                           [].concat(this.dialect.and).concat(this.dialect.but),
+                           messages.StepKeywordType.CONJUNCTION)
   }
 
   match_TagLine(token: IToken<TokenType>) {
@@ -143,35 +166,21 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
   }
 
   match_StepLine(token: IToken<TokenType>) {
-    const keywords = this.getStepKeywordsByType()
-
-    let keyword: string = null
-    let keywordType: messages.StepKeywordType = messages.StepKeywordType.UNKNOWN
-    Object.keys(keywords).forEach((type: messages.StepKeywordType) => {
-      let translations = keywords[type]
-      if (keyword !== null) {
-        if (translations.includes(keyword)) {
-          keywordType = messages.StepKeywordType.UNKNOWN
-        }
+    const keywords = []
+      .concat(this.dialect.given)
+      .concat(this.dialect.when)
+      .concat(this.dialect.then)
+      .concat(this.dialect.and)
+      .concat(this.dialect.but)
+    for (const keyword of keywords) {
+      if (token.line.startsWith(keyword)) {
+        const title = token.line.getRestTrimmed(keyword.length)
+        this.setTokenMatched(token, TokenType.StepLine, title, keyword, null, this.keywordTypeMap[keyword])
+        return true
       }
-      else {
-        for (const translation of translations) {
-          if (token.line.startsWith(translation)) {
-            keywordType = type
-            keyword = translation
-            break
-          }
-        }
-      }
-    })
-
-    if (keyword === null) {
-      return false
     }
 
-    const title = token.line.getRestTrimmed(keyword.length)
-    this.setTokenMatched(token, TokenType.StepLine, title, keyword, null, keywordType)
-    return true
+    return false
   }
 
   match_Other(token: IToken<TokenType>) {
@@ -244,15 +253,5 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
       return text.replace('\\`\\`\\`', '```')
     }
     return text
-  }
-
-  private getStepKeywordsByType(): { [key in messages.StepKeywordType]: readonly string[] } {
-    return {
-      [messages.StepKeywordType.UNKNOWN]:     [],
-      [messages.StepKeywordType.CONTEXT]:     this.dialect.given,
-      [messages.StepKeywordType.ACTION]:      this.dialect.when,
-      [messages.StepKeywordType.OUTCOME]:     this.dialect.then,
-      [messages.StepKeywordType.CONJUNCTION]: [].concat(this.dialect.and).concat(this.dialect.but)
-    }
   }
 }
