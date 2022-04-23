@@ -108,8 +108,8 @@ class PickleCompiler {
 
             StepKeywordType lastKeywordType = StepKeywordType.UNKNOWN;
             for (Step step : allSteps) {
-                if (step.getKeywordType() != StepKeywordType.CONJUNCTION)
-                    lastKeywordType = step.getKeywordType();
+                if (step.getKeywordType().get() != StepKeywordType.CONJUNCTION)
+                    lastKeywordType = step.getKeywordType().get();
 
                 steps.add(pickleStep(step, lastKeywordType));
             }
@@ -145,8 +145,8 @@ class PickleCompiler {
 
                 if (!scenario.getSteps().isEmpty())
                     for (Step step : backgroundSteps) {
-                        if (step.getKeywordType() != StepKeywordType.CONJUNCTION)
-                            lastKeywordType = step.getKeywordType();
+                        if (step.getKeywordType().get() != StepKeywordType.CONJUNCTION)
+                            lastKeywordType = step.getKeywordType().get();
 
                         steps.add(pickleStep(step, lastKeywordType));
                     }
@@ -158,8 +158,8 @@ class PickleCompiler {
                 tags.addAll(examples.getTags());
 
                 for (Step scenarioOutlineStep : scenario.getSteps()) {
-                    if (scenarioOutlineStep.getKeywordType() != StepKeywordType.CONJUNCTION)
-                        lastKeywordType = scenarioOutlineStep.getKeywordType();
+                    if (scenarioOutlineStep.getKeywordType().get() != StepKeywordType.CONJUNCTION)
+                        lastKeywordType = scenarioOutlineStep.getKeywordType().get();
 
                     PickleStep pickleStep = pickleStep(scenarioOutlineStep, variableCells, valuesRow, lastKeywordType);
 
