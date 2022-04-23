@@ -25,7 +25,7 @@ public final class GherkinDialect {
     private final List<String> andKeywords;
     private final List<String> butKeywords;
     private final List<String> stepKeywords;
-    private final Map<String, StepKeywordType> stepKeywordsTypes;
+    private final Map<String, List<StepKeywordType>> stepKeywordsTypes;
 
     GherkinDialect(String language, String name, String nativeName, List<String> featureKeywords, List<String> ruleKeywords, List<String> scenarioKeywords, List<String> scenarioOutlineKeywords, List<String> backgroundKeywords, List<String> examplesKeywords, List<String> givenKeywords, List<String> whenKeywords, List<String> thenKeywords, List<String> andKeywords, List<String> butKeywords) {
         this.language = language;
@@ -51,7 +51,7 @@ public final class GherkinDialect {
         stepKeywords.addAll(butKeywords);
         this.stepKeywords = unmodifiableList(stepKeywords);
 
-        Map<String, StepKeywordType> stepKeywordsTypes = new HashMap<>();
+        Map<String, List<StepKeywordType>> stepKeywordsTypes = new HashMap<>();
         addStepKeywordsTypes(stepKeywordsTypes, getGivenKeywords(), StepKeywordType.CONTEXT);
         addStepKeywordsTypes(stepKeywordsTypes, getWhenKeywords(), StepKeywordType.ACTION);
         addStepKeywordsTypes(stepKeywordsTypes, getThenKeywords(), StepKeywordType.OUTCOME);
@@ -63,17 +63,11 @@ public final class GherkinDialect {
         this.stepKeywordsTypes = stepKeywordsTypes;
     }
 
-    private static void addStepKeywordsTypes(Map<String, StepKeywordType> h, List<String> keywords, StepKeywordType type) {
+    private static void addStepKeywordsTypes(Map<String, List<StepKeywordType>> h, List<String> keywords, StepKeywordType type) {
         for (String keyword : keywords) {
-            if (h.containsKey(keyword)) {
-                // If the keyword was already added, it has multiple mappings
-                // since the mapping isn't 1-to-1, the type of the keyword
-                // can't be known; instead of an exact type, return 'UNKNOWN'
-                h.put(keyword, StepKeywordType.UNKNOWN);
-            }
-            else {
-                h.put(keyword, type);
-            }
+            if (!h.containsKey(keyword))
+                h.put(keyword, new ArrayList<>());
+            h.get(keyword).add(type);
         }
     }
 
@@ -105,8 +99,8 @@ public final class GherkinDialect {
         return stepKeywords;
     }
 
-    public Map<String, StepKeywordType> getStepKeywordsTypes() {
-        return stepKeywordsTypes;
+    public List<StepKeywordType> getStepKeywordTypes(String keyword) {
+        return stepKeywordsTypes.get(keyword);
     }
 
     public List<String> getBackgroundKeywords() {

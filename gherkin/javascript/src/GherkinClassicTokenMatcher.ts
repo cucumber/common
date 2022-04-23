@@ -10,14 +10,12 @@ import countSymbols from './countSymbols'
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
-function addKeywordTypeMappings(h: { [key: string]: messages.StepKeywordType }, keywords: readonly string[], keywordType: messages.StepKeywordType) {
+function addKeywordTypeMappings(h: { [key: string]: messages.StepKeywordType[] }, keywords: readonly string[], keywordType: messages.StepKeywordType) {
   for (const k of keywords) {
-    if (k in h) {
-      h[k] = messages.StepKeywordType.UNKNOWN
+    if (!(k in h)) {
+      h[k] = [] as messages.StepKeywordType[]
     }
-    else {
-      h[k] = keywordType
-    }
+    h[k].push(keywordType)
   }
 }
 
@@ -26,7 +24,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
   private dialectName: string
   private activeDocStringSeparator: string
   private indentToRemove: number
-  private keywordTypeMap: { [key: string]: messages.StepKeywordType }
+  private keywordTypesMap: { [key: string]: messages.StepKeywordType[] }
 
   constructor(private readonly defaultDialectName: string = 'en') {
     this.reset()
@@ -52,11 +50,11 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
   }
 
   initializeKeywordTypes() {
-    this.keywordTypeMap = {}
-    addKeywordTypeMappings(this.keywordTypeMap, this.dialect.given, messages.StepKeywordType.CONTEXT)
-    addKeywordTypeMappings(this.keywordTypeMap, this.dialect.when, messages.StepKeywordType.ACTION)
-    addKeywordTypeMappings(this.keywordTypeMap, this.dialect.then, messages.StepKeywordType.OUTCOME)
-    addKeywordTypeMappings(this.keywordTypeMap,
+    this.keywordTypesMap = {}
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.given, messages.StepKeywordType.CONTEXT)
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.when, messages.StepKeywordType.ACTION)
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.then, messages.StepKeywordType.OUTCOME)
+    addKeywordTypeMappings(this.keywordTypesMap,
                            [].concat(this.dialect.and).concat(this.dialect.but),
                            messages.StepKeywordType.CONJUNCTION)
   }
@@ -175,7 +173,13 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     for (const keyword of keywords) {
       if (token.line.startsWith(keyword)) {
         const title = token.line.getRestTrimmed(keyword.length)
-        this.setTokenMatched(token, TokenType.StepLine, title, keyword, null, this.keywordTypeMap[keyword])
+        const keywordTypes = this.keywordTypesMap[keyword]
+        let keywordType = keywordTypes[0]
+        if (keywordTypes.length > 1) {
+          keywordType = messages.StepKeywordType.UNKNOWN
+        }
+
+        this.setTokenMatched(token, TokenType.StepLine, title, keyword, null, keywordType)
         return true
       }
     }

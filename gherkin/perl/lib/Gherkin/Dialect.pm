@@ -55,8 +55,8 @@ sub And        { $_[0]->_current_dialect->{'and'}; }
 sub But        { $_[0]->_current_dialect->{'but'}; }
 
 
-sub stepKeywordsByType {
-    return @{ $_[0]->{'_step_keywords'} };
+sub stepKeywordTypes {
+    return @{ $_[0]->{'_step_keywords'}->{$_[1]} };
 }
 
 sub ScenarioOutline {

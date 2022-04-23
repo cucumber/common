@@ -186,7 +186,8 @@ class TokenMatcher implements ITokenMatcher {
         for (String keyword : keywords) {
             if (token.line.startsWith(keyword)) {
                 String stepText = token.line.getRestTrimmed(keyword.length());
-                StepKeywordType keywordType = currentDialect.getStepKeywordsTypes().get(keyword);
+                List<StepKeywordType> keywordTypes = currentDialect.getStepKeywordTypes(keyword);
+                StepKeywordType keywordType = (keywordTypes.size() > 1) ? StepKeywordType.UNKNOWN : keywordTypes.get(0);
                 setTokenMatched(token, TokenType.StepLine, stepText, keyword, null, keywordType, null);
                 return true;
             }

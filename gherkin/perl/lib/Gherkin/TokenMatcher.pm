@@ -28,13 +28,10 @@ sub _add_keyword_type_mappings {
     my ($keyword_types, $keywords, $type) = @_;
 
     for my $keyword (@$keywords) {
-        if (exists $keyword_types->{$keyword}) {
-            $keyword_types->{$keyword} =
-                Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN;
+        if (not exists $keyword_types->{$keyword}) {
+            $keyword_types->{$keyword} = [];
         }
-        else {
-            $keyword_types->{$keyword} = $type;
-        }
+        push @{$keyword_types->{$keyword}}, $type;
     }
 }
 
@@ -217,12 +214,16 @@ sub match_StepLine {
     for my $keyword (@keywords) {
         if ( $line->startswith($keyword) ) {
             my $title = $line->get_rest_trimmed( length($keyword) );
+            my $keyword_type =
+                (scalar @{$self->_keyword_types->{$keyword}} > 1)
+                ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+                : $self->_keyword_types->{$keyword}->[0];
             $self->_set_token_matched(
                 $token,
                 StepLine => {
                     text => $title,
                     keyword => $keyword,
-                    keyword_type => $self->_keyword_types->{$keyword}
+                    keyword_type => $keyword_type,
                 } );
             return 1;
         }

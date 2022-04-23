@@ -130,8 +130,14 @@ module Gherkin
       return false unless keyword
 
       title = token.line.get_rest_trimmed(keyword.length)
+      keyword_types = @keyword_types[keyword]
+      keyword_type = keyword_types[0]
+      if keyword_types.length() > 1
+        keyword_type = Cucumber::Messages::StepKeywordType::UNKNOWN
+      end
+
       set_token_matched(token,
-                        :StepLine, title, keyword, nil, @keyword_types[keyword])
+                        :StepLine, title, keyword, nil, keyword_type)
       return true
     end
 
@@ -139,11 +145,10 @@ module Gherkin
 
     def add_keyword_type_mappings(keywords, type)
       keywords.each do |keyword|
-        if @keyword_types.has_key?(keyword)
-          @keyword_types[keyword] = Cucumber::Messages::StepKeywordType::UNKNOWN
-        else
-          @keyword_types[keyword] = type
+        if not @keyword_types.has_key?(keyword)
+          @keyword_types[keyword] = []
         end
+        @keyword_types[keyword] += [type]
       end
     end
 
