@@ -100,7 +100,7 @@ jobs:
           # make storybook work. Our storybook setup is not (yet) able to
           # pick up .ts files - all code needs to be transpiled first.
           command: |
-            npm install --global npm@7
+            npm install --global npm@8
             npm ci
             npm run build
       - persist_to_workspace:
@@ -153,7 +153,7 @@ jobs:
       - run:
           name: messages/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd messages/javascript
             make
 
@@ -165,7 +165,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
@@ -177,7 +177,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
@@ -189,7 +189,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
@@ -201,7 +201,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
@@ -213,7 +213,7 @@ jobs:
       - run:
           name: gherkin-utils/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin-utils/javascript
             make
 
@@ -225,7 +225,7 @@ jobs:
       - run:
           name: fake-cucumber/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd fake-cucumber/javascript
             make
 
@@ -237,7 +237,7 @@ jobs:
       - run:
           name: compatibility-kit/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd compatibility-kit/javascript
             make
 
@@ -249,7 +249,7 @@ jobs:
       - run:
           name: json-formatter/javascript-testdata
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd json-formatter/javascript-testdata
             make
       - persist_to_workspace:
@@ -265,7 +265,7 @@ jobs:
       - run:
           name: json-to-messages/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd json-to-messages/javascript
             make
 
@@ -277,7 +277,7 @@ jobs:
       - run:
           name: json-to-messages/javascript-testdata
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd json-to-messages/javascript-testdata
             make
       - persist_to_workspace:
@@ -293,7 +293,7 @@ jobs:
       - run:
           name: query/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd query/javascript
             make
 
