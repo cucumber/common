@@ -32,7 +32,7 @@ describe('jsonToMessages', () => {
     })
 
     it('contains the @cucumber-messages version', () => {
-      assert.strictEqual(meta.protocolVersion, '17.1.1')
+      assert.strictEqual(meta.protocolVersion, messages.version)
     })
 
     it('does not provide any information about the original producer of the JSON', () => {
