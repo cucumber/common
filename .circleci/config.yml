@@ -38,6 +38,10 @@ executors:
     docker:
       - image: circleci/node:16
     working_directory: ~/cucumber
+  docker-circleci-node-18:
+    docker:
+      - image: circleci/node:18
+    working_directory: ~/cucumber
 
   # Ruby
   docker-circleci-ruby-23:
@@ -179,6 +183,18 @@ jobs:
 
   gherkin-javascript-node-16:
     executor: docker-circleci-node-16
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/javascript
+          command: |
+            sudo npm install --global npm@7
+            cd gherkin/javascript
+            make
+
+  gherkin-javascript-node-18:
+    executor: docker-circleci-node-18
     steps:
       - attach_workspace:
           at: '~/cucumber'
@@ -648,6 +664,9 @@ workflows:
           requires:
             - prepare-parallel
       - gherkin-javascript-node-16:
+          requires:
+            - prepare-parallel
+      - gherkin-javascript-node-18:
           requires:
             - prepare-parallel
       - gherkin-utils-javascript:
