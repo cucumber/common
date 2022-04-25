@@ -22,7 +22,7 @@ executors:
   # Go
   docker-circleci-golang:
     docker:
-      - image: cimg/golang:1.17
+      - image: circleci/golang:1.17
     working_directory: ~/cucumber
 
   # Node.js
@@ -46,35 +46,35 @@ executors:
   # Ruby
   docker-circleci-ruby-23:
     docker:
-      - image: cimg/ruby:2.3
+      - image: circleci/ruby:2.3
     working_directory: ~/cucumber
   docker-circleci-ruby-24:
     docker:
-      - image: cimg/ruby:2.4
+      - image: circleci/ruby:2.4
     working_directory: ~/cucumber
   docker-circleci-ruby-25:
     docker:
-      - image: cimg/ruby:2.5
+      - image: circleci/ruby:2.5
     working_directory: ~/cucumber
   docker-circleci-ruby-26:
     docker:
-      - image: cimg/ruby:2.6
+      - image: circleci/ruby:2.6
     working_directory: ~/cucumber
   # Java
   docker-circleci-openjdk:
     docker:
-      - image: cimg/openjdk:11
+      - image: circleci/openjdk:11
     working_directory: ~/cucumber
   # Python
   docker-circleci-python:
     docker:
-      - image: cimg/python:3.10.4
+      - image: circleci/python:3.10.4
     working_directory: ~/cucumber
 
   # Php
   docker-circleci-php:
     docker:
-      - image: cimg/php:8.1.5
+      - image: circleci/php:8.1.5
     working_directory: ~/cucumber
 
 ###
