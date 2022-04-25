@@ -201,7 +201,6 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
