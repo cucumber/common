@@ -55,7 +55,6 @@ export default async function main(
   )
 
   const metaEnvelope: messages.Envelope = {
-    // '@cucumber/json-to-messages', version,
     meta: {
       protocolVersion: messages.version,
       implementation: {
