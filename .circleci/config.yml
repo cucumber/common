@@ -68,13 +68,13 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: circleci/python:3.10.4
+      - image: cimg/python:3.10.4
     working_directory: ~/cucumber
 
   # Php
   docker-circleci-php:
     docker:
-      - image: circleci/php:8.1.5
+      - image: cimg/php:8.1.5
     working_directory: ~/cucumber
 
 ###
