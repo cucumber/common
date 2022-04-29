@@ -12,6 +12,7 @@ import static java.util.Objects.requireNonNull;
 public final class Step {
     private final Location location;
     private final String keyword;
+    private final StepKeywordType keywordType;
     private final String text;
     private final DocString docString;
     private final DataTable dataTable;
@@ -20,6 +21,7 @@ public final class Step {
     public Step(
         Location location,
         String keyword,
+        StepKeywordType keywordType,
         String text,
         DocString docString,
         DataTable dataTable,
@@ -27,6 +29,7 @@ public final class Step {
     ) {
         this.location = requireNonNull(location, "Step.location cannot be null");
         this.keyword = requireNonNull(keyword, "Step.keyword cannot be null");
+        this.keywordType = keywordType;
         this.text = requireNonNull(text, "Step.text cannot be null");
         this.docString = docString;
         this.dataTable = dataTable;
@@ -39,6 +42,10 @@ public final class Step {
 
     public String getKeyword() {
         return keyword;
+    }
+
+    public Optional<StepKeywordType> getKeywordType() {
+        return Optional.ofNullable(keywordType);
     }
 
     public String getText() {
@@ -65,6 +72,7 @@ public final class Step {
         return 
             location.equals(that.location) &&         
             keyword.equals(that.keyword) &&         
+            Objects.equals(keywordType, that.keywordType) &&         
             text.equals(that.text) &&         
             Objects.equals(docString, that.docString) &&         
             Objects.equals(dataTable, that.dataTable) &&         
@@ -76,6 +84,7 @@ public final class Step {
         return Objects.hash(
             location,
             keyword,
+            keywordType,
             text,
             docString,
             dataTable,
@@ -88,6 +97,7 @@ public final class Step {
         return "Step{" +
             "location=" + location +
             ", keyword=" + keyword +
+            ", keywordType=" + keywordType +
             ", text=" + text +
             ", docString=" + docString +
             ", dataTable=" + dataTable +
