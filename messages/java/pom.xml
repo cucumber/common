@@ -22,6 +22,7 @@
         <connection>scm:git:git://github.com/cucumber/messages-java.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/messages-java.git</developerConnection>
         <url>git://github.com/cucumber/messages-java.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencyManagement>
