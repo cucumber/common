@@ -81,6 +81,8 @@ class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 return new Step(
                         getLocation(stepLine, 0),
                         stepLine.matchedKeyword,
+                        // TODO: do not pass null - fix this in 1741
+                        null,
                         stepLine.matchedText,
                         node.getSingle(RuleType.DocString, null),
                         node.getSingle(RuleType.DataTable, null),

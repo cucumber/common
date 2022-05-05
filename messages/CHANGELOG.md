@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* Expand the messages protocol with keyword types ([#1966](https://github.com/cucumber/common/pull/1966))
+
 ### Changed
+
+* [Java] the `PickleStep` constructor has changed - it now needs an extra `PickleStepType` argument.
+* [Java] the `Step` constructor has changed - it now needs an extra `StepKeywordType` argument.
 
 ### Deprecated
 
