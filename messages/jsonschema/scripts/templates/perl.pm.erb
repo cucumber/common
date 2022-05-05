@@ -104,11 +104,11 @@ Available constants for valid values of this field:
 
 <% if property['enum'] -%>
 
-use constant
+use constant {
 <%- property['enum'].to_a.each_with_index do |value, index| -%>
    <%= property_name.upcase %>_<%= enum_constant(value) %> => '<%= value %>',
 <%- end -%>
-   ;
+   };
 
 <% end -%>
 has <%= underscore(property_name) %> =>

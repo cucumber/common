@@ -43,6 +43,16 @@
           "description": "A unique ID for the PickleStep",
           "type": "string"
         },
+        "type": {
+          "description": "The context in which the step was specified: context (Given), action (When) or outcome (Then).\n\nNote that the keywords `But` and `And` inherit their meaning from prior steps and the `*` 'keyword' doesn't have specific meaning (hence Unknown)",
+          "type": "string",
+          "enum": [
+            "Unknown",
+            "Context",
+            "Action",
+            "Outcome"
+          ]
+        },
         "text": {
           "type": "string"
         }

@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { Envelope, parseEnvelope } from '../src/index.js'
+import { Envelope, parseEnvelope, StepKeywordType } from '../src/index.js'
 
 describe('messages', () => {
   it('defaults missing fields when deserialising from JSON', () => {
@@ -18,6 +18,7 @@ describe('messages', () => {
                   {
                     id: '0',
                     keyword: 'Given ',
+                    keywordType: StepKeywordType.CONTEXT,
                     location: { column: 5, line: 4 },
                     text: 'the minimalism',
                   },
@@ -61,6 +62,7 @@ describe('messages', () => {
                   {
                     id: '0',
                     keyword: 'Given ',
+                    keywordType: StepKeywordType.CONTEXT,
                     location: { column: 5, line: 4 },
                     text: 'the minimalism',
                   },
