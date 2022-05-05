@@ -1,6 +1,5 @@
 ../LICENSE LICENSE.txt
 ../../.templates/github/ .github/
 ../../.templates/python/ .
-../testdata/ testdata/
 ../gherkin.berp gherkin.berp
 ../gherkin-languages.json gherkin/gherkin-languages.json

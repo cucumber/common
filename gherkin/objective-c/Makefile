@@ -1,11 +1,11 @@
 include default.mk
 
-GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
-BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
+GOOD_FEATURE_FILES = $(shell find ../testdata/good -name "*.feature")
+BAD_FEATURE_FILES  = $(shell find ../testdata/bad -name "*.feature")
 
-TOKENS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
-ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
-ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
+TOKENS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS     = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 M_FILES = $(shell find . -type f \( -iname "*.m" \))
 
@@ -31,17 +31,17 @@ skip_build:
 .built: build/AstGenerator build/TokensGenerator LICENSE
 	touch $@
 
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
+acceptance/testdata/%.feature.tokens: ../testdata/%.feature ../testdata/%.feature.tokens .built
 	mkdir -p $(@D)
 	bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
+acceptance/testdata/%.feature.ast.ndjson: ../testdata/%.feature ../testdata/%.feature.ast.ndjson .built
 	mkdir -p $(@D)
 	bin/gherkin-generate-ast $< | jq --sort-keys "." > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
+acceptance/testdata/%.feature.errors.ndjson: ../testdata/%.feature ../testdata/%.feature.errors.ndjson .built
 	mkdir -p $(@D)
 	bin/gherkin $< | jq --sort-keys --compact-output "." > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
