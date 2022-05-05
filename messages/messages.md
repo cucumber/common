@@ -158,6 +158,7 @@ will only have one of its fields set, which indicates the payload of the message
 | ----- | ---- | ----------- | ----------- |
 | `location` | [Location](#location) | yes | |
 | `keyword` | string | yes | |
+| `keywordType` | [StepKeywordType](#stepkeywordtype) | no | |
 | `text` | string | yes | |
 | `docString` | [DocString](#docstring) | no | |
 | `dataTable` | [DataTable](#datatable) | no | |
@@ -281,6 +282,7 @@ will only have one of its fields set, which indicates the payload of the message
 | `argument` | [PickleStepArgument](#picklestepargument) | no | |
 | `astNodeIds` | string[] | yes | |
 | `id` | string | yes | |
+| `type` | [PickleStepType](#picklesteptype) | no | |
 | `text` | string | yes | |
 
 ## PickleStepArgument
@@ -480,6 +482,16 @@ One of the following:
 * `"BASE64"`
 
 
+## PickleStepType
+
+One of the following:
+
+* `"Unknown"`
+* `"Context"`
+* `"Action"`
+* `"Outcome"`
+
+
 ## SourceMediaType
 
 One of the following:
@@ -494,6 +506,17 @@ One of the following:
 
 * `"CUCUMBER_EXPRESSION"`
 * `"REGULAR_EXPRESSION"`
+
+
+## StepKeywordType
+
+One of the following:
+
+* `"Unknown"`
+* `"Context"`
+* `"Action"`
+* `"Outcome"`
+* `"Conjunction"`
 
 
 ## TestStepResultStatus

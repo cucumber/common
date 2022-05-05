@@ -354,6 +354,7 @@ module Cucumber
         self.new(
           location: Location.from_h(hash[:location]),
           keyword: hash[:keyword],
+          keyword_type: hash[:keywordType],
           text: hash[:text],
           doc_string: DocString.from_h(hash[:docString]),
           data_table: DataTable.from_h(hash[:dataTable]),
@@ -659,6 +660,7 @@ module Cucumber
           argument: PickleStepArgument.from_h(hash[:argument]),
           ast_node_ids: hash[:astNodeIds],
           id: hash[:id],
+          type: hash[:type],
           text: hash[:text],
         )
       end

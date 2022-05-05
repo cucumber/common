@@ -30,7 +30,16 @@ final class Step implements JsonSerializable
          * The location of the steps' `keyword`
          */
         public readonly Location $location = new Location(),
+
+        /**
+         * The actual keyword as it appeared in the source.
+         */
         public readonly string $keyword = '',
+
+        /**
+         * The test phase signalled by the keyword: Context definition (Given), Action performance (When), Outcome assertion (Then). Other keywords signal Continuation (And and But) from a prior keyword. Please note that all translations which a dialect maps to multiple keywords (`*` is in this category for all dialects), map to 'Unknown'.
+         */
+        public readonly ?Step\KeywordType $keywordType = null,
         public readonly string $text = '',
         public readonly ?DocString $docString = null,
         public readonly ?DataTable $dataTable = null,
@@ -51,6 +60,7 @@ final class Step implements JsonSerializable
     {
         self::ensureLocation($arr);
         self::ensureKeyword($arr);
+        self::ensureKeywordType($arr);
         self::ensureText($arr);
         self::ensureDocString($arr);
         self::ensureDataTable($arr);
@@ -59,6 +69,7 @@ final class Step implements JsonSerializable
         return new self(
             Location::fromArray($arr['location']),
             (string) $arr['keyword'],
+            isset($arr['keywordType']) ? Step\KeywordType::from((string) $arr['keywordType']) : null,
             (string) $arr['text'],
             isset($arr['docString']) ? DocString::fromArray($arr['docString']) : null,
             isset($arr['dataTable']) ? DataTable::fromArray($arr['dataTable']) : null,
@@ -89,6 +100,16 @@ final class Step implements JsonSerializable
         }
         if (array_key_exists('keyword', $arr) && is_array($arr['keyword'])) {
             throw new SchemaViolationException('Property \'keyword\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{keywordType?: string|int|bool} $arr
+     */
+    private static function ensureKeywordType(array $arr): void
+    {
+        if (array_key_exists('keywordType', $arr) && is_array($arr['keywordType'])) {
+            throw new SchemaViolationException('Property \'keywordType\' was array');
         }
     }
 

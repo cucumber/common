@@ -138,10 +138,10 @@ Available constants for valid values of this field:
 =cut
 
 
-use constant
+use constant {
    CONTENTENCODING_IDENTITY => 'IDENTITY',
    CONTENTENCODING_BASE64 => 'BASE64',
-   ;
+   };
 
 has content_encoding =>
     (is => 'ro',
@@ -1594,6 +1594,7 @@ use Scalar::Util qw( blessed );
 my %types = (
    location => 'Cucumber::Messages::Location',
    keyword => 'string',
+   keyword_type => '',
    text => 'string',
    doc_string => 'Cucumber::Messages::DocString',
    data_table => 'Cucumber::Messages::DataTable',
@@ -1623,6 +1624,7 @@ has location =>
 
 =head4 keyword
 
+The actual keyword as it appeared in the source.
 
 =cut
 
@@ -1630,6 +1632,43 @@ has keyword =>
     (is => 'ro',
      required => 1,
      default => sub { '' },
+    );
+
+
+=head4 keyword_type
+
+The test phase signalled by the keyword: Context definition (Given), Action performance (When), Outcome assertion (Then). Other keywords signal Continuation (And and But) from a prior keyword. Please note that all translations which a dialect maps to multiple keywords (`*` is in this category for all dialects), map to 'Unknown'.
+
+
+Available constants for valid values of this field:
+
+=over
+
+=item * KEYWORDTYPE_UNKNOWN
+
+=item * KEYWORDTYPE_CONTEXT
+
+=item * KEYWORDTYPE_ACTION
+
+=item * KEYWORDTYPE_OUTCOME
+
+=item * KEYWORDTYPE_CONJUNCTION
+
+=back
+
+=cut
+
+
+use constant {
+   KEYWORDTYPE_UNKNOWN => 'Unknown',
+   KEYWORDTYPE_CONTEXT => 'Context',
+   KEYWORDTYPE_ACTION => 'Action',
+   KEYWORDTYPE_OUTCOME => 'Outcome',
+   KEYWORDTYPE_CONJUNCTION => 'Conjunction',
+   };
+
+has keyword_type =>
+    (is => 'ro',
     );
 
 
@@ -2759,6 +2798,7 @@ my %types = (
    argument => 'Cucumber::Messages::PickleStepArgument',
    ast_node_ids => '[]string',
    id => 'string',
+   type => '',
    text => 'string',
 );
 
@@ -2804,6 +2844,42 @@ has id =>
     (is => 'ro',
      required => 1,
      default => sub { '' },
+    );
+
+
+=head4 type
+
+The context in which the step was specified: context (Given), action (When) or outcome (Then).
+
+Note that the keywords `But` and `And` inherit their meaning from prior steps and the `*` 'keyword' doesn't have specific meaning (hence Unknown)
+
+
+Available constants for valid values of this field:
+
+=over
+
+=item * TYPE_UNKNOWN
+
+=item * TYPE_CONTEXT
+
+=item * TYPE_ACTION
+
+=item * TYPE_OUTCOME
+
+=back
+
+=cut
+
+
+use constant {
+   TYPE_UNKNOWN => 'Unknown',
+   TYPE_CONTEXT => 'Context',
+   TYPE_ACTION => 'Action',
+   TYPE_OUTCOME => 'Outcome',
+   };
+
+has type =>
+    (is => 'ro',
     );
 
 
@@ -3159,10 +3235,10 @@ Available constants for valid values of this field:
 =cut
 
 
-use constant
+use constant {
    MEDIATYPE_TEXT_X_CUCUMBER_GHERKIN_PLAIN => 'text/x.cucumber.gherkin+plain',
    MEDIATYPE_TEXT_X_CUCUMBER_GHERKIN_MARKDOWN => 'text/x.cucumber.gherkin+markdown',
-   ;
+   };
 
 has media_type =>
     (is => 'ro',
@@ -3530,10 +3606,10 @@ Available constants for valid values of this field:
 =cut
 
 
-use constant
+use constant {
    TYPE_CUCUMBER_EXPRESSION => 'CUCUMBER_EXPRESSION',
    TYPE_REGULAR_EXPRESSION => 'REGULAR_EXPRESSION',
-   ;
+   };
 
 has type =>
     (is => 'ro',
@@ -4352,7 +4428,7 @@ Available constants for valid values of this field:
 =cut
 
 
-use constant
+use constant {
    STATUS_UNKNOWN => 'UNKNOWN',
    STATUS_PASSED => 'PASSED',
    STATUS_SKIPPED => 'SKIPPED',
@@ -4360,7 +4436,7 @@ use constant
    STATUS_UNDEFINED => 'UNDEFINED',
    STATUS_AMBIGUOUS => 'AMBIGUOUS',
    STATUS_FAILED => 'FAILED',
-   ;
+   };
 
 has status =>
     (is => 'ro',

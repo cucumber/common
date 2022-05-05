@@ -253,6 +253,8 @@ export class Step {
 
   keyword: string = ''
 
+  keywordType?: StepKeywordType
+
   text: string = ''
 
   @Type(() => DocString)
@@ -417,6 +419,8 @@ export class PickleStep {
   astNodeIds: readonly string[] = []
 
   id: string = ''
+
+  type?: PickleStepType
 
   text: string = ''
 }
@@ -651,6 +655,13 @@ export enum AttachmentContentEncoding {
   BASE64 = 'BASE64',
 }
 
+export enum PickleStepType {
+  UNKNOWN = 'Unknown',
+  CONTEXT = 'Context',
+  ACTION = 'Action',
+  OUTCOME = 'Outcome',
+}
+
 export enum SourceMediaType {
   TEXT_X_CUCUMBER_GHERKIN_PLAIN = 'text/x.cucumber.gherkin+plain',
   TEXT_X_CUCUMBER_GHERKIN_MARKDOWN = 'text/x.cucumber.gherkin+markdown',
@@ -659,6 +670,14 @@ export enum SourceMediaType {
 export enum StepDefinitionPatternType {
   CUCUMBER_EXPRESSION = 'CUCUMBER_EXPRESSION',
   REGULAR_EXPRESSION = 'REGULAR_EXPRESSION',
+}
+
+export enum StepKeywordType {
+  UNKNOWN = 'Unknown',
+  CONTEXT = 'Context',
+  ACTION = 'Action',
+  OUTCOME = 'Outcome',
+  CONJUNCTION = 'Conjunction',
 }
 
 export enum TestStepResultStatus {
