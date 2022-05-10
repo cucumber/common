@@ -3,7 +3,6 @@ package io.cucumber.gherkin;
 import java.util.Optional;
 import java.util.Set;
 
-import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.requireNonNull;
 
 public final class GherkinDialectProvider {
