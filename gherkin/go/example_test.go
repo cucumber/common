@@ -69,7 +69,7 @@ func ExampleParseGherkinDocument_multiple() {
 	builder := NewAstBuilder((&messages.Incrementing{}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin())
+	matcher := NewMatcher(DialectsBuiltin())
 
 	input1 := `Feature: Test`
 	r1 := strings.NewReader(input1)
@@ -117,7 +117,7 @@ func ExampleParseGherkinDocument_error() {
 	builder := NewAstBuilder((&messages.Incrementing{}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin())
+	matcher := NewMatcher(DialectsBuiltin())
 
 	input1 := `# a comment
 Feature: Foo
