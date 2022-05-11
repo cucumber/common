@@ -467,17 +467,6 @@ jobs:
             cd messages/dotnet
             make
 
-  gherkin-dotnet:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin/dotnet
-          command: |
-            cd gherkin/dotnet
-            make
-
   ### Perl
 
   gherkin-perl:
@@ -742,10 +731,6 @@ workflows:
       ### .NET
 
       - messages-dotnet:
-          requires:
-            - prepare-parallel
-
-      - gherkin-dotnet:
           requires:
             - prepare-parallel
 
