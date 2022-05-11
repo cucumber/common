@@ -19,6 +19,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Removed
 
+* [DotNet] The entire DotNet implementation has fallen too far behind, being based on protobuf,
+  not worth the energy required to make it up-to-date. ([#1976](https://github.com/cucumber/common/pull/1976))
+
 ### Fixed
 
 * [Java] remove shaded dependency on `com.eclipsesource.minimal-json:minimal-json`
