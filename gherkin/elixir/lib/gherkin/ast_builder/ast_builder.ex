@@ -2,19 +2,19 @@ defmodule CucumberGherkin.AstBuilder do
   @moduledoc false
   alias CucumberGherkin.{ParserContext, AstNode, Token, AstBuilderError, ParserException}
   alias CucumberMessages.GherkinDocument.Comment, as: CommentMessage
-  alias CucumberMessages.GherkinDocument.Feature.Tag, as: MessageTag
-  alias CucumberMessages.GherkinDocument.Feature.Scenario, as: MessageScenario
-  alias CucumberMessages.GherkinDocument.Feature.Step, as: StepMessage
-  alias CucumberMessages.GherkinDocument.Feature.Step.DataTable, as: DataTableMessage
-  alias CucumberMessages.GherkinDocument.Feature.TableRow, as: TableRowMessage
-  alias CucumberMessages.GherkinDocument.Feature.TableRow.TableCell, as: TableCellMessage
+  alias CucumberMessages.GherkinDocument.Tag, as: MessageTag
+  alias CucumberMessages.GherkinDocument.Scenario, as: MessageScenario
+  alias CucumberMessages.GherkinDocument.Step, as: StepMessage
+  alias CucumberMessages.GherkinDocument.DataTable, as: DataTableMessage
+  alias CucumberMessages.GherkinDocument.TableRow, as: TableRowMessage
+  alias CucumberMessages.GherkinDocument.TableCell, as: TableCellMessage
   alias CucumberMessages.GherkinDocument.Feature, as: FeatureMessage
-  alias CucumberMessages.GherkinDocument.Feature.FeatureChild, as: FeatureChildMessage
+  alias CucumberMessages.GherkinDocument.FeatureChild, as: FeatureChildMessage
   alias CucumberMessages.GherkinDocument, as: GherkinDocumentMessage
-  alias CucumberMessages.GherkinDocument.Feature.Step.DocString, as: DocStringMessage
-  alias CucumberMessages.GherkinDocument.Feature.Background, as: BackgroundMessage
-  alias CucumberMessages.GherkinDocument.Feature.Scenario.Examples, as: ExamplesMessage
-  alias CucumberMessages.GherkinDocument.Feature.FeatureChild.Rule, as: RuleMessage
+  alias CucumberMessages.GherkinDocument.DocString, as: DocStringMessage
+  alias CucumberMessages.GherkinDocument.Background, as: BackgroundMessage
+  alias CucumberMessages.GherkinDocument.Examples, as: ExamplesMessage
+  alias CucumberMessages.GherkinDocument.Rule, as: RuleMessage
 
   @me __MODULE__
 
@@ -281,9 +281,12 @@ defmodule CucumberGherkin.AstBuilder do
       |> add_scen_def_children_to(scenarios)
       |> tuplize(updated_context)
     else
-      {:header?, _} -> nil
-      {:rule_line?, _} -> nil
-      |> tuplize(context)
+      {:header?, _} ->
+        nil
+
+      {:rule_line?, _} ->
+        nil
+        |> tuplize(context)
     end
   end
 
@@ -393,15 +396,15 @@ defmodule CucumberGherkin.AstBuilder do
   defp add_mediatype_to(%DocStringMessage{} = m, d), do: %{m | media_type: d}
 
   defp add_datatable_to(%StepMessage{} = m, nil), do: m
-  defp add_datatable_to(%StepMessage{} = m, d), do: %{m | argument: {:data_table, d}}
+  defp add_datatable_to(%StepMessage{} = m, d), do: %{m | data_table: d}
 
   defp add_docstring_to(%StepMessage{} = m, nil), do: m
-  defp add_docstring_to(%StepMessage{} = m, d), do: %{m | argument: {:doc_string, d}}
+  defp add_docstring_to(%StepMessage{} = m, d), do: %{m | doc_string: d}
 
   defp add_background_to(m, nil), do: m
 
   defp add_background_to(%{__struct__: t} = m, d) when t in [FeatureMessage, RuleMessage] do
-    child = %FeatureChildMessage{value: {:background, d}}
+    child = %FeatureChildMessage{background: d}
     %{m | children: m.children ++ [child]}
   end
 
@@ -409,7 +412,7 @@ defmodule CucumberGherkin.AstBuilder do
        when t in [FeatureMessage, RuleMessage] do
     scenario_definition_items
     |> Enum.reduce(m, fn scenario_def, feature_message_acc ->
-      child = %FeatureChildMessage{value: {:scenario, scenario_def}}
+      child = %FeatureChildMessage{scenario: scenario_def}
       %{feature_message_acc | children: feature_message_acc.children ++ [child]}
     end)
   end
@@ -417,7 +420,7 @@ defmodule CucumberGherkin.AstBuilder do
   defp add_rule_children_to(%FeatureMessage{} = m, rule_items) do
     rule_items
     |> Enum.reduce(m, fn rule, feature_message_acc ->
-      child = %FeatureChildMessage{value: {:rule, rule}}
+      child = %FeatureChildMessage{rule: rule}
       %{feature_message_acc | children: feature_message_acc.children ++ [child]}
     end)
   end

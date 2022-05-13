@@ -81,7 +81,7 @@ defmodule CucumberGherkin do
       {:ok, binary} ->
         hardcoded_mtype = "text/x.cucumber.gherkin+plain"
         source_message = %Source{data: binary, uri: path, media_type: hardcoded_mtype}
-        source_envelope = %Envelope{message: {:source, source_message}}
+        source_envelope = %Envelope{source: source_message}
         {:ok, source_envelope}
 
       {:error, message} ->
@@ -89,7 +89,7 @@ defmodule CucumberGherkin do
     end
   end
 
-  defp parse_messages(%Envelope{message: {:source, %Source{} = s}} = envelope, opts) do
+  defp parse_messages(%Envelope{source: %Source{} = s} = envelope, opts) do
     %{messages: [], parsable?: true, source: s, ast_builder: nil}
     |> add_source_envelope(envelope, opts)
     |> add_gherkin_doc_envelope(opts)
@@ -119,7 +119,7 @@ defmodule CucumberGherkin do
          parsed_meta <- parse_and_update_func.(),
          {:only_ast, false, _} <- {:only_ast, no_ast?, parsed_meta},
          %{parsable?: true} <- parsed_meta do
-      new_msg = put_msg_envelope(:gherkin_document, parsed_meta.ast_builder.gherkin_doc)
+      new_msg = %Envelope{gherkin_document: parsed_meta.ast_builder.gherkin_doc}
       prepend_msg_to_meta(parsed_meta, new_msg)
     else
       {:skip?, true} -> meta
@@ -135,9 +135,9 @@ defmodule CucumberGherkin do
       Enum.map(errors, fn error ->
         message = CucumberGherkin.ParserException.get_message(error)
         location = CucumberGherkin.ParserException.get_location(error)
-        source_ref = %CucumberMessages.SourceReference{location: location, reference: {:uri, uri}}
+        source_ref = %CucumberMessages.SourceReference{location: location, uri: uri}
         to_be_wrapped = %CucumberMessages.ParseError{message: message, source: source_ref}
-        put_msg_envelope(:parse_error, to_be_wrapped)
+        %Envelope{parse_error: to_be_wrapped}
       end)
 
     {:error, result}
@@ -151,8 +151,6 @@ defmodule CucumberGherkin do
   defp update_meta({:error, messages}, %{messages: m} = meta, :ast_builder),
     do: %{meta | parsable?: false, messages: Enum.reduce(messages, m, &[&1 | &2])}
 
-  defp put_msg_envelope(type, m), do: %Envelope{message: {type, m}}
-
   defp prepend_msg_to_meta(%{messages: m} = meta, new), do: %{meta | messages: [new | m]}
 
   defp add_pickles_envelopes(%{ast_builder: builder, parsable?: true} = meta, opts) do
@@ -163,7 +161,7 @@ defmodule CucumberGherkin do
       false ->
         messages =
           CucumberGherkin.PickleCompiler.compile(builder, meta.source.uri)
-          |> Enum.map(&put_msg_envelope(:pickle, &1))
+          |> Enum.map(fn pickle -> %Envelope{pickle: pickle} end)
 
         %{meta | messages: List.flatten([messages | meta.messages])}
     end

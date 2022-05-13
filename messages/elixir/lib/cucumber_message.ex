@@ -10,7 +10,6 @@ defmodule CucumberMessages do
   """
   def convert_envelopes_to(envelopes, :ndjson) do
     Enum.map(envelopes, &CucumberMessages.Writer.envelope_to_ndjson!/1)
-    |> Enum.map(&Jason.encode!(&1))
     |> Enum.join("\n")
     |> case do
       "" -> ""

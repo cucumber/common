@@ -33,7 +33,7 @@ defmodule CucumberMessages.MixProject do
   end
 
   defp description() do
-    "Elixir implementation of the cucumber messages protobuf schema"
+    "Elixir implementation of the cucumber messages json schemas"
   end
 
   defp package() do

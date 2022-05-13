@@ -11,11 +11,16 @@ defmodule CucumberGherkinBadTestdataTest do
   @tag :bad
   test "BAD: compare all bad testdata" do
     opts = [:no_source, :no_pickles, :predictable_ids]
+    files = @files
+    require IEx
 
     results =
       Enum.map(@files, fn path ->
         correct_output = File.read!(path <> ".errors.ndjson")
-        result = CucumberGherkin.parse_path(path, opts) |> CucumberGherkin.print_messages(:ndjson)
+        IEx.pry()
+        parsed = CucumberGherkin.parse_path(path, opts)
+        IEx.pry()
+        result = parsed |> CucumberGherkin.print_messages(:ndjson)
 
         {path, correct_output == result}
       end)

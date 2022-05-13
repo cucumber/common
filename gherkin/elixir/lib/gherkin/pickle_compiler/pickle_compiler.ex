@@ -3,23 +3,26 @@ defmodule CucumberGherkin.PickleCompiler do
   defstruct id_gen: nil, pickles: [], language: nil, uri: nil
 
   alias CucumberMessages.GherkinDocument.Feature, as: FeatureMessage
-  alias CucumberMessages.GherkinDocument.Feature.Scenario, as: ScenarioMessage
-  alias CucumberMessages.GherkinDocument.Feature.Step, as: StepMessage
-  alias CucumberMessages.GherkinDocument.Feature.TableRow, as: TableRowMessage
+  alias CucumberMessages.GherkinDocument.Scenario, as: ScenarioMessage
+  alias CucumberMessages.GherkinDocument.Step, as: StepMessage
+  alias CucumberMessages.GherkinDocument.TableRow, as: TableRowMessage
   alias CucumberMessages.Pickle, as: PickleMessage
   alias CucumberMessages.Pickle.PickleStep, as: PickleStepMessage
   alias CucumberMessages.Pickle.PickleTag, as: PickleTagMessage
-  alias CucumberMessages.GherkinDocument.Feature.Tag, as: TagMessage
-  alias CucumberMessages.GherkinDocument.Feature.FeatureChild, as: FeatureChildMessage
-  alias CucumberMessages.GherkinDocument.Feature.FeatureChild.Rule, as: RuleMessage
-  alias CucumberMessages.GherkinDocument.Feature.Scenario.Examples, as: ExampleMessage
-  alias CucumberMessages.PickleStepArgument.PickleTable, as: PickleTableMessage
+  alias CucumberMessages.GherkinDocument.Tag, as: TagMessage
+  alias CucumberMessages.GherkinDocument.FeatureChild, as: FeatureChildMessage
+  alias CucumberMessages.GherkinDocument.Rule, as: RuleMessage
+  alias CucumberMessages.GherkinDocument.Examples, as: ExampleMessage
+  alias CucumberMessages.Pickle.PickleTable, as: PickleTableMessage
 
-  alias CucumberMessages.PickleStepArgument.PickleTable.PickleTableRow.PickleTableCell,
+  alias CucumberMessages.Pickle.PickleTableCell,
     as: PickleTableCellMessage
 
-  alias CucumberMessages.PickleStepArgument.PickleTable.PickleTableRow, as: PickleTableRowMessage
-  alias CucumberMessages.GherkinDocument.Feature.Step.DataTable, as: DataTableMessage
+  alias CucumberMessages.Pickle.PickleTableRow, as: PickleTableRowMessage
+  alias CucumberMessages.GherkinDocument.DataTable, as: DataTableMessage
+
+  alias CucumberMessages.Pickle.PickleDocString, as: PickleDocStringMessage
+  alias CucumberMessages.GherkinDocument.DocString, as: DocStringMessage
 
   @me __MODULE__
 
@@ -62,10 +65,10 @@ defmodule CucumberGherkin.PickleCompiler do
     rule_tags = meta_info.feature_tags ++ r.tags
 
     Enum.reduce(r.children, resetted_meta_info, fn
-      %FeatureChildMessage{value: {:background, bg}}, m_acc ->
+      %FeatureChildMessage{background: bg}, m_acc ->
         %{m_acc | rule_backgr_steps: m_acc.rule_backgr_steps ++ bg.steps}
 
-      %FeatureChildMessage{value: {:scenario, s}}, m_acc ->
+      %FeatureChildMessage{scenario: s}, m_acc ->
         %{m_acc | feature_tags: rule_tags} |> compile_scenario(s, :rule_backgr_steps)
     end)
   end
@@ -213,9 +216,6 @@ defmodule CucumberGherkin.PickleCompiler do
     %PickleTableMessage{rows: table_row_messages}
   end
 
-  alias CucumberMessages.PickleStepArgument.PickleDocString, as: PickleDocStringMessage
-  alias CucumberMessages.GherkinDocument.Feature.Step.DocString, as: DocStringMessage
-
   defp pickle_doc_string_creator(%DocStringMessage{} = d, variable_cells, value_cells) do
     content = interpolate(d.content, variable_cells, value_cells)
 
@@ -237,32 +237,37 @@ defmodule CucumberGherkin.PickleCompiler do
   defp add_ast_node_id(%PickleStepMessage{ast_node_ids: ids} = m, %TableRowMessage{} = row),
     do: %{m | ast_node_ids: ids ++ [row.id]}
 
-  defp add_datatable(%PickleStepMessage{} = m, %StepMessage{argument: nil}, _, _), do: m
+  # TODO: see if this breaks stuff
+  # defp add_datatable(%PickleStepMessage{} = m, %StepMessage{argument: nil}, _, _), do: m
 
-  defp add_datatable(%PickleStepMessage{} = m, %StepMessage{argument: {:doc_string, _}}, _, _),
+  defp add_datatable(%PickleStepMessage{} = m, %StepMessage{doc_string: ds}, _, _) when ds != nil,
     do: m
 
   defp add_datatable(
          %PickleStepMessage{} = m,
-         %StepMessage{argument: {:data_table, d}},
+         %StepMessage{data_table: d},
          variable_cells,
          value_cells
-       ) do
+       )
+       when d != nil do
     result = pickle_data_table_creator(d, variable_cells, value_cells)
     %{m | argument: result}
   end
 
-  defp add_doc_string(%PickleStepMessage{} = m, %StepMessage{argument: nil}, _, _), do: m
+  # TODO: see if this breaks stuff
+  # defp add_doc_string(%PickleStepMessage{} = m, %StepMessage{argument: nil}, _, _), do: m
 
-  defp add_doc_string(%PickleStepMessage{} = m, %StepMessage{argument: {:data_table, _}}, _, _),
-    do: m
+  defp add_doc_string(%PickleStepMessage{} = m, %StepMessage{data_table: dt}, _, _)
+       when dt != nil,
+       do: m
 
   defp add_doc_string(
          %PickleStepMessage{} = m,
-         %StepMessage{argument: {:doc_string, d}},
+         %StepMessage{doc_string: d},
          variable_cells,
          value_cells
-       ) do
+       )
+       when d != nil do
     result = pickle_doc_string_creator(d, variable_cells, value_cells)
     %{m | argument: result}
   end
