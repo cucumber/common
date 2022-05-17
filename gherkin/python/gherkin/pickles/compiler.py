@@ -1,10 +1,9 @@
 import re
 
-from ..count_symbols import count_symbols
-from ..stream.id_generator import IdGenerator
+from gherkin.stream.id_generator import IdGenerator
 
 
-class Compiler(object):
+class Compiler:
     def __init__(self, id_generator=None):
         self.id_generator = id_generator
         if self.id_generator is None:
@@ -57,7 +56,7 @@ class Compiler(object):
 
     def _compile_scenario(self, uri, inherited_tags, background_steps, scenario, language, pickles):
         tags = list(inherited_tags) + list(scenario['tags'])
-        steps = list()
+        steps = []
         if scenario['steps']:
             steps.extend(self._pickle_steps(background_steps + scenario['steps']))
 
@@ -72,14 +71,13 @@ class Compiler(object):
         }
         pickles.append(pickle)
 
-
     def _compile_scenario_outline(self, uri, inherited_tags, background_steps, scenario, language, pickles):
         for examples in (e for e in scenario['examples'] if 'tableHeader' in e):
             variable_cells = examples['tableHeader']['cells']
 
             for values in examples['tableBody']:
                 value_cells = values['cells']
-                steps = list()
+                steps = []
                 if scenario['steps']:
                     steps.extend(self._pickle_steps(background_steps))
                 tags = list(inherited_tags) + list(scenario['tags']) + list(examples['tags'])
@@ -141,21 +139,22 @@ class Compiler(object):
         else:
             return None
 
-    def _interpolate(self, name, variable_cells, value_cells):
+    @staticmethod
+    def _interpolate(name, variable_cells, value_cells):
         if name is None:
             return name
 
         for n, variable_cell in enumerate(variable_cells):
             value_cell = value_cells[n]
             name = re.sub(
-                u'<{0[value]}>'.format(variable_cell),
+                '<{0[value]}>'.format(variable_cell),
                 value_cell['value'],
                 name
             )
         return name
 
     def _pickle_steps(self, steps):
-        return [self._pickle_step(step)for step in steps]
+        return [self._pickle_step(step) for step in steps]
 
     def _pickle_step(self, step):
         pickle_step = {
@@ -171,12 +170,11 @@ class Compiler(object):
             pickle_step['argument'] = argument
         return pickle_step
 
-
     def _pickle_tags(self, tags):
         return [self._pickle_tag(tag) for tag in tags]
 
-
-    def _pickle_tag(self, tag):
+    @staticmethod
+    def _pickle_tag(tag):
         return {
             'astNodeId': tag['id'],
             'name': tag['name']

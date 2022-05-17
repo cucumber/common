@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-class AstNode(object):
+class AstNode:
 
     def __init__(self, rule_type):
         self.rule_type = rule_type

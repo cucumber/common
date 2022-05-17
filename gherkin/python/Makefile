@@ -32,7 +32,7 @@ test: gherkin/parser.py
 	PATH=$(PATH):$(HOME)/.local/bin pytest
 
 .pipped:
-	pip install -r requirements.txt
+	pip install -r test-requirements.txt
 	touch $@
 
 acceptance/testdata/%.feature.tokens: ../testdata/%.feature ../testdata/%.feature.tokens

@@ -25,7 +25,7 @@ class GherkinLine(object):
         return self._trimmed_line_text.startswith(prefix)
 
     def startswith_title_keyword(self, keyword):
-        return self._trimmed_line_text.startswith(keyword + ':')
+        return self._trimmed_line_text.startswith(f'{keyword}:')
 
     @property
     def table_cells(self):
@@ -80,7 +80,7 @@ class GherkinLine(object):
         items = uncommented_line.strip().split('@')
         tags = []
         for item in items[1:]:
-            tag_value = '@' + item.strip()
+            tag_value = f'@{item.strip()}'
             if re.search(r"[^\S+]", tag_value) is not None:
                 location = {'line': self._line_number, 'column': column}
                 raise ParserException('A tag may not contain whitespace', location)

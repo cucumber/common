@@ -1,14 +1,6 @@
 import os
 from optparse import OptionParser
 import sys
-if sys.version_info < (3, 0):
-    string_type = basestring
-    if os.name != 'nt':
-        import codecs
-        UTF8Writer = codecs.getwriter('utf8')
-        sys.stdout = UTF8Writer(sys.stdout)
-else:
-    string_type = str
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 import json

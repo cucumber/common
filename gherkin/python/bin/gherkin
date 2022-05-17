@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# Use "make GHERKIN_PYTHON_VERSION=python2 ..." to use python2
 if [ -z "$GHERKIN_PYTHON_VERSION" ];
 then
     if [ -x "$(command -v python)" ]
@@ -8,11 +7,8 @@ then
     elif [ -x "$(command -v python3)" ]
     then
         GHERKIN_PYTHON_VERSION=python3
-    elif [ -x "$(command -v python2)" ]
-    then
-        GHERKIN_PYTHON_VERSION=python2
     else
-        echo "Neiter python, python3 or python2 found on PATH, exiting"
+        echo "Neither python or python3 found on PATH, exiting"
         exit 1
     fi
 fi

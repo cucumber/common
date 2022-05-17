@@ -7,8 +7,6 @@ gherkin/__main__.py
 gherkin/ast_builder.py
 gherkin/ast_node.py
 gherkin/count_symbols.py
-gherkin/count_symbols_py2.py
-gherkin/count_symbols_py3_plus.py
 gherkin/dialect.py
 gherkin/errors.py
 gherkin/gherkin-languages.json

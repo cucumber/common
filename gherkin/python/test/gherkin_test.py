@@ -12,10 +12,10 @@ def test_parser():
     expected = {
         'comments': [],
         'feature': {
-            'keyword': u'Feature',
+            'keyword': 'Feature',
             'language': 'en',
             'location': {'column': 1, 'line': 1},
-            'name': u'Foo',
+            'name': 'Foo',
             'description': '',
             'children': [],
             'tags': []
@@ -51,17 +51,17 @@ def test_parse_feature_after_parser_error():
                                              '      """\n'))
     expected = [{'scenario': {
         'id': '1',
-        'name': u'Bar',
+        'name': 'Bar',
         'description': '',
-        'keyword': u'Scenario',
+        'keyword': 'Scenario',
         'tags': [],
         'steps': [{
             'id': '0',
-            'text': u'x',
+            'text': 'x',
             'location': {'column': 5, 'line': 3},
-            'keyword': u'Given ',
+            'keyword': 'Given ',
             'docString': {
-                'content': u'closed docstring',
+                'content': 'closed docstring',
                 'delimiter': '"""',
                 'location': {'column': 7, 'line': 4}}}],
         'location': {'column': 3, 'line': 2},
@@ -77,10 +77,10 @@ def test_change_the_default_language():
     expected = {
         'comments': [],
         'feature': {
-            'keyword': u'Egenskap',
+            'keyword': 'Egenskap',
             'language': 'no',
             'location': {'column': 1, 'line': 1},
-            'name': u'i18n support - åæø',
+            'name': 'i18n support - åæø',
             'description': '',
             'children': [],
             'tags': []

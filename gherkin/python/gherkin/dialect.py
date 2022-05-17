@@ -11,7 +11,7 @@ with io.open(DIALECT_FILE_PATH, 'r', encoding='utf-8') as file:
     DIALECTS = json.load(file)
 
 
-class Dialect(object):
+class Dialect:
 
     @classmethod
     def for_name(cls, name):

@@ -21,7 +21,7 @@ Just run `make` from this directory.
 
 ### Using pytest
 
-Just run `pytest` from this directory (you need to `pip install -r requirements.txt` first).
+Just run `pytest` from this directory (you need to `pip install -r test-requirements.txt` first).
 
 Keep in mind that this will only run unit tests. The acceptance tests are only
 run when you build with `make`.

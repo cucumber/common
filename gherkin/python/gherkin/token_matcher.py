@@ -7,6 +7,8 @@ class TokenMatcher(object):
     LANGUAGE_RE = re.compile(r"^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$")
 
     def __init__(self, dialect_name='en'):
+        self._indent_to_remove = None
+        self._active_doc_string_separator = None
         self._default_dialect_name = dialect_name
         self._change_dialect(dialect_name)
         self.reset()
@@ -87,13 +89,10 @@ class TokenMatcher(object):
         return True
 
     def match_DocStringSeparator(self, token):
-        if not self._active_doc_string_separator:
-            # open
-            return (self._match_DocStringSeparator(token, '"""', True) or
-                    self._match_DocStringSeparator(token, '```', True))
-        else:
-            # close
-            return self._match_DocStringSeparator(token, self._active_doc_string_separator, False)
+        return self._match_DocStringSeparator(token, self._active_doc_string_separator,
+                                              False) if self._active_doc_string_separator else (
+                    self._match_DocStringSeparator(token, '"""', True) or self._match_DocStringSeparator(token, '```',
+                                                                                                         True))
 
     def _match_DocStringSeparator(self, token, separator, is_open):
         if not token.line.startswith(separator):

@@ -12,8 +12,7 @@ class ParserException(ParserError):
 
 class NoSuchLanguageException(ParserException):
     def __init__(self, language, location):
-        super(NoSuchLanguageException, self).__init__('Language not supported: ' + language,
-                                                      location)
+        super(NoSuchLanguageException, self).__init__(f'Language not supported: {language}', location)
 
 
 class AstBuilderException(ParserException):
