@@ -12,16 +12,13 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 default: .tested
 .PHONY: default
 
-.codegen:
-	touch $@
-
 .tested: .tested-jar-check
 
 .tested-jar-check: .deps .built
 	./scripts/check-jar.sh $(JAR)
 	touch $@
 
-.built: pom.xml $(JAVA_SOURCE_FILES) .codegen
+.built: pom.xml $(JAVA_SOURCE_FILES)
 	mvn install
 	touch $@
 
@@ -62,7 +59,7 @@ clean: clean-java
 .PHONY: clean
 
 clean-java:
-	rm -rf target .deps .tested* .built acceptance .codegen
+	rm -rf target .deps .tested* .built acceptance
 	mvn clean
 .PHONY: clean-java
 
