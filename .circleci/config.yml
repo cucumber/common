@@ -447,7 +447,7 @@ jobs:
       - attach_workspace:
           at: '~/.m2/repository'
       - run:
-          name: gherkin-utils/java
+          name: gherkin-utils-java
           command: |
             cd gherkin-utils/java
             make
