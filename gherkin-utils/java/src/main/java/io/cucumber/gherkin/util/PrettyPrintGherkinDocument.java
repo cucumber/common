@@ -268,7 +268,7 @@ public class PrettyPrintGherkinDocument {
     }
 
     private static String prettyDescription(String description, Syntax syntax) {
-        if (description != null && "".equals(description.trim())) {
+        if (description == null || "".equals(description.trim())) {
             return "";
         }
         if (syntax == Syntax.gherkin) {

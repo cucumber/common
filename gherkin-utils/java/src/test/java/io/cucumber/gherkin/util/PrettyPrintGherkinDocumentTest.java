@@ -41,18 +41,19 @@ public class PrettyPrintGherkinDocumentTest {
                 "      |12 |    5 |             7 |\n" +
                 "   |20|   5 |                             15 |\n");
         assertEquals("Feature: Overdue tasks\n" +
-                "  Let users know when tasks are overdue, even when using other\n" +
-                "  features of the app\n" +
-                "\n" +
-                "  Scenario Outline: eating\n" +
-                "    Given there are <start> cucumbers\n" +
-                "    When I eat <eat> cucumbers\n" +
-                "    Then I should have <left> cucumbers\n" +
-                "\n" +
-                "    Examples:\n" +
-                "      | start | eat | left |\n" +
-                "      | 12    | 5   | 7    |\n" +
-                "      | 20    | 5   | 15   |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                        "  Let users know when tasks are overdue, even when using other\n" +
+                        "  features of the app\n" +
+                        "\n" +
+                        "  Scenario Outline: eating\n" +
+                        "    Given there are <start> cucumbers\n" +
+                        "    When I eat <eat> cucumbers\n" +
+                        "    Then I should have <left> cucumbers\n" +
+                        "\n" +
+                        "    Examples:\n" +
+                        "      | start | eat | left |\n" +
+                        "      | 12    | 5   | 7    |\n" +
+                        "      | 20    | 5   | 15   |\n",
+                PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
