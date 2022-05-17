@@ -1,5 +1,0 @@
-CI_BUILD_URL=https://cihost.com/path/to/the/build
-CI_PULL_REQUEST=https://github.com/owner/repo/pull/42
-CI_BRANCH=main
-CI_COMMIT_ID=decafbad
-CI_BUILD_NUMBER=1234

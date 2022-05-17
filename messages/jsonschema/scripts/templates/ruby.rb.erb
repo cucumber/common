@@ -5,7 +5,7 @@ require 'cucumber/messages/message'
 
 module Cucumber
   module Messages
-  <%- @schemas.sort.each do |key, schema| %>
+  <%- @schemas.each do |key, schema| %>
 
     ##
     # Represents the <%= class_name(key) %> message in Cucumber's {message protocol}[https://github.com/cucumber/common/tree/main/messages#readme].

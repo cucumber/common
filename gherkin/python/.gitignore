@@ -5,3 +5,6 @@ acceptance/
 *.pyc
 dist/
 build/
+.tox/
+.coverage
+.coverage.*

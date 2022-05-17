@@ -2,7 +2,7 @@ package io.cucumber.gherkin;
 
 import java.util.List;
 
-public interface IGherkinLine {
+interface IGherkinLine {
     int indent();
 
     void detach();

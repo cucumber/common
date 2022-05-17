@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ParserException extends RuntimeException {
+class ParserException extends RuntimeException {
     public final Location location;
 
     protected ParserException(String message) {

@@ -1,5 +1,0 @@
-CF_BRANCH=main
-CF_BUILD_URL=https://cihost.com/path/to/the/build
-CF_COMMIT_URL=https://github.com/cucumber-ltd/shouty.rb/commit/057f8fe233b17629af084064c2a7b8d1dbb795ad
-CF_REVISION=057f8fe233b17629af084064c2a7b8d1dbb795ad
-CF_BUILD_ID=1234

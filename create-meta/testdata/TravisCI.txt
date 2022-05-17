@@ -1,6 +1,0 @@
-TRAVIS_BRANCH=main
-TRAVIS_BUILD_WEB_URL=https://cihost.com/path/to/the/build
-TRAVIS_COMMIT=057f8fe233b17629af084064c2a7b8d1dbb795ad
-TRAVIS_REPO_SLUG=cucumber-ltd/shouty.rb
-TRAVIS_TAG=v1.2.3
-TRAVIS_JOB_NUMBER=4.1

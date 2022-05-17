@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-public class GherkinLineSpan {
+class GherkinLineSpan {
     // One-based line position
     public final int column;
 

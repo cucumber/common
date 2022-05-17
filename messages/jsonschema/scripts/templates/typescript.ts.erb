@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer'
 import 'reflect-metadata'
 
-<% @schemas.sort.each do |key, schema| -%>
+<% @schemas.each do |key, schema| -%>
 export class <%= class_name(key) -%> {
   <%- schema['properties'].each do |property_name, property| -%>
 

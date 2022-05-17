@@ -1,3 +1,4 @@
+[![#StandWithUkraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://vshymanskyy.github.io/StandWithUkraine)
 [![CircleCI](https://circleci.com/gh/cucumber/common.svg?style=svg)](https://circleci.com/gh/cucumber/common)
 [![OpenCollective](https://opencollective.com/cucumber/backers/badge.svg)](#backers) [![OpenCollective](https://opencollective.com/cucumber/sponsors/badge.svg)](#sponsors)
 [![pull requests](https://www.oselvar.com/api/badge?label=pull+requests&csvUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fcucumber%2Foselvar-github-metrics%2Fmain%2Fdata%2Fcucumber%2Fcommon%2FpullRequests.csv)](https://www.oselvar.com/github/cucumber/oselvar-github-metrics/main/cucumber/common '3rd quartile cycle time')
@@ -8,8 +9,6 @@
 This repo contains the libraries/modules for behaviour that's common between the various Cucumber implementations. These include:
 
 - [parsing Gherkin documents](https://github.com/cucumber/common/tree/main/gherkin) into a machine-readable object model.
-- [parsing Cucumber expressions](https://github.com/cucumber/common/tree/main/cucumber-expressions) used to map step definition functions to Gherkin steps
-- [formatting HTML output](https://github.com/cucumber/common/tree/main/html-formatter)
 
 Most of these modules have implemnentations in multiple langages, and use shared test suites to ensure behaviour is consistent. See the [contributing guide](https://github.com/cucumber/common/blob/master/CONTRIBUTING.md) for more details.
 

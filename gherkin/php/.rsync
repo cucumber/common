@@ -1,0 +1,5 @@
+../LICENSE LICENSE
+../../.templates/github/ .github/
+../../.templates/php/ .
+../gherkin.berp gherkin.berp
+../gherkin-languages.json resources/gherkin-languages.json

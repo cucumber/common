@@ -9,14 +9,14 @@ import static io.cucumber.gherkin.GherkinLanguageConstants.DOCSTRING_SEPARATOR;
 import static io.cucumber.gherkin.Parser.ITokenMatcher;
 import static io.cucumber.gherkin.Parser.TokenType;
 
-public class TokenMatcher implements ITokenMatcher {
+class TokenMatcher implements ITokenMatcher {
     private static final Pattern LANGUAGE_PATTERN = Pattern.compile("^\\s*#\\s*language\\s*:\\s*([a-zA-Z\\-_]+)\\s*$");
-    private final IGherkinDialectProvider dialectProvider;
+    private final GherkinDialectProvider dialectProvider;
     private GherkinDialect currentDialect;
     private String activeDocStringSeparator = null;
     private int indentToRemove = 0;
 
-    public TokenMatcher(IGherkinDialectProvider dialectProvider) {
+    public TokenMatcher(GherkinDialectProvider dialectProvider) {
         this.dialectProvider = dialectProvider;
         reset();
     }
@@ -92,7 +92,8 @@ public class TokenMatcher implements ITokenMatcher {
             String language = matcher.group(1);
             setTokenMatched(token, TokenType.Language, language, null, null, null);
 
-            currentDialect = dialectProvider.getDialect(language, token.location);
+            currentDialect = dialectProvider.getDialect(language)
+                    .orElseThrow(() -> new ParserException.NoSuchLanguageException(language, token.location));
             return true;
         }
         return false;

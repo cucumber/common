@@ -1,19 +1,12 @@
 SHELL := /usr/bin/env bash
 BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.yml | cut -c 16-)
 PACKAGES ?= messages \
-	message-streams \
 	gherkin \
-	gherkin-streams \
 	gherkin-utils \
-	create-meta \
 	fake-cucumber \
 	query \
 	json-formatter \
 	compatibility-kit \
-	react \
-	html-formatter \
-	config \
-	demo-formatter \
 	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))

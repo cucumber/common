@@ -5,14 +5,12 @@ require 'set'
 class Codegen
   TEMPLATES_DIRECTORY = "#{File.dirname(__FILE__)}/templates/"
 
-  def initialize(paths, template, enum_template, language_type_by_schema_type)
+  def initialize(paths, language_type_by_schema_type)
     @paths = paths
-    @template = ERB.new(template, nil, '-')
-    @enum_template = ERB.new(enum_template, nil, '-')
     @language_type_by_schema_type = language_type_by_schema_type
 
     @schemas = {}
-    @enums = Set.new
+    @enum_set = Set.new
 
     @paths.each do |path|
       expanded_path = File.expand_path(path)
@@ -24,13 +22,15 @@ class Codegen
         raise e
       end
     end
+
+    @schemas = @schemas.sort
+    @enums = @enum_set.to_a.sort{|a,b| a[:name] <=> b[:name]}
   end
 
-  def generate
-    STDOUT.write @template.result(binding)
-    @enums.to_a.sort{|a,b| a[:name] <=> b[:name]}.each do |enum|
-      STDOUT.write @enum_template.result(binding)
-    end
+  def generate(template_name)
+    template_source = File.read("#{TEMPLATES_DIRECTORY}/#{template_name}")
+    template = ERB.new(template_source, nil, '-')
+    STDOUT.write template.result(binding)
   end
 
   def add_schema(key, schema)
@@ -39,9 +39,18 @@ class Codegen
       subkey = "#{key}/#{name}"
       add_schema(subkey, subschema)
     end
+
+    schema['properties'].each do |property_name, property|
+      enum = property['enum']
+      if enum
+        parent_type_name = class_name(key)
+        enum_name(parent_type_name, property_name, enum)
+      end
+    end
   end
 
   def native_type?(type_name)
+    STDERR.puts "NATIVE #{type_name}"
     @language_type_by_schema_type.values.include?(type_name)
   end
 
@@ -51,7 +60,7 @@ class Codegen
     elsif property['type'] == 'string'
       if property['enum']
         enum_type_name = type_for(parent_type_name, property_name, property)
-        "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
+        default_enum(enum_type_name, property)
       else
         "''"
       end
@@ -67,6 +76,10 @@ class Codegen
     end
   end
 
+  def default_enum(enum_type_name, property)
+    "#{enum_type_name}.#{enum_constant(property['enum'][0])}"
+  end
+
   def enum_constant(value)
     value.gsub(/[\.\/\+]/, '_').upcase
   end
@@ -76,6 +89,7 @@ class Codegen
     type = property['type']
     items = property['items']
     enum = property['enum']
+
     if ref
       property_type_from_ref(property['$ref'])
     elsif type
@@ -84,8 +98,7 @@ class Codegen
       else
         raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[type]
         if enum
-          enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
-          @enums.add({ name: enum_type_name, values: enum })
+          enum_type_name = enum_name(parent_type_name, property_name, enum)
           property_type_from_enum(enum_type_name)
         else
           @language_type_by_schema_type[type]
@@ -103,6 +116,12 @@ class Codegen
 
   def property_type_from_enum(enum)
     enum
+  end
+
+  def enum_name(parent_type_name, property_name, enum)
+    enum_type_name = "#{parent_type_name}#{capitalize(property_name)}"
+    @enum_set.add({ name: enum_type_name, values: enum })
+    enum_type_name
   end
 
   def class_name(ref)
@@ -127,16 +146,13 @@ end
 
 class TypeScript < Codegen
   def initialize(paths)
-    template = File.read("#{TEMPLATES_DIRECTORY}/typescript.ts.erb")
-    enum_template = File.read("#{TEMPLATES_DIRECTORY}/typescript.enum.ts.erb")
-
     language_type_by_schema_type = {
       'integer' => 'number',
       'string' => 'string',
       'boolean' => 'boolean',
     }
 
-    super(paths, template, enum_template, language_type_by_schema_type)
+    super(paths, language_type_by_schema_type)
   end
 
   def array_type_for(type_name)
@@ -144,18 +160,31 @@ class TypeScript < Codegen
   end
 end
 
-class Perl < Codegen
-  def initialize(paths, template_file_name: 'perl.pm.erb')
-    template = File.read("#{TEMPLATES_DIRECTORY}/#{template_file_name}")
-    enum_template = File.read("#{TEMPLATES_DIRECTORY}/perl.enum.pm.erb")
+class Java < Codegen
+  def initialize(paths)
+    language_type_by_schema_type = {
+      'integer' => 'Long',
+      'string' => 'String',
+      'boolean' => 'Boolean',
+    }
 
+    super(paths, language_type_by_schema_type)
+  end
+
+  def array_type_for(type_name)
+    "java.util.List<#{type_name}>"
+  end
+end
+
+class Perl < Codegen
+  def initialize(paths)
     language_type_by_schema_type = {
       'integer' => 'number',
       'string' => 'string',
       'boolean' => 'boolean',
     }
 
-    super(paths, template, enum_template, language_type_by_schema_type)
+    super(paths, language_type_by_schema_type)
   end
 
   def array_type_for(type_name)
@@ -198,17 +227,14 @@ class Perl < Codegen
 end
 
 class Ruby < Codegen
-  def initialize(paths, template_file_name: 'ruby.rb.erb')
-    template = File.read("#{TEMPLATES_DIRECTORY}/#{template_file_name}")
-    enum_template = File.read("#{TEMPLATES_DIRECTORY}/ruby.enum.rb.erb")
-
+  def initialize(paths)
     language_type_by_schema_type = {
       'integer' => 'number',
       'string' => 'string',
       'boolean' => 'boolean',
     }
 
-    super(paths, template, enum_template, language_type_by_schema_type)
+    super(paths, language_type_by_schema_type)
   end
 
   def array_type_for(type_name)
@@ -241,23 +267,14 @@ class Ruby < Codegen
   end
 end
 
-class RubyDeserializers < Ruby
-  def initialize(paths)
-    super(paths, template_file_name: 'ruby_deserializers.rb.erb')
-  end
-end
-
 class Go < Codegen
   def initialize(paths)
-    template = File.read("#{TEMPLATES_DIRECTORY}/go.go.erb")
-    enum_template = File.read("#{TEMPLATES_DIRECTORY}/go.enum.go.erb")
-
     language_type_by_schema_type = {
       'integer' => 'int64',
       'string' => 'string',
       'boolean' => 'bool',
     }
-    super(paths, template, enum_template, language_type_by_schema_type)
+    super(paths, language_type_by_schema_type)
   end
 
   def property_type_from_ref(ref)
@@ -271,15 +288,12 @@ end
 
 class Markdown < Codegen
   def initialize(paths)
-    template = File.read("#{TEMPLATES_DIRECTORY}/markdown.md.erb")
-    enum_template = File.read("#{TEMPLATES_DIRECTORY}/markdown.enum.md.erb")
-
     language_type_by_schema_type = {
       'integer' => 'integer',
       'string' => 'string',
       'boolean' => 'boolean',
     }
-    super(paths, template, enum_template, language_type_by_schema_type)
+    super(paths, language_type_by_schema_type)
   end
 
   def property_type_from_ref(ref)
@@ -295,8 +309,98 @@ class Markdown < Codegen
   end
 end
 
+class Php < Codegen
+  def initialize(paths)
+    language_type_by_schema_type = {
+      'string' => 'string',
+      'integer' => 'int',
+      'boolean' => 'bool',
+    }
+    super(paths, language_type_by_schema_type)
+  end
+
+  def format_description(raw_description, indent_string: "        ")
+    return '' if raw_description.nil?
+
+    raw_description
+      .split("\n")
+      .map { |line| line.strip() }
+      .filter { |line| line != '*' }
+      .map { |line| " * #{line}" }
+      .join("\n#{indent_string}")
+  end
+
+  def array_type_for(type_name)
+    "array"
+  end
+
+  def enum_name(parent_type_name, property_name, enum)
+    enum_type_name = "#{class_name(parent_type_name)}\\#{capitalize(property_name)}"
+    @enum_set.add({ name: enum_type_name, values: enum })
+    enum_type_name
+  end
+
+  def array_contents_type(parent_type_name, property_name, property)
+    type_for(parent_type_name, nil, property['items'])
+  end
+
+  def is_nullable(property_name, schema)
+    !(schema['required'] || []).index(property_name)
+  end
+
+  def is_scalar(property)
+    property.has_key?('type') && @language_type_by_schema_type.has_key?(property['type'])
+  end
+
+  def scalar_type_for(property)
+    raise "No type mapping for JSONSchema type #{type}. Schema:\n#{JSON.pretty_generate(property)}" unless @language_type_by_schema_type[property['type']]
+
+    @language_type_by_schema_type[property['type']]
+  end
+
+  def constructor_for(parent_type, property, property_name, schema, arr_name)
+    constr = non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
+
+    is_nullable(property_name, schema) ? "isset($#{arr_name}['#{property_name}']) ? #{constr} : null" : constr
+  end
+
+  def non_nullable_constructor_for(parent_type, property, property_name, schema, arr_name)
+    source = property_name.nil? ? "#{arr_name}" : "#{arr_name}['#{property_name}']"
+    if is_scalar(property)
+      if property['enum']
+        "#{enum_name(parent_type, property_name, property['enum'])}::from((#{scalar_type_for(property)}) $#{source})"
+      else
+        "(#{scalar_type_for(property)}) $#{source}"
+      end
+    else
+      type = type_for(parent_type, property_name, property)
+      if type == 'array'
+        constructor = non_nullable_constructor_for(parent_type, property['items'], nil, schema, "member")
+        member_type = (property['items']['type'] ? 'mixed' : 'array')
+        "array_values(array_map(fn (#{member_type} $member) => #{constructor}, $#{source}))"
+      else
+        "#{type_for(parent_type, property_name, property)}::fromArray($#{source})"
+      end
+    end
+  end
+
+  def default_value(class_name, property_name, property, schema)
+	if is_nullable(property_name, schema)
+	  return 'null'
+	end
+
+	super(class_name, property_name, property)
+  end
+
+  def default_enum(enum_type_name, property)
+    "#{enum_type_name}::#{enum_constant(property['enum'][0])}"
+  end
+end
+
+
 clazz = Object.const_get(ARGV[0])
 path = ARGV[1]
 paths = File.file?(path) ? [path] : Dir["#{path}/*.json"]
 codegen = clazz.new(paths)
-codegen.generate
+template_name = ARGV[2]
+codegen.generate(template_name)

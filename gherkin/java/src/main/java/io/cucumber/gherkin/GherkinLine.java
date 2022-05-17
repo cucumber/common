@@ -3,7 +3,6 @@ package io.cucumber.gherkin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PrimitiveIterator;
-import java.util.Scanner;
 
 import static io.cucumber.gherkin.GherkinLanguageConstants.COMMENT_PREFIX;
 import static io.cucumber.gherkin.GherkinLanguageConstants.TAG_PREFIX;
@@ -14,7 +13,7 @@ import static io.cucumber.gherkin.StringUtils.rtrimKeepNewLines;
 import static io.cucumber.gherkin.StringUtils.symbolCount;
 import static io.cucumber.gherkin.StringUtils.trim;
 
-public class GherkinLine implements IGherkinLine {
+class GherkinLine implements IGherkinLine {
     // TODO: set this to 0 when/if we change to 0-indexed columns
     private static final int OFFSET = 1;
     private final String lineText;

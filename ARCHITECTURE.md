@@ -24,7 +24,6 @@ In order of importance / relevance to most contributors (hopefully):
 * `html-formatter` - HTML report generator used by multiple Cucumber Open implementations
 * `react` - React components for rendering Gherkin Document and Cucumber results (represented as `messages`).
   Used by `cucumber-html` and https://reports.cucumber.io/
-* `create-meta` - utility that detects meta information about the execution environment (git repo, operating system, cucumber version, platform version etc). This information is represented as a Cucumber message.
 * `gherkin-utils` - utilities for traversing, querying and pretty printing Gherkin document abstract syntax trees (ASTs).
 * `query` - utilities for linking results from Cucumber Open to the original source from Gherkin.
   This is useful because the decoupling of the Gherkin AST from Cucumber Results. Used by advanced formatter
@@ -35,8 +34,5 @@ In order of importance / relevance to most contributors (hopefully):
 * `fake-cucumber` - a light Cucumber implementation written in TypeScript - used primarily
   for development and testing. Also used as basis for `json-to-messages`.
 * `compatibility-kit` - test data used by multiple Cucumber Open implementations' acceptance tests.
-* `config` - (currently unused) - library for configuring Cucumber in a consistent way
-  using command line options, environment variables and configuration files.
-* `demo-formatter` - sample implementation of a Cucumber Open formatter. New formatters should be based on this.
 * `json-formatter` - converts `messages` to the legacy JSON format.
 * `json-to-messages` - converts legacy Cucumber JSON reports to the newer `messages` format. Allows older Cucumber versions to co-exist with newer tooling based on messages.

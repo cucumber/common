@@ -10,6 +10,9 @@
     "id": {
       "type": "string"
     },
+    "name": {
+      "type": "string"
+    },
     "sourceReference": {
       "$ref": "./SourceReference.json"
     },

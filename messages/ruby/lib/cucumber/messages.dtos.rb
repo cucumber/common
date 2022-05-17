@@ -657,7 +657,15 @@ module Cucumber
 
       attr_reader :location
 
+      ##
+      # The actual keyword as it appeared in the source.
+
       attr_reader :keyword
+
+      ##
+      # The test phase signalled by the keyword: Context definition (Given), Action performance (When), Outcome assertion (Then). Other keywords signal Continuation (And and But) from a prior keyword. Please note that all translations which a dialect maps to multiple keywords (`*` is in this category for all dialects), map to 'Unknown'.
+
+      attr_reader :keyword_type
 
       attr_reader :text
 
@@ -673,6 +681,7 @@ module Cucumber
       def initialize(
         location: Location.new,
         keyword: '',
+        keyword_type: nil,
         text: '',
         doc_string: nil,
         data_table: nil,
@@ -680,6 +689,7 @@ module Cucumber
       )
         @location = location
         @keyword = keyword
+        @keyword_type = keyword_type
         @text = text
         @doc_string = doc_string
         @data_table = data_table
@@ -794,16 +804,20 @@ module Cucumber
 
       attr_reader :id
 
+      attr_reader :name
+
       attr_reader :source_reference
 
       attr_reader :tag_expression
 
       def initialize(
         id: '',
+        name: nil,
         source_reference: SourceReference.new,
         tag_expression: nil
       )
         @id = id
+        @name = name
         @source_reference = source_reference
         @tag_expression = tag_expression
       end
@@ -1068,9 +1082,7 @@ module Cucumber
 
       ##
       # *
-      #  A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash
-      #  from the source data and the `locations` of the pickle.
-      #  This ID will change if source the file is modified.
+      #  A unique id for the pickle
 
       attr_reader :id
 
@@ -1173,17 +1185,26 @@ module Cucumber
 
       attr_reader :id
 
+      ##
+      # The context in which the step was specified: context (Given), action (When) or outcome (Then).
+      # 
+      # Note that the keywords `But` and `And` inherit their meaning from prior steps and the `*` 'keyword' doesn't have specific meaning (hence Unknown)
+
+      attr_reader :type
+
       attr_reader :text
 
       def initialize(
         argument: nil,
         ast_node_ids: [],
         id: '',
+        type: nil,
         text: ''
       )
         @argument = argument
         @ast_node_ids = ast_node_ids
         @id = id
+        @type = type
         @text = text
       end
     end
@@ -1890,6 +1911,13 @@ class Cucumber::Messages::AttachmentContentEncoding
   BASE64 = 'BASE64'
 end
 
+class Cucumber::Messages::PickleStepType
+  UNKNOWN = 'Unknown'
+  CONTEXT = 'Context'
+  ACTION = 'Action'
+  OUTCOME = 'Outcome'
+end
+
 class Cucumber::Messages::SourceMediaType
   TEXT_X_CUCUMBER_GHERKIN_PLAIN = 'text/x.cucumber.gherkin+plain'
   TEXT_X_CUCUMBER_GHERKIN_MARKDOWN = 'text/x.cucumber.gherkin+markdown'
@@ -1898,6 +1926,14 @@ end
 class Cucumber::Messages::StepDefinitionPatternType
   CUCUMBER_EXPRESSION = 'CUCUMBER_EXPRESSION'
   REGULAR_EXPRESSION = 'REGULAR_EXPRESSION'
+end
+
+class Cucumber::Messages::StepKeywordType
+  UNKNOWN = 'Unknown'
+  CONTEXT = 'Context'
+  ACTION = 'Action'
+  OUTCOME = 'Outcome'
+  CONJUNCTION = 'Conjunction'
 end
 
 class Cucumber::Messages::TestStepResultStatus
@@ -1909,3 +1945,4 @@ class Cucumber::Messages::TestStepResultStatus
   AMBIGUOUS = 'AMBIGUOUS'
   FAILED = 'FAILED'
 end
+
