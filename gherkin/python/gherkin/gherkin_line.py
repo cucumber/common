@@ -2,7 +2,7 @@ import re
 from .errors import ParserException
 
 
-class GherkinLine(object):
+class GherkinLine:
     def __init__(self, line_text, line_number):
         self._line_text = line_text
         self._line_number = line_number

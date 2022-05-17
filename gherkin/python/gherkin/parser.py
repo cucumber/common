@@ -43,7 +43,7 @@ RULE_TYPE = [
 ]
 
 
-class ParserContext(object):
+class ParserContext:
     def __init__(self, token_scanner, token_matcher, token_queue, errors):
         self.token_scanner = token_scanner
         self.token_matcher = token_matcher
@@ -51,7 +51,7 @@ class ParserContext(object):
         self.errors = errors
 
 
-class Parser(object):
+class Parser:
     def __init__(self, ast_builder=None):
         self.ast_builder = ast_builder if ast_builder is not None else AstBuilder()
         self.stop_at_first_error = False
