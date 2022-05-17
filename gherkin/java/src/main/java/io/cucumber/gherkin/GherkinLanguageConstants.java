@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-public interface GherkinLanguageConstants {
+interface GherkinLanguageConstants {
     String TAG_PREFIX = "@";
     String COMMENT_PREFIX = "#";
     String TITLE_KEYWORD_SEPARATOR = ":";

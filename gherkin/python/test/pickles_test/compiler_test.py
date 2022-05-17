@@ -10,8 +10,6 @@ from gherkin.errors import ParserError
 from gherkin.pickles.compiler import Compiler
 from gherkin.stream.id_generator import IdGenerator
 
-from nose.tools import assert_equals, assert_raises
-
 
 def test_compiles_a_scenario():
     feature_text = textwrap.dedent(
@@ -46,10 +44,7 @@ def test_compiles_a_scenario():
         """
     )
 
-    assert_equals(
-        pickle,
-        json.loads(expected_pickle)
-    )
+    assert pickle == json.loads(expected_pickle)
 
 
 def test_compiles_a_scenario_outline_with_i18n_characters():
@@ -88,7 +83,4 @@ def test_compiles_a_scenario_outline_with_i18n_characters():
         """
     )
 
-    assert_equals(
-        pickle,
-        json.loads(expected_pickle)
-    )
+    assert pickle == json.loads(expected_pickle)

@@ -44,7 +44,7 @@ use Cucumber::Messages::Message;
 
 =cut
 
-<%- @schemas.sort.each do |key, schema| %>
+<%- @schemas.each do |key, schema| %>
 
 package Cucumber::Messages::<%= class_name(key) %> {
 
@@ -104,11 +104,11 @@ Available constants for valid values of this field:
 
 <% if property['enum'] -%>
 
-use constant
+use constant {
 <%- property['enum'].to_a.each_with_index do |value, index| -%>
    <%= property_name.upcase %>_<%= enum_constant(value) %> => '<%= value %>',
 <%- end -%>
-   ;
+   };
 
 <% end -%>
 has <%= underscore(property_name) %> =>

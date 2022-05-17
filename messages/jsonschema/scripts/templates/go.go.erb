@@ -1,6 +1,6 @@
 package messages
 
-<% @schemas.sort.each do |key, schema| -%>
+<% @schemas.each do |key, schema| -%>
 type <%= class_name(key) %> struct {
   <%- schema['properties'].each do |property_name, property| -%>
     <%-

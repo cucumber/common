@@ -1,30 +1,22 @@
 import SupportCode from './SupportCode'
-import { AnyBody } from './types'
+import { AnyBody, HookOptions } from './types'
 import * as messages from '@cucumber/messages'
 import StackUtils from 'stack-utils'
 import IParameterTypeDefinition from './IParameterTypeDefinition'
 import { deprecate } from 'util'
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    interface Global {
-      // @ts-ignore
-      supportCode: SupportCode
-    }
-  }
-}
-
 function setSupportCode(supportCode: SupportCode) {
-  // @ts-ignore
+  //@ts-ignore
   global.supportCode = supportCode
 }
 
 function defineStepDefinition(expression: string | RegExp, body: AnyBody) {
+  //@ts-ignore
   global.supportCode.defineStepDefinition(getSourceReference(new Error().stack), expression, body)
 }
 
-function defineBeforeHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) {
+function defineBeforeHook(tagExpressionOrBody: string | HookOptions | AnyBody, body?: AnyBody) {
+  //@ts-ignore
   global.supportCode.defineBeforeHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
@@ -32,7 +24,8 @@ function defineBeforeHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody)
   )
 }
 
-function defineAfterHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) {
+function defineAfterHook(tagExpressionOrBody: string | HookOptions | AnyBody, body?: AnyBody) {
+  //@ts-ignore
   global.supportCode.defineAfterHook(
     getSourceReference(new Error().stack),
     tagExpressionOrBody,
@@ -41,6 +34,7 @@ function defineAfterHook(tagExpressionOrBody: string | AnyBody, body?: AnyBody) 
 }
 
 function defineParameterType0(parameterTypeDefinition: IParameterTypeDefinition) {
+  //@ts-ignore
   global.supportCode.defineParameterType(parameterTypeDefinition)
 }
 

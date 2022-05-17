@@ -1,6 +1,0 @@
-SEMAPHORE_GIT_BRANCH=main
-SEMAPHORE_GIT_SHA=decafbad
-SEMAPHORE_GIT_TAG_NAME=v1.0
-SEMAPHORE_GIT_URL=https://scmhost.com/path/to/the/project
-SEMAPHORE_JOB_ID=a26d42cf-89ac-4c3f-9e2d-51bb231897bf
-SEMAPHORE_ORGANIZATION_URL=https://my.semaphore.com

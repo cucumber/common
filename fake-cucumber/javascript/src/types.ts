@@ -67,6 +67,10 @@ export interface ITestCase {
 }
 
 export type EnvelopeListener = (envelope: messages.Envelope) => void
+export interface HookOptions {
+  name?: string
+  tagExpression?: string
+}
 export type AnyBody = (...args: readonly unknown[]) => unknown
 export type Attach = (data: string | Buffer | Readable, mediaType: string) => void | Promise<void>
 export type Log = (text: string) => void | Promise<void>

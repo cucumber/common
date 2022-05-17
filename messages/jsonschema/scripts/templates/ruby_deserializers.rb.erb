@@ -6,7 +6,7 @@ require 'json'
 
 module Cucumber
   module Messages
-  <%- @schemas.sort.each do |key, schema| -%>
+  <%- @schemas.each do |key, schema| -%>
 
     class <%= class_name(key) %>
 

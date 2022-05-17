@@ -7,6 +7,11 @@ Before do
   # no-op
 end
 
+Before do
+  # This is the equivalent of the new named hook in typescript
+  # no-op
+end
+
 When('a step passes') do
   # no-op
 end

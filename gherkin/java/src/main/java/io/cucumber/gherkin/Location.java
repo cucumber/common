@@ -1,6 +1,6 @@
 package io.cucumber.gherkin;
 
-public class Location {
+class Location {
     private final int line;
     private final int column;
 

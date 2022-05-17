@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/compatibility-kit",
-  "version": "9.1.2",
+  "version": "9.2.0",
   "description": "Test data used to validate a Cucumber implementation",
   "repository": {
     "type": "git",
@@ -14,8 +14,12 @@
   },
   "devDependencies": {
     "@cucumber/fake-cucumber": "^15.0.0",
+    "@cucumber/html-formatter": "19.1.0",
     "@types/stream-buffers": "3.0.4",
     "stream-buffers": "3.0.2",
-    "typescript": "4.4.4"
+    "typescript": "4.6.4"
+  },
+  "dependencies": {
+    "@cucumber/message-streams": "^4.0.1"
   }
 }

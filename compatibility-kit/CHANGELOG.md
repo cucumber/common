@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [9.2.0] - 2022-04-01
+
+### Added
+
+* Add a named hooked case to the Hooks suite ([#1914](https://github.com/cucumber/common/pull/1914))
+
 ## [9.1.2] - 2021-10-20
 
 ### Fixed
@@ -124,7 +130,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.1.2...main
+[Unreleased]: https://github.com/cucumber/common/compare/compatibility-kit/v9.2.0...main
+[9.2.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.1.2...v9.2.0
 [9.1.2]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.1.1...v9.1.2
 [9.1.1]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.1.0...v9.1.1
 [9.1.0]:      https://github.com/cucumber/common/compare/compatibility-kit/v9.0.0...v9.1.0

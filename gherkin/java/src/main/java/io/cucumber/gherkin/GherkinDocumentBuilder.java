@@ -28,22 +28,23 @@ import static io.cucumber.gherkin.Parser.Builder;
 import static io.cucumber.gherkin.Parser.RuleType;
 import static io.cucumber.gherkin.Parser.TokenType;
 
-public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
+class GherkinDocumentBuilder implements Builder<GherkinDocument> {
+    private final List<Comment> comments = new ArrayList<>();
     private final IdGenerator idGenerator;
+    private String uri;
 
     private Deque<AstNode> stack;
-    private GherkinDocument gherkinDocument;
 
-    public GherkinDocumentBuilder(IdGenerator idGenerator) {
+    public GherkinDocumentBuilder(IdGenerator idGenerator, String uri) {
         this.idGenerator = idGenerator;
-        reset();
+        reset(uri);
     }
 
     @Override
-    public void reset() {
+    public void reset(String uri) {
+        this.uri = uri;
         stack = new ArrayDeque<>();
         stack.push(new AstNode(RuleType.None));
-        gherkinDocument = new GherkinDocument();
     }
 
     private AstNode currentNode() {
@@ -55,8 +56,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
         RuleType ruleType = RuleType.cast(token.matchedType);
         if (token.matchedType == TokenType.Comment) {
             Comment comment = new Comment(getLocation(token, 0), token.matchedText);
-            // TODO: Init list
-            gherkinDocument.getComments().add(comment);
+            comments.add(comment);
         } else {
             currentNode().add(ruleType, token);
         }
@@ -81,6 +81,8 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 return new Step(
                         getLocation(stepLine, 0),
                         stepLine.matchedKeyword,
+                        // TODO: do not pass null - fix this in 1741
+                        null,
                         stepLine.matchedText,
                         node.getSingle(RuleType.DocString, null),
                         node.getSingle(RuleType.DataTable, null),
@@ -190,7 +192,8 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                     children.add(new FeatureChild(rule, null, null));
                 }
                 String description = getDescription(header);
-                if (featureLine.matchedGherkinDialect == null) return null;
+                if (featureLine.matchedGherkinDialect == null)
+                    return null;
                 String language = featureLine.matchedGherkinDialect.getLanguage();
 
                 return new Feature(
@@ -234,11 +237,7 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
             }
             case GherkinDocument: {
                 Feature feature = node.getSingle(RuleType.Feature, null);
-
-                if (feature != null)
-                    gherkinDocument.setFeature(feature);
-
-                return gherkinDocument;
+                return new GherkinDocument(uri, feature, comments);
             }
 
         }
@@ -257,14 +256,15 @@ public class GherkinDocumentBuilder implements Builder<GherkinDocument> {
     }
 
     private void ensureCellCount(List<TableRow> rows) {
-        if (rows.isEmpty()) return;
+        if (rows.isEmpty())
+            return;
 
         int cellCount = rows.get(0).getCells().size();
         for (TableRow row : rows) {
             if (row.getCells().size() != cellCount) {
                 io.cucumber.gherkin.Location location = new io.cucumber.gherkin.Location(
                         row.getLocation().getLine().intValue(),
-                        row.getLocation().getColumn().intValue()
+                        row.getLocation().getColumn().orElse(0L).intValue()
                 );
                 throw new ParserException.AstBuilderException("inconsistent cell count within the table", location);
             }

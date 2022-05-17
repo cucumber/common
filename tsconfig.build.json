@@ -14,13 +14,7 @@
       "path": "./gherkin/javascript/tsconfig.build.json"
     },
     {
-      "path": "./gherkin-streams/javascript/tsconfig.build.json"
-    },
-    {
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./create-meta/javascript/tsconfig.build.json"
     },
     {
       "path": "./fake-cucumber/javascript/tsconfig.build.json"
@@ -32,16 +26,13 @@
       "path": "./compatibility-kit/javascript/tsconfig.build.json"
     },
     {
-      "path": "./react/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./html-formatter/javascript/tsconfig.build.json"
-    },
-    {
       "path": "./json-to-messages/javascript/tsconfig.build.json"
     },
     {
       "path": "./json-to-messages/javascript-testdata/tsconfig.build.json"
+    },
+    {
+      "path": "./messages/javascript/tsconfig.build-cjs.json"
     }
   ]
 }

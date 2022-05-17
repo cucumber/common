@@ -5,7 +5,8 @@ import { runCucumber, SupportCode } from '@cucumber/fake-cucumber'
 import PredictableSupportCode from './PredictableSupportCode'
 import { compile } from '@cucumber/gherkin'
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils'
-import createMeta from '@cucumber/create-meta'
+import detectCiEnvironment from '@cucumber/ci-environment'
+import os from 'os'
 import * as messages from '@cucumber/messages'
 import { Feature } from '@cucumber/messages'
 import { MessageToNdjsonStream } from '@cucumber/message-streams'
@@ -54,7 +55,25 @@ export default async function main(
   )
 
   const metaEnvelope: messages.Envelope = {
-    meta: createMeta('@cucumber/json-to-messages', version, process.env),
+    meta: {
+      protocolVersion: messages.version,
+      implementation: {
+        version,
+        name: '@cucumber/json-to-messages',
+      },
+      cpu: {
+        name: os.arch(),
+      },
+      os: {
+        name: os.platform(),
+        version: os.release(),
+      },
+      runtime: {
+        name: 'node.js',
+        version: process.versions.node,
+      },
+      ci: detectCiEnvironment(process.env),
+    },
   }
   gherkinEnvelopeStream.write(metaEnvelope)
 

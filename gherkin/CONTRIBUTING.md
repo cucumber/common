@@ -74,7 +74,7 @@ In addition to these tests, `make` will run acceptance tests that verify the out
 * the parser
 * the compiler (WIP)
 
-This is done by consuming the `*.feature` files under `/testdata` and comparing the actual
+This is done by consuming the `*.feature` files under `../testdata` and comparing the actual
 output with expected output (`*.feature.tokens` and `*.feature.ast.json` files) using `diff`.
 
 `make` will remove the generated file unless it is identical to the expected file so that
@@ -129,7 +129,7 @@ You'll spend quite a bit of time fiddling with the `.razor` template to make it
 generate code that is syntactically correct.
 
 When you get to that stage, `make` will run the acceptance tests, which iterate
-over all the `.feature` files under `/testdata`, passes them through your
+over all the `.feature` files under `../testdata`, passes them through your
 `bin/gherkin-generate-tokens` and `bin/gherkin-generate-ast` command-line programs,
 and compares the output using `diff`.
 
@@ -193,9 +193,7 @@ With the parser:
 
 ## Adding or changing good testdata
 
-* The top-level `cucumber/`Makefile` copies `cucumber/gherkin/testdata` to every `cucumber/gherkin/<lang>/testdata`.
-    * To force `make` to copy files, delete file `cucumber/.rsynced` if it exists
-* Once the top level testdata has been edited & rsynced to the `gherkin` project, check all the copied testdata into the repo along with `cucumber/gherkin/testdata`    
+Test data for acceptance testing are available in the top-level `gherkin` directory in `testdata`
 
 ### Approach 1
 
@@ -209,18 +207,15 @@ With the parser:
 1) Inspect the diff error to approve the output
     * Copy approved output to the matching, empty `ndjson`/`tokens` file
     * Repeat until the build succeeds
-1) Copy new/modified testdata files to `cucumber/gherkin/testdata/good`
-1) Run `cucumber/make` (after deleting `.rsynced`) to rsync the testdata to every `gherkin/<lang>` folder
-    * If you don't run a full build, ensure you at least build the `gherkin` project to verify that all parsers still parse it ok
 
-### Approach 2 
+### Approach 2
 
 1) Add/edit a `.feature` file in `testdata/good`
 
 2) Generate the tokens:
 
     *For example:*
-   
+
     cd [LANGUAGE]
     bin/gherkin-generate-tokens \
     ../testdata/good/new_file.feature > \
