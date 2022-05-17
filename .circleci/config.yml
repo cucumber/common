@@ -454,7 +454,7 @@ jobs:
       - persist_to_workspace:
           root: '~/.m2/repository'
           paths:
-            - 'io/cucumber/gherkin/util'
+            - 'io/cucumber/gherkin'
 
   json-to-messages-java-testdata:
     executor: docker-circleci-openjdk
