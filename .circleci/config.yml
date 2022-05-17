@@ -519,17 +519,6 @@ jobs:
           paths:
             - json-to-messages/python-testdata/acceptance
 
-  gherkin-python-2:
-    executor: docker-circleci-python
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin/python
-          command: |
-            cd gherkin/python
-            make GHERKIN_PYTHON_VERSION=python2
-
   gherkin-python-3:
     executor: docker-circleci-python
     steps:
