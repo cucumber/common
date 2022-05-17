@@ -27,8 +27,8 @@ publish:
 ifeq ($(IS_TESTDATA),-testdata)
 	# no-op
 else
-	python2 setup.py sdist
-	python2 -m twine upload dist/*
+	python3 setup.py sdist
+	python3 -m twine upload dist/*
 endif
 .PHONY: publish
 
