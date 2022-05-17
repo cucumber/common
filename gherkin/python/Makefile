@@ -29,10 +29,10 @@ test: gherkin/parser.py
 	# "pytest" is most likely installed in $(HOME)/.local/bin since normal
 	# site-packages most likely is not writeable
 	@echo "$(@): USE PYTHONPATH=$(PYTHONPATH)"
-	PATH=$(PATH):$(HOME)/.local/bin pytest
+	PATH=$(PATH):$(HOME)/.local/bin python3 -m pytest
 
 .pipped:
-	pip install -r test-requirements.txt
+	pip3 install -r test-requirements.txt
 	touch $@
 
 acceptance/testdata/%.feature.tokens: ../testdata/%.feature ../testdata/%.feature.tokens

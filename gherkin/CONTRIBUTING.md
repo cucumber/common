@@ -24,7 +24,7 @@ Prerequisites:
   * Maven
 * Node.js or IO.js
 * Ruby
-* Python (both python2 & python3)
+* Python (python3)
 * Go
 * `make`
 * `jq` (>= 1.4 for `--sort-keys` option)
