@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/mocha": "9.1.1",
-    "@types/node": "16.11.35",
+    "@types/node": "16.11.36",
     "copyfiles": "2.4.1",
     "mocha": "10.0.0",
     "ts-node": "10.7.0",
