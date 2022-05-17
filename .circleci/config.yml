@@ -751,7 +751,7 @@ workflows:
       - gherkin-java:
           requires:
             - messages-java
-      - gherkin-util-java:
+      - gherkin-utils-java:
           requires:
             - messages-java
       - json-to-messages-java-testdata:
