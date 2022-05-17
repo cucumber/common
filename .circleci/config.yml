@@ -755,10 +755,6 @@ workflows:
             - prepare-parallel
             - json-to-messages-ruby-testdata
 
-      - gherkin-python-2:
-          requires:
-            - prepare-parallel
-
       - gherkin-python-3:
           requires:
             - prepare-parallel
