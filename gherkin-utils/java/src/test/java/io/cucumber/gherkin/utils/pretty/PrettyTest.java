@@ -1,23 +1,22 @@
-package io.cucumber.gherkin.utils;
+package io.cucumber.gherkin.utils.pretty;
 
 import io.cucumber.gherkin.GherkinParser;
+import io.cucumber.gherkin.utils.Syntax;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.GherkinDocument;
 import io.cucumber.messages.types.Source;
 import io.cucumber.messages.types.SourceMediaType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static io.cucumber.gherkin.utils.pretty.Pretty.prettyPrint;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PrettyPrintGherkinDocumentTest {
-
-
+public class PrettyTest {
     @Test
     public void emptyFile() {
         String gherkin = "";
         GherkinDocument gherkinDocument = parse(gherkin);
-        assertEquals("", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+        assertEquals("", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     private GherkinDocument parse(String gherkin) {
@@ -62,7 +61,7 @@ public class PrettyPrintGherkinDocumentTest {
                         "      | start | eat | left |\n" +
                         "      | 12    | 5   | 7    |\n" +
                         "      | 20    | 5   | 15   |\n",
-                PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -70,7 +69,7 @@ public class PrettyPrintGherkinDocumentTest {
         GherkinDocument gherkinDocument = parse("# language: no\n" +
                 "Egenskap: hallo");
         assertEquals("# language: no\n" +
-                "Egenskap: hallo\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "Egenskap: hallo\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -84,7 +83,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "\n" +
                 "  Scenario: one\n" +
                 "\n" +
-                "  Scenario: Two\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "  Scenario: Two\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -102,7 +101,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "    Given hello\n" +
                 "\n" +
                 "  Scenario: two\n" +
-                "    Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "    Given world\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -124,7 +123,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "      Given hello\n" +
                 "\n" +
                 "    Scenario: two\n" +
-                "      Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      Given world\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -142,7 +141,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "    Given hello\n" +
                 "\n" +
                 "  Scenario: two\n" +
-                "    Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "    Given world\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -164,7 +163,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "      Given hello\n" +
                 "\n" +
                 "    Scenario: two\n" +
-                "      Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      Given world\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -190,7 +189,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "\n" +
                 "    @scenarioTag @secondTag\n" +
                 "    Scenario: two\n" +
-                "      Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      Given world\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -232,7 +231,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "      | ab   | 10     |\n" +
                 "      # comment5 is here\n" +
                 "      # comment6 is here\n" +
-                "      | abc  | 100    |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | abc  | 100    |\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -252,7 +251,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "      | text | numbers |\n" +
                 "      | a    | 1       |\n" +
                 "      | ab   | 10      |\n" +
-                "      | abc  | 100     |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | abc  | 100     |\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -272,7 +271,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "      | text | numbers |\n" +
                 "      | a    | 1       |\n" +
                 "      | ab   | 10      |\n" +
-                "      | abc  | 100     |\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      | abc  | 100     |\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -306,7 +305,7 @@ public class PrettyPrintGherkinDocumentTest {
                 "    Scenario: two\n" +
                 "      This scenario will do things, maybe\n" +
                 "\n" +
-                "      Given world\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                "      Given world\n", prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 
     @Test
@@ -329,6 +328,6 @@ public class PrettyPrintGherkinDocumentTest {
                         "    # another line in the comment in the scenario\n" +
                         "    Given a a <text> and a <number>\n" +
                         "# i am a comment at the end of the file.\n",
-                PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+                prettyPrint(gherkinDocument, Syntax.gherkin));
     }
 }

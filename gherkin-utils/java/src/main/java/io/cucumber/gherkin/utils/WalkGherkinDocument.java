@@ -46,17 +46,17 @@ public class WalkGherkinDocument<Acc extends Accumulator> {
         return acc;
     }
 
-    public Acc walkComment(Comment comment, GherkinDocumentHandlers<Acc> h, Acc acc) {
+    private Acc walkComment(Comment comment, GherkinDocumentHandlers<Acc> h, Acc acc) {
         if (acc.getDeepestLine() < comment.getLocation().getLine()) {
             acc = h.handleComment(comment, acc);
         }
         return acc;
     }
 
-    public Acc walkFeature(Feature feature, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkFeature(Feature feature, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(feature.getLocation().getLine());
         acc = walkTags(feature.getTags() == null ? Collections.emptyList() : feature.getTags(), h, acc, comments);
-        acc = h.handleFeature(feature, acc, comments);
+        acc = h.handleFeature(feature, acc);
 
         for (FeatureChild child : feature.getChildren()) {
             if (child.getBackground().isPresent()) {
@@ -65,7 +65,7 @@ public class WalkGherkinDocument<Acc extends Accumulator> {
                 acc = walkScenario(child.getScenario().get(), h, acc, comments);
             } else if (child.getRule().isPresent()) {
                 acc = walkTags(child.getRule().get().getTags(), h, acc, comments);
-                acc = h.handleRule(child.getRule().get(), acc, comments);
+                acc = h.handleRule(child.getRule().get(), acc);
                 for (RuleChild ruleChild : child.getRule().get().getChildren()) {
                     if (ruleChild.getBackground().isPresent()) {
                         acc = walkBackground(ruleChild.getBackground().get(), h, acc, comments);
@@ -78,7 +78,7 @@ public class WalkGherkinDocument<Acc extends Accumulator> {
         return acc;
     }
 
-    public Acc walkTags(List<Tag> tags, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkTags(List<Tag> tags, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         for (Tag tag : tags) {
             acc = walkTag(tag, h, acc, comments);
         }
@@ -87,50 +87,50 @@ public class WalkGherkinDocument<Acc extends Accumulator> {
 
     private Acc walkTag(Tag tag, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(tag.getLocation().getLine());
-        acc = h.handleTag(tag, acc, comments);
+        acc = h.handleTag(tag, acc);
         return acc;
     }
 
-    public Acc walkSteps(List<Step> steps, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkSteps(List<Step> steps, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         for (Step step : steps) {
             acc = walkStep(step, h, acc, comments);
         }
         return acc;
     }
 
-    public Acc walkStep(Step step, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkStep(Step step, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(step.getLocation().getLine());
-        acc = h.handleStep(step, acc, comments);
+        acc = h.handleStep(step, acc);
         if (step.getDocString().isPresent()) {
-            acc = h.handleDocString(step.getDocString().get(), acc, comments);
+            acc = h.handleDocString(step.getDocString().get(), acc);
         }
         if (step.getDataTable().isPresent()) {
-            acc = h.handleDataTable(step.getDataTable().get(), acc, comments);
+            acc = h.handleDataTable(step.getDataTable().get(), acc);
             acc = walkTableRows(step.getDataTable().get().getRows(), h, acc, comments);
         }
         return acc;
     }
 
-    public Acc walkTableRows(List<TableRow> tableRows, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkTableRows(List<TableRow> tableRows, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         for (TableRow tableRow : tableRows) {
             acc = walkTableRow(tableRow, h, acc, comments);
         }
         return acc;
     }
 
-    public Acc walkTableRow(TableRow tableRow, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkTableRow(TableRow tableRow, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(tableRow.getLocation().getLine());
-        acc = h.handleTableRow(tableRow, acc, comments);
+        acc = h.handleTableRow(tableRow, acc);
         for (TableCell tableCell : tableRow.getCells()) {
-            acc = h.handleTableCell(tableCell, acc, comments);
+            acc = h.handleTableCell(tableCell, acc);
         }
         return acc;
     }
 
-    public Acc walkScenario(Scenario scenario, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkScenario(Scenario scenario, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(scenario.getLocation().getLine());
         acc = walkTags(scenario.getTags() != null ? scenario.getTags() : Collections.emptyList(), h, acc, comments);
-        acc = h.handleScenario(scenario, acc, comments);
+        acc = h.handleScenario(scenario, acc);
         acc = walkSteps(scenario.getSteps(), h, acc, comments);
 
         if (scenario.getExamples() != null) {
@@ -143,9 +143,8 @@ public class WalkGherkinDocument<Acc extends Accumulator> {
 
     private Acc walkExamples(Examples examples, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(examples.getLocation().getLine());
-        acc = walkTags(examples.getTags() != null ? examples.getTags() : Collections.emptyList(), h, acc,
-                comments);
-        acc = h.handleExamples(examples, acc, comments);
+        acc = walkTags(examples.getTags() != null ? examples.getTags() : Collections.emptyList(), h, acc, comments);
+        acc = h.handleExamples(examples, acc);
         if (examples.getTableHeader().isPresent()) {
             acc = walkTableRow(examples.getTableHeader().get(), h, acc, comments);
             acc = walkTableRows(examples.getTableBody(), h, acc, comments);
@@ -153,9 +152,9 @@ public class WalkGherkinDocument<Acc extends Accumulator> {
         return acc;
     }
 
-    public Acc walkBackground(Background background, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
+    private Acc walkBackground(Background background, GherkinDocumentHandlers<Acc> h, Acc acc, List<Comment> comments) {
         acc.setDeepestLine(background.getLocation().getLine());
-        acc = h.handleBackground(background, acc, comments);
+        acc = h.handleBackground(background, acc);
         return walkSteps(background.getSteps(), h, acc, comments);
     }
 }
