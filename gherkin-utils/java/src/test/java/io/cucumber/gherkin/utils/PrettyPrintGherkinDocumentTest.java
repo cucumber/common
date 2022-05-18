@@ -1,33 +1,42 @@
 package io.cucumber.gherkin.utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import io.cucumber.gherkin.GherkinDocumentBuilder;
-import io.cucumber.gherkin.Parser;
-import io.cucumber.messages.IdGenerator;
+import io.cucumber.gherkin.GherkinParser;
+import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceMediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class PrettyPrintGherkinDocumentTest {
 
-    Parser<GherkinDocument> parser;
-
-    @BeforeEach
-    public void beforeEach() {
-        IdGenerator idGen = new IdGenerator.Incrementing();
-        parser = new Parser<>(new GherkinDocumentBuilder(idGen));
-    }
 
     @Test
     public void emptyFile() {
-        GherkinDocument gherkinDocument = parser.parse("");
+        String gherkin = "";
+        GherkinDocument gherkinDocument = parse(gherkin);
         assertEquals("", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
+    }
+
+    private GherkinDocument parse(String gherkin) {
+        GherkinParser parser = GherkinParser
+                .builder()
+                .includeGherkinDocument(true)
+                .includeSource(false)
+                .includePickles(false)
+                .build();
+        return parser.parse(Envelope.of(new Source("test.feature", gherkin, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No envelope"))
+                .getGherkinDocument()
+                .orElseThrow(() -> new RuntimeException("No gherkin document"));
     }
 
     @Test
     public void scenarioOutlineWithExamples() {
-        GherkinDocument gherkinDocument = parser.parse("    Feature: Overdue tasks\n" +
+        GherkinDocument gherkinDocument = parse("    Feature: Overdue tasks\n" +
                 "  Let users know when tasks are overdue, even when using other\n" +
                 "  features of the app\n\n\n" +
                 "\n\n\n\n" +
@@ -58,7 +67,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void languageHeaderIsNotEn() {
-        GherkinDocument gherkinDocument = parser.parse("# language: no\n" +
+        GherkinDocument gherkinDocument = parse("# language: no\n" +
                 "Egenskap: hallo");
         assertEquals("# language: no\n" +
                 "Egenskap: hallo\n", PrettyPrintGherkinDocument.prettyPrint(gherkinDocument, Syntax.gherkin));
@@ -66,7 +75,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void emptyScenarios() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "\n" +
@@ -80,7 +89,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void twoScenarios() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given hello\n" +
@@ -98,7 +107,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void twoScenariosInRule() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Rule: ok\n" +
                 "\n" +
@@ -120,7 +129,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void featureWithBackgroundAndScenario() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Background: bbb\n" +
                 "    Given hello\n" +
@@ -138,7 +147,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void ruleWithBackgroundAndScenario() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Rule: machin\n" +
                 "\n" +
@@ -160,7 +169,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void tags() {
-        GherkinDocument gherkinDocument = parser.parse("@featureTag\n" +
+        GherkinDocument gherkinDocument = parse("@featureTag\n" +
                 "Feature: hello\n" +
                 "\n" +
                 "  Rule: machin\n" +
@@ -186,7 +195,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void exampleTables() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  # i am tag hear me roar\n" +
                 "  Scenario: one\n" +
@@ -228,7 +237,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void dataTables() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given a data table:\n" +
@@ -248,7 +257,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void docString() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "\n" +
                 "  Scenario: one\n" +
                 "    Given a data table:\n" +
@@ -268,7 +277,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void description() {
-        GherkinDocument gherkinDocument = parser.parse("Feature: hello\n" +
+        GherkinDocument gherkinDocument = parse("Feature: hello\n" +
                 "  So this is a feature\n" +
                 "\n" +
                 "  Rule: machin\n" +
@@ -302,7 +311,7 @@ public class PrettyPrintGherkinDocumentTest {
 
     @Test
     public void commentAtStartAndEndOfFile() {
-        GherkinDocument gherkinDocument = parser.parse("#   i am comment at start of file \n" +
+        GherkinDocument gherkinDocument = parse("#   i am comment at start of file \n" +
                 "Feature: hello\n" +
                 "\n" +
                 "  # i am tag hear me roar\n" +

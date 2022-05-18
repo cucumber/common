@@ -1,14 +1,11 @@
 package io.cucumber.gherkin.utils;
 
-import java.util.List;
-
 import io.cucumber.messages.types.Background;
 import io.cucumber.messages.types.Comment;
 import io.cucumber.messages.types.DataTable;
 import io.cucumber.messages.types.DocString;
 import io.cucumber.messages.types.Examples;
 import io.cucumber.messages.types.Feature;
-import io.cucumber.messages.types.Location;
 import io.cucumber.messages.types.Rule;
 import io.cucumber.messages.types.Scenario;
 import io.cucumber.messages.types.Step;
@@ -16,73 +13,30 @@ import io.cucumber.messages.types.TableCell;
 import io.cucumber.messages.types.TableRow;
 import io.cucumber.messages.types.Tag;
 
-public interface GherkinDocumentHandlers<Acc> {
-    default Acc handleBackground(Background background, Acc content, List<Comment> comments,
-                                 Location deepestLocation) {
-        deepestLocation.setLine(background.getLocation().getLine());
-        return content;
-    }
+import java.util.List;
 
-    default Acc handleDataTable(DataTable dataTable, Acc content, List<Comment> comments,
-                                Location deepestLocation) {
-        deepestLocation.setLine(dataTable.getLocation().getLine());
-        return content;
-    }
+public interface GherkinDocumentHandlers<Acc extends Accumulator> {
+    Acc handleBackground(Background background, Acc acc, List<Comment> comments);
 
-    default Acc handleDocString(DocString docString, Acc content, List<Comment> comments,
-                                Location deepestLocation) {
-        deepestLocation.setLine(docString.getLocation().getLine());
-        return content;
-    }
+    Acc handleDataTable(DataTable dataTable, Acc acc, List<Comment> comments);
 
-    default Acc handleExamples(Examples examples, Acc content, List<Comment> comments,
-                               Location deepestLocation) {
-        deepestLocation.setLine(examples.getLocation().getLine());
-        return content;
-    }
+    Acc handleDocString(DocString docString, Acc acc, List<Comment> comments);
 
-    default Acc handleFeature(Feature feature, Acc content, List<Comment> comments,
-                              Location deepestLocation) {
-        deepestLocation.setLine(feature.getLocation().getLine());
-        return content;
-    }
+    Acc handleExamples(Examples examples, Acc acc, List<Comment> comments);
 
-    default Acc handleRule(Rule rule, Acc content, List<Comment> comments,
-                           Location deepestLocation) {
-        deepestLocation.setLine(rule.getLocation().getLine());
-        return content;
-    }
+    Acc handleFeature(Feature feature, Acc acc, List<Comment> comments);
 
-    default Acc handleScenario(Scenario scenario, Acc content, List<Comment> comments,
-                               Location deepestLocation) {
-        deepestLocation.setLine(scenario.getLocation().getLine());
-        return content;
-    }
+    Acc handleRule(Rule rule, Acc acc, List<Comment> comments);
 
-    default Acc handleStep(Step step, Acc content, List<Comment> comments,
-                           Location deepestLocation) {
-        return content;
-    }
+    Acc handleScenario(Scenario scenario, Acc acc, List<Comment> comments);
 
-    default Acc handleTableCell(TableCell tableCell, Acc content, List<Comment> comments,
-                                Location deepestLocation) {
-        deepestLocation.setLine(tableCell.getLocation().getLine());
-        return content;
-    }
+    Acc handleStep(Step step, Acc acc, List<Comment> comments);
 
-    default Acc handleTableRow(TableRow tableRow, Acc content, List<Comment> comments,
-                               Location deepestLocation) {
-        deepestLocation.setLine(tableRow.getLocation().getLine());
-        return content;
-    }
+    Acc handleTableCell(TableCell tableCell, Acc acc, List<Comment> comments);
 
-    default Acc handleTag(Tag tag, Acc content, List<Comment> comments,
-                          Location deepestLocation) {
-        deepestLocation.setLine(tag.getLocation().getLine());
-        return content;
-    }
+    Acc handleTableRow(TableRow tableRow, Acc acc, List<Comment> comments);
 
-    default Acc handleStandaloneComment(Comment comment, Acc content) {
-        return content;
-    }
+    Acc handleTag(Tag tag, Acc acc, List<Comment> comments);
+
+    Acc handleComment(Comment comment, Acc acc);
 }
