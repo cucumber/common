@@ -1,4 +1,3 @@
-@exclude-json-formatter
 Feature: Hooks
   Hooks are special steps that run before or after each scenario's steps.
   They can also conditionally target specific scenarios, using tag expressions
