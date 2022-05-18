@@ -1,6 +1,5 @@
 package io.cucumber.gherkin.utils;
 
-import io.cucumber.gherkin.utils.Accumulator;
 import io.cucumber.messages.types.Background;
 import io.cucumber.messages.types.Comment;
 import io.cucumber.messages.types.DataTable;

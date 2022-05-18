@@ -1,6 +1,5 @@
 package io.cucumber.gherkin.utils.pretty;
 
-import io.cucumber.gherkin.utils.Syntax;
 import io.cucumber.gherkin.utils.WalkGherkinDocument;
 import io.cucumber.messages.types.GherkinDocument;
 
@@ -24,5 +23,6 @@ public class Pretty {
         return result.toString();
     }
 
-    private Pretty() {}
+    private Pretty() {
+    }
 }

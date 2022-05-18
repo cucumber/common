@@ -1,7 +1,6 @@
 package io.cucumber.gherkin.utils.pretty;
 
 import io.cucumber.gherkin.utils.GherkinDocumentHandlers;
-import io.cucumber.gherkin.utils.Syntax;
 import io.cucumber.messages.types.Background;
 import io.cucumber.messages.types.Comment;
 import io.cucumber.messages.types.DataTable;

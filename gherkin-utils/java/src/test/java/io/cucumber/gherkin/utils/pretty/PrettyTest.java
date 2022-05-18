@@ -1,7 +1,6 @@
 package io.cucumber.gherkin.utils.pretty;
 
 import io.cucumber.gherkin.GherkinParser;
-import io.cucumber.gherkin.utils.Syntax;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.GherkinDocument;
 import io.cucumber.messages.types.Source;
@@ -17,20 +16,6 @@ public class PrettyTest {
         String gherkin = "";
         GherkinDocument gherkinDocument = parse(gherkin);
         assertEquals("", prettyPrint(gherkinDocument, Syntax.gherkin));
-    }
-
-    private GherkinDocument parse(String gherkin) {
-        GherkinParser parser = GherkinParser
-                .builder()
-                .includeGherkinDocument(true)
-                .includeSource(false)
-                .includePickles(false)
-                .build();
-        return parser.parse(Envelope.of(new Source("test.feature", gherkin, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No envelope"))
-                .getGherkinDocument()
-                .orElseThrow(() -> new RuntimeException("No gherkin document"));
     }
 
     @Test
@@ -329,5 +314,19 @@ public class PrettyTest {
                         "    Given a a <text> and a <number>\n" +
                         "# i am a comment at the end of the file.\n",
                 prettyPrint(gherkinDocument, Syntax.gherkin));
+    }
+
+    private GherkinDocument parse(String gherkin) {
+        GherkinParser parser = GherkinParser
+                .builder()
+                .includeGherkinDocument(true)
+                .includeSource(false)
+                .includePickles(false)
+                .build();
+        return parser.parse(Envelope.of(new Source("test.feature", gherkin, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No envelope"))
+                .getGherkinDocument()
+                .orElseThrow(() -> new RuntimeException("No gherkin document"));
     }
 }

@@ -1,4 +1,4 @@
-package io.cucumber.gherkin.utils;
+package io.cucumber.gherkin.utils.pretty;
 
 public enum Syntax {
     markdown,
