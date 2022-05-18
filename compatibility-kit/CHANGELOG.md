@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Ruby] Add implementation for named hooks
+
 ## [9.2.0] - 2022-04-01
 
 ### Added
