@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* [Ruby] Add implementation for named hooks
+* [Ruby] Add implementation for named hooks ([#1984](https://github.com/cucumber/common/pull/1984))
 
 ## [9.2.0] - 2022-04-01
 
