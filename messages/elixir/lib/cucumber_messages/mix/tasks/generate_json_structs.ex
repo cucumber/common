@@ -57,7 +57,12 @@ defmodule Mix.Tasks.GenerateJsonStructs do
   defp output_module(%ModuleData{} = moduledata, acc) do
     atom_fields =
       moduledata.fields
-      |> Enum.map(fn {fieldname, _ignore_details} -> ":" <> Macro.underscore(fieldname) end)
+      |> Enum.map(fn {fieldname, %{} = details} ->
+        case details["type"] do
+          "array" -> Macro.underscore(fieldname) <> ": []"
+          _ -> Macro.underscore(fieldname) <> ": nil"
+        end
+      end)
       |> Enum.intersperse(", ")
 
     entry = """
@@ -121,7 +126,7 @@ defmodule Mix.Tasks.GenerateJsonStructs do
 
         case create_moduledata_structs(empty_metadata, updated_child_member_data) do
           %ModuleData{} = submodule -> submodule
-          other -> raise "unexpected"
+          _other -> raise "unexpected"
         end
       end)
 

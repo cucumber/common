@@ -47,16 +47,27 @@ defmodule CucumberGherkin.PickleCompiler do
     }
 
     Enum.reduce(f.children, meta_info, fn child, m_acc ->
-      case child.value do
-        {:background, bg} ->
-          %{m_acc | feature_backgr_steps: bg.steps}
+      cond do
+        child.background != nil ->
+          %{m_acc | feature_backgr_steps: child.background.steps}
 
-        {:rule, rule} ->
-          compile_rule(m_acc, rule)
+        child.rule != nil ->
+          compile_rule(m_acc, child.rule)
 
-        {:scenario, s} ->
-          compile_scenario(m_acc, s, :feature_backgr_steps)
+        child.scenario != nil ->
+          compile_scenario(m_acc, child.scenario, :feature_backgr_steps)
       end
+
+      # case child.value do
+      #   {:background, bg} ->
+      #     %{m_acc | feature_backgr_steps: bg.steps}
+
+      #   {:rule, rule} ->
+      #     compile_rule(m_acc, rule)
+
+      #   {:scenario, s} ->
+      #     compile_scenario(m_acc, s, :feature_backgr_steps)
+      # end
     end)
   end
 
@@ -65,10 +76,10 @@ defmodule CucumberGherkin.PickleCompiler do
     rule_tags = meta_info.feature_tags ++ r.tags
 
     Enum.reduce(r.children, resetted_meta_info, fn
-      %FeatureChildMessage{background: bg}, m_acc ->
+      %FeatureChildMessage{background: bg}, m_acc when not is_nil(bg) ->
         %{m_acc | rule_backgr_steps: m_acc.rule_backgr_steps ++ bg.steps}
 
-      %FeatureChildMessage{scenario: s}, m_acc ->
+      %FeatureChildMessage{scenario: s}, m_acc when not is_nil(s) ->
         %{m_acc | feature_tags: rule_tags} |> compile_scenario(s, :rule_backgr_steps)
     end)
   end
@@ -221,6 +232,7 @@ defmodule CucumberGherkin.PickleCompiler do
 
     media_type =
       case d.media_type do
+        nil -> nil
         "" -> ""
         media_type -> interpolate(media_type, variable_cells, value_cells)
       end
@@ -237,8 +249,13 @@ defmodule CucumberGherkin.PickleCompiler do
   defp add_ast_node_id(%PickleStepMessage{ast_node_ids: ids} = m, %TableRowMessage{} = row),
     do: %{m | ast_node_ids: ids ++ [row.id]}
 
-  # TODO: see if this breaks stuff
-  # defp add_datatable(%PickleStepMessage{} = m, %StepMessage{argument: nil}, _, _), do: m
+  defp add_datatable(
+         %PickleStepMessage{} = m,
+         %StepMessage{doc_string: nil, data_table: nil},
+         _,
+         _
+       ),
+       do: m
 
   defp add_datatable(%PickleStepMessage{} = m, %StepMessage{doc_string: ds}, _, _) when ds != nil,
     do: m
@@ -251,11 +268,16 @@ defmodule CucumberGherkin.PickleCompiler do
        )
        when d != nil do
     result = pickle_data_table_creator(d, variable_cells, value_cells)
-    %{m | argument: result}
+    %{m | argument: %{data_table: result}}
   end
 
-  # TODO: see if this breaks stuff
-  # defp add_doc_string(%PickleStepMessage{} = m, %StepMessage{argument: nil}, _, _), do: m
+  defp add_doc_string(
+         %PickleStepMessage{} = m,
+         %StepMessage{doc_string: nil, data_table: nil},
+         _,
+         _
+       ),
+       do: m
 
   defp add_doc_string(%PickleStepMessage{} = m, %StepMessage{data_table: dt}, _, _)
        when dt != nil,
@@ -269,7 +291,7 @@ defmodule CucumberGherkin.PickleCompiler do
        )
        when d != nil do
     result = pickle_doc_string_creator(d, variable_cells, value_cells)
-    %{m | argument: result}
+    %{m | argument: %{doc_string: result}}
   end
 
   defp get_id_and_update_compiler_acc(%@me{id_gen: gen} = compiler_acc) do

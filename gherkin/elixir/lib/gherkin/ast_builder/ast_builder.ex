@@ -58,7 +58,15 @@ defmodule CucumberGherkin.AstBuilder do
       Comment ->
         loc = Token.get_location(token)
         comment_message = %CommentMessage{location: loc, text: token.line.content}
+        # TODO: Normally your struct should default to an empty list instead of nil.
+        #   Due to the limited converter in the messages library, we make a case clause and "catch" this unexpected `nil` value.
+        # updated_comments =
+        #   case builder.gherkin_doc.comments do
+        #     nil -> [comment_message]
+        #     list -> list ++ [comment_message]
+        #   end
         updated_comments = builder.gherkin_doc.comments ++ [comment_message]
+
         updated_gherkin_doc = %{builder.gherkin_doc | comments: updated_comments}
         updated_builder = %{builder | gherkin_doc: updated_gherkin_doc}
         %{context | ast_builder: updated_builder}
@@ -405,6 +413,13 @@ defmodule CucumberGherkin.AstBuilder do
 
   defp add_background_to(%{__struct__: t} = m, d) when t in [FeatureMessage, RuleMessage] do
     child = %FeatureChildMessage{background: d}
+    # TODO: Normally your struct should default to an empty list instead of nil.
+    #   Due to the limited converter in the messages library, we make a case clause and "catch" this unexpected `nil` value.
+    # case m.children do
+    #   nil -> %{m | children: [child]}
+    #   list -> %{m | children: list ++ [child]}
+    # end
+
     %{m | children: m.children ++ [child]}
   end
 
@@ -413,6 +428,12 @@ defmodule CucumberGherkin.AstBuilder do
     scenario_definition_items
     |> Enum.reduce(m, fn scenario_def, feature_message_acc ->
       child = %FeatureChildMessage{scenario: scenario_def}
+      # TODO: Normally your struct should default to an empty list instead of nil.
+      #   Due to the limited converter in the messages library, we make a case clause and "catch" this unexpected `nil` value.
+      # case feature_message_acc.children do
+      #   nil -> %{feature_message_acc | children: [child]}
+      #   list -> %{feature_message_acc | children: list ++ [child]}
+      # end
       %{feature_message_acc | children: feature_message_acc.children ++ [child]}
     end)
   end
@@ -421,6 +442,13 @@ defmodule CucumberGherkin.AstBuilder do
     rule_items
     |> Enum.reduce(m, fn rule, feature_message_acc ->
       child = %FeatureChildMessage{rule: rule}
+
+      # TODO: Normally your struct should default to an empty list instead of nil.
+      #   Due to the limited converter in the messages library, we make a case clause and "catch" this unexpected `nil` value.
+      # case feature_message_acc.children do
+      #   nil -> %{feature_message_acc | children: [child]}
+      #   list -> %{feature_message_acc | children: list ++ [child]}
+      # end
       %{feature_message_acc | children: feature_message_acc.children ++ [child]}
     end)
   end

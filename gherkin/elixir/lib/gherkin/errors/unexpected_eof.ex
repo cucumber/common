@@ -18,6 +18,6 @@ defmodule CucumberGherkin.UnexpectedEOFError do
       do:
         struct!(CucumberGherkin.Token, line: me.line)
         |> CucumberGherkin.Token.get_location()
-        |> Map.put(:column, 0)
+        |> Map.put(:column, nil)
   end
 end
