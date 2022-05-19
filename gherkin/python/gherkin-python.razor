@@ -19,14 +19,13 @@
         token.detach
         expected_tokens = ["@Raw(string.Join("\", \"", expectedTokens))"]
         error = UnexpectedEOFException(token, expected_tokens, state_comment) if token.eof() else UnexpectedTokenException(token, expected_tokens, state_comment)
-        if (self.stop_at_first_error):
+        if self.stop_at_first_error:
             raise error
         self.add_error(context, error)
         return @state.Id</text>}
 @helper MatchToken(TokenType tokenType)
 {<text>match_@(tokenType)(context, token)</text>}
 # This file is generated. Do not edit! Edit gherkin-python.razor instead.
-import sys
 from collections import deque
 from .ast_builder import AstBuilder
 from .token_matcher import TokenMatcher
@@ -55,7 +54,8 @@ class @(Model.ParserClassName):
         self.stop_at_first_error = False
 
     def parse(self, token_scanner_or_str, token_matcher=None):
-        token_scanner = TokenScanner(token_scanner_or_str) if isinstance(token_scanner_or_str, str) else token_scanner_or_str
+        token_scanner = TokenScanner(token_scanner_or_str) if isinstance(token_scanner_or_str,
+                                                                         str) else token_scanner_or_str
         self.ast_builder.reset()
         if token_matcher is None:
             token_matcher = TokenMatcher()
@@ -85,7 +85,8 @@ class @(Model.ParserClassName):
     def build(self, context, token):
         self.handle_ast_error(context, token, self.ast_builder.build)
 
-    def add_error(self, context, error):
+    @@staticmethod
+    def add_error(context, error):
         if str(error) not in (str(e) for e in context.errors):
             context.errors.append(error)
             if len(context.errors) > 10:
@@ -100,11 +101,13 @@ class @(Model.ParserClassName):
     def get_result(self):
         return self.ast_builder.get_result()
 
-    def read_token(self, context):
+    @@staticmethod
+    def read_token(context):
         if context.token_queue:
             return context.token_queue.popleft()
         else:
             return context.token_scanner.read()
+
 @foreach(var rule in Model.RuleSet.TokenRules)
 {<text>
     def match_@(rule.Name.Replace("#", ""))(self, context, token):
@@ -113,7 +116,8 @@ class @(Model.ParserClassName):
         @:if token.eof():
         @:    return False
         }
-        return self.handle_external_error(context, False, token, context.token_matcher.match_@(rule.Name.Replace("#", "")))</text>
+        return self.handle_external_error(context, False, token, context.token_matcher.match_@(rule.Name.Replace("#", "")))
+        </text>
 }
 
     def match_token(self, state, token, context):
@@ -126,7 +130,7 @@ class @(Model.ParserClassName):
         if state in state_map:
             return state_map[state](token, context)
         else:
-            raise RuntimeError("Unknown state: " + str(state))
+            raise RuntimeError(f"Unknown state: {str(state)}")
 @foreach(var state in Model.States.Values.Where(s => !s.IsEndState))
 {<text>
     # @Raw(state.Comment)
@@ -145,8 +149,10 @@ class @(Model.ParserClassName):
                 @:return @transition.TargetState
         }
 
-        @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)</text>
+        @HandleParserError(state.Transitions.Select(t => "#" + t.TokenType.ToString()).Distinct(), state)
+        </text>
 }
+
 @foreach(var lookAheadHint in Model.RuleSet.LookAheadHints)
 {
 <text>
@@ -160,7 +166,7 @@ class @(Model.ParserClassName):
             token.detach
             queue.append(token)
 
-            if (@foreach(var tokenType in lookAheadHint.ExpectedTokens) {<text>self.@MatchToken(tokenType) or </text>}False):
+            if @foreach(var tokenType in lookAheadHint.ExpectedTokens) {<text>self.@MatchToken(tokenType) or </text>}False:
                 match = True
                 break
 
@@ -168,8 +174,8 @@ class @(Model.ParserClassName):
                 break
 
         context.token_queue.extend(queue)
-
-        return match</text>
+        return match
+        </text>
 }
 
     # private

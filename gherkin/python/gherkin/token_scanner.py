@@ -18,7 +18,7 @@ class TokenScanner:
 
     def __init__(self, path_or_str):
         if os.path.exists(path_or_str):
-            self.io = io.open(path_or_str, 'rU', encoding='utf8')
+            self.io = io.open(path_or_str, 'r', encoding='utf8')
         else:
             self.io = io.StringIO(path_or_str)
         self.line_number = 0

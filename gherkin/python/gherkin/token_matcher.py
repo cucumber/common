@@ -91,8 +91,8 @@ class TokenMatcher:
     def match_DocStringSeparator(self, token):
         return self._match_DocStringSeparator(token, self._active_doc_string_separator,
                                               False) if self._active_doc_string_separator else (
-                    self._match_DocStringSeparator(token, '"""', True) or self._match_DocStringSeparator(token, '```',
-                                                                                                         True))
+                self._match_DocStringSeparator(token, '"""', True) or self._match_DocStringSeparator(token, '```',
+                                                                                                     True))
 
     def _match_DocStringSeparator(self, token, separator, is_open):
         if not token.line.startswith(separator):

@@ -5,6 +5,7 @@ class TokenFormatterBuilder(AstBuilder):
     def __init__(self):
         super().__init__()
         self.reset()
+        self._tokens = None
 
     def reset(self):
         self._tokens = []
