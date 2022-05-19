@@ -2,8 +2,8 @@ import io
 
 
 def source_event(path):
-    with io.open(path, 'r', encoding='utf8', newline='').read() as source_data:
-        return {'source': {'uri': path, 'data': source_data, 'mediaType': 'text/x.cucumber.gherkin+plain'}}
+    return {'source': {'uri': path, 'data': io.open(path, 'r', encoding='utf8', newline='').read(),
+                       'mediaType': 'text/x.cucumber.gherkin+plain'}}
 
 
 class SourceEvents:
