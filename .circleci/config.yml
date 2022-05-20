@@ -556,16 +556,16 @@ jobs:
           paths:
             - messages/elixir/lib/cucumber_messages/generated/
 
-  # gherkin-elixir:
-  #   executor: docker-cucumber-build
-  #   steps:
-  #     - attach_workspace:
-  #         at: "~/cucumber"
-  #     - run:
-  #         name: gherkin/elixir
-  #         command: |
-  #           cd gherkin/elixir
-  #           make
+  gherkin-elixir:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: "~/cucumber"
+      - run:
+          name: gherkin/elixir
+          command: |
+            cd gherkin/elixir
+            make
 
   ### PHP
 
@@ -768,9 +768,9 @@ workflows:
           requires:
             - prepare-parallel
 
-      # - gherkin-elixir:
-      #     requires:
-      #       - messages-elixir
+      - gherkin-elixir:
+          requires:
+            - messages-elixir
 
       ### PHP
 
