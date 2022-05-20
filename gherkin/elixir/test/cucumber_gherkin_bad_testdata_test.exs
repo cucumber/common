@@ -19,18 +19,6 @@ defmodule CucumberGherkinBadTestdataTest do
         correct_output = File.read!(path <> ".errors.ndjson")
         parsed = CucumberGherkin.parse_path(path, opts)
         result = parsed |> CucumberGherkin.print_messages(:ndjson)
-        # For debugging purposes, write temporary json file so that you can compare
-        File.rm("temp.json")
-        File.rm("correct.json")
-        File.write!("temp.json", result)
-        File.write!("correct.json", correct_output)
-
-        if correct_output != result do
-          IEx.pry()
-        end
-
-        File.rm("temp.json")
-        File.rm("correct.json")
 
         {path, correct_output == result}
       end)
