@@ -209,6 +209,8 @@ class PickleCompiler {
                 argument,
                 astNodeIds,
                 idGenerator.newId(),
+                // TODO: do not pass null - fix this in 1741
+                null,
                 stepText
         );
     }

@@ -45,7 +45,7 @@ Alternatively, you can use the lower level parser and compiler. Some usage examp
 
 ```java
 // Java
-List<String> paths = singletonList("testdata/good/minimal.feature");
+List<String> paths = singletonList("../testdata/good/minimal.feature");
 boolean includeSource = false;
 boolean includeAst = true;
 boolean includePickles = true;

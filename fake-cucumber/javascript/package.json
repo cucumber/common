@@ -30,26 +30,26 @@
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
     "@types/glob": "7.2.0",
-    "@types/mocha": "9.1.0",
-    "@types/node": "16.11.27",
+    "@types/mocha": "9.1.1",
+    "@types/node": "16.11.36",
     "@types/stream-buffers": "3.0.4",
-    "mocha": "9.2.2",
+    "mocha": "10.0.0",
     "source-map-support": "0.5.21",
     "stream-buffers": "3.0.2",
     "ts-node": "10.7.0",
-    "typescript": "4.6.3"
+    "typescript": "4.6.4"
   },
   "dependencies": {
+    "@cucumber/ci-environment": "^9.0.4",
     "@cucumber/cucumber-expressions": "^15.0.0",
-    "@cucumber/create-meta": "^6.0.2",
     "@cucumber/gherkin": "^23.0.1",
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/gherkin-utils": "^7.0.0",
+    "@cucumber/message-streams": "^4.0.1",
     "@cucumber/messages": "^18.0.0",
-    "@cucumber/message-streams": "^4.0.0",
     "@cucumber/tag-expressions": "^4.1.0",
     "@types/stack-utils": "2.0.1",
-    "commander": "9.1.0",
+    "commander": "9.2.0",
     "glob": "8.0.1",
     "stack-utils": "2.0.5"
   },

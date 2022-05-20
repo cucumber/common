@@ -7,8 +7,7 @@ Before do
   # no-op
 end
 
-Before do
-  # This is the equivalent of the new named hook in typescript
+Before(name: 'A named hook') do
   # no-op
 end
 
