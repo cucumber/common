@@ -1,11 +1,12 @@
-﻿namespace Gherkin;
-
-public enum StepKeywordType
+﻿namespace Gherkin
 {
-    Unspecified,
-    Context,
-    Action,
-    Outcome,
-    Conjunction,
-    Unknown
+    public enum StepKeywordType
+    {
+        Unspecified,
+        Context,
+        Action,
+        Outcome,
+        Conjunction,
+        Unknown
+    }
 }
