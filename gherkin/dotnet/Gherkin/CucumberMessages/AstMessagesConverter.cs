@@ -241,6 +241,7 @@ namespace Gherkin.CucumberMessages
             {
                 Id = _idGenerator.GetNewId(),
                 Keyword = step.Keyword,
+                KeywordType = step.KeywordType,
                 Text = step.Text,
                 DataTable = dataTable,
                 DocString = docString,

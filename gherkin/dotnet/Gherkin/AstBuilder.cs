@@ -10,6 +10,7 @@ namespace Gherkin
         private readonly Stack<AstNode> stack = new Stack<AstNode>();
         private AstNode CurrentNode { get { return stack.Peek(); } }
         private List<Comment> comments = new List<Comment>();
+        private StepKeywordType _lastStepKeywordType;
 
         public AstBuilder()
         {
@@ -21,6 +22,12 @@ namespace Gherkin
             stack.Clear();
             stack.Push(new AstNode(RuleType.None));
             comments.Clear();
+            ResetLastKeywordType();
+        }
+
+        private void ResetLastKeywordType()
+        {
+            _lastStepKeywordType = StepKeywordType.Unspecified;
         }
 
         public void Build(Token token)
@@ -37,6 +44,9 @@ namespace Gherkin
 
         public void StartRule(RuleType ruleType)
         {
+            if (ruleType == RuleType.Background || ruleType == RuleType.Scenario)
+                ResetLastKeywordType();
+
             stack.Push(new AstNode(ruleType));
         }
 
@@ -62,7 +72,9 @@ namespace Gherkin
                     var stepArg = node.GetSingle<StepArgument>(RuleType.DataTable) ??
                                   node.GetSingle<StepArgument>(RuleType.DocString) ??
                                   null; // empty arg
-                    return CreateStep(GetLocation(stepLine), stepLine.MatchedKeyword, stepLine.MatchedText, stepArg, node);
+                    var keywordType = GetKeywordType(stepLine, _lastStepKeywordType);
+                    _lastStepKeywordType = keywordType;
+                    return CreateStep(GetLocation(stepLine), stepLine.MatchedKeyword, keywordType, stepLine.MatchedText, stepArg, node);
                 }
                 case RuleType.DocString:
                 {
@@ -175,6 +187,28 @@ namespace Gherkin
             return node;
         }
 
+        protected virtual StepKeywordType GetKeywordType(Token stepLine, StepKeywordType lastStepKeywordType)
+        {
+            var stepKeywordType = stepLine.MatchedGherkinDialect.GetStepKeywordType(stepLine.MatchedKeyword);
+            if (stepKeywordType == null || stepKeywordType == StepKeywordType.Unspecified)
+                return StepKeywordType.Unspecified;
+            switch (stepKeywordType.Value)
+            {
+                case StepKeywordType.Context:
+                case StepKeywordType.Action:
+                case StepKeywordType.Outcome:
+                case StepKeywordType.Unknown:
+                    return stepKeywordType.Value;
+                case StepKeywordType.Conjunction:
+                    return lastStepKeywordType == StepKeywordType.Unspecified ||
+                           lastStepKeywordType == StepKeywordType.Unknown
+                        ? StepKeywordType.Context
+                        : lastStepKeywordType;
+                default:
+                    return StepKeywordType.Unspecified;
+            }
+        }
+
         protected virtual Background CreateBackground(Ast.Location location, string keyword, string name, string description, Step[] steps, AstNode node)
         {
             return new Background(location, keyword, name, description, steps);
@@ -205,9 +239,9 @@ namespace Gherkin
             return new DocString(location, contentType, content, delimiter);
         }
 
-        protected virtual Step CreateStep(Ast.Location location, string keyword, string text, StepArgument argument, AstNode node)
+        protected virtual Step CreateStep(Ast.Location location, string keyword, StepKeywordType keywordType, string text, StepArgument argument, AstNode node)
         {
-            return new Step(location, keyword, text, argument);
+            return new Step(location, keyword, keywordType, text, argument);
         }
 
         protected virtual GherkinDocument CreateGherkinDocument(Feature feature, Comment[] gherkinDocumentComments, AstNode node) {
