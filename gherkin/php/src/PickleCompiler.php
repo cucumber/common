@@ -27,9 +27,19 @@ use Generator;
 
 final class PickleCompiler
 {
+    /** @var array<string, PickleStep\Type|null> */
+    private array $pickleStepTypeFromKeyword = [];
+
+    private Step\KeywordType $lastKeywordType = Step\KeywordType::UNKNOWN;
+
     public function __construct(
         private readonly IdGenerator $idGenerator,
     ) {
+        $this->pickleStepTypeFromKeyword[Step\KeywordType::UNKNOWN->name] = PickleStep\Type::UNKNOWN;
+        $this->pickleStepTypeFromKeyword[Step\KeywordType::CONTEXT->name] = PickleStep\Type::CONTEXT;
+        $this->pickleStepTypeFromKeyword[Step\KeywordType::ACTION->name] = PickleStep\Type::ACTION;
+        $this->pickleStepTypeFromKeyword[Step\KeywordType::OUTCOME->name] = PickleStep\Type::OUTCOME;
+        $this->pickleStepTypeFromKeyword[Step\KeywordType::CONJUNCTION->name] = null;
     }
 
     /**
@@ -106,6 +116,7 @@ final class PickleCompiler
         ];
 
         $tags = [...$parentTags, ...$scenario->tags];
+        $this->lastKeywordType = Step\KeywordType::UNKNOWN;
 
         yield new Pickle(
             id: $this->idGenerator->newId(),
@@ -184,10 +195,17 @@ final class PickleCompiler
             $argument = null;
         }
 
+        $this->lastKeywordType =
+            $step->keywordType === Step\KeywordType::CONJUNCTION
+            ? $this->lastKeywordType
+            : $step->keywordType ?? Step\KeywordType::UNKNOWN
+        ;
+
         return new PickleStep(
             argument: $argument,
             astNodeIds: $astNodeIds,
             id: $this->idGenerator->newId(),
+            type: $this->pickleStepTypeFromKeyword[$this->lastKeywordType->name],
             text: $stepText,
         );
     }

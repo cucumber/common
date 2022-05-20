@@ -21,17 +21,13 @@ final class TokenMatcher implements TokenMatcherInterface
         private readonly GherkinDialectProvider $dialectProvider = new GherkinDialectProvider('en'),
     ) {
         $this->reset();
-
-        $this->addKeywordTypeMappings($this->currentDialect->getGivenKeywords(), KeywordType::CONTEXT);
-        $this->addKeywordTypeMappings($this->currentDialect->getWhenKeywords(), KeywordType::ACTION);
-        $this->addKeywordTypeMappings($this->currentDialect->getThenKeywords(), KeywordType::OUTCOME);
-        $this->addKeywordTypeMappings($this->currentDialect->getAndKeywords(), KeywordType::CONJUNCTION);
-        $this->addKeywordTypeMappings($this->currentDialect->getButKeywords(), KeywordType::CONJUNCTION);
     }
 
     public function reset(): void
     {
         $this->currentDialect = $this->dialectProvider->getDefaultDialect();
+
+        $this->updateKeywordTypeMappings($this->currentDialect);
     }
 
     /**
@@ -225,17 +221,22 @@ final class TokenMatcher implements TokenMatcherInterface
 
             $this->currentDialect = $this->dialectProvider->getDialect($language, $token->getLocation());
 
-            $this->keywordTypes = [];
-            $this->addKeywordTypeMappings($this->currentDialect->getGivenKeywords(), KeywordType::CONTEXT);
-            $this->addKeywordTypeMappings($this->currentDialect->getWhenKeywords(), KeywordType::ACTION);
-            $this->addKeywordTypeMappings($this->currentDialect->getThenKeywords(), KeywordType::OUTCOME);
-            $this->addKeywordTypeMappings($this->currentDialect->getAndKeywords(), KeywordType::CONJUNCTION);
-            $this->addKeywordTypeMappings($this->currentDialect->getButKeywords(), KeywordType::CONJUNCTION);
+            $this->updateKeywordTypeMappings($this->currentDialect);
 
             return true;
         }
 
         return false;
+    }
+
+    private function updateKeywordTypeMappings(GherkinDialect $dialect): void
+    {
+        $this->keywordTypes = [];
+        $this->addKeywordTypeMappings($dialect->getGivenKeywords(), KeywordType::CONTEXT);
+        $this->addKeywordTypeMappings($dialect->getWhenKeywords(), KeywordType::ACTION);
+        $this->addKeywordTypeMappings($dialect->getThenKeywords(), KeywordType::OUTCOME);
+        $this->addKeywordTypeMappings($dialect->getAndKeywords(), KeywordType::CONJUNCTION);
+        $this->addKeywordTypeMappings($dialect->getButKeywords(), KeywordType::CONJUNCTION);
     }
 
     /** @param array<string> $keywords */
