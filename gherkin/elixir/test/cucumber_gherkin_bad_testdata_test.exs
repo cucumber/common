@@ -4,7 +4,7 @@ defmodule CucumberGherkinBadTestdataTest do
 
   @moduletag timeout: :infinity
 
-  @files ["testdata", "bad", "*.feature"]
+  @files ["..", "testdata", "bad", "*.feature"]
          |> Path.join()
          |> Path.wildcard()
 
