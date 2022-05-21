@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/glob": "7.2.0",
     "@types/mocha": "9.1.1",
-    "@types/node": "16.11.34",
+    "@types/node": "16.11.36",
     "@types/stream-buffers": "3.0.4",
     "mocha": "10.0.0",
     "source-map-support": "0.5.21",

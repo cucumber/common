@@ -29,7 +29,7 @@
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/message-streams": "^4.0.0",
     "@types/mocha": "9.1.1",
-    "@types/node": "16.11.34",
+    "@types/node": "16.11.36",
     "fast-glob": "3.2.11",
     "mocha": "10.0.0",
     "ts-node": "10.7.0",
