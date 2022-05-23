@@ -198,7 +198,7 @@ final class PickleCompiler
         $this->lastKeywordType =
             $step->keywordType === Step\KeywordType::CONJUNCTION
             ? $this->lastKeywordType
-            : $step->keywordType ?? Step\KeywordType::UNKNOWN
+            : ($step->keywordType ?? Step\KeywordType::UNKNOWN)
         ;
 
         return new PickleStep(
