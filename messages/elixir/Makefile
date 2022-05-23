@@ -1,16 +1,16 @@
 include default.mk
 
 clean:
-	rm -rf _build deps .deps .tested .json_schemas priv/json_schemas/*.json
+	rm -rf _build deps .deps .tested priv/json_schemas/.copy_schema priv/json_schemas/*.json
 	rm -rf lib/cucumber_messages/generated/*
 
 # .deps: setup_mix_and_get_dependencies update_proto_file compile_messages revert_proto_file
-.deps: .json_schemas setup_mix_and_get_dependencies compile_messages
+.deps: priv/json_schemas/.copy_schema setup_mix_and_get_dependencies compile_messages
 	touch .deps
 
-.json_schemas: 
+priv/json_schemas/.copy_schema: 
 	cp ../jsonschema/*.json priv/json_schemas/
-	touch .json_schemas
+	touch priv/json_schemas/.copy_schema
 
 setup_mix_and_get_dependencies:
 	mix local.hex --force
