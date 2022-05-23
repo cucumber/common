@@ -11,6 +11,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Java], [JavaScript], [PHP], [Perl], [Python], [Go], [C], [DotNet],
+  [Ruby] Support new messages keyword types fields an added
+  with [#1966](https://github.com/cucumber/common/pull/1966)
+  ([#1741](https://github.com/cucumber/common/pull/1741))
+
 ### Changed
 
 * [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
