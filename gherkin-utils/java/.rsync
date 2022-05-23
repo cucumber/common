@@ -1,0 +1,4 @@
+../LICENSE LICENSE
+../../.templates/github/ .github/
+../../.templates/java/ .
+../testdata/ testdata/
