@@ -754,6 +754,7 @@ workflows:
       - gherkin-utils-java:
           requires:
             - messages-java
+            - gherkin-java
       - json-to-messages-java-testdata:
           requires:
             - prepare-parallel
