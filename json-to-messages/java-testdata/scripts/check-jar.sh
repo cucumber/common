@@ -8,11 +8,11 @@ set -uf -o pipefail
 check_jar() {
   jar="$1"
   module_name=$(xmlstarlet sel -N pom="http://maven.apache.org/POM/4.0.0"  -t -m "//pom:project.Automatic-Module-Name" -v . pom.xml)
-  module_path=$(echo $module_name | sed "s/\./\\\\\//g")
-  echo "Checking contents of ${jar}"
+  module_path=$(echo $module_name | sed "s/\./\\\\\//g" | sed "s/-/\\\\\//g")
+  echo "Checking contents of ${jar} to see if it matches pattern: ${module_path}"
   unshaded_classes=$(unzip -l ${jar} | grep -e "\.class" | rev | cut -d' ' -f1 | rev | grep -v "^$module_path")
   if [[ "${unshaded_classes}" != "" ]]; then
-    echo "Some classes in ${jar} are not in the io.cucumber package. Rename the classes or change the maven-shade-plugin configuration."
+    echo "Some classes in ${jar} are not in the expected package matching pattern ${module_path}. Rename the classes or change the maven-shade-plugin configuration."
     echo
     echo "${unshaded_classes}"
     exit 1
