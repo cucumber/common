@@ -14,7 +14,7 @@ final class TokenMatcher implements TokenMatcherInterface
     private GherkinDialect $currentDialect;
     private int $indentToRemove = 0;
     private ?string $activeDocStringSeparator = null;
-    /** @var array<array-key, array<array-key, KeywordType>> */
+    /** @var array<array-key, list<KeywordType>> */
     private array $keywordTypes = [];
 
     public function __construct(
@@ -249,6 +249,7 @@ final class TokenMatcher implements TokenMatcherInterface
 
     private function getKeywordType(string $keyword): KeywordType
     {
+        // We want $this->keywordTypes[$keyword] being set and having **only 1 entry**
         if (!array_key_exists($keyword, $this->keywordTypes) || count($this->keywordTypes[$keyword]) !== 1) {
             return KeywordType::UNKNOWN;
         }
