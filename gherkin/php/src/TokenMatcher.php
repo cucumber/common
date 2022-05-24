@@ -249,6 +249,10 @@ final class TokenMatcher implements TokenMatcherInterface
 
     private function getKeywordType(string $keyword): KeywordType
     {
+        if (!array_key_exists($keyword, $this->keywordTypes)) {
+            return KeywordType::UNKNOWN;
+        }
+
         // We want $this->keywordTypes[$keyword] having **only 1 entry**
         if (count($this->keywordTypes[$keyword]) !== 1) {
             return KeywordType::UNKNOWN;
