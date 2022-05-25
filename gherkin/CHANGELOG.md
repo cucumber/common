@@ -20,6 +20,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 * [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
 * [Go] the `gherkin.GherkinDialectsBuildin` id renamed to `gherkin.DialectsBuiltin`
+* [Go] the `gherkin.GherkinDialect` id renamed to `gherkin.Dialect`
+* [Go] the `gherkin.GherkinDialectProvider` id renamed to `gherkin.DialectProvider`
 * The `ne` (Nepali) `and` translation changed from `अनी ` to `अनि `
 * The `uz` (Uzbek) `given` translation changed from `Агар ` to `Belgilangan `
 * The `en-old` (Old English) `when` translation changed from `Tha ` / `Þa ` / `Ða ` to `Bæþsealf ` / `Bæþsealfa ` / `Bæþsealfe ` / `Ciricæw ` / `Ciricæwe ` / `Ciricæwa `
