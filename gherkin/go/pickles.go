@@ -91,13 +91,15 @@ func compileScenarioOutline(
 			}
 
 			// translate computedPickleSteps based on valuesRow
+			previous := messages.PickleStepType_UNKNOWN
 			for _, step := range scenario.Steps {
 				text := step.Text
 				for i, variableCell := range variableCells {
 					text = strings.Replace(text, "<"+variableCell.Value+">", valueCells[i].Value, -1)
 				}
 
-				pickleStep := pickleStep(step, variableCells, valuesRow, newId)
+				pickleStep := pickleStep(step, variableCells, valuesRow, newId, previous)
+				previous = pickleStep.Type
 				computedPickleSteps = append(computedPickleSteps, pickleStep)
 			}
 
@@ -190,8 +192,10 @@ func pickleTags(tags []*messages.Tag) []*messages.PickleTag {
 
 func pickleSteps(steps []*messages.Step, newId func() string) []*messages.PickleStep {
 	pickleSteps := make([]*messages.PickleStep, len(steps))
+	previous := messages.PickleStepType_UNKNOWN
 	for i, step := range steps {
-		pickleStep := pickleStep(step, nil, nil, newId)
+		pickleStep := pickleStep(step, nil, nil, newId, previous)
+		previous = pickleStep.Type
 		pickleSteps[i] = pickleStep
 	}
 	return pickleSteps
@@ -201,7 +205,9 @@ func pickleStep(
 	step *messages.Step,
 	variableCells []*messages.TableCell,
 	valuesRow *messages.TableRow,
-	newId func() string) *messages.PickleStep {
+	newId func() string,
+	previous messages.PickleStepType,
+) *messages.PickleStep {
 
 	var valueCells []*messages.TableCell
 	if valuesRow != nil {
@@ -211,6 +217,7 @@ func pickleStep(
 	pickleStep := &messages.PickleStep{
 		Id:         newId(),
 		Text:       interpolate(step.Text, variableCells, valueCells),
+		Type:       mapType(step.KeywordType, previous),
 		AstNodeIds: []string{step.Id},
 	}
 	if valuesRow != nil {
@@ -227,6 +234,23 @@ func pickleStep(
 		}
 	}
 	return pickleStep
+}
+
+func mapType(keywordType messages.StepKeywordType, previous messages.PickleStepType) messages.PickleStepType {
+	switch keywordType {
+	case messages.StepKeywordType_UNKNOWN:
+		return messages.PickleStepType_UNKNOWN
+	case messages.StepKeywordType_CONTEXT:
+		return messages.PickleStepType_CONTEXT
+	case messages.StepKeywordType_ACTION:
+		return messages.PickleStepType_ACTION
+	case messages.StepKeywordType_OUTCOME:
+		return messages.PickleStepType_OUTCOME
+	case messages.StepKeywordType_CONJUNCTION:
+		return previous
+	default:
+		panic("Bad enum value for StepKeywordType")
+	}
 }
 
 func interpolate(s string, variableCells []*messages.TableCell, valueCells []*messages.TableCell) string {

@@ -13,17 +13,20 @@ public final class PickleStep {
     private final PickleStepArgument argument;
     private final java.util.List<String> astNodeIds;
     private final String id;
+    private final PickleStepType type;
     private final String text;
 
     public PickleStep(
         PickleStepArgument argument,
         java.util.List<String> astNodeIds,
         String id,
+        PickleStepType type,
         String text
     ) {
         this.argument = argument;
         this.astNodeIds = unmodifiableList(new ArrayList<>(requireNonNull(astNodeIds, "PickleStep.astNodeIds cannot be null")));
         this.id = requireNonNull(id, "PickleStep.id cannot be null");
+        this.type = type;
         this.text = requireNonNull(text, "PickleStep.text cannot be null");
     }
 
@@ -39,6 +42,10 @@ public final class PickleStep {
         return id;
     }
 
+    public Optional<PickleStepType> getType() {
+        return Optional.ofNullable(type);
+    }
+
     public String getText() {
         return text;
     }
@@ -52,6 +59,7 @@ public final class PickleStep {
             Objects.equals(argument, that.argument) &&         
             astNodeIds.equals(that.astNodeIds) &&         
             id.equals(that.id) &&         
+            Objects.equals(type, that.type) &&         
             text.equals(that.text);        
     }
 
@@ -61,6 +69,7 @@ public final class PickleStep {
             argument,
             astNodeIds,
             id,
+            type,
             text
         );
     }
@@ -71,6 +80,7 @@ public final class PickleStep {
             "argument=" + argument +
             ", astNodeIds=" + astNodeIds +
             ", id=" + id +
+            ", type=" + type +
             ", text=" + text +
             '}';
     }

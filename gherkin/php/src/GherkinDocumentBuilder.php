@@ -211,6 +211,7 @@ final class GherkinDocumentBuilder implements Builder
         return new Step(
             location: $this->getLocation($stepLine, 0),
             keyword: $stepLine->keyword,
+            keywordType: $stepLine->keywordType,
             text: $stepLine->text,
             docString: $node->getSingle(DocString::class, RuleType::DocString),
             dataTable: $node->getSingle(DataTable::class, RuleType::DataTable),

@@ -1,3 +1,5 @@
+require 'cucumber/messages'
+
 module Gherkin
   module Pickles
     class Compiler
@@ -56,12 +58,17 @@ module Gherkin
       end
 
       def compile_scenario(inherited_tags, background_steps, scenario, language, pickles, source)
-        steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
-
         tags = [].concat(inherited_tags).concat(scenario.tags)
 
-        scenario.steps.each do |step|
-          steps.push(pickle_step(step))
+        last_keyword_type = Cucumber::Messages::PickleStepType::UNKNOWN
+        steps = []
+        unless scenario.steps.empty?
+          [].concat(background_steps).concat(scenario.steps).each do |step|
+            last_keyword_type =
+              step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
+                last_keyword_type : step.keyword_type
+            steps.push(Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil, last_keyword_type)))
+          end
         end
 
         pickle = Cucumber::Messages::Pickle.new(
@@ -81,12 +88,25 @@ module Gherkin
           variable_cells = examples.table_header.cells
           examples.table_body.each do |values_row|
             value_cells = values_row.cells
-            steps = scenario.steps.empty? ? [] : [].concat(pickle_steps(background_steps))
             tags = [].concat(inherited_tags).concat(scenario.tags).concat(examples.tags)
 
-            scenario.steps.each do |scenario_step|
-              step_props = pickle_step_props(scenario_step, variable_cells, values_row)
-              steps.push(Cucumber::Messages::PickleStep.new(**step_props))
+            last_keyword_type = nil
+            steps = []
+            unless scenario.steps.empty?
+              background_steps.each do |step|
+                last_keyword_type =
+                  step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
+                    last_keyword_type : step.keyword_type
+                step_props = pickle_step_props(step, [], nil, last_keyword_type)
+                steps.push(Cucumber::Messages::PickleStep.new(**step_props))
+              end
+              scenario.steps.each do |step|
+                last_keyword_type =
+                  step.keyword_type == Cucumber::Messages::StepKeywordType::CONJUNCTION ?
+                    last_keyword_type : step.keyword_type
+                step_props = pickle_step_props(step, variable_cells, values_row, last_keyword_type)
+                steps.push(Cucumber::Messages::PickleStep.new(**step_props))
+              end
             end
 
             pickle = Cucumber::Messages::Pickle.new(
@@ -115,21 +135,12 @@ module Gherkin
         name
       end
 
-      def pickle_steps(steps)
-        steps.map do |step|
-          pickle_step(step)
-        end
-      end
-
-      def pickle_step(step)
-        Cucumber::Messages::PickleStep.new(**pickle_step_props(step, [], nil))
-      end
-
-      def pickle_step_props(step, variable_cells, values_row)
+      def pickle_step_props(step, variable_cells, values_row, keyword_type)
         value_cells = values_row ? values_row.cells : []
         props = {
           id: @id_generator.new_id,
           ast_node_ids: [step.id],
+          type: keyword_type,
           text: interpolate(step.text, variable_cells, value_cells),
         }
         if values_row

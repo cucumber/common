@@ -3,13 +3,17 @@ package Gherkin::TokenMatcher;
 use strict;
 use warnings;
 
+use List::Util qw(any first reduce);
+
 our $LANGUAGE_RE = qr/^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/o;
 
 use Class::XSAccessor accessors => [
-    qw/dialect _default_dialect_name _indent_to_remove _active_doc_string_separator/,
+    qw/dialect _default_dialect_name _indent_to_remove _active_doc_string_separator _keyword_types /,
 ];
 
+use Cucumber::Messages;
 use Gherkin::Dialect;
+
 
 sub new {
     my ( $class, $options ) = @_;
@@ -20,15 +24,41 @@ sub new {
     return $self;
 }
 
+sub _add_keyword_type_mappings {
+    my ($keyword_types, $keywords, $type) = @_;
+
+    for my $keyword (@$keywords) {
+        if (not exists $keyword_types->{$keyword}) {
+            $keyword_types->{$keyword} = [];
+        }
+        push @{$keyword_types->{$keyword}}, $type;
+    }
+}
+
 sub dialect_name { $_[0]->dialect->dialect }
-sub change_dialect { my $self = shift; $self->dialect->change_dialect(@_) }
+sub change_dialect {
+    my $self = shift;
+    $self->dialect->change_dialect(@_);
+
+    my $keyword_types = {};
+    _add_keyword_type_mappings($keyword_types, $self->dialect->Given,
+                               Cucumber::Messages::Step::KEYWORDTYPE_CONTEXT);
+    _add_keyword_type_mappings($keyword_types, $self->dialect->When,
+                               Cucumber::Messages::Step::KEYWORDTYPE_ACTION);
+    _add_keyword_type_mappings($keyword_types, $self->dialect->Then,
+                               Cucumber::Messages::Step::KEYWORDTYPE_OUTCOME);
+    _add_keyword_type_mappings($keyword_types,
+                               [ @{ $self->dialect->And }, @{ $self->dialect->But } ],
+                               Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION);
+    $self->_keyword_types( $keyword_types );
+}
 
 sub reset {
     my $self = shift;
-    $self->change_dialect( $self->_default_dialect_name )
-      unless $self->dialect_name eq $self->_default_dialect_name;
+    $self->change_dialect( $self->_default_dialect_name );
     $self->_indent_to_remove(0);
     $self->_active_doc_string_separator(undef);
+
 }
 
 sub match_FeatureLine {
@@ -113,6 +143,8 @@ sub _set_token_matched {
 
     $token->matched_keyword( $options->{'keyword'} )
       if defined $options->{'keyword'};
+    $token->matched_keyword_type( $options->{'keyword_type'} )
+      if defined $options->{'keyword_type'};
 
     if ( defined $options->{'indent'} ) {
         $token->matched_indent( $options->{'indent'} );
@@ -177,12 +209,22 @@ sub _unescaped_docstring {
 sub match_StepLine {
     my ( $self, $token ) = @_;
     my @keywords = map { @{ $self->dialect->$_ } } qw/Given When Then And But/;
+    my $line = $token->line;
 
     for my $keyword (@keywords) {
-        if ( $token->line->startswith($keyword) ) {
-            my $title = $token->line->get_rest_trimmed( length($keyword) );
-            $self->_set_token_matched( $token,
-                StepLine => { text => $title, keyword => $keyword } );
+        if ( $line->startswith($keyword) ) {
+            my $title = $line->get_rest_trimmed( length($keyword) );
+            my $keyword_type =
+                (scalar @{$self->_keyword_types->{$keyword}} > 1)
+                ? Cucumber::Messages::Step::KEYWORDTYPE_UNKNOWN
+                : $self->_keyword_types->{$keyword}->[0];
+            $self->_set_token_matched(
+                $token,
+                StepLine => {
+                    text => $title,
+                    keyword => $keyword,
+                    keyword_type => $keyword_type,
+                } );
             return 1;
         }
     }

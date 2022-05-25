@@ -6,6 +6,7 @@ namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\RuleType;
 use Cucumber\Gherkin\Parser\TokenType;
+use Cucumber\Messages\Step\KeywordType;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -91,6 +92,6 @@ final class AstNodeTest extends TestCase
 
     private function getTokenMatch(): TokenMatch
     {
-        return new TokenMatch(TokenType::Other, (new GherkinDialectProvider())->getDefaultDialect(), 100, 'keyword', 'text', [], new Location(1, 1));
+        return new TokenMatch(TokenType::Other, (new GherkinDialectProvider())->getDefaultDialect(), 100, 'keyword', KeywordType::UNKNOWN, 'text', [], new Location(1, 1));
     }
 }

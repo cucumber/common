@@ -11,13 +11,30 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Java], [JavaScript], [PHP], [Perl], [Python], [Go], [C], [DotNet],
+  [Ruby] Support new messages keyword types fields an added
+  with [#1966](https://github.com/cucumber/common/pull/1966)
+  ([#1741](https://github.com/cucumber/common/pull/1741))
+
 ### Changed
+
+* [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
+* [Go] the `gherkin.GherkinDialectsBuildin` id renamed to `gherkin.DialectsBuiltin`
+* [Go] the `gherkin.GherkinDialect` id renamed to `gherkin.Dialect`
+* [Go] the `gherkin.GherkinDialectProvider` id renamed to `gherkin.DialectProvider`
+* The `ne` (Nepali) `and` translation changed from `अनी ` to `अनि `
+* The `uz` (Uzbek) `given` translation changed from `Агар ` to `Belgilangan `
+* The `en-old` (Old English) `when` translation changed from `Tha ` / `Þa ` / `Ða ` to `Bæþsealf ` / `Bæþsealfa ` / `Bæþsealfe ` / `Ciricæw ` / `Ciricæwe ` / `Ciricæwa `
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+* [Java] remove shaded dependency on `com.eclipsesource.minimal-json:minimal-json`
+  ([#1957](https://github.com/cucumber/common/issues/1957)
+   [#1959](https://github.com/cucumber/common/pull/1959))
 
 ## [23.0.1] - 2022-03-31
 

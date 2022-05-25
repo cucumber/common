@@ -17,16 +17,19 @@ namespace Gherkin.CucumberMessages.Types
         [DataMember(Name = "text")]
         public string Text { get; set; }
 
+        [DataMember(Name = "type")]
+        public StepKeywordType Type { get; set; }
+
         public PickleStep()
         {
         }
-        
-        public PickleStep(PickleStepArgument argument, IEnumerable<string> astNodeIds, string id, string text)
+        public PickleStep(PickleStepArgument argument, IEnumerable<string> astNodeIds, string id, string text, StepKeywordType type)
         {
             Id = id;
             Text = text;
             Argument = argument;
             AstNodeIds = astNodeIds.ToReadOnlyCollection();
+            Type = type;
         }
     }
 }

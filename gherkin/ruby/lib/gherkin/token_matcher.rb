@@ -1,3 +1,4 @@
+require 'cucumber/messages'
 require_relative 'dialect'
 require_relative 'errors'
 
@@ -20,7 +21,7 @@ module Gherkin
     def match_TagLine(token)
       return false unless token.line.start_with?('@')
 
-      set_token_matched(token, :TagLine, nil, nil, nil, token.line.tags)
+      set_token_matched(token, :TagLine, nil, nil, nil, nil, token.line.tags)
       true
     end
 
@@ -48,7 +49,8 @@ module Gherkin
     def match_TableRow(token)
       return false unless token.line.start_with?('|')
       # TODO: indent
-      set_token_matched(token, :TableRow, nil, nil, nil, token.line.table_cells)
+      set_token_matched(token, :TableRow, nil, nil, nil, nil,
+                        token.line.table_cells)
       true
     end
 
@@ -128,11 +130,27 @@ module Gherkin
       return false unless keyword
 
       title = token.line.get_rest_trimmed(keyword.length)
-      set_token_matched(token, :StepLine, title, keyword)
+      keyword_types = @keyword_types[keyword]
+      keyword_type = keyword_types[0]
+      if keyword_types.length() > 1
+        keyword_type = Cucumber::Messages::StepKeywordType::UNKNOWN
+      end
+
+      set_token_matched(token,
+                        :StepLine, title, keyword, nil, keyword_type)
       return true
     end
 
     private
+
+    def add_keyword_type_mappings(keywords, type)
+      keywords.each do |keyword|
+        if not @keyword_types.has_key?(keyword)
+          @keyword_types[keyword] = []
+        end
+        @keyword_types[keyword] += [type]
+      end
+    end
 
     def change_dialect(dialect_name, location)
       dialect = Dialect.for(dialect_name)
@@ -140,6 +158,12 @@ module Gherkin
 
       @dialect_name = dialect_name
       @dialect = dialect
+      @keyword_types = {}
+      add_keyword_type_mappings(@dialect.given_keywords, Cucumber::Messages::StepKeywordType::CONTEXT)
+      add_keyword_type_mappings(@dialect.when_keywords, Cucumber::Messages::StepKeywordType::ACTION)
+      add_keyword_type_mappings(@dialect.then_keywords, Cucumber::Messages::StepKeywordType::OUTCOME)
+      add_keyword_type_mappings(@dialect.and_keywords + @dialect.but_keywords,
+                                Cucumber::Messages::StepKeywordType::CONJUNCTION)
     end
 
     def match_title_line(token, token_type, keywords)
@@ -152,12 +176,13 @@ module Gherkin
       true
     end
 
-    def set_token_matched(token, matched_type, text = nil, keyword = nil, indent = nil, items = [])
+    def set_token_matched(token, matched_type, text = nil, keyword = nil, indent = nil, keyword_type = nil, items = [])
       token.matched_type = matched_type
       token.matched_text = text && text.chomp
       token.matched_keyword = keyword
       token.matched_indent = indent || (token.line && token.line.indent) || 0
       token.matched_items = items
+      token.matched_keyword_type = keyword_type
       token.location[:column] = token.matched_indent + 1
       token.matched_gherkin_dialect = @dialect_name
     end

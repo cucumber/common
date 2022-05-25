@@ -15,6 +15,7 @@ describe('StepDefinition', () => {
       const stepdef = new ExpressionStepDefinition('stepdef-id', expression, null, () => null)
       const pickleStep: messages.PickleStep = {
         text: 'apple',
+        type: messages.PickleStepType.UNKNOWN,
         astNodeIds: [],
         id: '1',
       }
@@ -32,6 +33,7 @@ describe('StepDefinition', () => {
       )
       const pickleStep: messages.PickleStep = {
         text: 'I have 7 cukes',
+        type: messages.PickleStepType.CONTEXT,
         astNodeIds: [],
         id: '1',
       }

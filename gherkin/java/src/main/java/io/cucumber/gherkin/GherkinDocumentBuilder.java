@@ -81,6 +81,7 @@ class GherkinDocumentBuilder implements Builder<GherkinDocument> {
                 return new Step(
                         getLocation(stepLine, 0),
                         stepLine.matchedKeyword,
+                        stepLine.keywordType,
                         stepLine.matchedText,
                         node.getSingle(RuleType.DocString, null),
                         node.getSingle(RuleType.DataTable, null),

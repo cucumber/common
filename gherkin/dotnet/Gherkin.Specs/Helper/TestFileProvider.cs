@@ -27,7 +27,7 @@ namespace Gherkin.Specs.Helper
 
         public static string GetTestFileFolder(string category)
         {
-            return Path.GetFullPath(Path.Combine(TestFolders.InputFolder, "..", "..", "..", @"testdata", category));
+            return Path.GetFullPath(Path.Combine(TestFolders.InputFolder, "..", "..", "..", "..", @"testdata", category));
         }
     }
 }

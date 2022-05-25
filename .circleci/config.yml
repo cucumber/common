@@ -38,6 +38,10 @@ executors:
     docker:
       - image: circleci/node:16
     working_directory: ~/cucumber
+  docker-circleci-node-18:
+    docker:
+      - image: cimg/node:18.1
+    working_directory: ~/cucumber
 
   # Ruby
   docker-circleci-ruby-23:
@@ -96,7 +100,7 @@ jobs:
           # make storybook work. Our storybook setup is not (yet) able to
           # pick up .ts files - all code needs to be transpiled first.
           command: |
-            npm install --global npm@7
+            npm install --global npm@8
             npm ci
             npm run build
       - persist_to_workspace:
@@ -138,7 +142,7 @@ jobs:
       - run:
           name: messages/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd messages/javascript
             make
 
@@ -150,7 +154,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
@@ -162,7 +166,7 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin/javascript
             make
 
@@ -174,7 +178,18 @@ jobs:
       - run:
           name: gherkin/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
+            cd gherkin/javascript
+            make
+
+  gherkin-javascript-node-18:
+    executor: docker-circleci-node-18
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/javascript
+          command: |
             cd gherkin/javascript
             make
 
@@ -186,7 +201,7 @@ jobs:
       - run:
           name: gherkin-utils/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd gherkin-utils/javascript
             make
 
@@ -198,7 +213,7 @@ jobs:
       - run:
           name: fake-cucumber/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd fake-cucumber/javascript
             make
 
@@ -210,7 +225,7 @@ jobs:
       - run:
           name: compatibility-kit/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd compatibility-kit/javascript
             make
 
@@ -222,7 +237,7 @@ jobs:
       - run:
           name: json-to-messages/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd json-to-messages/javascript
             make
 
@@ -234,7 +249,7 @@ jobs:
       - run:
           name: json-to-messages/javascript-testdata
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd json-to-messages/javascript-testdata
             make
       - persist_to_workspace:
@@ -250,7 +265,7 @@ jobs:
       - run:
           name: query/javascript
           command: |
-            sudo npm install --global npm@7
+            sudo npm install --global npm@8
             cd query/javascript
             make
 
@@ -376,6 +391,23 @@ jobs:
           name: gherkin/java
           command: |
             cd gherkin/java
+            make
+      - persist_to_workspace:
+          root: '~/.m2/repository'
+          paths:
+            - 'io/cucumber/gherkin'
+
+  gherkin-utils-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - attach_workspace:
+          at: '~/.m2/repository'
+      - run:
+          name: gherkin-utils-java
+          command: |
+            cd gherkin-utils/java
             make
       - persist_to_workspace:
           root: '~/.m2/repository'
@@ -603,6 +635,9 @@ workflows:
       - gherkin-javascript-node-16:
           requires:
             - prepare-parallel
+      - gherkin-javascript-node-18:
+          requires:
+            - prepare-parallel
       - gherkin-utils-javascript:
           requires:
             - prepare-parallel
@@ -662,6 +697,10 @@ workflows:
       - gherkin-java:
           requires:
             - messages-java
+      - gherkin-utils-java:
+          requires:
+            - messages-java
+            - gherkin-java
       - json-to-messages-java-testdata:
           requires:
             - prepare-parallel

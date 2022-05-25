@@ -122,12 +122,13 @@ type Scenario struct {
 }
 
 type Step struct {
-	Location  *Location  `json:"location"`
-	Keyword   string     `json:"keyword"`
-	Text      string     `json:"text"`
-	DocString *DocString `json:"docString,omitempty"`
-	DataTable *DataTable `json:"dataTable,omitempty"`
-	Id        string     `json:"id"`
+	Location    *Location       `json:"location"`
+	Keyword     string          `json:"keyword"`
+	KeywordType StepKeywordType `json:"keywordType,omitempty"`
+	Text        string          `json:"text"`
+	DocString   *DocString      `json:"docString,omitempty"`
+	DataTable   *DataTable      `json:"dataTable,omitempty"`
+	Id          string          `json:"id"`
 }
 
 type TableCell struct {
@@ -219,6 +220,7 @@ type PickleStep struct {
 	Argument   *PickleStepArgument `json:"argument,omitempty"`
 	AstNodeIds []string            `json:"astNodeIds"`
 	Id         string              `json:"id"`
+	Type       PickleStepType      `json:"type,omitempty"`
 	Text       string              `json:"text"`
 }
 
@@ -379,6 +381,30 @@ func (e AttachmentContentEncoding) String() string {
 	}
 }
 
+type PickleStepType string
+
+const (
+	PickleStepType_UNKNOWN PickleStepType = "Unknown"
+	PickleStepType_CONTEXT PickleStepType = "Context"
+	PickleStepType_ACTION  PickleStepType = "Action"
+	PickleStepType_OUTCOME PickleStepType = "Outcome"
+)
+
+func (e PickleStepType) String() string {
+	switch e {
+	case PickleStepType_UNKNOWN:
+		return "Unknown"
+	case PickleStepType_CONTEXT:
+		return "Context"
+	case PickleStepType_ACTION:
+		return "Action"
+	case PickleStepType_OUTCOME:
+		return "Outcome"
+	default:
+		panic("Bad enum value for PickleStepType")
+	}
+}
+
 type SourceMediaType string
 
 const (
@@ -412,6 +438,33 @@ func (e StepDefinitionPatternType) String() string {
 		return "REGULAR_EXPRESSION"
 	default:
 		panic("Bad enum value for StepDefinitionPatternType")
+	}
+}
+
+type StepKeywordType string
+
+const (
+	StepKeywordType_UNKNOWN     StepKeywordType = "Unknown"
+	StepKeywordType_CONTEXT     StepKeywordType = "Context"
+	StepKeywordType_ACTION      StepKeywordType = "Action"
+	StepKeywordType_OUTCOME     StepKeywordType = "Outcome"
+	StepKeywordType_CONJUNCTION StepKeywordType = "Conjunction"
+)
+
+func (e StepKeywordType) String() string {
+	switch e {
+	case StepKeywordType_UNKNOWN:
+		return "Unknown"
+	case StepKeywordType_CONTEXT:
+		return "Context"
+	case StepKeywordType_ACTION:
+		return "Action"
+	case StepKeywordType_OUTCOME:
+		return "Outcome"
+	case StepKeywordType_CONJUNCTION:
+		return "Conjunction"
+	default:
+		panic("Bad enum value for StepKeywordType")
 	}
 }
 

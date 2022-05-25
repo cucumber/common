@@ -7,9 +7,9 @@ namespace Gherkin
 {
     public class AstBuilder<T> : IAstBuilder<T>
     {
-        private readonly Stack<AstNode> stack = new Stack<AstNode>();
-        private AstNode CurrentNode { get { return stack.Peek(); } }
-        private List<Comment> comments = new List<Comment>();
+        private readonly Stack<AstNode> _stack = new();
+        private AstNode CurrentNode => _stack.Peek();
+        private readonly List<Comment> _comments = new();
 
         public AstBuilder()
         {
@@ -18,16 +18,16 @@ namespace Gherkin
 
         public void Reset()
         {
-            stack.Clear();
-            stack.Push(new AstNode(RuleType.None));
-            comments.Clear();
+            _stack.Clear();
+            _stack.Push(new AstNode(RuleType.None));
+            _comments.Clear();
         }
 
         public void Build(Token token)
         {
             if (token.MatchedType == TokenType.Comment)
             {
-                comments.Add(CreateComment(GetLocation(token), token.MatchedText));
+                _comments.Add(CreateComment(GetLocation(token), token.MatchedText));
             }
             else
             {
@@ -37,12 +37,12 @@ namespace Gherkin
 
         public void StartRule(RuleType ruleType)
         {
-            stack.Push(new AstNode(ruleType));
+            _stack.Push(new AstNode(ruleType));
         }
 
         public void EndRule(RuleType ruleType)
         {
-            var node = stack.Pop();
+            var node = _stack.Pop();
             object transformedNode = GetTransformedNode(node);
             CurrentNode.Add(node.RuleType, transformedNode);
         }
@@ -60,9 +60,9 @@ namespace Gherkin
                 {
                     var stepLine = node.GetToken(TokenType.StepLine);
                     var stepArg = node.GetSingle<StepArgument>(RuleType.DataTable) ??
-                                  node.GetSingle<StepArgument>(RuleType.DocString) ??
-                                  null; // empty arg
-                    return CreateStep(GetLocation(stepLine), stepLine.MatchedKeyword, stepLine.MatchedText, stepArg, node);
+                                  node.GetSingle<StepArgument>(RuleType.DocString);
+                    var keywordType = GetKeywordType(stepLine);
+                    return CreateStep(GetLocation(stepLine), stepLine.MatchedKeyword, keywordType, stepLine.MatchedText, stepArg, node);
                 }
                 case RuleType.DocString:
                 {
@@ -160,7 +160,6 @@ namespace Gherkin
                     var childrenEnumerable = children.Concat(node.GetItems<IHasLocation>(RuleType.ScenarioDefinition));
                     var description = GetDescription(header);
                     if (ruleLine.MatchedGherkinDialect == null) return null;
-                    var language = ruleLine.MatchedGherkinDialect.Language;
 
                     return CreateRule(tags, GetLocation(ruleLine), ruleLine.MatchedKeyword, ruleLine.MatchedText, description, childrenEnumerable.ToArray(), node);
                 }
@@ -168,14 +167,22 @@ namespace Gherkin
                 {
                     var feature = node.GetSingle<Feature>(RuleType.Feature);
 
-                    return CreateGherkinDocument(feature, comments.ToArray(), node);
+                    return CreateGherkinDocument(feature, _comments.ToArray(), node);
                 }
             }
 
             return node;
         }
 
-        protected virtual Background CreateBackground(Ast.Location location, string keyword, string name, string description, Step[] steps, AstNode node)
+        protected virtual StepKeywordType GetKeywordType(Token stepLine)
+        {
+            var stepKeywordType = stepLine.MatchedGherkinDialect.GetStepKeywordType(stepLine.MatchedKeyword);
+            if (stepKeywordType == null || stepKeywordType == StepKeywordType.Unspecified)
+                return StepKeywordType.Unspecified;
+            return stepKeywordType.Value;
+        }
+
+        protected virtual Background CreateBackground(Location location, string keyword, string name, string description, Step[] steps, AstNode node)
         {
             return new Background(location, keyword, name, description, steps);
         }
@@ -185,66 +192,66 @@ namespace Gherkin
             return new DataTable(rows);
         }
 
-        protected virtual Comment CreateComment(Ast.Location location, string text)
+        protected virtual Comment CreateComment(Location location, string text)
         {
             return new Comment(location, text);
         }
 
-        protected virtual Examples CreateExamples(Tag[] tags, Ast.Location location, string keyword, string name, string description, TableRow header, TableRow[] body, AstNode node)
+        protected virtual Examples CreateExamples(Tag[] tags, Location location, string keyword, string name, string description, TableRow header, TableRow[] body, AstNode node)
         {
             return new Examples(tags, location, keyword, name, description, header, body);
         }
 
-        protected virtual Scenario CreateScenario(Tag[] tags, Ast.Location location, string keyword, string name, string description, Step[] steps, Examples[] examples, AstNode node)
+        protected virtual Scenario CreateScenario(Tag[] tags, Location location, string keyword, string name, string description, Step[] steps, Examples[] examples, AstNode node)
         {
             return new Scenario(tags, location, keyword, name, description, steps, examples);
         }
 
-        protected virtual DocString CreateDocString(Ast.Location location, string contentType, string content, string delimiter, AstNode node)
+        protected virtual DocString CreateDocString(Location location, string contentType, string content, string delimiter, AstNode node)
         {
             return new DocString(location, contentType, content, delimiter);
         }
 
-        protected virtual Step CreateStep(Ast.Location location, string keyword, string text, StepArgument argument, AstNode node)
+        protected virtual Step CreateStep(Location location, string keyword, StepKeywordType keywordType, string text, StepArgument argument, AstNode node)
         {
-            return new Step(location, keyword, text, argument);
+            return new Step(location, keyword, keywordType, text, argument);
         }
 
         protected virtual GherkinDocument CreateGherkinDocument(Feature feature, Comment[] gherkinDocumentComments, AstNode node) {
             return new GherkinDocument(feature, gherkinDocumentComments);
         }
 
-        protected virtual Feature CreateFeature(Tag[] tags, Ast.Location location, string language, string keyword, string name, string description, IHasLocation[] children, AstNode node)
+        protected virtual Feature CreateFeature(Tag[] tags, Location location, string language, string keyword, string name, string description, IHasLocation[] children, AstNode node)
         {
             return new Feature(tags, location, language, keyword, name, description, children);
         }
 
-        protected virtual Rule CreateRule(Tag[] tags, Ast.Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
+        protected virtual Rule CreateRule(Tag[] tags, Location location, string keyword, string name, string description, IHasLocation[] children, AstNode node)
         {
             return new Rule(tags, location, keyword, name, description, children);
         }
 
-        protected virtual Tag CreateTag(Ast.Location location, string name, AstNode node)
+        protected virtual Tag CreateTag(Location location, string name, AstNode node)
         {
             return new Tag(location, name);
         }
 
-        protected virtual Ast.Location CreateLocation(int line, int column)
+        protected virtual Location CreateLocation(int line, int column)
         {
-            return new Ast.Location(line, column);
+            return new Location(line, column);
         }
 
-        protected virtual TableRow CreateTableRow(Ast.Location location, TableCell[] cells, AstNode node)
+        protected virtual TableRow CreateTableRow(Location location, TableCell[] cells, AstNode node)
         {
             return new TableRow(location, cells);
         }
 
-        protected virtual TableCell CreateTableCell(Ast.Location location, string value)
+        protected virtual TableCell CreateTableCell(Location location, string value)
         {
             return new TableCell(location, value);
         }
 
-        private Ast.Location GetLocation(Token token, int column = 0)
+        private Location GetLocation(Token token, int column = 0)
         {
             return column == 0 ? token.Location : CreateLocation(token.Location.Line, column);
         }
@@ -283,7 +290,7 @@ namespace Gherkin
             }
         }
 
-        protected virtual void HandleAstError(string message, Ast.Location location)
+        protected virtual void HandleAstError(string message, Location location)
         {
             throw new AstBuilderException(message, location);
         }

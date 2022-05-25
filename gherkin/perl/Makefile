@@ -7,13 +7,13 @@ PERL5LIB  = $$PWD/../../messages/perl/lib:$$PWD/perl5/lib/perl5
 endif
 PERL5PATH = $$PWD/perl5/bin
 
-GOOD_FEATURE_FILES = $(shell find testdata/good -name "*.feature")
-BAD_FEATURE_FILES  = $(shell find testdata/bad -name "*.feature")
+GOOD_FEATURE_FILES = $(shell find ../testdata/good -name "*.feature")
+BAD_FEATURE_FILES  = $(shell find ../testdata/bad -name "*.feature")
 
-TOKENS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
-ASTS     = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
-PICKLES  = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
-ERRORS   = $(patsubst testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
+TOKENS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
+ASTS     = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
+PICKLES  = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.pickles.ndjson,$(GOOD_FEATURE_FILES))
+ERRORS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.errors.ndjson,$(BAD_FEATURE_FILES))
 
 .DELETE_ON_ERROR:
 
@@ -29,22 +29,22 @@ show-version-info:
 	perl --version
 .PHONY: show-version-info
 
-acceptance/testdata/%.feature.tokens: testdata/%.feature testdata/%.feature.tokens .built
+acceptance/testdata/%.feature.tokens: ../testdata/%.feature ../testdata/%.feature.tokens .built
 	mkdir -p $(@D)
 	PERL5LIB=${PERL5LIB} bin/gherkin-generate-tokens $< > $@
 	diff --unified $<.tokens $@
 
-acceptance/testdata/%.feature.ast.ndjson: testdata/%.feature testdata/%.feature.ast.ndjson .built
+acceptance/testdata/%.feature.ast.ndjson: ../testdata/%.feature ../testdata/%.feature.ast.ndjson .built
 	mkdir -p $(@D)
 	PERL5LIB=${PERL5LIB} bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.pickles.ndjson: testdata/%.feature testdata/%.feature.pickles.ndjson .built
+acceptance/testdata/%.feature.pickles.ndjson: ../testdata/%.feature ../testdata/%.feature.pickles.ndjson .built
 	mkdir -p $(@D)
 	PERL5LIB=${PERL5LIB} bin/gherkin --predictable-ids --no-source --no-ast $< > $@
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 
-acceptance/testdata/%.feature.errors.ndjson: testdata/%.feature testdata/%.feature.errors.ndjson .built
+acceptance/testdata/%.feature.errors.ndjson: ../testdata/%.feature ../testdata/%.feature.errors.ndjson .built
 	mkdir -p $(@D)
 	PERL5LIB=${PERL5LIB} bin/gherkin --predictable-ids --no-source --no-pickles $< > $@
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
