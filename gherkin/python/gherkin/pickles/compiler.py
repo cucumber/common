@@ -57,9 +57,12 @@ class Compiler(object):
 
     def _compile_scenario(self, uri, inherited_tags, background_steps, scenario, language, pickles):
         tags = list(inherited_tags) + list(scenario['tags'])
+        last_keyword_type = 'Unknown'
         steps = list()
         if scenario['steps']:
-            steps.extend(self._pickle_steps(background_steps + scenario['steps']))
+            for step in background_steps + scenario['steps']:
+                last_keyword_type = last_keyword_type if step['keywordType'] == 'Conjunction' else step['keywordType']
+                steps.append(self._pickle_step(step, last_keyword_type))
 
         pickle = {
             'astNodeIds': [scenario['id']],
@@ -79,13 +82,17 @@ class Compiler(object):
 
             for values in examples['tableBody']:
                 value_cells = values['cells']
+                tags = list(inherited_tags) + list(scenario['tags']) + list(examples['tags'])
+                last_keyword_type = None
                 steps = list()
                 if scenario['steps']:
-                    steps.extend(self._pickle_steps(background_steps))
-                tags = list(inherited_tags) + list(scenario['tags']) + list(examples['tags'])
+                    for step in background_steps:
+                        last_keyword_type = last_keyword_type if step['keywordType'] == 'Conjunction' else step['keywordType']
+                        steps.append(self._pickle_step(step, last_keyword_type))
 
                 if scenario['steps']:
                     for outline_step in scenario['steps']:
+                        last_keyword_type = last_keyword_type if outline_step['keywordType'] == 'Conjunction' else outline_step['keywordType']
                         step_text = self._interpolate(
                             outline_step['text'],
                             variable_cells,
@@ -97,6 +104,7 @@ class Compiler(object):
                         _pickle_step = {
                             'astNodeIds': [outline_step['id'], values['id']],
                             'id': self.id_generator.get_next_id(),
+                            'type': last_keyword_type,
                             'text': step_text
                         }
                         if argument is not None:
@@ -154,13 +162,11 @@ class Compiler(object):
             )
         return name
 
-    def _pickle_steps(self, steps):
-        return [self._pickle_step(step)for step in steps]
-
-    def _pickle_step(self, step):
+    def _pickle_step(self, step, keyword_type):
         pickle_step = {
             'astNodeIds': [step['id']],
             'id': self.id_generator.get_next_id(),
+            'type': keyword_type,
             'text': step['text'],
         }
         argument = self._create_pickle_arguments(

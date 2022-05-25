@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\TokenType;
+use Cucumber\Messages\Step\KeywordType;
 use PHPUnit\Framework\TestCase;
 
 final class TokenFormatterTest extends TestCase
@@ -43,6 +44,7 @@ final class TokenFormatterTest extends TestCase
             (new GherkinDialectProvider())->getDefaultDialect(),
             299,
             'MyScenario',
+            KeywordType::CONTEXT,
             'Foo',
             [
                 new GherkinLineSpan(1, 'bar'),
@@ -50,6 +52,6 @@ final class TokenFormatterTest extends TestCase
             ],
         );
 
-        self::assertSame('(100:300)ScenarioLine:MyScenario/Foo/1:bar,2:baz', $formatter->formatToken($token));
+        self::assertSame('(100:300)ScenarioLine:(Context)MyScenario/Foo/1:bar,2:baz', $formatter->formatToken($token));
     }
 }

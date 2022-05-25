@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\TokenType;
+use Cucumber\Messages\Step\KeywordType;
 use PHPUnit\Framework\TestCase;
 
 final class TokenTest extends TestCase
@@ -61,6 +62,7 @@ final class TokenTest extends TestCase
             (new GherkinDialectProvider())->getDefaultDialect(),
             1,
             'keyword',
+            KeywordType::UNKNOWN,
             'text',
             [new GherkinLineSpan(1, 'foo')],
         );
@@ -69,6 +71,7 @@ final class TokenTest extends TestCase
         self::assertEquals((new GherkinDialectProvider())->getDefaultDialect(), $token->match?->gherkinDialect);
         self::assertSame(1, $token->match?->indent);
         self::assertSame('keyword', $token->match?->keyword);
+        self::assertSame(KeywordType::UNKNOWN, $token->match?->keywordType);
         self::assertSame('text', $token->match?->text);
         self::assertEquals([new GherkinLineSpan(1, 'foo')], $token->match?->items);
     }
@@ -86,6 +89,7 @@ final class TokenTest extends TestCase
             (new GherkinDialectProvider())->getDefaultDialect(),
             1,
             'keyword',
+            KeywordType::UNKNOWN,
             'text',
             [new GherkinLineSpan(1, 'foo')],
         );

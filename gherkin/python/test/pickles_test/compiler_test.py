@@ -34,6 +34,7 @@ def test_compiles_a_scenario():
               {
                 "id": "2",
                 "astNodeIds": ["0"],
+                "type": "Context",
                 "text": "passing"
               }
             ],
@@ -73,6 +74,7 @@ def test_compiles_a_scenario_outline_with_i18n_characters():
               {
                 "id": "5",
                 "astNodeIds": ["0", "2"],
+                "type": "Context",
                 "text": "passing"
               }
             ],

@@ -60,6 +60,7 @@ def test_parse_feature_after_parser_error():
             'text': u'x',
             'location': {'column': 5, 'line': 3},
             'keyword': u'Given ',
+            'keywordType': u'Context',
             'docString': {
                 'content': u'closed docstring',
                 'delimiter': '"""',
