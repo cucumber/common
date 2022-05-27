@@ -37,7 +37,7 @@
     "source-map-support": "0.5.21",
     "stream-buffers": "3.0.2",
     "ts-node": "10.8.0",
-    "typescript": "4.6.4"
+    "typescript": "4.7.2"
   },
   "dependencies": {
     "@cucumber/ci-environment": "^9.0.4",
