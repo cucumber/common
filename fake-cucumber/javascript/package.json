@@ -49,7 +49,7 @@
     "@cucumber/messages": "^18.0.0",
     "@cucumber/tag-expressions": "^4.1.0",
     "@types/stack-utils": "2.0.1",
-    "commander": "9.2.0",
+    "commander": "9.3.0",
     "glob": "8.0.1",
     "stack-utils": "2.0.5"
   },
