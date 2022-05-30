@@ -9,7 +9,6 @@
 #
 # Examples: 
 #  ./scripts/run-formatter -e .html -o /tmp -c "./scripts/cucumber-html-formatter" ../../compatibility-kit/javascript/features/**/*.ndjson
-#  ./scripts/run-formatter -e .json -o /tmp -c "./scripts/cucumber-json-formatter" ../../compatibility-kit/javascript/features/**/*.ndjson
 set -uf
 GREEN='\033[0;32m'
 RED='\033[0;31m'

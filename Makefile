@@ -5,7 +5,6 @@ PACKAGES ?= messages \
 	gherkin-utils \
 	fake-cucumber \
 	query \
-	json-formatter \
 	compatibility-kit \
 	json-to-messages
 
