@@ -38,7 +38,7 @@
     "@cucumber/fake-cucumber": "^15.0.0",
     "@cucumber/gherkin": "^24.0.0",
     "@cucumber/gherkin-streams": "^5.0.1",
-    "@cucumber/gherkin-utils": "^7.0.0",
+    "@cucumber/gherkin-utils": "^8.0.0",
     "@cucumber/message-streams": "^4.0.1",
     "@cucumber/messages": "^19.0.0",
     "commander": "9.3.0",
