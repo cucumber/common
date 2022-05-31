@@ -87,7 +87,7 @@
   | add
   )
 | "package gherkin\n\n"
-+ "import messages \"github.com/cucumber/common/messages/go/v18\"\n\n"
++ "import messages \"github.com/cucumber/common/messages/go/v19\"\n\n"
 + "// Builtin dialects for " + ([ $root | to_entries[] | .key+" ("+.value.name+")" ] | join(", ")) + "\n"
 + "func DialectsBuiltin() DialectProvider {\n"
 + "\treturn builtinDialects\n"
