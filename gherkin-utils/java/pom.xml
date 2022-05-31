@@ -28,7 +28,7 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>gherkin</artifactId>
-      <version>23.0.2-SNAPSHOT</version>
+      <version>24.0.0</version>
     </dependency>
 
     <dependency>
