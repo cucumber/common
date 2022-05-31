@@ -11,6 +11,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+## [24.0.0] - 2022-05-31
+
+### Added
+
 * [Java], [JavaScript], [PHP], [Perl], [Python], [Go], [C], [DotNet],
   [Ruby] Support new messages keyword types fields an added
   with [#1966](https://github.com/cucumber/common/pull/1966)
@@ -25,10 +37,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * The `ne` (Nepali) `and` translation changed from `अनी ` to `अनि `
 * The `uz` (Uzbek) `given` translation changed from `Агар ` to `Belgilangan `
 * The `en-old` (Old English) `when` translation changed from `Tha ` / `Þa ` / `Ða ` to `Bæþsealf ` / `Bæþsealfa ` / `Bæþsealfe ` / `Ciricæw ` / `Ciricæwe ` / `Ciricæwa `
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
@@ -1110,7 +1118,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v24.0.0...main
+[24.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...gherkin/v24.0.0
 [23.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...gherkin/v23.0.1
 [23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0
 [22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0

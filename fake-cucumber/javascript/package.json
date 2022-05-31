@@ -42,7 +42,7 @@
   "dependencies": {
     "@cucumber/ci-environment": "^9.0.4",
     "@cucumber/cucumber-expressions": "^15.0.0",
-    "@cucumber/gherkin": "^23.0.1",
+    "@cucumber/gherkin": "^24.0.0",
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/gherkin-utils": "^7.0.0",
     "@cucumber/message-streams": "^4.0.1",

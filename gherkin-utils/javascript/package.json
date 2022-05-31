@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
-    "@cucumber/gherkin": "^23.0.1",
+    "@cucumber/gherkin": "^24.0.0",
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/message-streams": "^4.0.0",
     "@types/mocha": "9.1.1",
