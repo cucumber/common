@@ -13,7 +13,7 @@
     "prepublishOnly": "tsc --build tsconfig.build.json"
   },
   "devDependencies": {
-    "@cucumber/fake-cucumber": "^15.0.0",
+    "@cucumber/fake-cucumber": "^16.0.0",
     "@cucumber/html-formatter": "19.2.0",
     "@types/stream-buffers": "3.0.4",
     "stream-buffers": "3.0.2",
