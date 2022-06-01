@@ -7,7 +7,6 @@
     "messages/javascript",
     "gherkin/javascript",
     "gherkin-utils/javascript",
-    "fake-cucumber/javascript",
     "query/javascript",
     "compatibility-kit/javascript",
     "json-to-messages/javascript",
