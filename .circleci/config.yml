@@ -205,18 +205,6 @@ jobs:
             cd gherkin-utils/javascript
             make
 
-  fake-cucumber-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: fake-cucumber/javascript
-          command: |
-            sudo npm install --global npm@8
-            cd fake-cucumber/javascript
-            make
-
   compatibility-kit-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -641,9 +629,6 @@ workflows:
       - gherkin-utils-javascript:
           requires:
             - prepare-parallel
-      - fake-cucumber-javascript:
-          requires:
-            - prepare-parallel
       - compatibility-kit-javascript:
           requires:
             - prepare-parallel
@@ -661,7 +646,6 @@ workflows:
             - json-to-messages-java-testdata
             - json-to-messages-python-testdata
             - json-to-messages-javascript-testdata
-            - fake-cucumber-javascript
             - gherkin-javascript-node-14
             - gherkin-utils-javascript
 
