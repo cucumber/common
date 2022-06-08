@@ -83,8 +83,7 @@ post-release:
 .PHONY: post-release
 
 perl-clean:
-	PERL5LIB=${PERL5LIB} PATH=$$PATH:${PERL5PATH} dzil clean
-	rm -rf ./perl5 .deps .cpanfile_dependencies .tested
+	rm -rf ./perl5 .deps .cpanfile_dependencies .tested .build $(LIBNAME)-*
 .PHONY: perl-clean
 
 clean: perl-clean
