@@ -3,7 +3,7 @@
     "test": "echo"
   },
   "dependencies": {
-    "@cucumber/cucumber": "8.2.2"
+    "@cucumber/cucumber": "8.3.0"
   },
   "version": "1.1.0"
 }
