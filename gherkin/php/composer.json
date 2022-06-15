@@ -21,7 +21,7 @@
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.20",
         "friendsofphp/php-cs-fixer": "^3.5",
-        "psalm/plugin-phpunit": "^0.16.1"
+        "psalm/plugin-phpunit": "^0.17.0"
     },
     "repositories": [
         {
