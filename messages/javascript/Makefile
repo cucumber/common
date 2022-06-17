@@ -3,10 +3,6 @@ include default.mk
 JSONSCHEMAS = $(shell find ../jsonschema -name "*.json")
 LOCAL_SCHEMAS = $(patsubst ../jsonschema/%, schema/%, $(JSONSCHEMAS))
 
-$(info $(JSONSCHEMAS))
-
-$(info $(LOCAL_SCHEMAS))
-
 .codegen: src/messages.ts src/version.ts $(LOCAL_SCHEMAS)
 
 schema/%.json: ../jsonschema/%.json
