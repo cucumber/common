@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Javascript] Adding the json schemas of the messages to the NPM package
+  ([PR#2010](https://github.com/cucumber/common/pull/2010))
+
 ### Changed
 
 ### Deprecated
