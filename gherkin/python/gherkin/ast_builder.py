@@ -98,6 +98,7 @@ class AstBuilder(object):
                 'id': self.id_generator.get_next_id(),
                 'location': self.get_location(step_line),
                 'keyword': step_line.matched_keyword,
+                'keywordType': step_line.matched_keyword_type,
                 'text': step_line.matched_text,
                 step_argument_type: step_argument
             })

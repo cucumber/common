@@ -17,9 +17,9 @@ func ExampleGenerateTokens() {
 	GenerateTokens(reader, writer)
 
 	// Output:
-	// (1:1)FeatureLine:Feature/Minimal/
+	// (1:1)FeatureLine:()Feature/Minimal/
 	// (2:1)Empty://
-	// (3:3)ScenarioLine:Scenario/minimalistic/
-	// (4:5)StepLine:Given /the minimalism/
+	// (3:3)ScenarioLine:()Scenario/minimalistic/
+	// (4:5)StepLine:(Context)Given /the minimalism/
 	// EOF
 }

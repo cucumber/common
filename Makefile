@@ -3,9 +3,7 @@ BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.y
 PACKAGES ?= messages \
 	gherkin \
 	gherkin-utils \
-	fake-cucumber \
 	query \
-	json-formatter \
 	compatibility-kit \
 	json-to-messages
 

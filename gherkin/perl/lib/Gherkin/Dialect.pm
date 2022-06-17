@@ -3,10 +3,11 @@ package Gherkin::Dialect;
 use strict;
 use warnings;
 
+use Cucumber::Messages;
 use Gherkin::Exceptions;
 
 use Class::XSAccessor accessors =>
-  [ qw/dialect dictionary_location dictionary/, ];
+  [ qw/_current_dialect dialect dictionary_location dictionary /, ];
 
 sub new {
     my ( $class, $options ) = @_;
@@ -28,6 +29,10 @@ sub new {
     }
 
     bless $options, $class;
+    $options->change_dialect( $options->{'dialect'} )
+        if $options->{'dialect'};
+
+    return $options;
 }
 
 sub change_dialect {
@@ -35,21 +40,27 @@ sub change_dialect {
     Gherkin::Exceptions::NoSuchLanguage->throw( $name, $location )
       unless $self->dictionary->{$name};
     $self->{'dialect'} = $name;
+    $self->{'_current_dialect'} = $self->dictionary->{$name};
 }
 
-sub Feature    { $_[0]->dictionary->{ $_[0]->dialect }->{'feature'}; }
-sub Rule       { $_[0]->dictionary->{ $_[0]->dialect }->{'rule'}; }
-sub Scenario   { $_[0]->dictionary->{ $_[0]->dialect }->{'scenario'}; }
-sub Background { $_[0]->dictionary->{ $_[0]->dialect }->{'background'}; }
-sub Examples   { $_[0]->dictionary->{ $_[0]->dialect }->{'examples'}; }
-sub Given      { $_[0]->dictionary->{ $_[0]->dialect }->{'given'}; }
-sub When       { $_[0]->dictionary->{ $_[0]->dialect }->{'when'}; }
-sub Then       { $_[0]->dictionary->{ $_[0]->dialect }->{'then'}; }
-sub And        { $_[0]->dictionary->{ $_[0]->dialect }->{'and'}; }
-sub But        { $_[0]->dictionary->{ $_[0]->dialect }->{'but'}; }
+sub Feature    { $_[0]->_current_dialect->{'feature'}; }
+sub Rule       { $_[0]->_current_dialect->{'rule'}; }
+sub Scenario   { $_[0]->_current_dialect->{'scenario'}; }
+sub Background { $_[0]->_current_dialect->{'background'}; }
+sub Examples   { $_[0]->_current_dialect->{'examples'}; }
+sub Given      { $_[0]->_current_dialect->{'given'}; }
+sub When       { $_[0]->_current_dialect->{'when'}; }
+sub Then       { $_[0]->_current_dialect->{'then'}; }
+sub And        { $_[0]->_current_dialect->{'and'}; }
+sub But        { $_[0]->_current_dialect->{'but'}; }
+
+
+sub stepKeywordTypes {
+    return @{ $_[0]->{'_step_keywords'}->{$_[1]} };
+}
 
 sub ScenarioOutline {
-    $_[0]->dictionary->{ $_[0]->dialect }->{'scenarioOutline'};
+    $_[0]->_current_dialect->{'scenarioOutline'};
 }
 
 1;

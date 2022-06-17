@@ -10,11 +10,21 @@ import countSymbols from './countSymbols'
 const DIALECT_DICT: { [key: string]: Dialect } = DIALECTS
 const LANGUAGE_PATTERN = /^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$/
 
+function addKeywordTypeMappings(h: { [key: string]: messages.StepKeywordType[] }, keywords: readonly string[], keywordType: messages.StepKeywordType) {
+  for (const k of keywords) {
+    if (!(k in h)) {
+      h[k] = [] as messages.StepKeywordType[]
+    }
+    h[k].push(keywordType)
+  }
+}
+
 export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenType> {
   private dialect: Dialect
   private dialectName: string
   private activeDocStringSeparator: string
   private indentToRemove: number
+  private keywordTypesMap: { [key: string]: messages.StepKeywordType[] }
 
   constructor(private readonly defaultDialectName: string = 'en') {
     this.reset()
@@ -28,6 +38,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
 
     this.dialectName = newDialectName
     this.dialect = newDialect
+    this.initializeKeywordTypes()
   }
 
   reset() {
@@ -38,9 +49,19 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     this.indentToRemove = 0
   }
 
+  initializeKeywordTypes() {
+    this.keywordTypesMap = {}
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.given, messages.StepKeywordType.CONTEXT)
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.when, messages.StepKeywordType.ACTION)
+    addKeywordTypeMappings(this.keywordTypesMap, this.dialect.then, messages.StepKeywordType.OUTCOME)
+    addKeywordTypeMappings(this.keywordTypesMap,
+                           [].concat(this.dialect.and).concat(this.dialect.but),
+                           messages.StepKeywordType.CONJUNCTION)
+  }
+
   match_TagLine(token: IToken<TokenType>) {
     if (token.line.startsWith('@')) {
-      this.setTokenMatched(token, TokenType.TagLine, null, null, null, this.getTags(token.line))
+      this.setTokenMatched(token, TokenType.TagLine, null, null, null, null, this.getTags(token.line))
       return true
     }
     return false
@@ -72,7 +93,7 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
   match_TableRow(token: IToken<TokenType>) {
     if (token.line.startsWith('|')) {
       // TODO: indent
-      this.setTokenMatched(token, TokenType.TableRow, null, null, null, token.line.getTableCells())
+      this.setTokenMatched(token, TokenType.TableRow, null, null, null, null, token.line.getTableCells())
       return true
     }
     return false
@@ -152,10 +173,17 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     for (const keyword of keywords) {
       if (token.line.startsWith(keyword)) {
         const title = token.line.getRestTrimmed(keyword.length)
-        this.setTokenMatched(token, TokenType.StepLine, title, keyword)
+        const keywordTypes = this.keywordTypesMap[keyword]
+        let keywordType = keywordTypes[0]
+        if (keywordTypes.length > 1) {
+          keywordType = messages.StepKeywordType.UNKNOWN
+        }
+
+        this.setTokenMatched(token, TokenType.StepLine, title, keyword, null, keywordType)
         return true
       }
     }
+
     return false
   }
 
@@ -206,11 +234,13 @@ export default class GherkinClassicTokenMatcher implements ITokenMatcher<TokenTy
     text?: string,
     keyword?: string,
     indent?: number,
+    keywordType?: messages.StepKeywordType,
     items?: readonly Item[]
   ) {
     token.matchedType = matchedType
     token.matchedText = text
     token.matchedKeyword = keyword
+    token.matchedKeywordType = keywordType
     token.matchedIndent =
       typeof indent === 'number' ? indent : token.line == null ? 0 : token.line.indent
     token.matchedItems = items || []
