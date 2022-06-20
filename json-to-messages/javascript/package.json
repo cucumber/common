@@ -40,7 +40,7 @@
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/gherkin-utils": "^8.0.0",
     "@cucumber/message-streams": "^4.0.1",
-    "@cucumber/messages": "^19.0.0",
+    "@cucumber/messages": "^19.1.0",
     "commander": "9.3.0",
     "glob": "8.0.1",
     "source-map-support": "0.5.21"

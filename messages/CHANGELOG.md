@@ -9,9 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* [Javascript] Adding the json schemas of the messages to the NPM package
-  ([PR#2010](https://github.com/cucumber/common/pull/2010))
-
 ### Changed
 
 ### Deprecated
@@ -19,6 +16,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+
+## [19.1.0] - 2022-06-20
+
+### Added
+
+* [Javascript] Adding the json schemas of the messages to the NPM package
+  ([PR#2010](https://github.com/cucumber/common/pull/2010))
 
 ## [19.0.0] - 2022-05-31
 
@@ -603,7 +607,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.0...main
+[19.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v19.0.0...messages/v19.1.0
 [19.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v18.0.0...messages/v19.0.0
 [18.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.1...messages/v18.0.0
 [17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
