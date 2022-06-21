@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Javascript] Schema are actually missing from 19.1.0
+
 ## [19.1.0] - 2022-06-20
 
 ### Added
