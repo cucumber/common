@@ -42,7 +42,7 @@ $newDependency = '^'.$matches['major'].'.0';
 
 if (str_contains($dependencyString, $newDependency)) {
     fwrite(STDERR, 'Nothing to update, already depends on ' . $newDependency . "\n");
-    $newDependency = '';
+    exit(0);
 }
 
 // '||' is OR
