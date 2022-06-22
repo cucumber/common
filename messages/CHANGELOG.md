@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+* [Javascript] Schema was still ignored from 19.1.1 due to how npm manages the files attribute in package.json
+  ([PR#2020](https://github.com/cucumber/common/pull/2020))
+
 ## [19.1.1] - 2022-06-22
 
 ### Fixed
