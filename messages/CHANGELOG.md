@@ -17,7 +17,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* [Javascript] Schema was still ignored from 19.1.1 due to how npm manages the files attribute in package.json
+## [19.1.2] - 2022-06-22
+
+### Fixed
+
+* [Javascript] Schema was still missing in 19.1.1 due to how npm manages the files attribute in package.json
   ([PR#2020](https://github.com/cucumber/common/pull/2020))
 
 ## [19.1.1] - 2022-06-22
@@ -617,7 +621,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.2...main
+[19.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.1...messages/v19.1.2
 [19.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.0...messages/v19.1.1
 [19.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v19.0.0...messages/v19.1.0
 [19.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v18.0.0...messages/v19.0.0
