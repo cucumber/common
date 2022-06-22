@@ -1,18 +1,23 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.gherkin.ParserException.CompositeParserException;
+import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.GherkinDocument;
-import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.types.ParseError;
 import io.cucumber.messages.types.Source;
 import io.cucumber.messages.types.SourceReference;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static io.cucumber.messages.types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 
@@ -74,6 +79,17 @@ public final class GherkinParser {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public Stream<Envelope> parse(Path path) throws IOException {
+        byte[] bytes = Files.readAllBytes(path);
+        String data = new String(bytes, UTF_8);
+        // .feature.md files are not supported
+        return parseGherkinPlain(path.toUri().toString(), data);
+    }
+
+    private Stream<Envelope> parseGherkinPlain(String uri, String source) {
+        return parse(Envelope.of(new Source(uri, source, TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
     }
 
     public Stream<Envelope> parse(Envelope envelope) {
