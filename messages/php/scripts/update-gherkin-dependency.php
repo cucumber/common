@@ -42,11 +42,14 @@ $newDependency = '^'.$matches['major'].'.0';
 
 if (str_contains($dependencyString, $newDependency)) {
     fwrite(STDERR, 'Nothing to update, already depends on ' . $newDependency . "\n");
-    exit(0);
+    $newDependency = '';
 }
 
-// '||' is OR
-$newDependencyString = $dependencyString . '||' .$newDependency;
+$newDependencyString = $dependencyString;
+if ($newDependency !== '') {
+    // '||' is OR
+    $newDependencyString = $dependencyString . '||' .$newDependency;
+}
 
 $json['require']['cucumber/messages'] = $newDependencyString;
 

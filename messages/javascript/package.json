@@ -8,7 +8,7 @@
   "files": [
     "dist/cjs",
     "dist/esm",
-    "schema"
+    "schema/*.json"
   ],
   "module": "dist/esm/src/index.js",
   "exports": {
