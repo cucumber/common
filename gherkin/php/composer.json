@@ -1,37 +1,37 @@
 {
-  "name": "cucumber/gherkin",
-  "description": "Gherkin parser",
-  "author": "Cucumber Limited <cukes@googlegroups.com>",
-  "license": "MIT",
-  "type": "library",
-  "autoload": {
-      "psr-4": {
-          "Cucumber\\Gherkin\\": [
-              "src/",
-              "src-generated/"
-          ]
-      }
-  },
-  "require": {
-      "php": "^8.1",
-      "ext-mbstring": "*",
-      "cucumber/messages": "^18.0||^19.0"
-  },
-  "require-dev": {
-      "phpunit/phpunit": "^9.5",
-      "vimeo/psalm": "^4.20",
-      "friendsofphp/php-cs-fixer": "^3.5",
-      "psalm/plugin-phpunit": "^0.17.0"
-  },
-  "repositories": [
-      {
-          "type": "path",
-          "url": "../../messages/php",
-          "options": {
-              "versions": {
-                  "cucumber/messages": "18.0.0"
-              }
-          }
-      }
-  ]
+    "name": "cucumber/gherkin",
+    "description": "Gherkin parser",
+    "author": "Cucumber Limited <cukes@googlegroups.com>",
+    "license": "MIT",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Cucumber\\Gherkin\\": [
+                "src/",
+                "src-generated/"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-mbstring": "*",
+        "cucumber/messages": "^18.0||^19.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^4.20",
+        "friendsofphp/php-cs-fixer": "^3.5",
+        "psalm/plugin-phpunit": "^0.17.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../messages/php",
+            "options": {
+                "versions": {
+                    "cucumber/messages": "18.0.0"
+                }
+            }
+        }
+    ]
 }
