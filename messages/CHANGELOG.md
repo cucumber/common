@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [19.1.1] - 2022-06-22
+
+### Fixed
+
 * [Javascript] Schema are actually missing from 19.1.0
   ([PR#2016](https://github.com/cucumber/common/pull/2016))
 
@@ -610,7 +614,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.1...main
+[19.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.0...messages/v19.1.1
 [19.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v19.0.0...messages/v19.1.0
 [19.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v18.0.0...messages/v19.0.0
 [18.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.1...messages/v18.0.0
