@@ -11,6 +11,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [Java] Added 
 * [C] The C implementation re-enabled and made up to date.
   ([#1989](https://github.com/cucumber/common/pull/1989))
 
