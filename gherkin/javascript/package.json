@@ -26,7 +26,7 @@
     "@cucumber/gherkin-streams": "^5.0.1",
     "@types/mocha": "9.1.1",
     "@types/node": "16.11.41",
-    "core-js": "3.23.2",
+    "core-js": "3.23.3",
     "mocha": "10.0.0",
     "ts-node": "10.8.1",
     "typescript": "4.7.4"
