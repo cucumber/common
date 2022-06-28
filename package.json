@@ -8,7 +8,6 @@
     "gherkin/javascript",
     "gherkin-utils/javascript",
     "query/javascript",
-    "compatibility-kit/javascript",
     "json-to-messages/javascript",
     "json-to-messages/javascript-testdata"
   ],
@@ -27,6 +26,7 @@
     "prepare": "./scripts/npm-each npm run prepare --if-present"
   },
   "devDependencies": {
+    "@cucumber/compatibility-kit": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "5.30.0",
     "@typescript-eslint/parser": "5.30.0",
     "ajv": "8.11.0",

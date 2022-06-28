@@ -97,7 +97,7 @@ generated from the JSON schemas.
 
 ## Examples
 
-You will find examples of Cucumber Messages in the [compatibility-kit](../compatibility-kit/javascript/features) directories.
+You will find examples of Cucumber Messages in the [compatibility-kit](https://github.com/cucumber/compatibility-kit/) project.
 
 ## Utilities
 
