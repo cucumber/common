@@ -205,34 +205,6 @@ jobs:
             cd gherkin-utils/javascript
             make
 
-  json-to-messages-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-to-messages/javascript
-          command: |
-            sudo npm install --global npm@8
-            cd json-to-messages/javascript
-            make
-
-  json-to-messages-javascript-testdata:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-to-messages/javascript-testdata
-          command: |
-            sudo npm install --global npm@8
-            cd json-to-messages/javascript-testdata
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-to-messages/javascript-testdata/acceptance
-
   query-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -306,22 +278,6 @@ jobs:
             cd gherkin/ruby
             make
 
-  json-to-messages-ruby-testdata:
-    executor: docker-circleci-ruby-26
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-to-messages/ruby-testdata
-          command: |
-            cd json-to-messages/ruby-testdata
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-to-messages/ruby-testdata/features
-            - json-to-messages/ruby-testdata/acceptance
-
   ### Java
 
   messages-java:
@@ -375,21 +331,6 @@ jobs:
           paths:
             - 'io/cucumber/gherkin'
 
-  json-to-messages-java-testdata:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-to-messages/java-testdata
-          command: |
-            cd json-to-messages/java-testdata
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-to-messages/java-testdata/acceptance
-
   ### .NET
 
   messages-dotnet:
@@ -439,21 +380,6 @@ jobs:
             make
 
   ### Python
-
-  json-to-messages-python-testdata:
-    executor: docker-circleci-python
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: json-to-messages/python-testdata
-          command: |
-            cd json-to-messages/python-testdata
-            make default
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - json-to-messages/python-testdata/acceptance
 
   gherkin-python-2:
     executor: docker-circleci-python
@@ -605,19 +531,6 @@ workflows:
       - query-javascript:
           requires:
             - prepare-parallel
-      - json-to-messages-javascript-testdata:
-          requires:
-            - prepare-parallel
-            - json-to-messages-ruby-testdata
-      - json-to-messages-javascript:
-          requires:
-            - prepare-parallel
-            - json-to-messages-ruby-testdata
-            - json-to-messages-java-testdata
-            - json-to-messages-python-testdata
-            - json-to-messages-javascript-testdata
-            - gherkin-javascript-node-14
-            - gherkin-utils-javascript
 
       ### Ruby
 
@@ -636,9 +549,6 @@ workflows:
       - gherkin-ruby-26:
           requires:
             - messages-ruby
-      - json-to-messages-ruby-testdata:
-          requires:
-            - prepare-parallel
 
       ### Java
 
@@ -652,10 +562,6 @@ workflows:
           requires:
             - messages-java
             - gherkin-java
-      - json-to-messages-java-testdata:
-          requires:
-            - prepare-parallel
-            - json-to-messages-ruby-testdata
 
       ### .NET
 
@@ -678,11 +584,6 @@ workflows:
             - prepare-parallel
 
       ## Python
-
-      - json-to-messages-python-testdata:
-          requires:
-            - prepare-parallel
-            - json-to-messages-ruby-testdata
 
       - gherkin-python-2:
           requires:

@@ -3,8 +3,7 @@ BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.y
 PACKAGES ?= messages \
 	gherkin \
 	gherkin-utils \
-	query \
-	json-to-messages
+	query
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default

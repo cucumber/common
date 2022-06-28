@@ -32,5 +32,4 @@ In order of importance / relevance to most contributors (hopefully):
 ## Miscellaneous Components
 
 * `fake-cucumber` - a light Cucumber implementation written in TypeScript - used primarily
-  for development and testing. Also used as basis for `json-to-messages`.
-* `json-to-messages` - converts legacy Cucumber JSON reports to the newer `messages` format. Allows older Cucumber versions to co-exist with newer tooling based on messages.
+  for development and testing.

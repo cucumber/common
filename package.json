@@ -7,9 +7,7 @@
     "messages/javascript",
     "gherkin/javascript",
     "gherkin-utils/javascript",
-    "query/javascript",
-    "json-to-messages/javascript",
-    "json-to-messages/javascript-testdata"
+    "query/javascript"
   ],
   "scripts": {
     "build:cjs": "tsc --build tsconfig.build-cjs.json",
