@@ -2,7 +2,7 @@ module github.com/cucumber/common/gherkin/go/v24
 
 require (
 	github.com/cucumber/common/messages/go/v19 v19.1.2
-	github.com/stretchr/testify v1.7.4
+	github.com/stretchr/testify v1.7.5
 )
 
 replace github.com/cucumber/common/messages/go/v19 => ../../messages/go
