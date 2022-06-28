@@ -4,8 +4,7 @@ PACKAGES ?= messages \
 	gherkin \
 	gherkin-utils \
 	query \
-	compatibility-kit \
-	json-to-messages
+	compatibility-kit
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default
