@@ -4,7 +4,6 @@ PACKAGES ?= messages \
 	gherkin \
 	gherkin-utils \
 	query \
-	compatibility-kit \
 	json-to-messages
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
