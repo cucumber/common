@@ -74,6 +74,6 @@ class AcceptanceTest extends TestCase
      */
     private function getSampleFiles(): array
     {
-        return glob(__DIR__ . '/../../../compatibility-kit/javascript/features/**/*.ndjson') ?: [];
+        return glob(__DIR__ . '/../../../node_modules/@cucumber/compatibility-kit/features/**/*.ndjson') ?: [];
     }
 }
