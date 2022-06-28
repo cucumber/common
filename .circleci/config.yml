@@ -205,18 +205,6 @@ jobs:
             cd gherkin-utils/javascript
             make
 
-  compatibility-kit-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: compatibility-kit/javascript
-          command: |
-            sudo npm install --global npm@8
-            cd compatibility-kit/javascript
-            make
-
   query-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -289,21 +277,6 @@ jobs:
           command: |
             cd gherkin/ruby
             make
-
-  compatibility-kit-ruby:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: compatibility-kit/ruby
-          command: |
-            cd compatibility-kit/ruby
-            CUCUMBER_USE_RELEASED_GEMS=1 make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - compatibility-kit/ruby/features
 
   ### Java
 
@@ -555,9 +528,6 @@ workflows:
       - gherkin-utils-javascript:
           requires:
             - prepare-parallel
-      - compatibility-kit-javascript:
-          requires:
-            - prepare-parallel
       - query-javascript:
           requires:
             - prepare-parallel
@@ -577,9 +547,6 @@ workflows:
           requires:
             - messages-ruby
       - gherkin-ruby-26:
-          requires:
-            - messages-ruby
-      - compatibility-kit-ruby:
           requires:
             - messages-ruby
 

@@ -1,11 +1,17 @@
 require 'json'
 require 'cucumber/messages'
+require 'cucumber-compatibility-kit'
 
 module Cucumber
   module Messages
     describe 'messages acdeptance tests' do
-      # TODO: Remove '/minimal' from the glob
-      Dir["#{File.dirname(__FILE__)}/../../../../../compatibility-kit/javascript/features/**/*.ndjson"].each do |ndjson_file|
+      ndjson_files = Dir["#{Cucumber::CompatibilityKit::examples_path}/**/*.ndjson"]
+
+      it 'must have ndjson_files as reference messages' do
+        expect(ndjson_files).not_to be_empty
+      end
+
+      ndjson_files.each do |ndjson_file|
         it "deserialises and serialises messages in #{ndjson_file}" do
           File.open(ndjson_file, 'r:utf-8') do |io|
             io.each_line do |json|
