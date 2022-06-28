@@ -1,10 +1,11 @@
 require 'json'
 require 'cucumber/messages'
+require 'cucumber-compatibility-kit'
 
 module Cucumber
   module Messages
     describe 'messages acdeptance tests' do
-      ndjson_files = Dir["#{File.dirname(__FILE__)}/../../../../../compatibility-kit/javascript/features/**/*.ndjson"]
+      ndjson_files = Dir["#{Cucumber::CompatibilityKit::examples_path}/**/*.ndjson"]
 
       it 'must have ndjson_files as reference messages' do
         expect(ndjson_files).not_to be_empty
