@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+* [Javascript] Add `workerId` to `Message` type
+  ([PR#2033](https://github.com/cucumber/common/pull/2033))
+
 ### Changed
 
 ### Deprecated
