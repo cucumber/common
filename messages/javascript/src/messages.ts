@@ -80,6 +80,9 @@ export class Envelope {
 
   @Type(() => UndefinedParameterType)
   undefinedParameterType?: UndefinedParameterType
+
+  @Type(() => String)
+  workerId?: string
 }
 
 export class GherkinDocument {
