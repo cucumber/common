@@ -1,3 +1,4 @@
+require 'cucumber/messages'
 require 'json'
 
 module Gherkin

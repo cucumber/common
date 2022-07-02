@@ -20,79 +20,75 @@ sub compile {
     my $feature_tags     = $feature->tags;
     my $background_steps = [];
 
-    for my $child ( @{ $feature->children } ) {
-        if ( my $background = $child->background ) {
-            $background_steps = $background->steps;
-        } elsif ( my $scenario = $child->scenario ) {
-            $class->_compile_scenario_outline(
-                $document->uri,
-                $feature_tags, $background_steps,
-                $scenario, $language, $id_generator,
-                $pickle_sink
-                );
-        } elsif ( my $rule = $child->rule ) {
-            $class->_compile_rule(
-                $document->uri,
-                $feature_tags, $background_steps,
-                $rule, $language, $id_generator,
-                $pickle_sink
-                );
-        } else {
-            die "Unimplemented";
-        }
-    }
+    $class->_compile_feature(
+        $document->uri, $feature,
+        $language, $id_generator, $pickle_sink);
 
     return \@pickles;
 }
 
-sub _pickle_steps {
-    my ( $class, $steps, $id_generator ) = @_;
-    return [ map { $class->_pickle_step( $_, $id_generator ) } @$steps ];
+sub _compile_feature {
+    my ($class, $uri, $feature,
+        $language, $id_generator, $pickle_sink) = @_;
+    my @feature_background_steps;
+
+    for my $child ( @{ $feature->children } ) {
+        if ( my $background = $child->background ) {
+            push @feature_background_steps,
+                @{ $background->steps };
+        }
+        elsif ( my $rule = $child->rule ) {
+            $class->_compile_rule(
+                $uri, $feature->tags, \@feature_background_steps,
+                $rule, $language, $id_generator, $pickle_sink);
+        }
+        else {
+            my $scenario = $child->scenario;
+            if (not @{ $scenario->examples }) {
+                $class->_compile_scenario(
+                    $uri, $feature->tags, \@feature_background_steps,
+                    $scenario, $language, $id_generator, $pickle_sink);
+            }
+            else {
+                $class->_compile_scenario_outline(
+                    $uri, $feature->tags, \@feature_background_steps,
+                    $scenario, $language, $id_generator, $pickle_sink);
+            }
+        }
+    }
 }
 
 sub _compile_scenario {
     my ( $class, $uri, $tags, $background_steps,
-         $scenario, $variables, $values, $values_id,
-         $language, $id_generator, $pickle_sink )
+         $scenario, $language, $id_generator, $pickle_sink )
         = @_;
 
     my @steps;
     if ($scenario->steps and @{ $scenario->steps }) {
-        @steps = @{ $class->_pickle_steps($background_steps,
-                                          $id_generator) };
-        for my $step (@{ $scenario->steps } ) {
-            my $step_text =
-                $class->_interpolate( $step->text,
-                                      $variables, $values );
-            my $arguments =
-                $class->_create_pickle_arguments(
-                    $step,
-                    $variables, $values );
+        my $last_keyword = Cucumber::Messages::PickleStep::TYPE_UNKNOWN;
+        for my $step (@{ $background_steps }, @{ $scenario->steps } ) {
+            $last_keyword =
+                $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
+                ? $last_keyword : $step->keyword_type;
+
             push @steps,
                 Cucumber::Messages::PickleStep->new(
-                    id         => $id_generator->(),
-                    text       => $step_text,
-                    argument   => $arguments,
-                    ast_node_ids => [ $step->id,
-                                      $values_id ? ($values_id,) : () ],
-                );
+                    $class->_pickle_step_props($step, [], undef, $last_keyword,
+                    $id_generator->()));
         }
     }
 
+    my @all_tags = (@$tags, @{ $scenario->tags || [] });
     $pickle_sink->(
         Cucumber::Messages::Envelope->new(
             pickle => Cucumber::Messages::Pickle->new(
-                id   => $id_generator->(),
-                name => $class->_interpolate(
-                    $scenario->name,
-                    $variables, $values ),
-                language  => $language,
-                steps     => \@steps,
-                tags      => $class->_pickle_tags( $tags ),
-                uri       => $uri,
-                ast_node_ids=> [
-                    $scenario->id, $values_id ? ($values_id,) : ()
-                ]
+                id           => $id_generator->(),
+                name         => $scenario->name,
+                language     => $language,
+                steps        => \@steps,
+                tags         => $class->_pickle_tags( \@all_tags ),
+                uri          => $uri,
+                ast_node_ids => [ $scenario->id ]
             )));
 }
 
@@ -101,29 +97,53 @@ sub _compile_scenario_outline {
          $scenario, $language, $id_generator, $pickle_sink )
         = @_;
 
-    my @examples = @{ $scenario->examples };
-    if (scalar @examples == 0) {
-        # Create an empty example in order to iterate once below
-        push @examples,
-            Cucumber::Messages::Examples->new(
-                table_header => Cucumber::Messages::TableRow->new(),
-                table_body   => [ Cucumber::Messages::TableRow->new() ]
-            );
-    }
-
-    for my $examples (@examples) {
+    for my $examples ( grep { $_->table_header } @{ $scenario->examples } ) {
         my @tags        = (
-            @{ $feature_tags || [] },
+            @{ $feature_tags },
             @{ $scenario->tags || [] },
             @{ $examples->tags || [] }
             );
-        use Data::Dumper;
-        for my $values ( @{ $examples->table_body || [] } ) {
-            $class->_compile_scenario(
-                $uri, \@tags, $background_steps,
-                $scenario, $examples->table_header->cells, $values->cells, $values->id,
-                $language, $id_generator, $pickle_sink
-                );
+        my $variables = $examples->table_header->cells;
+
+        for my $values ( @{ $examples->table_body } ) {
+            my $last_keyword;
+            my @steps;
+            if ( @{ $scenario->steps } ) {
+                for my $step (@{ $background_steps }) {
+                    $last_keyword =
+                        $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
+                        ? $last_keyword : $step->keyword_type;
+                    push @steps,
+                        Cucumber::Messages::PickleStep->new(
+                            $class->_pickle_step_props($step, [], undef,
+                                                       $last_keyword,
+                                                       $id_generator->()));
+                }
+
+                for my $step (@{ $scenario->steps }) {
+                    $last_keyword =
+                        $step->keyword_type eq Cucumber::Messages::Step::KEYWORDTYPE_CONJUNCTION
+                        ? $last_keyword : $step->keyword_type;
+                    push @steps,
+                        Cucumber::Messages::PickleStep->new(
+                            $class->_pickle_step_props($step, $variables, $values,
+                                                       $last_keyword,
+                                                       $id_generator->()));
+                }
+            }
+            $pickle_sink->(
+                Cucumber::Messages::Envelope->new(
+                    pickle => Cucumber::Messages::Pickle->new(
+                        id           => $id_generator->(),
+                        name         => $class->_interpolate(
+                            $scenario->name,
+                            $variables, $values->cells || [] ),
+                        language     => $language,
+                        steps        => \@steps,
+                        tags         => $class->_pickle_tags( \@tags ),
+                        uri          => $uri,
+                        ast_node_ids => [ $scenario->id, $values->id ]
+                    )));
         }
     }
 }
@@ -132,7 +152,7 @@ sub _compile_rule {
     my ( $class, $uri, $feature_tags, $feature_background_steps,
          $rule_definition, $language, $id_generator, $pickle_sink )
         = @_;
-    my $background_steps = $feature_background_steps;
+    my @background_steps = ( @$feature_background_steps );
     my @tags = (
         @{ $feature_tags || [] },
         @{ $rule_definition->tags || [] }
@@ -140,55 +160,22 @@ sub _compile_rule {
 
     for my $child ( @{ $rule_definition->children } ) {
         if ( my $background = $child->background ) {
-            $background_steps =
-                [ @$feature_background_steps,
-                  @{ $background->steps } ];
+            push @background_steps, @{ $background->steps };
         } elsif ( my $scenario = $child->scenario ) {
-            $class->_compile_scenario_outline(
-                $uri, \@tags, $background_steps,
-                $scenario, $language, $id_generator,
-                $pickle_sink
-                );
+            if (not @{ $scenario->examples }) {
+                $class->_compile_scenario(
+                    $uri, \@tags, \@background_steps, $scenario,
+                    $language, $id_generator, $pickle_sink);
+            }
+            else {
+                $class->_compile_scenario_outline(
+                    $uri, \@tags, \@background_steps,
+                    $scenario, $language, $id_generator, $pickle_sink);
+            }
         } else {
             die "Unimplemented";
         }
     }
-}
-
-sub _create_pickle_arguments {
-    my ( $class, $argument, $variables, $values ) = @_;
-
-    if ( my $data = $argument->data_table ) {
-        return Cucumber::Messages::PickleStepArgument->new(
-            data_table => Cucumber::Messages::PickleTable->new(
-                rows => [
-                    map {
-                        my $row = $_;
-                        Cucumber::Messages::PickleTableRow->new(
-                            cells => [
-                                map {
-                                    my $cell = $_;
-                                    Cucumber::Messages::PickleTableCell->new(
-                                        value => $class->_interpolate(
-                                            $cell->value, $variables, $values
-                                        ))
-                                } @{ $row->cells || [] }
-                            ]);
-                    } @{ $data->rows || [] }
-                ]
-            ));
-    } elsif ( $argument->doc_string ) {
-        my $docstring = $argument->doc_string;
-        return Cucumber::Messages::PickleStepArgument->new(
-            doc_string => Cucumber::Messages::PickleDocString->new(
-                media_type => $class->_interpolate( $docstring->media_type,
-                                                    $variables, $values),
-                content    => $class->_interpolate( $docstring->content,
-                                                    $variables, $values)
-            ));
-    }
-
-    return undef;
 }
 
 sub _interpolate {
@@ -202,16 +189,54 @@ sub _interpolate {
     return $name;
 }
 
-sub _pickle_step {
-    my ( $class, $step, $id_generator ) = @_;
-
-    return Cucumber::Messages::PickleStep->new(
-        text         => $step->text,
-        id           => $id_generator->(),
+sub _pickle_step_props {
+    my ($class, $step, $variables, $values, $keyword_type, $id) = @_;
+    my $value_cells = $values ? $values->cells : [];
+    my %props = (
+        id           => $id,
         ast_node_ids => [ $step->id ],
-        argument     => $class->_create_pickle_arguments(
-            $step, [], [],
-        ));
+        type         => $keyword_type,
+        text         => $class->_interpolate($step->text,
+                                             $variables, $value_cells)
+        );
+
+    if ($values) {
+        push @{ $props{ast_node_ids} }, $values->id;
+    }
+    if (my $data = $step->data_table) {
+        $props{argument} =
+            Cucumber::Messages::PickleStepArgument->new(
+                data_table => Cucumber::Messages::PickleTable->new(
+                    rows => [
+                        map {
+                            my $row = $_;
+                            Cucumber::Messages::PickleTableRow->new(
+                                cells => [
+                                    map {
+                                        my $cell = $_;
+                                        Cucumber::Messages::PickleTableCell->new(
+                                            value => $class->_interpolate(
+                                                $cell->value, $variables,
+                                                $value_cells
+                                            ))
+                                    } @{ $row->cells || [] }
+                                ]);
+                        } @{ $data->rows || [] }
+                    ]
+                ));
+    }
+    elsif (my $docstring = $step->doc_string) {
+        $props{argument} =
+            Cucumber::Messages::PickleStepArgument->new(
+                doc_string => Cucumber::Messages::PickleDocString->new(
+                    media_type => $class->_interpolate( $docstring->media_type,
+                                                        $variables, $value_cells),
+                    content    => $class->_interpolate( $docstring->content,
+                                                        $variables, $value_cells)
+                ));
+
+    }
+    return %props; # returns a list
 }
 
 sub _pickle_tags {

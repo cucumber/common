@@ -17,19 +17,7 @@
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
     },
     {
-      "path": "./fake-cucumber/javascript/tsconfig.build.json"
-    },
-    {
       "path": "./query/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./compatibility-kit/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./json-to-messages/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./json-to-messages/javascript-testdata/tsconfig.build.json"
     },
     {
       "path": "./messages/javascript/tsconfig.build-cjs.json"

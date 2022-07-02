@@ -12,7 +12,9 @@ class TokenFormatter {
                 toString(token.location.getLine()),
                 toString(token.location.getColumn()),
                 toString(token.matchedType),
-                toString(token.matchedKeyword),
+                token.matchedKeyword == null ? "" : String.format("(%s)%s",
+                                                                  toString(token.keywordType),
+                                                                  toString(token.matchedKeyword)),
                 toString(token.matchedText),
                 toString(token.matchedItems == null ? "" : token.matchedItems.stream()
                         .map(o ->  o.column + ":" + o.text)

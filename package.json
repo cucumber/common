@@ -7,12 +7,7 @@
     "messages/javascript",
     "gherkin/javascript",
     "gherkin-utils/javascript",
-    "fake-cucumber/javascript",
-    "query/javascript",
-    "compatibility-kit/javascript",
-    "json-formatter/javascript-testdata",
-    "json-to-messages/javascript",
-    "json-to-messages/javascript-testdata"
+    "query/javascript"
   ],
   "scripts": {
     "build:cjs": "tsc --build tsconfig.build-cjs.json",
@@ -29,24 +24,25 @@
     "prepare": "./scripts/npm-each npm run prepare --if-present"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.25.0",
-    "@typescript-eslint/parser": "5.25.0",
+    "@cucumber/compatibility-kit": "^11.0.0",
+    "@typescript-eslint/eslint-plugin": "5.30.3",
+    "@typescript-eslint/parser": "5.30.3",
     "ajv": "8.11.0",
     "ajv-cli": "5.0.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.30.0",
-    "eslint-plugin-react-hooks": "4.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.30.1",
+    "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "npm-check-updates": "13.0.1",
-    "prettier": "2.6.2",
+    "npm-check-updates": "15.0.1",
+    "prettier": "2.7.1",
     "pretty-quick": "3.1.3",
     "rimraf": "^3.0.2",
     "tsconfig-paths": "4.0.0",
-    "typescript": "4.6.4"
+    "typescript": "4.7.4"
   },
   "prettier": {
     "trailingComma": "es5",

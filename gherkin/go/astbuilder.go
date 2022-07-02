@@ -1,7 +1,7 @@
 package gherkin
 
 import (
-	"github.com/cucumber/common/messages/go/v18"
+	"github.com/cucumber/common/messages/go/v19"
 	"strings"
 )
 
@@ -140,10 +140,11 @@ func (t *astBuilder) transformNode(node *astNode) (interface{}, error) {
 		stepLine := node.getToken(TokenTypeStepLine)
 
 		step := &messages.Step{
-			Location: astLocation(stepLine),
-			Keyword:  stepLine.Keyword,
-			Text:     stepLine.Text,
-			Id:       t.newId(),
+			Location:    astLocation(stepLine),
+			Keyword:     stepLine.Keyword,
+			KeywordType: stepLine.KeywordType,
+			Text:        stepLine.Text,
+			Id:          t.newId(),
 		}
 		dataTable := node.getSingle(RuleTypeDataTable, nil)
 		if dataTable != nil {

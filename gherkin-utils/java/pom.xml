@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-parent</artifactId>
+      <version>3.0.0</version>
+  </parent>
+
+  <artifactId>gherkin-utils</artifactId>
+  <version>8.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Gherkin Utils</name>
+  <description>Gherkin utils for doing things such as walking a Gherkin tree or pretty printing Gherkin files.
+  </description>
+  <url>https://github.com/cucumber/common</url>
+
+  <properties>
+    <project.Automatic-Module-Name>io.cucumber.gherkin.utils</project.Automatic-Module-Name>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+  </properties>
+
+  <scm>
+    <connection>scm:git:git://github.com/cucumber/common.git</connection>
+    <developerConnection>scm:git:git@github.com:cucumber/common.git</developerConnection>
+    <url>git://github.com/cucumber/common.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>gherkin</artifactId>
+      <version>[24.0.0,25.0.0)</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.8.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

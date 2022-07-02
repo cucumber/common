@@ -10,6 +10,9 @@ namespace Gherkin.CucumberMessages.Types
         [DataMember(Name = "keyword")]
         public string Keyword { get; set; }
 
+        [DataMember(Name = "keywordType")]
+        public StepKeywordType KeywordType { get; set; }
+
         [DataMember(Name = "text")]
         public string Text { get; set; }
 

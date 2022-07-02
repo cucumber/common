@@ -1,6 +1,14 @@
 import * as messages from '@cucumber/messages'
 import IGherkinDocument = messages.GherkinDocument
 
+const pickleStepTypeFromKeyword: { [key in messages.StepKeywordType]: messages.PickleStepType } = {
+    [messages.StepKeywordType.UNKNOWN]: messages.PickleStepType.UNKNOWN,
+    [messages.StepKeywordType.CONTEXT]: messages.PickleStepType.CONTEXT,
+    [messages.StepKeywordType.ACTION]: messages.PickleStepType.ACTION,
+    [messages.StepKeywordType.OUTCOME]: messages.PickleStepType.OUTCOME,
+    [messages.StepKeywordType.CONJUNCTION]: null
+}
+
 export default function compile(
   gherkinDocument: IGherkinDocument,
   uri: string,
@@ -104,14 +112,24 @@ function compileScenario(
   uri: string,
   newId: messages.IdGenerator.NewId
 ) {
-  const steps =
-    scenario.steps.length === 0
-      ? []
-      : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
+  let lastKeywordType = messages.StepKeywordType.UNKNOWN
+  const steps = [] as messages.PickleStep[]
+
+  if (scenario.steps.length !== 0) {
+    backgroundSteps.forEach((step) => {
+       lastKeywordType = (step.keywordType === messages.StepKeywordType.CONJUNCTION) ?
+         lastKeywordType : step.keywordType
+       steps.push(pickleStep(step, [], null, newId, lastKeywordType))
+    })
+  }
 
   const tags = [].concat(inheritedTags).concat(scenario.tags)
 
-  scenario.steps.forEach((step) => steps.push(pickleStep(step, [], null, newId)))
+  scenario.steps.forEach((step) => {
+    lastKeywordType = (step.keywordType === messages.StepKeywordType.CONJUNCTION) ?
+      lastKeywordType : step.keywordType
+     steps.push(pickleStep(step, [], null, newId, lastKeywordType))
+  })
 
   const pickle: messages.Pickle = {
     id: newId(),
@@ -139,13 +157,20 @@ function compileScenarioOutline(
     .forEach((examples) => {
       const variableCells = examples.tableHeader.cells
       examples.tableBody.forEach((valuesRow) => {
-        const steps =
-          scenario.steps.length === 0
-            ? []
-            : backgroundSteps.map((step) => pickleStep(step, [], null, newId))
+        let lastKeywordType = messages.StepKeywordType.UNKNOWN
+        const steps = [] as messages.PickleStep[]
+        if (scenario.steps.length !== 0) {
+          backgroundSteps.forEach((step) => {
+            lastKeywordType = (step.keywordType === messages.StepKeywordType.CONJUNCTION) ?
+              lastKeywordType : step.keywordType
+            steps.push(pickleStep(step, [], null, newId, lastKeywordType))
+          })
+        }
 
         scenario.steps.forEach((scenarioOutlineStep) => {
-          const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId)
+          lastKeywordType = (scenarioOutlineStep.keywordType === messages.StepKeywordType.CONJUNCTION) ?
+            lastKeywordType : scenarioOutlineStep.keywordType
+          const step = pickleStep(scenarioOutlineStep, variableCells, valuesRow, newId, lastKeywordType)
           steps.push(step)
         })
 
@@ -220,7 +245,8 @@ function pickleStep(
   step: messages.Step,
   variableCells: readonly messages.TableCell[],
   valuesRow: messages.TableRow | null,
-  newId: messages.IdGenerator.NewId
+  newId: messages.IdGenerator.NewId,
+  keywordType: messages.StepKeywordType
 ): messages.PickleStep {
   const astNodeIds = [step.id]
   if (valuesRow) {
@@ -231,6 +257,7 @@ function pickleStep(
   return {
     id: newId(),
     text: interpolate(step.text, variableCells, valueCells),
+    type: pickleStepTypeFromKeyword[keywordType],
     argument: createPickleArguments(step, variableCells, valueCells),
     astNodeIds: astNodeIds,
   }

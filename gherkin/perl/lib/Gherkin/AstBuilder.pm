@@ -169,12 +169,13 @@ sub transform_node {
         my $doc_string = $node->get_single('DocString') || undef;
 
         return Cucumber::Messages::Step->new(
-            id         => $self->next_id,
-            location   => $self->get_location($step_line),
-            keyword    => $step_line->matched_keyword,
-            text       => $step_line->matched_text,
-            doc_string => $doc_string,
-            data_table => $data_table,
+            id           => $self->next_id,
+            location     => $self->get_location($step_line),
+            keyword      => $step_line->matched_keyword,
+            keyword_type => $step_line->matched_keyword_type,
+            text         => $step_line->matched_text,
+            doc_string   => $doc_string,
+            data_table   => $data_table,
             );
     } elsif ( $node->rule_type eq 'DocString' ) {
         my $separator_token = $node->get_tokens('DocStringSeparator')->[0];

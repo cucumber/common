@@ -13,11 +13,30 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Changed
 
-* [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
-
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+## [24.0.0] - 2022-05-31
+
+### Added
+
+* [Java], [JavaScript], [PHP], [Perl], [Python], [Go], [C], [DotNet],
+  [Ruby] Support new messages keyword types fields an added
+  with [#1966](https://github.com/cucumber/common/pull/1966)
+  ([#1741](https://github.com/cucumber/common/pull/1741))
+
+### Changed
+
+* [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
+* [Go] the `gherkin.GherkinDialectsBuildin` id renamed to `gherkin.DialectsBuiltin`
+* [Go] the `gherkin.GherkinDialect` id renamed to `gherkin.Dialect`
+* [Go] the `gherkin.GherkinDialectProvider` id renamed to `gherkin.DialectProvider`
+* The `ne` (Nepali) `and` translation changed from `अनी ` to `अनि `
+* The `uz` (Uzbek) `given` translation changed from `Агар ` to `Belgilangan `
+* The `en-old` (Old English) `when` translation changed from `Tha ` / `Þa ` / `Ða ` to `Bæþsealf ` / `Bæþsealfa ` / `Bæþsealfe ` / `Ciricæw ` / `Ciricæwe ` / `Ciricæwa `
 
 ### Fixed
 
@@ -1099,7 +1118,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v24.0.0...main
+[24.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...gherkin/v24.0.0
 [23.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...gherkin/v23.0.1
 [23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0
 [22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0

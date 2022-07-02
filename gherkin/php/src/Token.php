@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\TokenType;
+use Cucumber\Messages\Step\KeywordType;
 
 final class Token
 {
@@ -43,6 +44,7 @@ final class Token
         GherkinDialect $gherkinDialect,
         int $indent,
         string $keyword,
+        KeywordType|null $keywordType,
         string $text,
         array $items,
     ): void {
@@ -51,6 +53,7 @@ final class Token
             $gherkinDialect,
             $indent,
             $keyword,
+            $keywordType,
             $text,
             $items,
             new Location($this->location->line, $indent + 1),
