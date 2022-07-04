@@ -19,6 +19,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
+
 ## [24.0.0] - 2022-05-31
 
 ### Added
