@@ -457,6 +457,19 @@ jobs:
             cd messages/php
             make
 
+  messages-php-bc:
+    executor: docker-cucumber-build
+    environment:
+      COMPOSER_FLAGS: --prefer-lowest
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: messages/php
+          command: |
+            cd messages/php
+            make
+
   gherkin-php:
     executor: docker-cucumber-build
     steps:
@@ -466,6 +479,21 @@ jobs:
           name: gherkin/php
           command: |
             cd gherkin/php
+            composer config --unset repo.0
+            make
+
+  gherkin-php-bc:
+    executor: docker-cucumber-build
+    environment:
+      COMPOSER_FLAGS: --prefer-lowest
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/php
+          command: |
+            cd gherkin/php
+            composer config --unset repo.0
             make
 
 ###
@@ -619,3 +647,12 @@ workflows:
           requires:
             - prepare-parallel
             - messages-php
+
+      - messages-php-bc:
+          requires:
+            - prepare-parallel
+
+      - gherkin-php-bc:
+          requires:
+            - prepare-parallel
+            - messages-php-bc

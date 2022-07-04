@@ -23,6 +23,7 @@ final class GherkinDialectProviderTest extends TestCase
         self::assertContains('en', $languages);
     }
 
+    /** @psalm-suppress RedundantCondition  */
     public function testItCanProvideADialectForKnownLanguage(): void
     {
         $dialect = $this->dialectProvider->getDialect('de', new Location(1, 1));
@@ -39,6 +40,7 @@ final class GherkinDialectProviderTest extends TestCase
         $this->dialectProvider->getDialect('xx', $location);
     }
 
+    /** @psalm-suppress RedundantCondition  */
     public function testItGetsADefaultDialectFromConstructorLanguage(): void
     {
         $this->dialectProvider = new GherkinDialectProvider('fr');
