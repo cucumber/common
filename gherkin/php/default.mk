@@ -15,8 +15,6 @@ define berp-generate-parser =
 berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
 endef
 
-COMPOSER_FLAGS = ${COMPOSER_FLAGS}
-
 ### Common targets for all functionalities implemented on php
 
 default: .tested
