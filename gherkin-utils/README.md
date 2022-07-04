@@ -24,7 +24,7 @@ This module can also be used as a library. It provides two main utilities, `pret
 
 ### pretty(gherkinDocument: messages.GherkinDocument, syntax: 'gherkin' | 'markdown')
 
-This function takes a GherkinDocument as input and returns a pretty-printed representatio in Gherkin or Markdown.
+This function takes a GherkinDocument as input and returns a pretty-printed representation in Gherkin or Markdown.
 
 ### GherkinDocumentWalker class
 
