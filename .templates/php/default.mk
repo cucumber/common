@@ -30,7 +30,7 @@ endif
 .PHONY: update-version
 
 update-dependencies:
-	composer update ${COMPOSER_FLAGS:-}
+	composer update ${COMPOSER_FLAGS}
 .PHONY: update-dependencies
 
 publish:
@@ -59,4 +59,4 @@ clean:
 	touch $@
 
 vendor: composer.json
-	composer update ${COMPOSER_FLAGS:-}
+	composer update ${COMPOSER_FLAGS}
