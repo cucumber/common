@@ -4656,6 +4656,7 @@ var builtinDialects = gherkinDialectMap{
 			},
 			rule: {
 				"Rule",
+				"规则",
 			},
 			background: {
 				"背景",
