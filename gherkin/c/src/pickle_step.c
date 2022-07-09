@@ -6,7 +6,7 @@
 
 static void delete_pickle_step_content(const PickleStep* pickle_step);
 
-const PickleStep* PickleStep_new(const PickleAstNodeIds* ast_node_ids, IdGenerator* id_generator, const wchar_t* text, const PickleArgument* argument) {
+const PickleStep* PickleStep_new(const PickleAstNodeIds* ast_node_ids, IdGenerator* id_generator, const wchar_t* text, const PickleStepType pickle_step_type, const PickleArgument* argument) {
     PickleStep* pickle_step = (PickleStep*)malloc(sizeof(PickleStep));
     pickle_step->ast_node_ids = ast_node_ids;
     pickle_step->id = id_generator->new_id(id_generator);
@@ -14,6 +14,7 @@ const PickleStep* PickleStep_new(const PickleAstNodeIds* ast_node_ids, IdGenerat
     if (text) {
         pickle_step->text = StringUtilities_copy_string(text);
     }
+    pickle_step->pickle_step_type = pickle_step_type;
     pickle_step->argument = argument;
     return pickle_step;
 }
@@ -33,6 +34,7 @@ void PickleStep_transfer(PickleStep* to_pickle_step, PickleStep* from_pickle_ste
     from_pickle_step->id = 0;
     to_pickle_step->text = from_pickle_step->text;
     from_pickle_step->text = 0;
+    to_pickle_step->pickle_step_type = from_pickle_step->pickle_step_type;
     to_pickle_step->argument = from_pickle_step->argument;
     from_pickle_step->argument = 0;
     PickleStep_delete(from_pickle_step);

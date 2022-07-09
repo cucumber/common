@@ -6,6 +6,7 @@
 #include "ast.h"
 #include "id_generator.h"
 #include "location.h"
+#include "keyword_type.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,6 +23,7 @@ typedef struct Step {
     Location location;
     const wchar_t* id;
     wchar_t* keyword;
+    KeywordType keyword_type;
     wchar_t* text;
     const StepArgument* argument;
 } Step;
@@ -31,7 +33,7 @@ typedef struct Steps {
     Step* steps;
 } Steps;
 
-const Step* Step_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* text, const StepArgument* argument);
+const Step* Step_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const KeywordType keyword_type, const wchar_t* text, const StepArgument* argument);
 
 void Step_delete(const Step* step);
 

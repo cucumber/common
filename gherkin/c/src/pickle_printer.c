@@ -11,6 +11,25 @@ static void print_id(FILE* file, const wchar_t* id) {
     fprintf(file, "\",");
 }
 
+static void print_pickle_step_type(FILE* file, const PickleStepType pickle_step_type) {
+    fprintf(file, "\"type\":\"");
+    switch (pickle_step_type) {
+    case Pickle_Step_Unknown:
+        fprintf(file, "Unknown");
+	break;
+    case Pickle_Step_Context:
+        fprintf(file, "Context");
+	break;
+    case Pickle_Step_Action:
+        fprintf(file, "Action");
+	break;
+    case Pickle_Step_Outcome:
+        fprintf(file, "Outcome");
+	break;
+    }
+    fprintf(file, "\"");
+}
+
 static void print_table_cell(FILE* file, const PickleCell* pickle_cell) {
     fprintf(file, "{\"value\": \"");
     if (pickle_cell->value && wcslen(pickle_cell->value) > 0) {
@@ -117,7 +136,9 @@ static void print_pickle_step(FILE* file, const PickleStep* step) {
     }
     fprintf(file, ",\"text\":\"");
     PrintUtilities_print_json_string(file, step->text);
-    fprintf(file, "\"}");
+    fprintf(file, "\",");
+    print_pickle_step_type(file, step->pickle_step_type);
+    fprintf(file, "}");
 }
 
 void PicklePrinter_print_pickle(FILE* file, const Pickle* pickle) {

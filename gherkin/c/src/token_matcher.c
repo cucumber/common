@@ -42,9 +42,9 @@ bool TokenMatcher_match_EOF(TokenMatcher* token_matcher, Token* token);
 
 static bool match_title_line(Token* token, TokenType matched_type, const Keywords* keywords);
 
-static bool match_step_keywords(Token* token, const Keywords* step_keywords);
+static bool match_step_keywords(Token* token, const KeywordType keyword_type, const Keywords* step_keywords);
 
-static void set_token_matched(Token* token, TokenType matched_type, const wchar_t* text, const wchar_t* keyword, int indent, const Items* cells);
+static void set_token_matched(Token* token, TokenType matched_type, const wchar_t* text, const wchar_t* keyword, const KeywordType keyword_type, int indent, const Items* cells);
 
 static bool match_DocStringSeparator(TokenMatcher* token_matcher, Token* token, const wchar_t* separator, bool is_open);
 
@@ -129,27 +129,41 @@ bool TokenMatcher_match_BackgroundLine(TokenMatcher* token_matcher, Token* token
 bool TokenMatcher_match_StepLine(TokenMatcher* token_matcher, Token* token) {
     if (!token || !token->line)
         return false;
-    bool result = match_step_keywords(token, token_matcher->dialect->given_keywords);
-    if (result)
-        return true;
-    result = match_step_keywords(token, token_matcher->dialect->when_keywords);
-    if (result)
-        return true;
-    result = match_step_keywords(token, token_matcher->dialect->then_keywords);
-    if (result)
-        return true;
-    result = match_step_keywords(token, token_matcher->dialect->and_keywords);
-    if (result)
-        return true;
-    result = match_step_keywords(token, token_matcher->dialect->but_keywords);
-    return result;
+    bool final_result = false;
+    bool keywords_result = match_step_keywords(token, Keyword_Context, token_matcher->dialect->given_keywords);
+    if (keywords_result) {
+        final_result = true;
+    }
+    keywords_result = match_step_keywords(token, Keyword_Action, token_matcher->dialect->when_keywords);
+    if (keywords_result) {
+        if (final_result) {
+	    token->matched_keyword_type = Keyword_Unknown;
+	}
+        final_result = true;
+    }
+    keywords_result = match_step_keywords(token, Keyword_Outcome, token_matcher->dialect->then_keywords);
+    if (keywords_result) {
+        if (final_result) {
+	    token->matched_keyword_type = Keyword_Unknown;
+	}
+        final_result = true;
+    }
+    bool and_result = match_step_keywords(token, Keyword_Conjunction, token_matcher->dialect->and_keywords);
+    bool but_result = match_step_keywords(token, Keyword_Conjunction, token_matcher->dialect->but_keywords);
+    if (and_result || but_result) {
+        if (final_result) {
+	    token->matched_keyword_type = Keyword_Unknown;
+	}
+        final_result = true;
+    }
+    return final_result;
 }
 
 bool TokenMatcher_match_Empty(TokenMatcher* token_matcher, Token* token) {
     if (!token || !token->line)
         return false;
     if (GherkinLine_is_empty(token->line)) {
-        set_token_matched(token, Token_Empty, 0, 0, -1, 0);
+        set_token_matched(token, Token_Empty, 0, 0, Keyword_Type_None, -1, 0);
         return true;
     }
     return false;
@@ -159,7 +173,7 @@ bool TokenMatcher_match_TableRow(TokenMatcher* token_matcher, Token* token) {
     if (!token || !token->line)
         return false;
     if (GherkinLine_start_with(token->line, L"|")) {
-        set_token_matched(token, Token_TableRow, 0, 0, -1, GherkinLine_table_cells(token->line));
+        set_token_matched(token, Token_TableRow, 0, 0, Keyword_Type_None, -1, GherkinLine_table_cells(token->line));
         return true;
     }
     return false;
@@ -170,7 +184,7 @@ bool TokenMatcher_match_Comment(TokenMatcher* token_matcher, Token* token) {
         return false;
     if (GherkinLine_start_with(token->line, L"#")) {
         wchar_t* text = GherkinLine_copy_line_text(token->line, 0);
-        set_token_matched(token, Token_Comment, text, 0, 0, 0);
+        set_token_matched(token, Token_Comment, text, 0, Keyword_Type_None, 0, 0);
         return true;
     }
     return false;
@@ -180,7 +194,7 @@ bool TokenMatcher_match_TagLine(TokenMatcher* token_matcher, Token* token) {
     if (!token || !token->line)
         return false;
     if (GherkinLine_start_with(token->line, L"@")) {
-        set_token_matched(token, Token_TagLine, 0, 0, -1, GherkinLine_tags(token->line));
+        set_token_matched(token, Token_TagLine, 0, 0, Keyword_Type_None, -1, GherkinLine_tags(token->line));
         return true;
     }
     return false;
@@ -192,7 +206,7 @@ bool TokenMatcher_match_Language(TokenMatcher* token_matcher, Token* token) {
     if (GherkinLine_start_with(token->line, L"#")) {
         if (GherkinLine_is_language_line(token->line)) {
             const wchar_t* language = GherkinLine_get_language(token->line);
-            set_token_matched(token, Token_Language, language, 0, -1, 0);
+            set_token_matched(token, Token_Language, language, 0, Keyword_Type_None, -1, 0);
             change_dialect(token_matcher, language, &token->location);
             return true;
         }
@@ -204,7 +218,7 @@ bool TokenMatcher_match_Other(TokenMatcher* token_matcher, Token* token) {
     if (!token || !token->line)
         return false;
     wchar_t* text = GherkinLine_copy_line_text(token->line, token_matcher->indent_to_remove);
-    set_token_matched(token, Token_Other, unescaped_docstring(token_matcher, text), 0, 0, 0);
+    set_token_matched(token, Token_Other, unescaped_docstring(token_matcher, text), 0, Keyword_Type_None, 0, 0);
     return true;
 }
 
@@ -212,7 +226,7 @@ bool TokenMatcher_match_EOF(TokenMatcher* token_matcher, Token* token) {
     if (!token)
         return false;
     if (!token->line) {
-        set_token_matched(token, Token_EOF, 0, 0, -1, 0);
+        set_token_matched(token, Token_EOF, 0, 0, Keyword_Type_None, -1, 0);
         return true;
     }
     return false;
@@ -240,7 +254,7 @@ static bool match_DocStringSeparator(TokenMatcher* token_matcher, Token* token, 
             token_matcher->active_doc_string_separator = 0;
             token_matcher->indent_to_remove = 0;
         }
-        set_token_matched(token, Token_DocStringSeparator, media_type, separator, -1, 0);
+        set_token_matched(token, Token_DocStringSeparator, media_type, separator, Keyword_Type_None, -1, 0);
         return true;
     }
     return false;
@@ -253,32 +267,33 @@ static bool match_title_line(Token* token, TokenType matched_type, const Keyword
     for (i = 0; i < keywords->count; ++i) {
         if (GherkinLine_start_with_title_keyword(token->line, keywords->keywords[i])) {
             wchar_t* title = GherkinLine_copy_rest_trimmed(token->line, wcslen(keywords->keywords[i]) + 1);
-            set_token_matched(token, matched_type, title, keywords->keywords[i], -1, 0);
+            set_token_matched(token, matched_type, title, keywords->keywords[i], Keyword_Type_None, -1, 0);
             return true;
         }
     }
     return false;
 }
 
-static bool match_step_keywords(Token* token, const Keywords* step_keywords) {
+static bool match_step_keywords(Token* token, const KeywordType keyword_type, const Keywords* step_keywords) {
     int i;
     for (i = 0; i < step_keywords->count; ++i) {
         if (GherkinLine_start_with(token->line, step_keywords->keywords[i])) {
             wchar_t* title = GherkinLine_copy_rest_trimmed(token->line, wcslen(step_keywords->keywords[i]));
-            set_token_matched(token, Token_StepLine, title, step_keywords->keywords[i], -1, 0);
+            set_token_matched(token, Token_StepLine, title, step_keywords->keywords[i], keyword_type, -1, 0);
             return true;
         }
     }
     return false;
 }
 
-static void set_token_matched(Token* token, TokenType matched_type, const wchar_t* text, const wchar_t* keyword, int indent, const Items* cells) {
+static void set_token_matched(Token* token, TokenType matched_type, const wchar_t* text, const wchar_t* keyword, const KeywordType keyword_type, int indent, const Items* cells) {
     token->matched_type = matched_type;
     if (token->matched_text) {
         free((void*)token->matched_text);
     }
     token->matched_text = text;
     token->matched_keyword = keyword;
+    token->matched_keyword_type = keyword_type;
     if (indent != -1)
         token->location.column = indent + 1;
     else if (token && token->line)

@@ -6,7 +6,7 @@
 
 static void delete_step_content(const Step* step);
 
-const Step* Step_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* text, const StepArgument* argument) {
+const Step* Step_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const KeywordType keyword_type, const wchar_t* text, const StepArgument* argument) {
     Step* step = (Step*)malloc(sizeof(Step));
     step->step_delete = (item_delete_function)Step_delete;
     step->type = Gherkin_Step;
@@ -16,6 +16,7 @@ const Step* Step_new(Location location, IdGenerator* id_generator, const wchar_t
     if (keyword) {
         step->keyword = StringUtilities_copy_string(keyword);
     }
+    step->keyword_type = keyword_type;
     if (text) {
         step->text = StringUtilities_copy_string(text);
     }
@@ -39,6 +40,7 @@ void Step_transfer(Step* to_step, Step* from_step) {
     from_step->id = 0;
     to_step->keyword = from_step->keyword;
     from_step->keyword = 0;
+    to_step->keyword_type = from_step->keyword_type;
     to_step->text = from_step->text;
     from_step->text = 0;
     to_step->argument = from_step->argument;

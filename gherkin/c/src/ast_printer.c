@@ -94,6 +94,31 @@ static void print_keyword(FILE* file, const wchar_t* keyword) {
     fprintf(file, "\",");
 }
 
+static void print_keyword_type(FILE* file, const KeywordType keyword_type) {
+    fprintf(file, "\"keywordType\":\"");
+    switch (keyword_type) {
+    case Keyword_Type_None:
+        fprintf(file, "None");
+	break;
+    case Keyword_Unknown:
+        fprintf(file, "Unknown");
+	break;
+    case Keyword_Context:
+        fprintf(file, "Context");
+	break;
+    case Keyword_Action:
+        fprintf(file, "Action");
+	break;
+    case Keyword_Outcome:
+        fprintf(file, "Outcome");
+	break;
+    case Keyword_Conjunction:
+        fprintf(file, "Conjunction");
+	break;
+    }
+    fprintf(file, "\",");
+}
+
 static void print_text(FILE* file, const wchar_t* text) {
     fprintf(file, "\"text\":\"");
     PrintUtilities_print_json_string(file, text);
@@ -104,6 +129,7 @@ static void print_step(FILE* file, const Step* step) {
     fprintf(file, "{");
     print_id(file, step->id);
     print_keyword(file, step->keyword);
+    print_keyword_type(file, step->keyword_type);
     print_text(file, step->text);
     print_location(file, &step->location);
     if (step->argument) {

@@ -36,11 +36,13 @@ static const PickleTags* create_pickle_tags(const Tags* source_1, const Tags* so
 
 static void copy_tags(PickleTag* destination_array, const Tags* source);
 
-static void copy_steps(IdGenerator* id_generator, PickleStep* destination_array, const Steps* source);
+static void copy_step(IdGenerator* id_generator, KeywordType keyword_type, PickleStep* destination_array, const Step* source_step);
 
-static const PickleStep* expand_outline_step(IdGenerator* id_generator, const Step* outline_step, const TableRow* example_header, const TableRow* body_row, const PickleAstNodeIds* ast_node_ids);
+static const PickleStep* expand_outline_step(IdGenerator* id_generator, const Step* outline_step, const TableRow* example_header, const TableRow* body_row, const PickleAstNodeIds* ast_node_ids, KeywordType keyword_type);
 
 static const wchar_t* create_expanded_text(const wchar_t* original_text, const TableRow* example_header, const TableRow* body_row);
+
+static PickleStepType convert_to_pickle_step_type(const KeywordType keyword_type);
 
 static void ReplacementItem_delete(ReplacementItem* item);
 
@@ -95,15 +97,34 @@ static void compile_scenario_container(Compiler* compiler, const ChildDefinition
                     steps->step_count = 0;
                     steps->steps = 0;
                 } else {
+		    KeywordType last_keyword_type = Keyword_Unknown;
                     steps->step_count = scenario->steps->step_count + context_background_step_count + background_step_count;
                     steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
                     if (context_background_steps) {
-                        copy_steps(compiler->id_generator, steps->steps, context_background_steps);
+		        int j;
+                        for (j = 0; j < context_background_steps->step_count; ++j) {
+			    if (context_background_steps->steps[j].keyword_type != Keyword_Conjunction) {
+			        last_keyword_type = context_background_steps->steps[j].keyword_type;
+			    }
+                            copy_step(compiler->id_generator, last_keyword_type, &steps->steps[j], &context_background_steps->steps[j]); 
+		        }
                     }
                     if (background_steps) {
-                        copy_steps(compiler->id_generator, steps->steps + context_background_step_count, background_steps);
+		        int j;
+                        for (j = 0; j < background_steps->step_count; ++j) {
+			    if (background_steps->steps[j].keyword_type != Keyword_Conjunction) {
+			        last_keyword_type = background_steps->steps[j].keyword_type;
+			    }
+                            copy_step(compiler->id_generator, last_keyword_type, &steps->steps[context_background_step_count + j], &background_steps->steps[j]); 
+		        }
                     }
-                    copy_steps(compiler->id_generator, steps->steps + context_background_step_count + background_step_count, scenario->steps);
+		    int j;
+		    for (j = 0; j < scenario->steps->step_count; ++j) {
+		        if (scenario->steps->steps[j].keyword_type != Keyword_Conjunction) {
+			    last_keyword_type = scenario->steps->steps[j].keyword_type;
+			}
+			copy_step(compiler->id_generator, last_keyword_type, &steps->steps[context_background_step_count + background_step_count + j], &scenario->steps->steps[j]); 
+		    }
                 }
                 ItemQueue_add(compiler->pickle_list, (Item*)Pickle_new(compiler->id_generator, uri, language, ast_node_ids, tags, scenario->name, steps));
             }
@@ -124,18 +145,34 @@ static void compile_scenario_container(Compiler* compiler, const ChildDefinition
                             steps->step_count = 0;
                             steps->steps = 0;
                         } else {
+			    KeywordType last_keyword_type = Keyword_Unknown;
                             steps->step_count = scenario->steps->step_count + context_background_step_count + background_step_count;
                             steps->steps = (PickleStep*)malloc(steps->step_count * sizeof(PickleStep));
-                            if (context_background_steps) {
-                                copy_steps(compiler->id_generator, steps->steps, context_background_steps);
-                            }
-                            if (background_steps) {
-                                copy_steps(compiler->id_generator, steps->steps + context_background_step_count, background_steps);
-                            }
+			    if (context_background_steps) {
+			        int j;
+				for (j = 0; j < context_background_steps->step_count; ++j) {
+				    if (context_background_steps->steps[j].keyword_type != Keyword_Conjunction) {
+				        last_keyword_type = context_background_steps->steps[j].keyword_type;
+				    }
+				    copy_step(compiler->id_generator, last_keyword_type, &steps->steps[j], &context_background_steps->steps[j]); 
+				}
+			    }
+			    if (background_steps) {
+			        int j;
+				for (j = 0; j < background_steps->step_count; ++j) {
+				    if (background_steps->steps[j].keyword_type != Keyword_Conjunction) {
+				      last_keyword_type = background_steps->steps[j].keyword_type;
+				    }
+				    copy_step(compiler->id_generator, last_keyword_type, &steps->steps[context_background_step_count + j], &background_steps->steps[j]); 
+				}
+			    }
                             int j;
                             for (j = 0; j < scenario->steps->step_count; ++j) {
+			        if (scenario->steps->steps[j].keyword_type != Keyword_Conjunction) {
+				    last_keyword_type = scenario->steps->steps[j].keyword_type;
+				}
                                 const PickleAstNodeIds* step_ast_node_ids = PickleAstNodeIds_new_double(scenario->steps->steps[j].id, table_row->id);
-                                const PickleStep* step = expand_outline_step(compiler->id_generator, &scenario->steps->steps[j], example_table->table_header, table_row, step_ast_node_ids);
+                                const PickleStep* step = expand_outline_step(compiler->id_generator, &scenario->steps->steps[j], example_table->table_header, table_row, step_ast_node_ids, last_keyword_type);
                                 PickleStep_transfer(&steps->steps[context_background_step_count + background_step_count + j], (PickleStep*)step);
                             }
                         }
@@ -262,19 +299,18 @@ static void copy_tags(PickleTag* destination_array, const Tags* source) {
     }
 }
 
-static void copy_steps(IdGenerator* id_generator, PickleStep* destination_array, const Steps* source) {
-    int i;
-    for (i = 0; i < source->step_count; ++i) {
-        const PickleAstNodeIds* step_ast_node_ids = PickleAstNodeIds_new_single(source->steps[i].id);
-        const PickleArgument* argument = create_pickle_argument(source->steps[i].argument, 0, 0);
-        const PickleStep* step = PickleStep_new(step_ast_node_ids, id_generator, source->steps[i].text, argument);
-        PickleStep_transfer(destination_array + i, (PickleStep*)step);
-    }
+static void copy_step(IdGenerator* id_generator, KeywordType keyword_type, PickleStep* destination_array, const Step* source_step) {
+    PickleStepType pickle_step_type = convert_to_pickle_step_type(keyword_type);
+    const PickleAstNodeIds* step_ast_node_ids = PickleAstNodeIds_new_single(source_step->id);
+    const PickleArgument* argument = create_pickle_argument(source_step->argument, 0, 0);
+    const PickleStep* step = PickleStep_new(step_ast_node_ids, id_generator, source_step->text, pickle_step_type, argument);
+    PickleStep_transfer(destination_array, (PickleStep*)step);
 }
 
-static const PickleStep* expand_outline_step(IdGenerator* id_generator, const Step* outline_step, const TableRow* example_header, const TableRow* body_row, const PickleAstNodeIds* ast_node_ids) {
+static const PickleStep* expand_outline_step(IdGenerator* id_generator, const Step* outline_step, const TableRow* example_header, const TableRow* body_row, const PickleAstNodeIds* ast_node_ids, KeywordType keyword_type) {
+    PickleStepType pickle_step_type = convert_to_pickle_step_type(keyword_type);
     const wchar_t* expanded_step_text = create_expanded_text(outline_step->text, example_header, body_row);
-    const PickleStep* expanded_step = PickleStep_new(ast_node_ids, id_generator, expanded_step_text, create_pickle_argument(outline_step->argument, example_header, body_row));
+    const PickleStep* expanded_step = PickleStep_new(ast_node_ids, id_generator, expanded_step_text, pickle_step_type, create_pickle_argument(outline_step->argument, example_header, body_row));
     free((void*)expanded_step_text);
     return expanded_step;
 }
@@ -333,6 +369,24 @@ static const wchar_t* create_expanded_text(const wchar_t* original_text, const T
     }
     ItemQueue_delete(replacement_list);
     return text;
+}
+
+static PickleStepType convert_to_pickle_step_type(const KeywordType keyword_type) {
+    PickleStepType pickle_step_type = Pickle_Step_Unknown;
+    switch(keyword_type) {
+    case Keyword_Context:
+        pickle_step_type = Pickle_Step_Context;
+        break;
+    case Keyword_Action:
+        pickle_step_type = Pickle_Step_Action;
+        break;
+    case Keyword_Outcome:
+        pickle_step_type = Pickle_Step_Outcome;
+        break;
+    default:
+        pickle_step_type = Pickle_Step_Unknown;
+    }
+    return pickle_step_type;
 }
 
 static void ReplacementItem_delete(ReplacementItem* item) {
