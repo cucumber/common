@@ -5,6 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "inlineSources": true,
     "target": "es6",
     "module": "commonjs"
   },
