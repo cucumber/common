@@ -22,14 +22,14 @@
 - (BOOL)empty;
 
 /// <summary>
-/// Determines whether the beginning of the line (wihtout whitespaces) matches a specified string.
+/// Determines whether the beginning of the line (without whitespaces) matches a specified string.
 /// </summary>
 /// <param name="theText">The string to compare. </param>
 /// <returns>YES if text matches the beginning of this line; otherwise, NO.</returns>
 - (BOOL)hasPrefix:(NSString *)theText;
 
 /// <summary>
-/// Determines whether the beginning of the line (wihtout whitespaces) matches a specified title keyword (ie. a keyword followed by a ':' character).
+/// Determines whether the beginning of the line (without whitespaces) matches a specified title keyword (ie. a keyword followed by a ':' character).
 /// </summary>
 /// <param name="theKeyword">The keyword to compare. </param>
 /// <returns>YES if keyword matches the beginning of this line and followed by a ':' character; otherwise, NO.</returns>
@@ -50,7 +50,7 @@
 - (NSString *)trimmedRest:(NSUInteger)theLength;
 
 /// <summary>
-/// Tries parsing the line as a tag list, and returns the tags wihtout the leading '@' characters.
+/// Tries parsing the line as a tag list, and returns the tags without the leading '@' characters.
 /// </summary>
 /// <returns>(position,text) pairs, position is 0-based index</returns>
 - (NSArray<GHGherkinLineSpan *> *)tags;

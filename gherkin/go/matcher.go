@@ -8,38 +8,38 @@ import (
 )
 
 const (
-	DEFAULT_DIALECT                 = "en"
-	COMMENT_PREFIX                  = "#"
-	TAG_PREFIX                      = "@"
-	TITLE_KEYWORD_SEPARATOR         = ":"
-	TABLE_CELL_SEPARATOR            = '|'
-	ESCAPE_CHAR                     = '\\'
-	ESCAPED_NEWLINE                 = 'n'
-	DOCSTRING_SEPARATOR             = "\"\"\""
-	DOCSTRING_ALTERNATIVE_SEPARATOR = "```"
+	DefaultDialect                = "en"
+	CommentPrefix                 = "#"
+	TagPrefix                     = "@"
+	TitleKeywordSeparator         = ":"
+	TableCellSeparator            = '|'
+	EscapeChar                    = '\\'
+	EscapedNewline                = 'n'
+	DocstringSeparator            = "\"\"\""
+	DocstringAlternativeSeparator = "```"
 )
 
 type matcher struct {
-	gdp                      GherkinDialectProvider
+	gdp                      DialectProvider
 	defaultLang              string
 	lang                     string
-	dialect                  *GherkinDialect
+	dialect                  *Dialect
 	activeDocStringSeparator string
 	indentToRemove           int
 	languagePattern          *regexp.Regexp
 }
 
-func NewMatcher(gdp GherkinDialectProvider) Matcher {
+func NewMatcher(gdp DialectProvider) Matcher {
 	return &matcher{
 		gdp:             gdp,
-		defaultLang:     DEFAULT_DIALECT,
-		lang:            DEFAULT_DIALECT,
-		dialect:         gdp.GetDialect(DEFAULT_DIALECT),
+		defaultLang:     DefaultDialect,
+		lang:            DefaultDialect,
+		dialect:         gdp.GetDialect(DefaultDialect),
 		languagePattern: regexp.MustCompile("^\\s*#\\s*language\\s*:\\s*([a-zA-Z\\-_]+)\\s*$"),
 	}
 }
 
-func NewLanguageMatcher(gdp GherkinDialectProvider, language string) Matcher {
+func NewLanguageMatcher(gdp DialectProvider, language string) Matcher {
 	return &matcher{
 		gdp:             gdp,
 		defaultLang:     language,
@@ -83,7 +83,7 @@ func (m *matcher) MatchEmpty(line *Line) (ok bool, token *Token, err error) {
 }
 
 func (m *matcher) MatchComment(line *Line) (ok bool, token *Token, err error) {
-	if line.StartsWith(COMMENT_PREFIX) {
+	if line.StartsWith(CommentPrefix) {
 		token, ok = m.newTokenAtLocation(line.LineNumber, 0), true
 		token.Type = TokenTypeComment
 		token.Text = line.LineText
@@ -92,15 +92,15 @@ func (m *matcher) MatchComment(line *Line) (ok bool, token *Token, err error) {
 }
 
 func (m *matcher) MatchTagLine(line *Line) (ok bool, token *Token, err error) {
-	if !line.StartsWith(TAG_PREFIX) {
+	if !line.StartsWith(TagPrefix) {
 		return
 	}
-	commentDelimiter := regexp.MustCompile(`\s+` + COMMENT_PREFIX)
+	commentDelimiter := regexp.MustCompile(`\s+` + CommentPrefix)
 	uncommentedLine := commentDelimiter.Split(line.TrimmedLineText, 2)[0]
 	var tags []*LineSpan
 	var column = line.Indent() + 1
 
-	splits := strings.Split(uncommentedLine, TAG_PREFIX)
+	splits := strings.Split(uncommentedLine, TagPrefix)
 	for i := range splits {
 		txt := strings.TrimRightFunc(splits[i], func(r rune) bool {
 			return unicode.IsSpace(r)
@@ -114,7 +114,7 @@ func (m *matcher) MatchTagLine(line *Line) (ok bool, token *Token, err error) {
 			err = &parseError{msg, location}
 			break
 		}
-		tags = append(tags, &LineSpan{column, TAG_PREFIX + txt})
+		tags = append(tags, &LineSpan{column, TagPrefix + txt})
 		column = column + utf8.RuneCountInString(splits[i]) + 1
 	}
 
@@ -128,7 +128,7 @@ func (m *matcher) MatchTagLine(line *Line) (ok bool, token *Token, err error) {
 func (m *matcher) matchTitleLine(line *Line, tokenType TokenType, keywords []string) (ok bool, token *Token, err error) {
 	for i := range keywords {
 		keyword := keywords[i]
-		if line.StartsWith(keyword + TITLE_KEYWORD_SEPARATOR) {
+		if line.StartsWith(keyword + TitleKeywordSeparator) {
 			token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
 			token.Type = tokenType
 			token.Keyword = keyword
@@ -167,6 +167,7 @@ func (m *matcher) MatchStepLine(line *Line) (ok bool, token *Token, err error) {
 			token, ok = m.newTokenAtLocation(line.LineNumber, line.Indent()), true
 			token.Type = TokenTypeStepLine
 			token.Keyword = keyword
+			token.KeywordType = m.dialect.StepKeywordType(keyword)
 			token.Text = strings.Trim(line.TrimmedLineText[len(keyword):], " ")
 			return
 		}
@@ -187,10 +188,10 @@ func (m *matcher) MatchDocStringSeparator(line *Line) (ok bool, token *Token, er
 		}
 		return
 	}
-	if line.StartsWith(DOCSTRING_SEPARATOR) {
-		m.activeDocStringSeparator = DOCSTRING_SEPARATOR
-	} else if line.StartsWith(DOCSTRING_ALTERNATIVE_SEPARATOR) {
-		m.activeDocStringSeparator = DOCSTRING_ALTERNATIVE_SEPARATOR
+	if line.StartsWith(DocstringSeparator) {
+		m.activeDocStringSeparator = DocstringSeparator
+	} else if line.StartsWith(DocstringAlternativeSeparator) {
+		m.activeDocStringSeparator = DocstringAlternativeSeparator
 	}
 	if m.activeDocStringSeparator != "" {
 		// open
@@ -210,7 +211,7 @@ func isSpaceAndNotNewLine(r rune) bool {
 
 func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 	var firstChar, firstPos = utf8.DecodeRuneInString(line.TrimmedLineText)
-	if firstChar == TABLE_CELL_SEPARATOR {
+	if firstChar == TableCellSeparator {
 		var cells []*LineSpan
 		var cell []rune
 		var startCol = line.Indent() + 2 // column where the current cell started
@@ -218,7 +219,7 @@ func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 		for i, w, col := firstPos, 0, startCol; i < len(line.TrimmedLineText); i += w {
 			var char rune
 			char, w = utf8.DecodeRuneInString(line.TrimmedLineText[i:])
-			if char == TABLE_CELL_SEPARATOR {
+			if char == TableCellSeparator {
 				// append current cell
 				txt := string(cell)
 
@@ -229,16 +230,16 @@ func (m *matcher) MatchTableRow(line *Line) (ok bool, token *Token, err error) {
 				// start building next
 				cell = make([]rune, 0)
 				startCol = col + 1
-			} else if char == ESCAPE_CHAR {
+			} else if char == EscapeChar {
 				// skip this character but count the column
 				i += w
 				col++
 				char, w = utf8.DecodeRuneInString(line.TrimmedLineText[i:])
-				if char == ESCAPED_NEWLINE {
+				if char == EscapedNewline {
 					cell = append(cell, '\n')
 				} else {
-					if char != TABLE_CELL_SEPARATOR && char != ESCAPE_CHAR {
-						cell = append(cell, ESCAPE_CHAR)
+					if char != TableCellSeparator && char != EscapeChar {
+						cell = append(cell, EscapeChar)
 					}
 					cell = append(cell, char)
 				}
@@ -290,11 +291,11 @@ func (m *matcher) MatchOther(line *Line) (ok bool, token *Token, err error) {
 }
 
 func (m *matcher) unescapeDocString(text string) string {
-	if m.activeDocStringSeparator == DOCSTRING_SEPARATOR {
-		return strings.Replace(text, "\\\"\\\"\\\"", DOCSTRING_SEPARATOR, -1)
+	if m.activeDocStringSeparator == DocstringSeparator {
+		return strings.Replace(text, "\\\"\\\"\\\"", DocstringSeparator, -1)
 	}
-	if m.activeDocStringSeparator == DOCSTRING_ALTERNATIVE_SEPARATOR {
-		return strings.Replace(text, "\\`\\`\\`", DOCSTRING_ALTERNATIVE_SEPARATOR, -1)
+	if m.activeDocStringSeparator == DocstringAlternativeSeparator {
+		return strings.Replace(text, "\\`\\`\\`", DocstringAlternativeSeparator, -1)
 	}
 	return text
 }

@@ -45,8 +45,11 @@ if (str_contains($dependencyString, $newDependency)) {
     $newDependency = '';
 }
 
-// '||' is OR
-$newDependencyString = $dependencyString . '||' .$newDependency;
+$newDependencyString = $dependencyString;
+if ($newDependency !== '') {
+    // '||' is OR
+    $newDependencyString = $dependencyString . '||' .$newDependency;
+}
 
 $json['require']['cucumber/messages'] = $newDependencyString;
 

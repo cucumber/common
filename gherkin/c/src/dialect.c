@@ -3449,7 +3449,7 @@ static const Keywords zh_CN_feature_keywords = { 1, zh_CN_feature_KEYWORDS };
 static const wchar_t* const zh_CN_given_KEYWORDS[] = { L"* ", L"假如", L"假设", L"假定" };
 static const Keywords zh_CN_given_keywords = { 4, zh_CN_given_KEYWORDS };
 
-static const wchar_t* const zh_CN_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const zh_CN_rule_KEYWORDS[] = { L"Rule", L"规则" };
 static const Keywords zh_CN_rule_keywords = { 1, zh_CN_rule_KEYWORDS };
 
 static const wchar_t* const zh_CN_scenario_KEYWORDS[] = { L"场景", L"剧本" };

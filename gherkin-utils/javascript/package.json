@@ -1,6 +1,6 @@
 {
   "name": "@cucumber/gherkin-utils",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "Various Gherkin utilities",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -25,20 +25,20 @@
   },
   "homepage": "https://github.com/cucumber/cucumber",
   "devDependencies": {
-    "@cucumber/gherkin": "^23.0.1",
+    "@cucumber/gherkin": "^24.0.0",
     "@cucumber/gherkin-streams": "^5.0.1",
-    "@cucumber/message-streams": "^4.0.0",
+    "@cucumber/message-streams": "^4.0.1",
     "@types/mocha": "9.1.1",
-    "@types/node": "16.11.36",
+    "@types/node": "16.11.45",
     "fast-glob": "3.2.11",
     "mocha": "10.0.0",
-    "ts-node": "10.8.0",
-    "typescript": "4.6.4"
+    "ts-node": "10.9.1",
+    "typescript": "4.7.4"
   },
   "dependencies": {
-    "@cucumber/messages": "^18.0.0",
+    "@cucumber/messages": "^19.1.2",
     "@teppeis/multimaps": "2.0.0",
-    "commander": "9.2.0"
+    "commander": "9.4.0"
   },
   "directories": {
     "test": "test"

@@ -9,18 +9,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Expand the messages protocol with keyword types ([#1966](https://github.com/cucumber/common/pull/1966))
-
 ### Changed
-
-* [Java] the `PickleStep` constructor has changed - it now needs an extra `PickleStepType` argument.
-* [Java] the `Step` constructor has changed - it now needs an extra `StepKeywordType` argument.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [19.1.2] - 2022-06-22
+
+### Fixed
+
+* [Javascript] Schema was still missing in 19.1.1 due to how npm manages the files attribute in package.json
+  ([PR#2020](https://github.com/cucumber/common/pull/2020))
+
+## [19.1.1] - 2022-06-22
+
+### Fixed
+
+* [Javascript] Schema are actually missing from 19.1.0
+  ([PR#2016](https://github.com/cucumber/common/pull/2016))
+
+## [19.1.0] - 2022-06-20
+
+### Added
+
+* [Javascript] Adding the json schemas of the messages to the NPM package
+  ([PR#2010](https://github.com/cucumber/common/pull/2010))
+
+## [19.0.0] - 2022-05-31
+
+### Added
+
+* Expand the messages protocol with keyword types ([#1966](https://github.com/cucumber/common/pull/1966))
+
+### Changed
+
+* [Java] the `PickleStep` constructor has changed - it now needs an extra `PickleStepType` argument.
+* [Java] the `Step` constructor has changed - it now needs an extra `StepKeywordType` argument.
 
 ## [18.0.0] - 2022-03-24
 
@@ -594,7 +621,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v18.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.2...main
+[19.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.1...messages/v19.1.2
+[19.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.0...messages/v19.1.1
+[19.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v19.0.0...messages/v19.1.0
+[19.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v18.0.0...messages/v19.0.0
 [18.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.1...messages/v18.0.0
 [17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
 [17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0

@@ -6,6 +6,7 @@ namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\TokenMatcherInterface;
 use Cucumber\Gherkin\Parser\TokenType;
+use Cucumber\Messages\Step\KeywordType;
 use PhpCsFixer\Fixer\Operator\TernaryToElvisOperatorFixer;
 use PHPUnit\Framework\TestCase;
 
@@ -178,6 +179,7 @@ final class TokenMatcherTest extends TestCase
         self::assertTrue($this->tokenMatcher->match_StepLine($token));
         self::assertSame(TokenType::StepLine, $token->match?->tokenType);
         self::assertSame('Given ', $token->match?->keyword);
+        self::assertSame(KeywordType::CONTEXT, $token->match?->keywordType);
         self::assertSame('I have a cucumber', $token->match?->text);
     }
 

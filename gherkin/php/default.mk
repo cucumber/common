@@ -15,7 +15,6 @@ define berp-generate-parser =
 berp -g $(BERP_GRAMMAR) -t $< -o $@ --noBOM
 endef
 
-
 ### Common targets for all functionalities implemented on php
 
 default: .tested
@@ -31,7 +30,7 @@ endif
 .PHONY: update-version
 
 update-dependencies:
-	composer update
+	composer update ${COMPOSER_FLAGS}
 .PHONY: update-dependencies
 
 publish:
@@ -60,4 +59,4 @@ clean:
 	touch $@
 
 vendor: composer.json
-	composer install
+	composer update ${COMPOSER_FLAGS}

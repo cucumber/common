@@ -7,7 +7,8 @@ use Class::XSAccessor
   constructor => 'new',
   accessors   => [
     qw/line location/,
-    map { "matched_$_" } qw/type keyword indent items text gherkin_dialect/
+    map { "matched_$_" } qw/type keyword keyword_type
+      indent items text gherkin_dialect/
   ],
   ;
 

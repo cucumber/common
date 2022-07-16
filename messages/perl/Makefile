@@ -15,7 +15,7 @@ lib/Cucumber/Messages.pm: $(JSONSCHEMAS) ../jsonschema/scripts/codegen.rb ../jso
 	ruby ../jsonschema/scripts/codegen.rb Perl ../jsonschema perl.pm.erb > $@
 
 clean:
-	rm -rf Cucumber-* .cpanfile_dependencies .built CHANGELOG.md
+	rm -rf .built CHANGELOG.md
 
 clobber: clean
 	rm -f lib/Cucumber/Messages.pm

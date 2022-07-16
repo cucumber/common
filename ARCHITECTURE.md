@@ -19,7 +19,7 @@ In order of importance / relevance to most contributors (hopefully):
 * `cucumber-expressions` - parser for Cucumber's Regular Expressions alternative
 * `messages` - data structures for Cucumber Open's internal data model
 * `datatable` - library for manipulating data in a data table. Used in Cucumber step definitions.
-  * The Ruby and JavaScript implementations currently live in cucumber-ruby and cucumber-js respoectively. They will stay there until the implementations
+  * The Ruby and JavaScript implementations currently live in cucumber-ruby and cucumber-js respectively. They will stay there until the implementations
   have the same structure.
 * `html-formatter` - HTML report generator used by multiple Cucumber Open implementations
 * `react` - React components for rendering Gherkin Document and Cucumber results (represented as `messages`).
@@ -32,7 +32,4 @@ In order of importance / relevance to most contributors (hopefully):
 ## Miscellaneous Components
 
 * `fake-cucumber` - a light Cucumber implementation written in TypeScript - used primarily
-  for development and testing. Also used as basis for `json-to-messages`.
-* `compatibility-kit` - test data used by multiple Cucumber Open implementations' acceptance tests.
-* `json-formatter` - converts `messages` to the legacy JSON format.
-* `json-to-messages` - converts legacy Cucumber JSON reports to the newer `messages` format. Allows older Cucumber versions to co-exist with newer tooling based on messages.
+  for development and testing.

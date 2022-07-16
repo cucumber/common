@@ -1,25 +1,28 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Gherkin
 {
     public class GherkinDialect
     {
-        public string Language { get; private set; }
+        public const string AsteriskKeyword = "* ";
+        public string Language { get; }
 
-        public string[] FeatureKeywords { get; private set; }
-        public string[] RuleKeywords { get; private set; }
-        public string[] BackgroundKeywords { get; private set; }
-        public string[] ScenarioKeywords { get; private set; }
-        public string[] ScenarioOutlineKeywords { get; private set; }
-        public string[] ExamplesKeywords { get; private set; }
-        public string[] GivenStepKeywords { get; private set; }
-        public string[] WhenStepKeywords { get; private set; }
-        public string[] ThenStepKeywords { get; private set; }
-        public string[] AndStepKeywords { get; private set; }
-        public string[] ButStepKeywords { get; private set; }
+        public string[] FeatureKeywords { get; }
+        public string[] RuleKeywords { get; }
+        public string[] BackgroundKeywords { get; }
+        public string[] ScenarioKeywords { get; }
+        public string[] ScenarioOutlineKeywords { get; }
+        public string[] ExamplesKeywords { get; }
+        public string[] GivenStepKeywords { get; }
+        public string[] WhenStepKeywords { get; }
+        public string[] ThenStepKeywords { get; }
+        public string[] AndStepKeywords { get; }
+        public string[] ButStepKeywords { get; }
 
 
-        public string[] StepKeywords { get; private set; }
+        public string[] StepKeywords { get; }
+        public IDictionary<string, StepKeywordType> StepKeywordTypes { get; }
 
         public GherkinDialect(
             string language,
@@ -55,6 +58,19 @@ namespace Gherkin
                 .Concat(butStepKeywords)
                 .Distinct()
                 .ToArray();
+
+            StepKeywordTypes =
+                new[] { new { Keyword = AsteriskKeyword, Type = StepKeywordType.Unknown } }
+                .Concat(GivenStepKeywords.Select(kw => new { Keyword = kw, Type = StepKeywordType.Context }))
+                .Concat(WhenStepKeywords.Select(kw => new { Keyword = kw, Type = StepKeywordType.Action }))
+                .Concat(ThenStepKeywords.Select(kw => new { Keyword = kw, Type = StepKeywordType.Outcome }))
+                .Concat(AndStepKeywords.Select(kw => new { Keyword = kw, Type = StepKeywordType.Conjunction }))
+                .Concat(ButStepKeywords.Select(kw => new { Keyword = kw, Type = StepKeywordType.Conjunction }))
+                .GroupBy(item => item.Keyword, item => item.Type)
+                .ToDictionary(item => item.Key, item => item.First());
         }
+
+        public StepKeywordType? GetStepKeywordType(string keyword) 
+            => StepKeywordTypes.TryGetValue(keyword, out var tokenType) ? tokenType : null;
     }
 }

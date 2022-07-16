@@ -1,7 +1,11 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.types.StepKeywordType;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.unmodifiableList;
 
@@ -21,6 +25,7 @@ public final class GherkinDialect {
     private final List<String> andKeywords;
     private final List<String> butKeywords;
     private final List<String> stepKeywords;
+    private final Map<String, List<StepKeywordType>> stepKeywordsTypes;
 
     GherkinDialect(String language, String name, String nativeName, List<String> featureKeywords, List<String> ruleKeywords, List<String> scenarioKeywords, List<String> scenarioOutlineKeywords, List<String> backgroundKeywords, List<String> examplesKeywords, List<String> givenKeywords, List<String> whenKeywords, List<String> thenKeywords, List<String> andKeywords, List<String> butKeywords) {
         this.language = language;
@@ -45,6 +50,25 @@ public final class GherkinDialect {
         stepKeywords.addAll(andKeywords);
         stepKeywords.addAll(butKeywords);
         this.stepKeywords = unmodifiableList(stepKeywords);
+
+        Map<String, List<StepKeywordType>> stepKeywordsTypes = new HashMap<>();
+        addStepKeywordsTypes(stepKeywordsTypes, getGivenKeywords(), StepKeywordType.CONTEXT);
+        addStepKeywordsTypes(stepKeywordsTypes, getWhenKeywords(), StepKeywordType.ACTION);
+        addStepKeywordsTypes(stepKeywordsTypes, getThenKeywords(), StepKeywordType.OUTCOME);
+
+        List<String> conjunctionKeywords = new ArrayList<>();
+        conjunctionKeywords.addAll(getAndKeywords());
+        conjunctionKeywords.addAll(getButKeywords());
+        addStepKeywordsTypes(stepKeywordsTypes, conjunctionKeywords, StepKeywordType.CONJUNCTION);
+        this.stepKeywordsTypes = stepKeywordsTypes;
+    }
+
+    private static void addStepKeywordsTypes(Map<String, List<StepKeywordType>> h, List<String> keywords, StepKeywordType type) {
+        for (String keyword : keywords) {
+            if (!h.containsKey(keyword))
+                h.put(keyword, new ArrayList<>());
+            h.get(keyword).add(type);
+        }
     }
 
     public List<String> getFeatureKeywords() {
@@ -73,6 +97,10 @@ public final class GherkinDialect {
 
     public List<String> getStepKeywords() {
         return stepKeywords;
+    }
+
+    public List<StepKeywordType> getStepKeywordTypes(String keyword) {
+        return stepKeywordsTypes.get(keyword);
     }
 
     public List<String> getBackgroundKeywords() {

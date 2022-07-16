@@ -1,3 +1,4 @@
+import assert from 'assert'
 import * as messages from '@cucumber/messages'
 import { NdjsonToMessageStream } from '@cucumber/message-streams'
 import { Writable, pipeline } from 'stream'
@@ -12,9 +13,13 @@ const asyncPipeline = promisify(pipeline)
 describe('Walking with messages', () => {
   const localMessageFiles = fg.sync(`${__dirname}/messages/**/*.ndjson`)
   const tckMessageFiles = fg.sync(
-    `${__dirname}/../../../compatibility-kit/javascript/features/**/*.ndjson`
+    `${__dirname}/../../../node_modules/@cucumber/compatibility-kit/features/**/*.ndjson`
   )
   const messageFiles = [].concat(localMessageFiles, tckMessageFiles)
+
+  it('must have some messages for comparison', () => {
+    assert.notEqual(messageFiles.length, 0)
+  })
 
   for (const messageFile of messageFiles) {
     it(`can walk through GherkinDocuments in ${messageFile}`, async () => {

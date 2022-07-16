@@ -6,6 +6,7 @@ namespace Cucumber\Gherkin;
 
 use Cucumber\Gherkin\Parser\TokenType;
 use Cucumber\Gherkin\Parser\TokenMatcherInterface;
+use Cucumber\Messages\Step\KeywordType;
 
 final class TokenMatcher implements TokenMatcherInterface
 {
@@ -13,6 +14,8 @@ final class TokenMatcher implements TokenMatcherInterface
     private GherkinDialect $currentDialect;
     private int $indentToRemove = 0;
     private ?string $activeDocStringSeparator = null;
+    /** @var array<array-key, list<KeywordType>> */
+    private array $keywordTypes = [];
 
     public function __construct(
         private readonly GherkinDialectProvider $dialectProvider = new GherkinDialectProvider('en'),
@@ -23,6 +26,8 @@ final class TokenMatcher implements TokenMatcherInterface
     public function reset(): void
     {
         $this->currentDialect = $this->dialectProvider->getDefaultDialect();
+
+        $this->updateKeywordTypeMappings($this->currentDialect);
     }
 
     /**
@@ -33,6 +38,7 @@ final class TokenMatcher implements TokenMatcherInterface
         TokenType $matchedType,
         ?string $text = null,
         ?string $keyword = null,
+        ?KeywordType $keywordType = null,
         ?int $indent = null,
         ?array $items = null,
     ): void {
@@ -42,6 +48,7 @@ final class TokenMatcher implements TokenMatcherInterface
             $this->currentDialect,
             $matchedIndent,
             $keyword ?? '',
+            $keywordType,
             $text ?? '',
             $items ?? [],
         );
@@ -127,7 +134,10 @@ final class TokenMatcher implements TokenMatcherInterface
         foreach ($keywords as $keyword) {
             if ($token->line?->startsWith($keyword)) {
                 $stepText = $token->line->getRestTrimmed(StringUtils::symbolCount($keyword));
-                $this->setTokenMatched($token, TokenType::StepLine, $stepText, $keyword);
+
+                $keywordType = $this->getKeywordType($keyword);
+
+                $this->setTokenMatched($token, TokenType::StepLine, $stepText, $keyword, $keywordType);
 
                 return true;
             }
@@ -211,10 +221,44 @@ final class TokenMatcher implements TokenMatcherInterface
 
             $this->currentDialect = $this->dialectProvider->getDialect($language, $token->getLocation());
 
+            $this->updateKeywordTypeMappings($this->currentDialect);
+
             return true;
         }
 
         return false;
+    }
+
+    private function updateKeywordTypeMappings(GherkinDialect $dialect): void
+    {
+        $this->keywordTypes = [];
+        $this->addKeywordTypeMappings($dialect->getGivenKeywords(), KeywordType::CONTEXT);
+        $this->addKeywordTypeMappings($dialect->getWhenKeywords(), KeywordType::ACTION);
+        $this->addKeywordTypeMappings($dialect->getThenKeywords(), KeywordType::OUTCOME);
+        $this->addKeywordTypeMappings($dialect->getAndKeywords(), KeywordType::CONJUNCTION);
+        $this->addKeywordTypeMappings($dialect->getButKeywords(), KeywordType::CONJUNCTION);
+    }
+
+    /** @param array<string> $keywords */
+    private function addKeywordTypeMappings(array $keywords, KeywordType $type): void
+    {
+        foreach ($keywords as $keyword) {
+            $this->keywordTypes[$keyword][] = $type;
+        }
+    }
+
+    private function getKeywordType(string $keyword): KeywordType
+    {
+        if (!array_key_exists($keyword, $this->keywordTypes)) {
+            return KeywordType::UNKNOWN;
+        }
+
+        // We want $this->keywordTypes[$keyword] having **only 1 entry**
+        if (count($this->keywordTypes[$keyword]) !== 1) {
+            return KeywordType::UNKNOWN;
+        }
+
+        return $this->keywordTypes[$keyword][0];
     }
 
     private function unescapeDocString(string $text): string

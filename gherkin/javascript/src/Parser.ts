@@ -25,6 +25,7 @@ export class Token implements IToken<TokenType> {
   public matchedKeyword: string
   public matchedIndent: number
   public matchedGherkinDialect: string
+  public matchedKeywordType: messages.StepKeywordType
 
   constructor(
     public readonly line: GherkinLine,

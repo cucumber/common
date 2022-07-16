@@ -1,8 +1,10 @@
 package gherkin
 
+import messages "github.com/cucumber/common/messages/go/v19"
+
 // Builtin dialects for af (Afrikaans), am (Armenian), an (Aragonese), ar (Arabic), ast (Asturian), az (Azerbaijani), bg (Bulgarian), bm (Malay), bs (Bosnian), ca (Catalan), cs (Czech), cy-GB (Welsh), da (Danish), de (German), el (Greek), em (Emoji), en (English), en-Scouse (Scouse), en-au (Australian), en-lol (LOLCAT), en-old (Old English), en-pirate (Pirate), en-tx (Texas), eo (Esperanto), es (Spanish), et (Estonian), fa (Persian), fi (Finnish), fr (French), ga (Irish), gj (Gujarati), gl (Galician), he (Hebrew), hi (Hindi), hr (Croatian), ht (Creole), hu (Hungarian), id (Indonesian), is (Icelandic), it (Italian), ja (Japanese), jv (Javanese), ka (Georgian), kn (Kannada), ko (Korean), lt (Lithuanian), lu (Luxemburgish), lv (Latvian), mk-Cyrl (Macedonian), mk-Latn (Macedonian (Latin)), mn (Mongolian), ne (Nepali), nl (Dutch), no (Norwegian), pa (Panjabi), pl (Polish), pt (Portuguese), ro (Romanian), ru (Russian), sk (Slovak), sl (Slovenian), sr-Cyrl (Serbian), sr-Latn (Serbian (Latin)), sv (Swedish), ta (Tamil), th (Thai), te (Telugu), tlh (Klingon), tr (Turkish), tt (Tatar), uk (Ukrainian), ur (Urdu), uz (Uzbek), vi (Vietnamese), zh-CN (Chinese simplified), zh-TW (Chinese traditional), mr (Marathi)
-func GherkinDialectsBuildin() GherkinDialectProvider {
-	return buildinDialects
+func DialectsBuiltin() DialectProvider {
+	return builtinDialects
 }
 
 const (
@@ -19,961 +21,1236 @@ const (
 	but             = "but"
 )
 
-var buildinDialects = gherkinDialectMap{
-	"af": &GherkinDialect{
+var builtinDialects = gherkinDialectMap{
+	"af": &Dialect{
 		"af", "Afrikaans", "Afrikaans", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funksie",
 				"Besigheid Behoefte",
 				"Vermoë",
 			},
-			rule: []string{
+			rule: {
 				"Regel",
 			},
-			background: []string{
+			background: {
 				"Agtergrond",
 			},
-			scenario: []string{
+			scenario: {
 				"Voorbeeld",
 				"Situasie",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Situasie Uiteensetting",
 			},
-			examples: []string{
+			examples: {
 				"Voorbeelde",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Gegewe ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Wanneer ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Dan ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"En ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Maar ",
 			},
 		},
-	},
-	"am": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Gegewe ": messages.StepKeywordType_CONTEXT,
+
+			"Wanneer ": messages.StepKeywordType_ACTION,
+
+			"Dan ": messages.StepKeywordType_OUTCOME,
+
+			"En ": messages.StepKeywordType_CONJUNCTION,
+
+			"Maar ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"am": &Dialect{
 		"am", "Armenian", "հայերեն", map[string][]string{
-			feature: []string{
+			feature: {
 				"Ֆունկցիոնալություն",
 				"Հատկություն",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Կոնտեքստ",
 			},
-			scenario: []string{
+			scenario: {
 				"Օրինակ",
 				"Սցենար",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Սցենարի կառուցվացքը",
 			},
-			examples: []string{
+			examples: {
 				"Օրինակներ",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Դիցուք ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Եթե ",
 				"Երբ ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Ապա ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Եվ ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Բայց ",
 			},
 		},
-	},
-	"an": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Դիցուք ": messages.StepKeywordType_CONTEXT,
+
+			"Եթե ": messages.StepKeywordType_ACTION,
+			"Երբ ": messages.StepKeywordType_ACTION,
+
+			"Ապա ": messages.StepKeywordType_OUTCOME,
+
+			"Եվ ": messages.StepKeywordType_CONJUNCTION,
+
+			"Բայց ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"an": &Dialect{
 		"an", "Aragonese", "Aragonés", map[string][]string{
-			feature: []string{
+			feature: {
 				"Caracteristica",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Antecedents",
 			},
-			scenario: []string{
+			scenario: {
 				"Eixemplo",
 				"Caso",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Esquema del caso",
 			},
-			examples: []string{
+			examples: {
 				"Eixemplos",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dau ",
 				"Dada ",
 				"Daus ",
 				"Dadas ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Cuan ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Alavez ",
 				"Allora ",
 				"Antonces ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Y ",
 				"E ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Pero ",
 			},
 		},
-	},
-	"ar": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dau ":   messages.StepKeywordType_CONTEXT,
+			"Dada ":  messages.StepKeywordType_CONTEXT,
+			"Daus ":  messages.StepKeywordType_CONTEXT,
+			"Dadas ": messages.StepKeywordType_CONTEXT,
+
+			"Cuan ": messages.StepKeywordType_ACTION,
+
+			"Alavez ":   messages.StepKeywordType_OUTCOME,
+			"Allora ":   messages.StepKeywordType_OUTCOME,
+			"Antonces ": messages.StepKeywordType_OUTCOME,
+
+			"Y ": messages.StepKeywordType_CONJUNCTION,
+			"E ": messages.StepKeywordType_CONJUNCTION,
+
+			"Pero ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ar": &Dialect{
 		"ar", "Arabic", "العربية", map[string][]string{
-			feature: []string{
+			feature: {
 				"خاصية",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"الخلفية",
 			},
-			scenario: []string{
+			scenario: {
 				"مثال",
 				"سيناريو",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"سيناريو مخطط",
 			},
-			examples: []string{
+			examples: {
 				"امثلة",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"بفرض ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"متى ",
 				"عندما ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"اذاً ",
 				"ثم ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"و ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"لكن ",
 			},
 		},
-	},
-	"ast": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"بفرض ": messages.StepKeywordType_CONTEXT,
+
+			"متى ":   messages.StepKeywordType_ACTION,
+			"عندما ": messages.StepKeywordType_ACTION,
+
+			"اذاً ": messages.StepKeywordType_OUTCOME,
+			"ثم ":   messages.StepKeywordType_OUTCOME,
+
+			"و ": messages.StepKeywordType_CONJUNCTION,
+
+			"لكن ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ast": &Dialect{
 		"ast", "Asturian", "asturianu", map[string][]string{
-			feature: []string{
+			feature: {
 				"Carauterística",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Antecedentes",
 			},
-			scenario: []string{
+			scenario: {
 				"Exemplo",
 				"Casu",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Esbozu del casu",
 			},
-			examples: []string{
+			examples: {
 				"Exemplos",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dáu ",
 				"Dada ",
 				"Daos ",
 				"Daes ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Cuando ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Entós ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Y ",
 				"Ya ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Peru ",
 			},
 		},
-	},
-	"az": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dáu ":  messages.StepKeywordType_CONTEXT,
+			"Dada ": messages.StepKeywordType_CONTEXT,
+			"Daos ": messages.StepKeywordType_CONTEXT,
+			"Daes ": messages.StepKeywordType_CONTEXT,
+
+			"Cuando ": messages.StepKeywordType_ACTION,
+
+			"Entós ": messages.StepKeywordType_OUTCOME,
+
+			"Y ":  messages.StepKeywordType_CONJUNCTION,
+			"Ya ": messages.StepKeywordType_CONJUNCTION,
+
+			"Peru ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"az": &Dialect{
 		"az", "Azerbaijani", "Azərbaycanca", map[string][]string{
-			feature: []string{
+			feature: {
 				"Özəllik",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Keçmiş",
 				"Kontekst",
 			},
-			scenario: []string{
+			scenario: {
 				"Nümunə",
 				"Ssenari",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Ssenarinin strukturu",
 			},
-			examples: []string{
+			examples: {
 				"Nümunələr",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Tutaq ki ",
 				"Verilir ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Əgər ",
 				"Nə vaxt ki ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"O halda ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Və ",
 				"Həm ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Amma ",
 				"Ancaq ",
 			},
 		},
-	},
-	"bg": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Tutaq ki ": messages.StepKeywordType_CONTEXT,
+			"Verilir ":  messages.StepKeywordType_CONTEXT,
+
+			"Əgər ":       messages.StepKeywordType_ACTION,
+			"Nə vaxt ki ": messages.StepKeywordType_ACTION,
+
+			"O halda ": messages.StepKeywordType_OUTCOME,
+
+			"Və ":  messages.StepKeywordType_CONJUNCTION,
+			"Həm ": messages.StepKeywordType_CONJUNCTION,
+
+			"Amma ":  messages.StepKeywordType_CONJUNCTION,
+			"Ancaq ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"bg": &Dialect{
 		"bg", "Bulgarian", "български", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функционалност",
 			},
-			rule: []string{
+			rule: {
 				"Правило",
 			},
-			background: []string{
+			background: {
 				"Предистория",
 			},
-			scenario: []string{
+			scenario: {
 				"Пример",
 				"Сценарий",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Рамка на сценарий",
 			},
-			examples: []string{
+			examples: {
 				"Примери",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Дадено ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Когато ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"То ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"И ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Но ",
 			},
 		},
-	},
-	"bm": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Дадено ": messages.StepKeywordType_CONTEXT,
+
+			"Когато ": messages.StepKeywordType_ACTION,
+
+			"То ": messages.StepKeywordType_OUTCOME,
+
+			"И ": messages.StepKeywordType_CONJUNCTION,
+
+			"Но ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"bm": &Dialect{
 		"bm", "Malay", "Bahasa Melayu", map[string][]string{
-			feature: []string{
+			feature: {
 				"Fungsi",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Latar Belakang",
 			},
-			scenario: []string{
+			scenario: {
 				"Senario",
 				"Situasi",
 				"Keadaan",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Kerangka Senario",
 				"Kerangka Situasi",
 				"Kerangka Keadaan",
 				"Garis Panduan Senario",
 			},
-			examples: []string{
+			examples: {
 				"Contoh",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Diberi ",
 				"Bagi ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Apabila ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Maka ",
 				"Kemudian ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Dan ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Tetapi ",
 				"Tapi ",
 			},
 		},
-	},
-	"bs": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Diberi ": messages.StepKeywordType_CONTEXT,
+			"Bagi ":   messages.StepKeywordType_CONTEXT,
+
+			"Apabila ": messages.StepKeywordType_ACTION,
+
+			"Maka ":     messages.StepKeywordType_OUTCOME,
+			"Kemudian ": messages.StepKeywordType_OUTCOME,
+
+			"Dan ": messages.StepKeywordType_CONJUNCTION,
+
+			"Tetapi ": messages.StepKeywordType_CONJUNCTION,
+			"Tapi ":   messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"bs": &Dialect{
 		"bs", "Bosnian", "Bosanski", map[string][]string{
-			feature: []string{
+			feature: {
 				"Karakteristika",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Pozadina",
 			},
-			scenario: []string{
+			scenario: {
 				"Primjer",
 				"Scenariju",
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Scenariju-obris",
 				"Scenario-outline",
 			},
-			examples: []string{
+			examples: {
 				"Primjeri",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dato ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Kada ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Zatim ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"I ",
 				"A ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ali ",
 			},
 		},
-	},
-	"ca": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dato ": messages.StepKeywordType_CONTEXT,
+
+			"Kada ": messages.StepKeywordType_ACTION,
+
+			"Zatim ": messages.StepKeywordType_OUTCOME,
+
+			"I ": messages.StepKeywordType_CONJUNCTION,
+			"A ": messages.StepKeywordType_CONJUNCTION,
+
+			"Ali ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ca": &Dialect{
 		"ca", "Catalan", "català", map[string][]string{
-			feature: []string{
+			feature: {
 				"Característica",
 				"Funcionalitat",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Rerefons",
 				"Antecedents",
 			},
-			scenario: []string{
+			scenario: {
 				"Exemple",
 				"Escenari",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Esquema de l'escenari",
 			},
-			examples: []string{
+			examples: {
 				"Exemples",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Donat ",
 				"Donada ",
 				"Atès ",
 				"Atesa ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Quan ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Aleshores ",
 				"Cal ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"I ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Però ",
 			},
 		},
-	},
-	"cs": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Donat ":  messages.StepKeywordType_CONTEXT,
+			"Donada ": messages.StepKeywordType_CONTEXT,
+			"Atès ":   messages.StepKeywordType_CONTEXT,
+			"Atesa ":  messages.StepKeywordType_CONTEXT,
+
+			"Quan ": messages.StepKeywordType_ACTION,
+
+			"Aleshores ": messages.StepKeywordType_OUTCOME,
+			"Cal ":       messages.StepKeywordType_OUTCOME,
+
+			"I ": messages.StepKeywordType_CONJUNCTION,
+
+			"Però ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"cs": &Dialect{
 		"cs", "Czech", "Česky", map[string][]string{
-			feature: []string{
+			feature: {
 				"Požadavek",
 			},
-			rule: []string{
+			rule: {
 				"Pravidlo",
 			},
-			background: []string{
+			background: {
 				"Pozadí",
 				"Kontext",
 			},
-			scenario: []string{
+			scenario: {
 				"Příklad",
 				"Scénář",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Náčrt Scénáře",
 				"Osnova scénáře",
 			},
-			examples: []string{
+			examples: {
 				"Příklady",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Pokud ",
 				"Za předpokladu ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Když ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Pak ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"A také ",
 				"A ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ale ",
 			},
 		},
-	},
-	"cy-GB": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Pokud ":          messages.StepKeywordType_CONTEXT,
+			"Za předpokladu ": messages.StepKeywordType_CONTEXT,
+
+			"Když ": messages.StepKeywordType_ACTION,
+
+			"Pak ": messages.StepKeywordType_OUTCOME,
+
+			"A také ": messages.StepKeywordType_CONJUNCTION,
+			"A ":      messages.StepKeywordType_CONJUNCTION,
+
+			"Ale ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"cy-GB": &Dialect{
 		"cy-GB", "Welsh", "Cymraeg", map[string][]string{
-			feature: []string{
+			feature: {
 				"Arwedd",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Cefndir",
 			},
-			scenario: []string{
+			scenario: {
 				"Enghraifft",
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Scenario Amlinellol",
 			},
-			examples: []string{
+			examples: {
 				"Enghreifftiau",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Anrhegedig a ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Pryd ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Yna ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"A ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ond ",
 			},
 		},
-	},
-	"da": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Anrhegedig a ": messages.StepKeywordType_CONTEXT,
+
+			"Pryd ": messages.StepKeywordType_ACTION,
+
+			"Yna ": messages.StepKeywordType_OUTCOME,
+
+			"A ": messages.StepKeywordType_CONJUNCTION,
+
+			"Ond ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"da": &Dialect{
 		"da", "Danish", "dansk", map[string][]string{
-			feature: []string{
+			feature: {
 				"Egenskab",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Baggrund",
 			},
-			scenario: []string{
+			scenario: {
 				"Eksempel",
 				"Scenarie",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Abstrakt Scenario",
 			},
-			examples: []string{
+			examples: {
 				"Eksempler",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Givet ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Når ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Så ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Og ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Men ",
 			},
 		},
-	},
-	"de": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Givet ": messages.StepKeywordType_CONTEXT,
+
+			"Når ": messages.StepKeywordType_ACTION,
+
+			"Så ": messages.StepKeywordType_OUTCOME,
+
+			"Og ": messages.StepKeywordType_CONJUNCTION,
+
+			"Men ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"de": &Dialect{
 		"de", "German", "Deutsch", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funktionalität",
 				"Funktion",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 				"Regel",
 			},
-			background: []string{
+			background: {
 				"Grundlage",
 				"Hintergrund",
 				"Voraussetzungen",
 				"Vorbedingungen",
 			},
-			scenario: []string{
+			scenario: {
 				"Beispiel",
 				"Szenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Szenariogrundriss",
 				"Szenarien",
 			},
-			examples: []string{
+			examples: {
 				"Beispiele",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Angenommen ",
 				"Gegeben sei ",
 				"Gegeben seien ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Wenn ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Dann ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Und ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Aber ",
 			},
 		},
-	},
-	"el": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Angenommen ":    messages.StepKeywordType_CONTEXT,
+			"Gegeben sei ":   messages.StepKeywordType_CONTEXT,
+			"Gegeben seien ": messages.StepKeywordType_CONTEXT,
+
+			"Wenn ": messages.StepKeywordType_ACTION,
+
+			"Dann ": messages.StepKeywordType_OUTCOME,
+
+			"Und ": messages.StepKeywordType_CONJUNCTION,
+
+			"Aber ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"el": &Dialect{
 		"el", "Greek", "Ελληνικά", map[string][]string{
-			feature: []string{
+			feature: {
 				"Δυνατότητα",
 				"Λειτουργία",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Υπόβαθρο",
 			},
-			scenario: []string{
+			scenario: {
 				"Παράδειγμα",
 				"Σενάριο",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Περιγραφή Σεναρίου",
 				"Περίγραμμα Σεναρίου",
 			},
-			examples: []string{
+			examples: {
 				"Παραδείγματα",
 				"Σενάρια",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Δεδομένου ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Όταν ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Τότε ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Και ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Αλλά ",
 			},
 		},
-	},
-	"em": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Δεδομένου ": messages.StepKeywordType_CONTEXT,
+
+			"Όταν ": messages.StepKeywordType_ACTION,
+
+			"Τότε ": messages.StepKeywordType_OUTCOME,
+
+			"Και ": messages.StepKeywordType_CONJUNCTION,
+
+			"Αλλά ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"em": &Dialect{
 		"em", "Emoji", "😀", map[string][]string{
-			feature: []string{
+			feature: {
 				"📚",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"💤",
 			},
-			scenario: []string{
+			scenario: {
 				"🥒",
 				"📕",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"📖",
 			},
-			examples: []string{
+			examples: {
 				"📓",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"😐",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"🎬",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"🙏",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"😂",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"😔",
 			},
 		},
-	},
-	"en": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"😐": messages.StepKeywordType_CONTEXT,
+
+			"🎬": messages.StepKeywordType_ACTION,
+
+			"🙏": messages.StepKeywordType_OUTCOME,
+
+			"😂": messages.StepKeywordType_CONJUNCTION,
+
+			"😔": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en": &Dialect{
 		"en", "English", "English", map[string][]string{
-			feature: []string{
+			feature: {
 				"Feature",
 				"Business Need",
 				"Ability",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Background",
 			},
-			scenario: []string{
+			scenario: {
 				"Example",
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Scenario Outline",
 				"Scenario Template",
 			},
-			examples: []string{
+			examples: {
 				"Examples",
 				"Scenarios",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Given ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"When ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Then ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"And ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"But ",
 			},
 		},
-	},
-	"en-Scouse": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Given ": messages.StepKeywordType_CONTEXT,
+
+			"When ": messages.StepKeywordType_ACTION,
+
+			"Then ": messages.StepKeywordType_OUTCOME,
+
+			"And ": messages.StepKeywordType_CONJUNCTION,
+
+			"But ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en-Scouse": &Dialect{
 		"en-Scouse", "Scouse", "Scouse", map[string][]string{
-			feature: []string{
+			feature: {
 				"Feature",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Dis is what went down",
 			},
-			scenario: []string{
+			scenario: {
 				"The thing of it is",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Wharrimean is",
 			},
-			examples: []string{
+			examples: {
 				"Examples",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Givun ",
 				"Youse know when youse got ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Wun ",
 				"Youse know like when ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Dun ",
 				"Den youse gotta ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"An ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Buh ",
 			},
 		},
-	},
-	"en-au": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Givun ":                     messages.StepKeywordType_CONTEXT,
+			"Youse know when youse got ": messages.StepKeywordType_CONTEXT,
+
+			"Wun ":                  messages.StepKeywordType_ACTION,
+			"Youse know like when ": messages.StepKeywordType_ACTION,
+
+			"Dun ":             messages.StepKeywordType_OUTCOME,
+			"Den youse gotta ": messages.StepKeywordType_OUTCOME,
+
+			"An ": messages.StepKeywordType_CONJUNCTION,
+
+			"Buh ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en-au": &Dialect{
 		"en-au", "Australian", "Australian", map[string][]string{
-			feature: []string{
+			feature: {
 				"Pretty much",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"First off",
 			},
-			scenario: []string{
+			scenario: {
 				"Awww, look mate",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Reckon it's like",
 			},
-			examples: []string{
+			examples: {
 				"You'll wanna",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Y'know ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"It's just unbelievable ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"But at the end of the day I reckon ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Too right ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Yeah nah ",
 			},
 		},
-	},
-	"en-lol": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Y'know ": messages.StepKeywordType_CONTEXT,
+
+			"It's just unbelievable ": messages.StepKeywordType_ACTION,
+
+			"But at the end of the day I reckon ": messages.StepKeywordType_OUTCOME,
+
+			"Too right ": messages.StepKeywordType_CONJUNCTION,
+
+			"Yeah nah ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en-lol": &Dialect{
 		"en-lol", "LOLCAT", "LOLCAT", map[string][]string{
-			feature: []string{
+			feature: {
 				"OH HAI",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"B4",
 			},
-			scenario: []string{
+			scenario: {
 				"MISHUN",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"MISHUN SRSLY",
 			},
-			examples: []string{
+			examples: {
 				"EXAMPLZ",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"I CAN HAZ ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"WEN ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"DEN ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"AN ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"BUT ",
 			},
 		},
-	},
-	"en-old": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"I CAN HAZ ": messages.StepKeywordType_CONTEXT,
+
+			"WEN ": messages.StepKeywordType_ACTION,
+
+			"DEN ": messages.StepKeywordType_OUTCOME,
+
+			"AN ": messages.StepKeywordType_CONJUNCTION,
+
+			"BUT ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en-old": &Dialect{
 		"en-old", "Old English", "Englisc", map[string][]string{
-			feature: []string{
+			feature: {
 				"Hwaet",
 				"Hwæt",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Aer",
 				"Ær",
 			},
-			scenario: []string{
+			scenario: {
 				"Swa",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Swa hwaer swa",
 				"Swa hwær swa",
 			},
-			examples: []string{
+			examples: {
 				"Se the",
 				"Se þe",
 				"Se ðe",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Thurh ",
 				"Þurh ",
 				"Ðurh ",
 			},
-			when: []string{
+			when: {
 				"* ",
-				"Tha ",
-				"Þa ",
-				"Ða ",
+				"Bæþsealf ",
+				"Bæþsealfa ",
+				"Bæþsealfe ",
+				"Ciricæw ",
+				"Ciricæwe ",
+				"Ciricæwa ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Tha ",
 				"Þa ",
@@ -982,348 +1259,463 @@ var buildinDialects = gherkinDialectMap{
 				"Þa þe ",
 				"Ða ðe ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ond ",
 				"7 ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ac ",
 			},
 		},
-	},
-	"en-pirate": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Thurh ": messages.StepKeywordType_CONTEXT,
+			"Þurh ":  messages.StepKeywordType_CONTEXT,
+			"Ðurh ":  messages.StepKeywordType_CONTEXT,
+
+			"Bæþsealf ":  messages.StepKeywordType_ACTION,
+			"Bæþsealfa ": messages.StepKeywordType_ACTION,
+			"Bæþsealfe ": messages.StepKeywordType_ACTION,
+			"Ciricæw ":   messages.StepKeywordType_ACTION,
+			"Ciricæwe ":  messages.StepKeywordType_ACTION,
+			"Ciricæwa ":  messages.StepKeywordType_ACTION,
+
+			"Tha ":     messages.StepKeywordType_OUTCOME,
+			"Þa ":      messages.StepKeywordType_OUTCOME,
+			"Ða ":      messages.StepKeywordType_OUTCOME,
+			"Tha the ": messages.StepKeywordType_OUTCOME,
+			"Þa þe ":   messages.StepKeywordType_OUTCOME,
+			"Ða ðe ":   messages.StepKeywordType_OUTCOME,
+
+			"Ond ": messages.StepKeywordType_CONJUNCTION,
+			"7 ":   messages.StepKeywordType_CONJUNCTION,
+
+			"Ac ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en-pirate": &Dialect{
 		"en-pirate", "Pirate", "Pirate", map[string][]string{
-			feature: []string{
+			feature: {
 				"Ahoy matey!",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Yo-ho-ho",
 			},
-			scenario: []string{
+			scenario: {
 				"Heave to",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Shiver me timbers",
 			},
-			examples: []string{
+			examples: {
 				"Dead men tell no tales",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Gangway! ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Blimey! ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Let go and haul ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Aye ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Avast! ",
 			},
 		},
-	},
-	"en-tx": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Gangway! ": messages.StepKeywordType_CONTEXT,
+
+			"Blimey! ": messages.StepKeywordType_ACTION,
+
+			"Let go and haul ": messages.StepKeywordType_OUTCOME,
+
+			"Aye ": messages.StepKeywordType_CONJUNCTION,
+
+			"Avast! ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"en-tx": &Dialect{
 		"en-tx", "Texas", "Texas", map[string][]string{
-			feature: []string{
+			feature: {
 				"This ain’t my first rodeo",
 				"All gussied up",
 			},
-			rule: []string{
+			rule: {
 				"Rule ",
 			},
-			background: []string{
+			background: {
 				"Lemme tell y'all a story",
 			},
-			scenario: []string{
+			scenario: {
 				"All hat and no cattle",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Serious as a snake bite",
 				"Busy as a hound in flea season",
 			},
-			examples: []string{
+			examples: {
 				"Now that's a story longer than a cattle drive in July",
 			},
-			given: []string{
+			given: {
 				"Fixin' to ",
 				"All git out ",
 			},
-			when: []string{
+			when: {
 				"Quick out of the chute ",
 			},
-			then: []string{
+			then: {
 				"There’s no tree but bears some fruit ",
 			},
-			and: []string{
+			and: {
 				"Come hell or high water ",
 			},
-			but: []string{
+			but: {
 				"Well now hold on, I'll you what ",
 			},
 		},
-	},
-	"eo": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Fixin' to ":   messages.StepKeywordType_CONTEXT,
+			"All git out ": messages.StepKeywordType_CONTEXT,
+
+			"Quick out of the chute ": messages.StepKeywordType_ACTION,
+
+			"There’s no tree but bears some fruit ": messages.StepKeywordType_OUTCOME,
+
+			"Come hell or high water ": messages.StepKeywordType_CONJUNCTION,
+
+			"Well now hold on, I'll you what ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"eo": &Dialect{
 		"eo", "Esperanto", "Esperanto", map[string][]string{
-			feature: []string{
+			feature: {
 				"Trajto",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Fono",
 			},
-			scenario: []string{
+			scenario: {
 				"Ekzemplo",
 				"Scenaro",
 				"Kazo",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Konturo de la scenaro",
 				"Skizo",
 				"Kazo-skizo",
 			},
-			examples: []string{
+			examples: {
 				"Ekzemploj",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Donitaĵo ",
 				"Komence ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Se ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Do ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Kaj ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Sed ",
 			},
 		},
-	},
-	"es": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Donitaĵo ": messages.StepKeywordType_CONTEXT,
+			"Komence ":  messages.StepKeywordType_CONTEXT,
+
+			"Se ": messages.StepKeywordType_ACTION,
+
+			"Do ": messages.StepKeywordType_OUTCOME,
+
+			"Kaj ": messages.StepKeywordType_CONJUNCTION,
+
+			"Sed ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"es": &Dialect{
 		"es", "Spanish", "español", map[string][]string{
-			feature: []string{
+			feature: {
 				"Característica",
 				"Necesidad del negocio",
 				"Requisito",
 			},
-			rule: []string{
+			rule: {
 				"Regla",
 				"Regla de negocio",
 			},
-			background: []string{
+			background: {
 				"Antecedentes",
 			},
-			scenario: []string{
+			scenario: {
 				"Ejemplo",
 				"Escenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Esquema del escenario",
 			},
-			examples: []string{
+			examples: {
 				"Ejemplos",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dado ",
 				"Dada ",
 				"Dados ",
 				"Dadas ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Cuando ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Entonces ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Y ",
 				"E ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Pero ",
 			},
 		},
-	},
-	"et": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dado ":  messages.StepKeywordType_CONTEXT,
+			"Dada ":  messages.StepKeywordType_CONTEXT,
+			"Dados ": messages.StepKeywordType_CONTEXT,
+			"Dadas ": messages.StepKeywordType_CONTEXT,
+
+			"Cuando ": messages.StepKeywordType_ACTION,
+
+			"Entonces ": messages.StepKeywordType_OUTCOME,
+
+			"Y ": messages.StepKeywordType_CONJUNCTION,
+			"E ": messages.StepKeywordType_CONJUNCTION,
+
+			"Pero ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"et": &Dialect{
 		"et", "Estonian", "eesti keel", map[string][]string{
-			feature: []string{
+			feature: {
 				"Omadus",
 			},
-			rule: []string{
+			rule: {
 				"Reegel",
 			},
-			background: []string{
+			background: {
 				"Taust",
 			},
-			scenario: []string{
+			scenario: {
 				"Juhtum",
 				"Stsenaarium",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Raamjuhtum",
 				"Raamstsenaarium",
 			},
-			examples: []string{
+			examples: {
 				"Juhtumid",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Eeldades ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Kui ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Siis ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ja ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Kuid ",
 			},
 		},
-	},
-	"fa": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Eeldades ": messages.StepKeywordType_CONTEXT,
+
+			"Kui ": messages.StepKeywordType_ACTION,
+
+			"Siis ": messages.StepKeywordType_OUTCOME,
+
+			"Ja ": messages.StepKeywordType_CONJUNCTION,
+
+			"Kuid ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"fa": &Dialect{
 		"fa", "Persian", "فارسی", map[string][]string{
-			feature: []string{
+			feature: {
 				"وِیژگی",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"زمینه",
 			},
-			scenario: []string{
+			scenario: {
 				"مثال",
 				"سناریو",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"الگوی سناریو",
 			},
-			examples: []string{
+			examples: {
 				"نمونه ها",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"با فرض ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"هنگامی ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"آنگاه ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"و ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"اما ",
 			},
 		},
-	},
-	"fi": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"با فرض ": messages.StepKeywordType_CONTEXT,
+
+			"هنگامی ": messages.StepKeywordType_ACTION,
+
+			"آنگاه ": messages.StepKeywordType_OUTCOME,
+
+			"و ": messages.StepKeywordType_CONJUNCTION,
+
+			"اما ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"fi": &Dialect{
 		"fi", "Finnish", "suomi", map[string][]string{
-			feature: []string{
+			feature: {
 				"Ominaisuus",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Tausta",
 			},
-			scenario: []string{
+			scenario: {
 				"Tapaus",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Tapausaihio",
 			},
-			examples: []string{
+			examples: {
 				"Tapaukset",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Oletetaan ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Kun ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Niin ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ja ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Mutta ",
 			},
 		},
-	},
-	"fr": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Oletetaan ": messages.StepKeywordType_CONTEXT,
+
+			"Kun ": messages.StepKeywordType_ACTION,
+
+			"Niin ": messages.StepKeywordType_OUTCOME,
+
+			"Ja ": messages.StepKeywordType_CONJUNCTION,
+
+			"Mutta ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"fr": &Dialect{
 		"fr", "French", "français", map[string][]string{
-			feature: []string{
+			feature: {
 				"Fonctionnalité",
 			},
-			rule: []string{
+			rule: {
 				"Règle",
 			},
-			background: []string{
+			background: {
 				"Contexte",
 			},
-			scenario: []string{
+			scenario: {
 				"Exemple",
 				"Scénario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Plan du scénario",
 				"Plan du Scénario",
 			},
-			examples: []string{
+			examples: {
 				"Exemples",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Soit ",
 				"Sachant que ",
@@ -1342,336 +1734,465 @@ var buildinDialects = gherkinDialectMap{
 				"Étant donnés ",
 				"Étant données ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Quand ",
 				"Lorsque ",
 				"Lorsqu'",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Alors ",
 				"Donc ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Et que ",
 				"Et qu'",
 				"Et ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Mais que ",
 				"Mais qu'",
 				"Mais ",
 			},
 		},
-	},
-	"ga": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Soit ":            messages.StepKeywordType_CONTEXT,
+			"Sachant que ":     messages.StepKeywordType_CONTEXT,
+			"Sachant qu'":      messages.StepKeywordType_CONTEXT,
+			"Sachant ":         messages.StepKeywordType_CONTEXT,
+			"Etant donné que ": messages.StepKeywordType_CONTEXT,
+			"Etant donné qu'":  messages.StepKeywordType_CONTEXT,
+			"Etant donné ":     messages.StepKeywordType_CONTEXT,
+			"Etant donnée ":    messages.StepKeywordType_CONTEXT,
+			"Etant donnés ":    messages.StepKeywordType_CONTEXT,
+			"Etant données ":   messages.StepKeywordType_CONTEXT,
+			"Étant donné que ": messages.StepKeywordType_CONTEXT,
+			"Étant donné qu'":  messages.StepKeywordType_CONTEXT,
+			"Étant donné ":     messages.StepKeywordType_CONTEXT,
+			"Étant donnée ":    messages.StepKeywordType_CONTEXT,
+			"Étant donnés ":    messages.StepKeywordType_CONTEXT,
+			"Étant données ":   messages.StepKeywordType_CONTEXT,
+
+			"Quand ":   messages.StepKeywordType_ACTION,
+			"Lorsque ": messages.StepKeywordType_ACTION,
+			"Lorsqu'":  messages.StepKeywordType_ACTION,
+
+			"Alors ": messages.StepKeywordType_OUTCOME,
+			"Donc ":  messages.StepKeywordType_OUTCOME,
+
+			"Et que ": messages.StepKeywordType_CONJUNCTION,
+			"Et qu'":  messages.StepKeywordType_CONJUNCTION,
+			"Et ":     messages.StepKeywordType_CONJUNCTION,
+
+			"Mais que ": messages.StepKeywordType_CONJUNCTION,
+			"Mais qu'":  messages.StepKeywordType_CONJUNCTION,
+			"Mais ":     messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ga": &Dialect{
 		"ga", "Irish", "Gaeilge", map[string][]string{
-			feature: []string{
+			feature: {
 				"Gné",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Cúlra",
 			},
-			scenario: []string{
+			scenario: {
 				"Sampla",
 				"Cás",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Cás Achomair",
 			},
-			examples: []string{
+			examples: {
 				"Samplaí",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Cuir i gcás go",
 				"Cuir i gcás nach",
 				"Cuir i gcás gur",
 				"Cuir i gcás nár",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Nuair a",
 				"Nuair nach",
 				"Nuair ba",
 				"Nuair nár",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Ansin",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Agus",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ach",
 			},
 		},
-	},
-	"gj": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Cuir i gcás go":   messages.StepKeywordType_CONTEXT,
+			"Cuir i gcás nach": messages.StepKeywordType_CONTEXT,
+			"Cuir i gcás gur":  messages.StepKeywordType_CONTEXT,
+			"Cuir i gcás nár":  messages.StepKeywordType_CONTEXT,
+
+			"Nuair a":    messages.StepKeywordType_ACTION,
+			"Nuair nach": messages.StepKeywordType_ACTION,
+			"Nuair ba":   messages.StepKeywordType_ACTION,
+			"Nuair nár":  messages.StepKeywordType_ACTION,
+
+			"Ansin": messages.StepKeywordType_OUTCOME,
+
+			"Agus": messages.StepKeywordType_CONJUNCTION,
+
+			"Ach": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"gj": &Dialect{
 		"gj", "Gujarati", "ગુજરાતી", map[string][]string{
-			feature: []string{
+			feature: {
 				"લક્ષણ",
 				"વ્યાપાર જરૂર",
 				"ક્ષમતા",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"બેકગ્રાઉન્ડ",
 			},
-			scenario: []string{
+			scenario: {
 				"ઉદાહરણ",
 				"સ્થિતિ",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"પરિદ્દશ્ય રૂપરેખા",
 				"પરિદ્દશ્ય ઢાંચો",
 			},
-			examples: []string{
+			examples: {
 				"ઉદાહરણો",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"આપેલ છે ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"ક્યારે ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"પછી ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"અને ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"પણ ",
 			},
 		},
-	},
-	"gl": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"આપેલ છે ": messages.StepKeywordType_CONTEXT,
+
+			"ક્યારે ": messages.StepKeywordType_ACTION,
+
+			"પછી ": messages.StepKeywordType_OUTCOME,
+
+			"અને ": messages.StepKeywordType_CONJUNCTION,
+
+			"પણ ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"gl": &Dialect{
 		"gl", "Galician", "galego", map[string][]string{
-			feature: []string{
+			feature: {
 				"Característica",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Contexto",
 			},
-			scenario: []string{
+			scenario: {
 				"Exemplo",
 				"Escenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Esbozo do escenario",
 			},
-			examples: []string{
+			examples: {
 				"Exemplos",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dado ",
 				"Dada ",
 				"Dados ",
 				"Dadas ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Cando ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Entón ",
 				"Logo ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"E ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Mais ",
 				"Pero ",
 			},
 		},
-	},
-	"he": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dado ":  messages.StepKeywordType_CONTEXT,
+			"Dada ":  messages.StepKeywordType_CONTEXT,
+			"Dados ": messages.StepKeywordType_CONTEXT,
+			"Dadas ": messages.StepKeywordType_CONTEXT,
+
+			"Cando ": messages.StepKeywordType_ACTION,
+
+			"Entón ": messages.StepKeywordType_OUTCOME,
+			"Logo ":  messages.StepKeywordType_OUTCOME,
+
+			"E ": messages.StepKeywordType_CONJUNCTION,
+
+			"Mais ": messages.StepKeywordType_CONJUNCTION,
+			"Pero ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"he": &Dialect{
 		"he", "Hebrew", "עברית", map[string][]string{
-			feature: []string{
+			feature: {
 				"תכונה",
 			},
-			rule: []string{
+			rule: {
 				"כלל",
 			},
-			background: []string{
+			background: {
 				"רקע",
 			},
-			scenario: []string{
+			scenario: {
 				"דוגמא",
 				"תרחיש",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"תבנית תרחיש",
 			},
-			examples: []string{
+			examples: {
 				"דוגמאות",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"בהינתן ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"כאשר ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"אז ",
 				"אזי ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"וגם ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"אבל ",
 			},
 		},
-	},
-	"hi": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"בהינתן ": messages.StepKeywordType_CONTEXT,
+
+			"כאשר ": messages.StepKeywordType_ACTION,
+
+			"אז ":  messages.StepKeywordType_OUTCOME,
+			"אזי ": messages.StepKeywordType_OUTCOME,
+
+			"וגם ": messages.StepKeywordType_CONJUNCTION,
+
+			"אבל ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"hi": &Dialect{
 		"hi", "Hindi", "हिंदी", map[string][]string{
-			feature: []string{
+			feature: {
 				"रूप लेख",
 			},
-			rule: []string{
+			rule: {
 				"नियम",
 			},
-			background: []string{
+			background: {
 				"पृष्ठभूमि",
 			},
-			scenario: []string{
+			scenario: {
 				"परिदृश्य",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"परिदृश्य रूपरेखा",
 			},
-			examples: []string{
+			examples: {
 				"उदाहरण",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"अगर ",
 				"यदि ",
 				"चूंकि ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"जब ",
 				"कदा ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"तब ",
 				"तदा ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"और ",
 				"तथा ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"पर ",
 				"परन्तु ",
 				"किन्तु ",
 			},
 		},
-	},
-	"hr": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"अगर ":   messages.StepKeywordType_CONTEXT,
+			"यदि ":   messages.StepKeywordType_CONTEXT,
+			"चूंकि ": messages.StepKeywordType_CONTEXT,
+
+			"जब ":  messages.StepKeywordType_ACTION,
+			"कदा ": messages.StepKeywordType_ACTION,
+
+			"तब ":  messages.StepKeywordType_OUTCOME,
+			"तदा ": messages.StepKeywordType_OUTCOME,
+
+			"और ":  messages.StepKeywordType_CONJUNCTION,
+			"तथा ": messages.StepKeywordType_CONJUNCTION,
+
+			"पर ":     messages.StepKeywordType_CONJUNCTION,
+			"परन्तु ": messages.StepKeywordType_CONJUNCTION,
+			"किन्तु ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"hr": &Dialect{
 		"hr", "Croatian", "hrvatski", map[string][]string{
-			feature: []string{
+			feature: {
 				"Osobina",
 				"Mogućnost",
 				"Mogucnost",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Pozadina",
 			},
-			scenario: []string{
+			scenario: {
 				"Primjer",
 				"Scenarij",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Skica",
 				"Koncept",
 			},
-			examples: []string{
+			examples: {
 				"Primjeri",
 				"Scenariji",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Zadan ",
 				"Zadani ",
 				"Zadano ",
 				"Ukoliko ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Kada ",
 				"Kad ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Onda ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"I ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ali ",
 			},
 		},
-	},
-	"ht": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Zadan ":   messages.StepKeywordType_CONTEXT,
+			"Zadani ":  messages.StepKeywordType_CONTEXT,
+			"Zadano ":  messages.StepKeywordType_CONTEXT,
+			"Ukoliko ": messages.StepKeywordType_CONTEXT,
+
+			"Kada ": messages.StepKeywordType_ACTION,
+			"Kad ":  messages.StepKeywordType_ACTION,
+
+			"Onda ": messages.StepKeywordType_OUTCOME,
+
+			"I ": messages.StepKeywordType_CONJUNCTION,
+
+			"Ali ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ht": &Dialect{
 		"ht", "Creole", "kreyòl", map[string][]string{
-			feature: []string{
+			feature: {
 				"Karakteristik",
 				"Mak",
 				"Fonksyonalite",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Kontèks",
 				"Istorik",
 			},
-			scenario: []string{
+			scenario: {
 				"Senaryo",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Plan senaryo",
 				"Plan Senaryo",
 				"Senaryo deskripsyon",
@@ -1679,108 +2200,141 @@ var buildinDialects = gherkinDialectMap{
 				"Dyagram senaryo",
 				"Dyagram Senaryo",
 			},
-			examples: []string{
+			examples: {
 				"Egzanp",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Sipoze ",
 				"Sipoze ke ",
 				"Sipoze Ke ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Lè ",
 				"Le ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Lè sa a ",
 				"Le sa a ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ak ",
 				"Epi ",
 				"E ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Men ",
 			},
 		},
-	},
-	"hu": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Sipoze ":    messages.StepKeywordType_CONTEXT,
+			"Sipoze ke ": messages.StepKeywordType_CONTEXT,
+			"Sipoze Ke ": messages.StepKeywordType_CONTEXT,
+
+			"Lè ": messages.StepKeywordType_ACTION,
+			"Le ": messages.StepKeywordType_ACTION,
+
+			"Lè sa a ": messages.StepKeywordType_OUTCOME,
+			"Le sa a ": messages.StepKeywordType_OUTCOME,
+
+			"Ak ":  messages.StepKeywordType_CONJUNCTION,
+			"Epi ": messages.StepKeywordType_CONJUNCTION,
+			"E ":   messages.StepKeywordType_CONJUNCTION,
+
+			"Men ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"hu": &Dialect{
 		"hu", "Hungarian", "magyar", map[string][]string{
-			feature: []string{
+			feature: {
 				"Jellemző",
 			},
-			rule: []string{
+			rule: {
 				"Szabály",
 			},
-			background: []string{
+			background: {
 				"Háttér",
 			},
-			scenario: []string{
+			scenario: {
 				"Példa",
 				"Forgatókönyv",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Forgatókönyv vázlat",
 			},
-			examples: []string{
+			examples: {
 				"Példák",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Amennyiben ",
 				"Adott ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Majd ",
 				"Ha ",
 				"Amikor ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Akkor ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"És ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"De ",
 			},
 		},
-	},
-	"id": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Amennyiben ": messages.StepKeywordType_CONTEXT,
+			"Adott ":      messages.StepKeywordType_CONTEXT,
+
+			"Majd ":   messages.StepKeywordType_ACTION,
+			"Ha ":     messages.StepKeywordType_ACTION,
+			"Amikor ": messages.StepKeywordType_ACTION,
+
+			"Akkor ": messages.StepKeywordType_OUTCOME,
+
+			"És ": messages.StepKeywordType_CONJUNCTION,
+
+			"De ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"id": &Dialect{
 		"id", "Indonesian", "Bahasa Indonesia", map[string][]string{
-			feature: []string{
+			feature: {
 				"Fitur",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 				"Aturan",
 			},
-			background: []string{
+			background: {
 				"Dasar",
 				"Latar Belakang",
 			},
-			scenario: []string{
+			scenario: {
 				"Skenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Skenario konsep",
 				"Garis-Besar Skenario",
 			},
-			examples: []string{
+			examples: {
 				"Contoh",
 				"Misal",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dengan ",
 				"Diketahui ",
@@ -1788,950 +2342,1234 @@ var buildinDialects = gherkinDialectMap{
 				"Bila ",
 				"Jika ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Ketika ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Maka ",
 				"Kemudian ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Dan ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Tapi ",
 				"Tetapi ",
 			},
 		},
-	},
-	"is": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dengan ":      messages.StepKeywordType_CONTEXT,
+			"Diketahui ":   messages.StepKeywordType_CONTEXT,
+			"Diasumsikan ": messages.StepKeywordType_CONTEXT,
+			"Bila ":        messages.StepKeywordType_CONTEXT,
+			"Jika ":        messages.StepKeywordType_CONTEXT,
+
+			"Ketika ": messages.StepKeywordType_ACTION,
+
+			"Maka ":     messages.StepKeywordType_OUTCOME,
+			"Kemudian ": messages.StepKeywordType_OUTCOME,
+
+			"Dan ": messages.StepKeywordType_CONJUNCTION,
+
+			"Tapi ":   messages.StepKeywordType_CONJUNCTION,
+			"Tetapi ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"is": &Dialect{
 		"is", "Icelandic", "Íslenska", map[string][]string{
-			feature: []string{
+			feature: {
 				"Eiginleiki",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Bakgrunnur",
 			},
-			scenario: []string{
+			scenario: {
 				"Atburðarás",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Lýsing Atburðarásar",
 				"Lýsing Dæma",
 			},
-			examples: []string{
+			examples: {
 				"Dæmi",
 				"Atburðarásir",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Ef ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Þegar ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Þá ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Og ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"En ",
 			},
 		},
-	},
-	"it": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Ef ": messages.StepKeywordType_CONTEXT,
+
+			"Þegar ": messages.StepKeywordType_ACTION,
+
+			"Þá ": messages.StepKeywordType_OUTCOME,
+
+			"Og ": messages.StepKeywordType_CONJUNCTION,
+
+			"En ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"it": &Dialect{
 		"it", "Italian", "italiano", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funzionalità",
 				"Esigenza di Business",
 				"Abilità",
 			},
-			rule: []string{
+			rule: {
 				"Regola",
 			},
-			background: []string{
+			background: {
 				"Contesto",
 			},
-			scenario: []string{
+			scenario: {
 				"Esempio",
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Schema dello scenario",
 			},
-			examples: []string{
+			examples: {
 				"Esempi",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dato ",
 				"Data ",
 				"Dati ",
 				"Date ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Quando ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Allora ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"E ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ma ",
 			},
 		},
-	},
-	"ja": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dato ": messages.StepKeywordType_CONTEXT,
+			"Data ": messages.StepKeywordType_CONTEXT,
+			"Dati ": messages.StepKeywordType_CONTEXT,
+			"Date ": messages.StepKeywordType_CONTEXT,
+
+			"Quando ": messages.StepKeywordType_ACTION,
+
+			"Allora ": messages.StepKeywordType_OUTCOME,
+
+			"E ": messages.StepKeywordType_CONJUNCTION,
+
+			"Ma ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ja": &Dialect{
 		"ja", "Japanese", "日本語", map[string][]string{
-			feature: []string{
+			feature: {
 				"フィーチャ",
 				"機能",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"背景",
 			},
-			scenario: []string{
+			scenario: {
 				"シナリオ",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"シナリオアウトライン",
 				"シナリオテンプレート",
 				"テンプレ",
 				"シナリオテンプレ",
 			},
-			examples: []string{
+			examples: {
 				"例",
 				"サンプル",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"前提",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"もし",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"ならば",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"かつ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"しかし",
 				"但し",
 				"ただし",
 			},
 		},
-	},
-	"jv": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"前提": messages.StepKeywordType_CONTEXT,
+
+			"もし": messages.StepKeywordType_ACTION,
+
+			"ならば": messages.StepKeywordType_OUTCOME,
+
+			"かつ": messages.StepKeywordType_CONJUNCTION,
+
+			"しかし": messages.StepKeywordType_CONJUNCTION,
+			"但し":  messages.StepKeywordType_CONJUNCTION,
+			"ただし": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"jv": &Dialect{
 		"jv", "Javanese", "Basa Jawa", map[string][]string{
-			feature: []string{
+			feature: {
 				"Fitur",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Dasar",
 			},
-			scenario: []string{
+			scenario: {
 				"Skenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Konsep skenario",
 			},
-			examples: []string{
+			examples: {
 				"Conto",
 				"Contone",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Nalika ",
 				"Nalikaning ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Manawa ",
 				"Menawa ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Njuk ",
 				"Banjur ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Lan ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Tapi ",
 				"Nanging ",
 				"Ananging ",
 			},
 		},
-	},
-	"ka": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Nalika ":     messages.StepKeywordType_CONTEXT,
+			"Nalikaning ": messages.StepKeywordType_CONTEXT,
+
+			"Manawa ": messages.StepKeywordType_ACTION,
+			"Menawa ": messages.StepKeywordType_ACTION,
+
+			"Njuk ":   messages.StepKeywordType_OUTCOME,
+			"Banjur ": messages.StepKeywordType_OUTCOME,
+
+			"Lan ": messages.StepKeywordType_CONJUNCTION,
+
+			"Tapi ":     messages.StepKeywordType_CONJUNCTION,
+			"Nanging ":  messages.StepKeywordType_CONJUNCTION,
+			"Ananging ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ka": &Dialect{
 		"ka", "Georgian", "ქართველი", map[string][]string{
-			feature: []string{
+			feature: {
 				"თვისება",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"კონტექსტი",
 			},
-			scenario: []string{
+			scenario: {
 				"მაგალითად",
 				"სცენარის",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"სცენარის ნიმუში",
 			},
-			examples: []string{
+			examples: {
 				"მაგალითები",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"მოცემული",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"როდესაც",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"მაშინ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"და",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"მაგ­რამ",
 			},
 		},
-	},
-	"kn": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"მოცემული": messages.StepKeywordType_CONTEXT,
+
+			"როდესაც": messages.StepKeywordType_ACTION,
+
+			"მაშინ": messages.StepKeywordType_OUTCOME,
+
+			"და": messages.StepKeywordType_CONJUNCTION,
+
+			"მაგ­რამ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"kn": &Dialect{
 		"kn", "Kannada", "ಕನ್ನಡ", map[string][]string{
-			feature: []string{
+			feature: {
 				"ಹೆಚ್ಚಳ",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"ಹಿನ್ನೆಲೆ",
 			},
-			scenario: []string{
+			scenario: {
 				"ಉದಾಹರಣೆ",
 				"ಕಥಾಸಾರಾಂಶ",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"ವಿವರಣೆ",
 			},
-			examples: []string{
+			examples: {
 				"ಉದಾಹರಣೆಗಳು",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"ನೀಡಿದ ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"ಸ್ಥಿತಿಯನ್ನು ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"ನಂತರ ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"ಮತ್ತು ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"ಆದರೆ ",
 			},
 		},
-	},
-	"ko": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"ನೀಡಿದ ": messages.StepKeywordType_CONTEXT,
+
+			"ಸ್ಥಿತಿಯನ್ನು ": messages.StepKeywordType_ACTION,
+
+			"ನಂತರ ": messages.StepKeywordType_OUTCOME,
+
+			"ಮತ್ತು ": messages.StepKeywordType_CONJUNCTION,
+
+			"ಆದರೆ ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ko": &Dialect{
 		"ko", "Korean", "한국어", map[string][]string{
-			feature: []string{
+			feature: {
 				"기능",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"배경",
 			},
-			scenario: []string{
+			scenario: {
 				"시나리오",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"시나리오 개요",
 			},
-			examples: []string{
+			examples: {
 				"예",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"조건",
 				"먼저",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"만일",
 				"만약",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"그러면",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"그리고",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"하지만",
 				"단",
 			},
 		},
-	},
-	"lt": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"조건": messages.StepKeywordType_CONTEXT,
+			"먼저": messages.StepKeywordType_CONTEXT,
+
+			"만일": messages.StepKeywordType_ACTION,
+			"만약": messages.StepKeywordType_ACTION,
+
+			"그러면": messages.StepKeywordType_OUTCOME,
+
+			"그리고": messages.StepKeywordType_CONJUNCTION,
+
+			"하지만": messages.StepKeywordType_CONJUNCTION,
+			"단":   messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"lt": &Dialect{
 		"lt", "Lithuanian", "lietuvių kalba", map[string][]string{
-			feature: []string{
+			feature: {
 				"Savybė",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Kontekstas",
 			},
-			scenario: []string{
+			scenario: {
 				"Pavyzdys",
 				"Scenarijus",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Scenarijaus šablonas",
 			},
-			examples: []string{
+			examples: {
 				"Pavyzdžiai",
 				"Scenarijai",
 				"Variantai",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Duota ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Kai ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Tada ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ir ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Bet ",
 			},
 		},
-	},
-	"lu": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Duota ": messages.StepKeywordType_CONTEXT,
+
+			"Kai ": messages.StepKeywordType_ACTION,
+
+			"Tada ": messages.StepKeywordType_OUTCOME,
+
+			"Ir ": messages.StepKeywordType_CONJUNCTION,
+
+			"Bet ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"lu": &Dialect{
 		"lu", "Luxemburgish", "Lëtzebuergesch", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funktionalitéit",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Hannergrond",
 			},
-			scenario: []string{
+			scenario: {
 				"Beispill",
 				"Szenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Plang vum Szenario",
 			},
-			examples: []string{
+			examples: {
 				"Beispiller",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"ugeholl ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"wann ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"dann ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"an ",
 				"a ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"awer ",
 				"mä ",
 			},
 		},
-	},
-	"lv": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"ugeholl ": messages.StepKeywordType_CONTEXT,
+
+			"wann ": messages.StepKeywordType_ACTION,
+
+			"dann ": messages.StepKeywordType_OUTCOME,
+
+			"an ": messages.StepKeywordType_CONJUNCTION,
+			"a ":  messages.StepKeywordType_CONJUNCTION,
+
+			"awer ": messages.StepKeywordType_CONJUNCTION,
+			"mä ":   messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"lv": &Dialect{
 		"lv", "Latvian", "latviešu", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funkcionalitāte",
 				"Fīča",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Konteksts",
 				"Situācija",
 			},
-			scenario: []string{
+			scenario: {
 				"Piemērs",
 				"Scenārijs",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Scenārijs pēc parauga",
 			},
-			examples: []string{
+			examples: {
 				"Piemēri",
 				"Paraugs",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Kad ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Ja ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Tad ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Un ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Bet ",
 			},
 		},
-	},
-	"mk-Cyrl": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Kad ": messages.StepKeywordType_CONTEXT,
+
+			"Ja ": messages.StepKeywordType_ACTION,
+
+			"Tad ": messages.StepKeywordType_OUTCOME,
+
+			"Un ": messages.StepKeywordType_CONJUNCTION,
+
+			"Bet ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"mk-Cyrl": &Dialect{
 		"mk-Cyrl", "Macedonian", "Македонски", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функционалност",
 				"Бизнис потреба",
 				"Можност",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Контекст",
 				"Содржина",
 			},
-			scenario: []string{
+			scenario: {
 				"Пример",
 				"Сценарио",
 				"На пример",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Преглед на сценарија",
 				"Скица",
 				"Концепт",
 			},
-			examples: []string{
+			examples: {
 				"Примери",
 				"Сценарија",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Дадено ",
 				"Дадена ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Кога ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Тогаш ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"И ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Но ",
 			},
 		},
-	},
-	"mk-Latn": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Дадено ": messages.StepKeywordType_CONTEXT,
+			"Дадена ": messages.StepKeywordType_CONTEXT,
+
+			"Кога ": messages.StepKeywordType_ACTION,
+
+			"Тогаш ": messages.StepKeywordType_OUTCOME,
+
+			"И ": messages.StepKeywordType_CONJUNCTION,
+
+			"Но ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"mk-Latn": &Dialect{
 		"mk-Latn", "Macedonian (Latin)", "Makedonski (Latinica)", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funkcionalnost",
 				"Biznis potreba",
 				"Mozhnost",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Kontekst",
 				"Sodrzhina",
 			},
-			scenario: []string{
+			scenario: {
 				"Scenario",
 				"Na primer",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Pregled na scenarija",
 				"Skica",
 				"Koncept",
 			},
-			examples: []string{
+			examples: {
 				"Primeri",
 				"Scenaria",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dadeno ",
 				"Dadena ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Koga ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Togash ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"I ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"No ",
 			},
 		},
-	},
-	"mn": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dadeno ": messages.StepKeywordType_CONTEXT,
+			"Dadena ": messages.StepKeywordType_CONTEXT,
+
+			"Koga ": messages.StepKeywordType_ACTION,
+
+			"Togash ": messages.StepKeywordType_OUTCOME,
+
+			"I ": messages.StepKeywordType_CONJUNCTION,
+
+			"No ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"mn": &Dialect{
 		"mn", "Mongolian", "монгол", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функц",
 				"Функционал",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Агуулга",
 			},
-			scenario: []string{
+			scenario: {
 				"Сценар",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Сценарын төлөвлөгөө",
 			},
-			examples: []string{
+			examples: {
 				"Тухайлбал",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Өгөгдсөн нь ",
 				"Анх ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Хэрэв ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Тэгэхэд ",
 				"Үүний дараа ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Мөн ",
 				"Тэгээд ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Гэхдээ ",
 				"Харин ",
 			},
 		},
-	},
-	"ne": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Өгөгдсөн нь ": messages.StepKeywordType_CONTEXT,
+			"Анх ":         messages.StepKeywordType_CONTEXT,
+
+			"Хэрэв ": messages.StepKeywordType_ACTION,
+
+			"Тэгэхэд ":     messages.StepKeywordType_OUTCOME,
+			"Үүний дараа ": messages.StepKeywordType_OUTCOME,
+
+			"Мөн ":    messages.StepKeywordType_CONJUNCTION,
+			"Тэгээд ": messages.StepKeywordType_CONJUNCTION,
+
+			"Гэхдээ ": messages.StepKeywordType_CONJUNCTION,
+			"Харин ":  messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ne": &Dialect{
 		"ne", "Nepali", "नेपाली", map[string][]string{
-			feature: []string{
+			feature: {
 				"सुविधा",
 				"विशेषता",
 			},
-			rule: []string{
+			rule: {
 				"नियम",
 			},
-			background: []string{
+			background: {
 				"पृष्ठभूमी",
 			},
-			scenario: []string{
+			scenario: {
 				"परिदृश्य",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"परिदृश्य रूपरेखा",
 			},
-			examples: []string{
+			examples: {
 				"उदाहरण",
 				"उदाहरणहरु",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"दिइएको ",
 				"दिएको ",
 				"यदि ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"जब ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"त्यसपछि ",
 				"अनी ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"र ",
-				"अनी ",
+				"अनि ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"तर ",
 			},
 		},
-	},
-	"nl": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"दिइएको ": messages.StepKeywordType_CONTEXT,
+			"दिएको ":  messages.StepKeywordType_CONTEXT,
+			"यदि ":    messages.StepKeywordType_CONTEXT,
+
+			"जब ": messages.StepKeywordType_ACTION,
+
+			"त्यसपछि ": messages.StepKeywordType_OUTCOME,
+			"अनी ":     messages.StepKeywordType_OUTCOME,
+
+			"र ":   messages.StepKeywordType_CONJUNCTION,
+			"अनि ": messages.StepKeywordType_CONJUNCTION,
+
+			"तर ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"nl": &Dialect{
 		"nl", "Dutch", "Nederlands", map[string][]string{
-			feature: []string{
+			feature: {
 				"Functionaliteit",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Achtergrond",
 			},
-			scenario: []string{
+			scenario: {
 				"Voorbeeld",
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Abstract Scenario",
 			},
-			examples: []string{
+			examples: {
 				"Voorbeelden",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Gegeven ",
 				"Stel ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Als ",
 				"Wanneer ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Dan ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"En ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Maar ",
 			},
 		},
-	},
-	"no": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Gegeven ": messages.StepKeywordType_CONTEXT,
+			"Stel ":    messages.StepKeywordType_CONTEXT,
+
+			"Als ":     messages.StepKeywordType_ACTION,
+			"Wanneer ": messages.StepKeywordType_ACTION,
+
+			"Dan ": messages.StepKeywordType_OUTCOME,
+
+			"En ": messages.StepKeywordType_CONJUNCTION,
+
+			"Maar ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"no": &Dialect{
 		"no", "Norwegian", "norsk", map[string][]string{
-			feature: []string{
+			feature: {
 				"Egenskap",
 			},
-			rule: []string{
+			rule: {
 				"Regel",
 			},
-			background: []string{
+			background: {
 				"Bakgrunn",
 			},
-			scenario: []string{
+			scenario: {
 				"Eksempel",
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Scenariomal",
 				"Abstrakt Scenario",
 			},
-			examples: []string{
+			examples: {
 				"Eksempler",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Gitt ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Når ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Så ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Og ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Men ",
 			},
 		},
-	},
-	"pa": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Gitt ": messages.StepKeywordType_CONTEXT,
+
+			"Når ": messages.StepKeywordType_ACTION,
+
+			"Så ": messages.StepKeywordType_OUTCOME,
+
+			"Og ": messages.StepKeywordType_CONJUNCTION,
+
+			"Men ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"pa": &Dialect{
 		"pa", "Panjabi", "ਪੰਜਾਬੀ", map[string][]string{
-			feature: []string{
+			feature: {
 				"ਖਾਸੀਅਤ",
 				"ਮੁਹਾਂਦਰਾ",
 				"ਨਕਸ਼ ਨੁਹਾਰ",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"ਪਿਛੋਕੜ",
 			},
-			scenario: []string{
+			scenario: {
 				"ਉਦਾਹਰਨ",
 				"ਪਟਕਥਾ",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"ਪਟਕਥਾ ਢਾਂਚਾ",
 				"ਪਟਕਥਾ ਰੂਪ ਰੇਖਾ",
 			},
-			examples: []string{
+			examples: {
 				"ਉਦਾਹਰਨਾਂ",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"ਜੇਕਰ ",
 				"ਜਿਵੇਂ ਕਿ ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"ਜਦੋਂ ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"ਤਦ ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"ਅਤੇ ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"ਪਰ ",
 			},
 		},
-	},
-	"pl": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"ਜੇਕਰ ":     messages.StepKeywordType_CONTEXT,
+			"ਜਿਵੇਂ ਕਿ ": messages.StepKeywordType_CONTEXT,
+
+			"ਜਦੋਂ ": messages.StepKeywordType_ACTION,
+
+			"ਤਦ ": messages.StepKeywordType_OUTCOME,
+
+			"ਅਤੇ ": messages.StepKeywordType_CONJUNCTION,
+
+			"ਪਰ ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"pl": &Dialect{
 		"pl", "Polish", "polski", map[string][]string{
-			feature: []string{
+			feature: {
 				"Właściwość",
 				"Funkcja",
 				"Aspekt",
 				"Potrzeba biznesowa",
 			},
-			rule: []string{
+			rule: {
 				"Zasada",
 				"Reguła",
 			},
-			background: []string{
+			background: {
 				"Założenia",
 			},
-			scenario: []string{
+			scenario: {
 				"Przykład",
 				"Scenariusz",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Szablon scenariusza",
 			},
-			examples: []string{
+			examples: {
 				"Przykłady",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Zakładając ",
 				"Mając ",
 				"Zakładając, że ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Jeżeli ",
 				"Jeśli ",
 				"Gdy ",
 				"Kiedy ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Wtedy ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Oraz ",
 				"I ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ale ",
 			},
 		},
-	},
-	"pt": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Zakładając ":     messages.StepKeywordType_CONTEXT,
+			"Mając ":          messages.StepKeywordType_CONTEXT,
+			"Zakładając, że ": messages.StepKeywordType_CONTEXT,
+
+			"Jeżeli ": messages.StepKeywordType_ACTION,
+			"Jeśli ":  messages.StepKeywordType_ACTION,
+			"Gdy ":    messages.StepKeywordType_ACTION,
+			"Kiedy ":  messages.StepKeywordType_ACTION,
+
+			"Wtedy ": messages.StepKeywordType_OUTCOME,
+
+			"Oraz ": messages.StepKeywordType_CONJUNCTION,
+			"I ":    messages.StepKeywordType_CONJUNCTION,
+
+			"Ale ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"pt": &Dialect{
 		"pt", "Portuguese", "português", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funcionalidade",
 				"Característica",
 				"Caracteristica",
 			},
-			rule: []string{
+			rule: {
 				"Regra",
 			},
-			background: []string{
+			background: {
 				"Contexto",
 				"Cenário de Fundo",
 				"Cenario de Fundo",
 				"Fundo",
 			},
-			scenario: []string{
+			scenario: {
 				"Exemplo",
 				"Cenário",
 				"Cenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Esquema do Cenário",
 				"Esquema do Cenario",
 				"Delineação do Cenário",
 				"Delineacao do Cenario",
 			},
-			examples: []string{
+			examples: {
 				"Exemplos",
 				"Cenários",
 				"Cenarios",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Dado ",
 				"Dada ",
 				"Dados ",
 				"Dadas ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Quando ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Então ",
 				"Entao ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"E ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Mas ",
 			},
 		},
-	},
-	"ro": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dado ":  messages.StepKeywordType_CONTEXT,
+			"Dada ":  messages.StepKeywordType_CONTEXT,
+			"Dados ": messages.StepKeywordType_CONTEXT,
+			"Dadas ": messages.StepKeywordType_CONTEXT,
+
+			"Quando ": messages.StepKeywordType_ACTION,
+
+			"Então ": messages.StepKeywordType_OUTCOME,
+			"Entao ": messages.StepKeywordType_OUTCOME,
+
+			"E ": messages.StepKeywordType_CONJUNCTION,
+
+			"Mas ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ro": &Dialect{
 		"ro", "Romanian", "română", map[string][]string{
-			feature: []string{
+			feature: {
 				"Functionalitate",
 				"Funcționalitate",
 				"Funcţionalitate",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Context",
 			},
-			scenario: []string{
+			scenario: {
 				"Exemplu",
 				"Scenariu",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Structura scenariu",
 				"Structură scenariu",
 			},
-			examples: []string{
+			examples: {
 				"Exemple",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Date fiind ",
 				"Dat fiind ",
@@ -2740,140 +3578,199 @@ var buildinDialects = gherkinDialectMap{
 				"Dați fiind ",
 				"Daţi fiind ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Cand ",
 				"Când ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Atunci ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Si ",
 				"Și ",
 				"Şi ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Dar ",
 			},
 		},
-	},
-	"ru": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Date fiind ": messages.StepKeywordType_CONTEXT,
+			"Dat fiind ":  messages.StepKeywordType_CONTEXT,
+			"Dată fiind":  messages.StepKeywordType_CONTEXT,
+			"Dati fiind ": messages.StepKeywordType_CONTEXT,
+			"Dați fiind ": messages.StepKeywordType_CONTEXT,
+			"Daţi fiind ": messages.StepKeywordType_CONTEXT,
+
+			"Cand ": messages.StepKeywordType_ACTION,
+			"Când ": messages.StepKeywordType_ACTION,
+
+			"Atunci ": messages.StepKeywordType_OUTCOME,
+
+			"Si ": messages.StepKeywordType_CONJUNCTION,
+			"Și ": messages.StepKeywordType_CONJUNCTION,
+			"Şi ": messages.StepKeywordType_CONJUNCTION,
+
+			"Dar ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ru": &Dialect{
 		"ru", "Russian", "русский", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функция",
 				"Функциональность",
 				"Функционал",
 				"Свойство",
 			},
-			rule: []string{
+			rule: {
 				"Правило",
 			},
-			background: []string{
+			background: {
 				"Предыстория",
 				"Контекст",
 			},
-			scenario: []string{
+			scenario: {
 				"Пример",
 				"Сценарий",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Структура сценария",
 				"Шаблон сценария",
 			},
-			examples: []string{
+			examples: {
 				"Примеры",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Допустим ",
 				"Дано ",
 				"Пусть ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Когда ",
 				"Если ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"То ",
 				"Затем ",
 				"Тогда ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"И ",
 				"К тому же ",
 				"Также ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Но ",
 				"А ",
 				"Иначе ",
 			},
 		},
-	},
-	"sk": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Допустим ": messages.StepKeywordType_CONTEXT,
+			"Дано ":     messages.StepKeywordType_CONTEXT,
+			"Пусть ":    messages.StepKeywordType_CONTEXT,
+
+			"Когда ": messages.StepKeywordType_ACTION,
+			"Если ":  messages.StepKeywordType_ACTION,
+
+			"То ":    messages.StepKeywordType_OUTCOME,
+			"Затем ": messages.StepKeywordType_OUTCOME,
+			"Тогда ": messages.StepKeywordType_OUTCOME,
+
+			"И ":         messages.StepKeywordType_CONJUNCTION,
+			"К тому же ": messages.StepKeywordType_CONJUNCTION,
+			"Также ":     messages.StepKeywordType_CONJUNCTION,
+
+			"Но ":    messages.StepKeywordType_CONJUNCTION,
+			"А ":     messages.StepKeywordType_CONJUNCTION,
+			"Иначе ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"sk": &Dialect{
 		"sk", "Slovak", "Slovensky", map[string][]string{
-			feature: []string{
+			feature: {
 				"Požiadavka",
 				"Funkcia",
 				"Vlastnosť",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Pozadie",
 			},
-			scenario: []string{
+			scenario: {
 				"Príklad",
 				"Scenár",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Náčrt Scenáru",
 				"Náčrt Scenára",
 				"Osnova Scenára",
 			},
-			examples: []string{
+			examples: {
 				"Príklady",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Pokiaľ ",
 				"Za predpokladu ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Keď ",
 				"Ak ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Tak ",
 				"Potom ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"A ",
 				"A tiež ",
 				"A taktiež ",
 				"A zároveň ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ale ",
 			},
 		},
-	},
-	"sl": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Pokiaľ ":         messages.StepKeywordType_CONTEXT,
+			"Za predpokladu ": messages.StepKeywordType_CONTEXT,
+
+			"Keď ": messages.StepKeywordType_ACTION,
+			"Ak ":  messages.StepKeywordType_ACTION,
+
+			"Tak ":   messages.StepKeywordType_OUTCOME,
+			"Potom ": messages.StepKeywordType_OUTCOME,
+
+			"A ":         messages.StepKeywordType_CONJUNCTION,
+			"A tiež ":    messages.StepKeywordType_CONJUNCTION,
+			"A taktiež ": messages.StepKeywordType_CONJUNCTION,
+			"A zároveň ": messages.StepKeywordType_CONJUNCTION,
+
+			"Ale ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"sl": &Dialect{
 		"sl", "Slovenian", "Slovenski", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funkcionalnost",
 				"Funkcija",
 				"Možnosti",
@@ -2881,813 +3778,1067 @@ var buildinDialects = gherkinDialectMap{
 				"Lastnost",
 				"Značilnost",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Kontekst",
 				"Osnova",
 				"Ozadje",
 			},
-			scenario: []string{
+			scenario: {
 				"Primer",
 				"Scenarij",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Struktura scenarija",
 				"Skica",
 				"Koncept",
 				"Oris scenarija",
 				"Osnutek",
 			},
-			examples: []string{
+			examples: {
 				"Primeri",
 				"Scenariji",
 			},
-			given: []string{
+			given: {
 				"Dano ",
 				"Podano ",
 				"Zaradi ",
 				"Privzeto ",
 			},
-			when: []string{
+			when: {
 				"Ko ",
 				"Ce ",
 				"Če ",
 				"Kadar ",
 			},
-			then: []string{
+			then: {
 				"Nato ",
 				"Potem ",
 				"Takrat ",
 			},
-			and: []string{
+			and: {
 				"In ",
 				"Ter ",
 			},
-			but: []string{
+			but: {
 				"Toda ",
 				"Ampak ",
 				"Vendar ",
 			},
 		},
-	},
-	"sr-Cyrl": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Dano ":     messages.StepKeywordType_CONTEXT,
+			"Podano ":   messages.StepKeywordType_CONTEXT,
+			"Zaradi ":   messages.StepKeywordType_CONTEXT,
+			"Privzeto ": messages.StepKeywordType_CONTEXT,
+
+			"Ko ":    messages.StepKeywordType_ACTION,
+			"Ce ":    messages.StepKeywordType_ACTION,
+			"Če ":    messages.StepKeywordType_ACTION,
+			"Kadar ": messages.StepKeywordType_ACTION,
+
+			"Nato ":   messages.StepKeywordType_OUTCOME,
+			"Potem ":  messages.StepKeywordType_OUTCOME,
+			"Takrat ": messages.StepKeywordType_OUTCOME,
+
+			"In ":  messages.StepKeywordType_CONJUNCTION,
+			"Ter ": messages.StepKeywordType_CONJUNCTION,
+
+			"Toda ":   messages.StepKeywordType_CONJUNCTION,
+			"Ampak ":  messages.StepKeywordType_CONJUNCTION,
+			"Vendar ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"sr-Cyrl": &Dialect{
 		"sr-Cyrl", "Serbian", "Српски", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функционалност",
 				"Могућност",
 				"Особина",
 			},
-			rule: []string{
+			rule: {
 				"Правило",
 			},
-			background: []string{
+			background: {
 				"Контекст",
 				"Основа",
 				"Позадина",
 			},
-			scenario: []string{
+			scenario: {
 				"Пример",
 				"Сценарио",
 				"Пример",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Структура сценарија",
 				"Скица",
 				"Концепт",
 			},
-			examples: []string{
+			examples: {
 				"Примери",
 				"Сценарији",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"За дато ",
 				"За дате ",
 				"За дати ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Када ",
 				"Кад ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Онда ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"И ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Али ",
 			},
 		},
-	},
-	"sr-Latn": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"За дато ": messages.StepKeywordType_CONTEXT,
+			"За дате ": messages.StepKeywordType_CONTEXT,
+			"За дати ": messages.StepKeywordType_CONTEXT,
+
+			"Када ": messages.StepKeywordType_ACTION,
+			"Кад ":  messages.StepKeywordType_ACTION,
+
+			"Онда ": messages.StepKeywordType_OUTCOME,
+
+			"И ": messages.StepKeywordType_CONJUNCTION,
+
+			"Али ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"sr-Latn": &Dialect{
 		"sr-Latn", "Serbian (Latin)", "Srpski (Latinica)", map[string][]string{
-			feature: []string{
+			feature: {
 				"Funkcionalnost",
 				"Mogućnost",
 				"Mogucnost",
 				"Osobina",
 			},
-			rule: []string{
+			rule: {
 				"Pravilo",
 			},
-			background: []string{
+			background: {
 				"Kontekst",
 				"Osnova",
 				"Pozadina",
 			},
-			scenario: []string{
+			scenario: {
 				"Scenario",
 				"Primer",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Struktura scenarija",
 				"Skica",
 				"Koncept",
 			},
-			examples: []string{
+			examples: {
 				"Primeri",
 				"Scenariji",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Za dato ",
 				"Za date ",
 				"Za dati ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Kada ",
 				"Kad ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Onda ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"I ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ali ",
 			},
 		},
-	},
-	"sv": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Za dato ": messages.StepKeywordType_CONTEXT,
+			"Za date ": messages.StepKeywordType_CONTEXT,
+			"Za dati ": messages.StepKeywordType_CONTEXT,
+
+			"Kada ": messages.StepKeywordType_ACTION,
+			"Kad ":  messages.StepKeywordType_ACTION,
+
+			"Onda ": messages.StepKeywordType_OUTCOME,
+
+			"I ": messages.StepKeywordType_CONJUNCTION,
+
+			"Ali ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"sv": &Dialect{
 		"sv", "Swedish", "Svenska", map[string][]string{
-			feature: []string{
+			feature: {
 				"Egenskap",
 			},
-			rule: []string{
+			rule: {
 				"Regel",
 			},
-			background: []string{
+			background: {
 				"Bakgrund",
 			},
-			scenario: []string{
+			scenario: {
 				"Scenario",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Abstrakt Scenario",
 				"Scenariomall",
 			},
-			examples: []string{
+			examples: {
 				"Exempel",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Givet ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"När ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Så ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Och ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Men ",
 			},
 		},
-	},
-	"ta": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Givet ": messages.StepKeywordType_CONTEXT,
+
+			"När ": messages.StepKeywordType_ACTION,
+
+			"Så ": messages.StepKeywordType_OUTCOME,
+
+			"Och ": messages.StepKeywordType_CONJUNCTION,
+
+			"Men ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ta": &Dialect{
 		"ta", "Tamil", "தமிழ்", map[string][]string{
-			feature: []string{
+			feature: {
 				"அம்சம்",
 				"வணிக தேவை",
 				"திறன்",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"பின்னணி",
 			},
-			scenario: []string{
+			scenario: {
 				"உதாரணமாக",
 				"காட்சி",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"காட்சி சுருக்கம்",
 				"காட்சி வார்ப்புரு",
 			},
-			examples: []string{
+			examples: {
 				"எடுத்துக்காட்டுகள்",
 				"காட்சிகள்",
 				"நிலைமைகளில்",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"கொடுக்கப்பட்ட ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"எப்போது ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"அப்பொழுது ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"மேலும்  ",
 				"மற்றும் ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"ஆனால்  ",
 			},
 		},
-	},
-	"th": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"கொடுக்கப்பட்ட ": messages.StepKeywordType_CONTEXT,
+
+			"எப்போது ": messages.StepKeywordType_ACTION,
+
+			"அப்பொழுது ": messages.StepKeywordType_OUTCOME,
+
+			"மேலும்  ": messages.StepKeywordType_CONJUNCTION,
+			"மற்றும் ": messages.StepKeywordType_CONJUNCTION,
+
+			"ஆனால்  ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"th": &Dialect{
 		"th", "Thai", "ไทย", map[string][]string{
-			feature: []string{
+			feature: {
 				"โครงหลัก",
 				"ความต้องการทางธุรกิจ",
 				"ความสามารถ",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"แนวคิด",
 			},
-			scenario: []string{
+			scenario: {
 				"เหตุการณ์",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"สรุปเหตุการณ์",
 				"โครงสร้างของเหตุการณ์",
 			},
-			examples: []string{
+			examples: {
 				"ชุดของตัวอย่าง",
 				"ชุดของเหตุการณ์",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"กำหนดให้ ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"เมื่อ ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"ดังนั้น ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"และ ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"แต่ ",
 			},
 		},
-	},
-	"te": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"กำหนดให้ ": messages.StepKeywordType_CONTEXT,
+
+			"เมื่อ ": messages.StepKeywordType_ACTION,
+
+			"ดังนั้น ": messages.StepKeywordType_OUTCOME,
+
+			"และ ": messages.StepKeywordType_CONJUNCTION,
+
+			"แต่ ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"te": &Dialect{
 		"te", "Telugu", "తెలుగు", map[string][]string{
-			feature: []string{
+			feature: {
 				"గుణము",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"నేపథ్యం",
 			},
-			scenario: []string{
+			scenario: {
 				"ఉదాహరణ",
 				"సన్నివేశం",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"కథనం",
 			},
-			examples: []string{
+			examples: {
 				"ఉదాహరణలు",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"చెప్పబడినది ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"ఈ పరిస్థితిలో ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"అప్పుడు ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"మరియు ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"కాని ",
 			},
 		},
-	},
-	"tlh": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"చెప్పబడినది ": messages.StepKeywordType_CONTEXT,
+
+			"ఈ పరిస్థితిలో ": messages.StepKeywordType_ACTION,
+
+			"అప్పుడు ": messages.StepKeywordType_OUTCOME,
+
+			"మరియు ": messages.StepKeywordType_CONJUNCTION,
+
+			"కాని ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"tlh": &Dialect{
 		"tlh", "Klingon", "tlhIngan", map[string][]string{
-			feature: []string{
+			feature: {
 				"Qap",
 				"Qu'meH 'ut",
 				"perbogh",
 				"poQbogh malja'",
 				"laH",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"mo'",
 			},
-			scenario: []string{
+			scenario: {
 				"lut",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"lut chovnatlh",
 			},
-			examples: []string{
+			examples: {
 				"ghantoH",
 				"lutmey",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"ghu' noblu' ",
 				"DaH ghu' bejlu' ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"qaSDI' ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"vaj ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"'ej ",
 				"latlh ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"'ach ",
 				"'a ",
 			},
 		},
-	},
-	"tr": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"ghu' noblu' ":     messages.StepKeywordType_CONTEXT,
+			"DaH ghu' bejlu' ": messages.StepKeywordType_CONTEXT,
+
+			"qaSDI' ": messages.StepKeywordType_ACTION,
+
+			"vaj ": messages.StepKeywordType_OUTCOME,
+
+			"'ej ":   messages.StepKeywordType_CONJUNCTION,
+			"latlh ": messages.StepKeywordType_CONJUNCTION,
+
+			"'ach ": messages.StepKeywordType_CONJUNCTION,
+			"'a ":   messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"tr": &Dialect{
 		"tr", "Turkish", "Türkçe", map[string][]string{
-			feature: []string{
+			feature: {
 				"Özellik",
 			},
-			rule: []string{
+			rule: {
 				"Kural",
 			},
-			background: []string{
+			background: {
 				"Geçmiş",
 			},
-			scenario: []string{
+			scenario: {
 				"Örnek",
 				"Senaryo",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Senaryo taslağı",
 			},
-			examples: []string{
+			examples: {
 				"Örnekler",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Diyelim ki ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Eğer ki ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"O zaman ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ve ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Fakat ",
 				"Ama ",
 			},
 		},
-	},
-	"tt": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Diyelim ki ": messages.StepKeywordType_CONTEXT,
+
+			"Eğer ki ": messages.StepKeywordType_ACTION,
+
+			"O zaman ": messages.StepKeywordType_OUTCOME,
+
+			"Ve ": messages.StepKeywordType_CONJUNCTION,
+
+			"Fakat ": messages.StepKeywordType_CONJUNCTION,
+			"Ama ":   messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"tt": &Dialect{
 		"tt", "Tatar", "Татарча", map[string][]string{
-			feature: []string{
+			feature: {
 				"Мөмкинлек",
 				"Үзенчәлеклелек",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Кереш",
 			},
-			scenario: []string{
+			scenario: {
 				"Сценарий",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Сценарийның төзелеше",
 			},
-			examples: []string{
+			examples: {
 				"Үрнәкләр",
 				"Мисаллар",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Әйтик ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Әгәр ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Нәтиҗәдә ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Һәм ",
 				"Вә ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Ләкин ",
 				"Әмма ",
 			},
 		},
-	},
-	"uk": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Әйтик ": messages.StepKeywordType_CONTEXT,
+
+			"Әгәр ": messages.StepKeywordType_ACTION,
+
+			"Нәтиҗәдә ": messages.StepKeywordType_OUTCOME,
+
+			"Һәм ": messages.StepKeywordType_CONJUNCTION,
+			"Вә ":  messages.StepKeywordType_CONJUNCTION,
+
+			"Ләкин ": messages.StepKeywordType_CONJUNCTION,
+			"Әмма ":  messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"uk": &Dialect{
 		"uk", "Ukrainian", "Українська", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функціонал",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Передумова",
 			},
-			scenario: []string{
+			scenario: {
 				"Приклад",
 				"Сценарій",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Структура сценарію",
 			},
-			examples: []string{
+			examples: {
 				"Приклади",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Припустимо ",
 				"Припустимо, що ",
 				"Нехай ",
 				"Дано ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Якщо ",
 				"Коли ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"То ",
 				"Тоді ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"І ",
 				"А також ",
 				"Та ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Але ",
 			},
 		},
-	},
-	"ur": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Припустимо ":     messages.StepKeywordType_CONTEXT,
+			"Припустимо, що ": messages.StepKeywordType_CONTEXT,
+			"Нехай ":          messages.StepKeywordType_CONTEXT,
+			"Дано ":           messages.StepKeywordType_CONTEXT,
+
+			"Якщо ": messages.StepKeywordType_ACTION,
+			"Коли ": messages.StepKeywordType_ACTION,
+
+			"То ":   messages.StepKeywordType_OUTCOME,
+			"Тоді ": messages.StepKeywordType_OUTCOME,
+
+			"І ":       messages.StepKeywordType_CONJUNCTION,
+			"А також ": messages.StepKeywordType_CONJUNCTION,
+			"Та ":      messages.StepKeywordType_CONJUNCTION,
+
+			"Але ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"ur": &Dialect{
 		"ur", "Urdu", "اردو", map[string][]string{
-			feature: []string{
+			feature: {
 				"صلاحیت",
 				"کاروبار کی ضرورت",
 				"خصوصیت",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"پس منظر",
 			},
-			scenario: []string{
+			scenario: {
 				"منظرنامہ",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"منظر نامے کا خاکہ",
 			},
-			examples: []string{
+			examples: {
 				"مثالیں",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"اگر ",
 				"بالفرض ",
 				"فرض کیا ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"جب ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"پھر ",
 				"تب ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"اور ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"لیکن ",
 			},
 		},
-	},
-	"uz": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"اگر ":     messages.StepKeywordType_CONTEXT,
+			"بالفرض ":  messages.StepKeywordType_CONTEXT,
+			"فرض کیا ": messages.StepKeywordType_CONTEXT,
+
+			"جب ": messages.StepKeywordType_ACTION,
+
+			"پھر ": messages.StepKeywordType_OUTCOME,
+			"تب ":  messages.StepKeywordType_OUTCOME,
+
+			"اور ": messages.StepKeywordType_CONJUNCTION,
+
+			"لیکن ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"uz": &Dialect{
 		"uz", "Uzbek", "Узбекча", map[string][]string{
-			feature: []string{
+			feature: {
 				"Функционал",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Тарих",
 			},
-			scenario: []string{
+			scenario: {
 				"Сценарий",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Сценарий структураси",
 			},
-			examples: []string{
+			examples: {
 				"Мисоллар",
 			},
-			given: []string{
+			given: {
+				"* ",
+				"Belgilangan ",
+			},
+			when: {
 				"* ",
 				"Агар ",
 			},
-			when: []string{
-				"* ",
-				"Агар ",
-			},
-			then: []string{
+			then: {
 				"* ",
 				"Унда ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Ва ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Лекин ",
 				"Бирок ",
 				"Аммо ",
 			},
 		},
-	},
-	"vi": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Belgilangan ": messages.StepKeywordType_CONTEXT,
+
+			"Агар ": messages.StepKeywordType_ACTION,
+
+			"Унда ": messages.StepKeywordType_OUTCOME,
+
+			"Ва ": messages.StepKeywordType_CONJUNCTION,
+
+			"Лекин ": messages.StepKeywordType_CONJUNCTION,
+			"Бирок ": messages.StepKeywordType_CONJUNCTION,
+			"Аммо ":  messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"vi": &Dialect{
 		"vi", "Vietnamese", "Tiếng Việt", map[string][]string{
-			feature: []string{
+			feature: {
 				"Tính năng",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"Bối cảnh",
 			},
-			scenario: []string{
+			scenario: {
 				"Tình huống",
 				"Kịch bản",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"Khung tình huống",
 				"Khung kịch bản",
 			},
-			examples: []string{
+			examples: {
 				"Dữ liệu",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"Biết ",
 				"Cho ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"Khi ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"Thì ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"Và ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"Nhưng ",
 			},
 		},
-	},
-	"zh-CN": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"Biết ": messages.StepKeywordType_CONTEXT,
+			"Cho ":  messages.StepKeywordType_CONTEXT,
+
+			"Khi ": messages.StepKeywordType_ACTION,
+
+			"Thì ": messages.StepKeywordType_OUTCOME,
+
+			"Và ": messages.StepKeywordType_CONJUNCTION,
+
+			"Nhưng ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"zh-CN": &Dialect{
 		"zh-CN", "Chinese simplified", "简体中文", map[string][]string{
-			feature: []string{
+			feature: {
 				"功能",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
+				"规则",
 			},
-			background: []string{
+			background: {
 				"背景",
 			},
-			scenario: []string{
+			scenario: {
 				"场景",
 				"剧本",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"场景大纲",
 				"剧本大纲",
 			},
-			examples: []string{
+			examples: {
 				"例子",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"假如",
 				"假设",
 				"假定",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"当",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"那么",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"而且",
 				"并且",
 				"同时",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"但是",
 			},
 		},
-	},
-	"zh-TW": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"假如": messages.StepKeywordType_CONTEXT,
+			"假设": messages.StepKeywordType_CONTEXT,
+			"假定": messages.StepKeywordType_CONTEXT,
+
+			"当": messages.StepKeywordType_ACTION,
+
+			"那么": messages.StepKeywordType_OUTCOME,
+
+			"而且": messages.StepKeywordType_CONJUNCTION,
+			"并且": messages.StepKeywordType_CONJUNCTION,
+			"同时": messages.StepKeywordType_CONJUNCTION,
+
+			"但是": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"zh-TW": &Dialect{
 		"zh-TW", "Chinese traditional", "繁體中文", map[string][]string{
-			feature: []string{
+			feature: {
 				"功能",
 			},
-			rule: []string{
+			rule: {
 				"Rule",
 			},
-			background: []string{
+			background: {
 				"背景",
 			},
-			scenario: []string{
+			scenario: {
 				"場景",
 				"劇本",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"場景大綱",
 				"劇本大綱",
 			},
-			examples: []string{
+			examples: {
 				"例子",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"假如",
 				"假設",
 				"假定",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"當",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"那麼",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"而且",
 				"並且",
 				"同時",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"但是",
 			},
 		},
-	},
-	"mr": &GherkinDialect{
+		map[string]messages.StepKeywordType{
+			"假如": messages.StepKeywordType_CONTEXT,
+			"假設": messages.StepKeywordType_CONTEXT,
+			"假定": messages.StepKeywordType_CONTEXT,
+
+			"當": messages.StepKeywordType_ACTION,
+
+			"那麼": messages.StepKeywordType_OUTCOME,
+
+			"而且": messages.StepKeywordType_CONJUNCTION,
+			"並且": messages.StepKeywordType_CONJUNCTION,
+			"同時": messages.StepKeywordType_CONJUNCTION,
+
+			"但是": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
+	"mr": &Dialect{
 		"mr", "Marathi", "मराठी", map[string][]string{
-			feature: []string{
+			feature: {
 				"वैशिष्ट्य",
 				"सुविधा",
 			},
-			rule: []string{
+			rule: {
 				"नियम",
 			},
-			background: []string{
+			background: {
 				"पार्श्वभूमी",
 			},
-			scenario: []string{
+			scenario: {
 				"परिदृश्य",
 			},
-			scenarioOutline: []string{
+			scenarioOutline: {
 				"परिदृश्य रूपरेखा",
 			},
-			examples: []string{
+			examples: {
 				"उदाहरण",
 			},
-			given: []string{
+			given: {
 				"* ",
 				"जर",
 				"दिलेल्या प्रमाणे ",
 			},
-			when: []string{
+			when: {
 				"* ",
 				"जेव्हा ",
 			},
-			then: []string{
+			then: {
 				"* ",
 				"मग ",
 				"तेव्हा ",
 			},
-			and: []string{
+			and: {
 				"* ",
 				"आणि ",
 				"तसेच ",
 			},
-			but: []string{
+			but: {
 				"* ",
 				"पण ",
 				"परंतु ",
 			},
 		},
-	},
+		map[string]messages.StepKeywordType{
+			"जर": messages.StepKeywordType_CONTEXT,
+			"दिलेल्या प्रमाणे ": messages.StepKeywordType_CONTEXT,
+
+			"जेव्हा ": messages.StepKeywordType_ACTION,
+
+			"मग ":     messages.StepKeywordType_OUTCOME,
+			"तेव्हा ": messages.StepKeywordType_OUTCOME,
+
+			"आणि ":  messages.StepKeywordType_CONJUNCTION,
+			"तसेच ": messages.StepKeywordType_CONJUNCTION,
+
+			"पण ":    messages.StepKeywordType_CONJUNCTION,
+			"परंतु ": messages.StepKeywordType_CONJUNCTION,
+
+			"* ": messages.StepKeywordType_UNKNOWN,
+		}},
 }

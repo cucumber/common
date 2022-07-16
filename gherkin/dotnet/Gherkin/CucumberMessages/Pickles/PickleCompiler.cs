@@ -10,6 +10,7 @@ namespace Gherkin.CucumberMessages.Pickles
     public class PickleCompiler
     {
         private readonly IIdGenerator _idGenerator;
+        protected StepKeywordType CurrentStepKeywordType { get; set; }
 
         public PickleCompiler(IIdGenerator idGenerator)
         {
@@ -87,6 +88,7 @@ namespace Gherkin.CucumberMessages.Pickles
 
         private void BuildScenario(List<Pickle> pickles, string language, IEnumerable<Tag> tags, Func<IEnumerable<PickleStep>> backgroundStepsFactory, string gherkinDocumentUri, Scenario scenario)
         {
+            CurrentStepKeywordType = StepKeywordType.Unspecified;
             if (!scenario.Examples.Any())
             {
                 CompileScenario(pickles, backgroundStepsFactory, scenario, tags, language, gherkinDocumentUri);
@@ -174,8 +176,30 @@ namespace Gherkin.CucumberMessages.Pickles
 
         protected virtual PickleStep CreatePickleStep(Step step, string text, PickleStepArgument argument, IEnumerable<string> astNodeIds)
         {
-            return new PickleStep(argument, astNodeIds, _idGenerator.GetNewId(), text);
+            CurrentStepKeywordType = GetKeywordType(step, CurrentStepKeywordType);
+            return new PickleStep(argument, astNodeIds, _idGenerator.GetNewId(), text, CurrentStepKeywordType);
         }
+
+        protected virtual StepKeywordType GetKeywordType(Step step, StepKeywordType lastStepKeywordType)
+        {
+            var stepKeywordType = step.KeywordType;
+            switch (stepKeywordType)
+            {
+                case StepKeywordType.Context:
+                case StepKeywordType.Action:
+                case StepKeywordType.Outcome:
+                case StepKeywordType.Unknown:
+                    return stepKeywordType;
+                case StepKeywordType.Conjunction:
+                    return lastStepKeywordType == StepKeywordType.Unspecified ||
+                           lastStepKeywordType == StepKeywordType.Unknown
+                        ? StepKeywordType.Context
+                        : lastStepKeywordType;
+                default:
+                    return StepKeywordType.Unspecified;
+            }
+        }
+
 
         protected virtual PickleStepArgument CreatePickleArgument(Step argument)
         {

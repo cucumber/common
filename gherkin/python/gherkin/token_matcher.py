@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 from .dialect import Dialect
 from .errors import NoSuchLanguageException
 
@@ -49,7 +50,12 @@ class TokenMatcher(object):
                     self.dialect.but_keywords)
         for keyword in (k for k in keywords if token.line.startswith(k)):
             title = token.line.get_rest_trimmed(len(keyword))
-            self._set_token_matched(token, 'StepLine', title, keyword)
+            keyword_types = self.keyword_types[keyword]
+            if len(keyword_types) == 1:
+                keyword_type = keyword_types[0]
+            else:
+                keyword_type = 'Unknown'
+            self._set_token_matched(token, 'StepLine', title, keyword, keyword_type=keyword_type)
             return True
 
         return False
@@ -134,13 +140,14 @@ class TokenMatcher(object):
         return False
 
     def _set_token_matched(self, token, matched_type, text=None,
-                           keyword=None, indent=None, items=None):
+                           keyword=None, keyword_type=None, indent=None, items=None):
         if items is None:
             items = []
         token.matched_type = matched_type
         # text == '' should not result in None
         token.matched_text = text.rstrip('\r\n') if text is not None else None
         token.matched_keyword = keyword
+        token.matched_keyword_type = keyword_type
         if indent is not None:
             token.matched_indent = indent
         else:
@@ -156,6 +163,15 @@ class TokenMatcher(object):
 
         self.dialect_name = dialect_name
         self.dialect = dialect
+        self.keyword_types = defaultdict(list)
+        for keyword in self.dialect.given_keywords:
+            self.keyword_types[keyword].append('Context')
+        for keyword in self.dialect.when_keywords:
+            self.keyword_types[keyword].append('Action')
+        for keyword in self.dialect.then_keywords:
+            self.keyword_types[keyword].append('Outcome')
+        for keyword in self.dialect.and_keywords + self.dialect.but_keywords:
+            self.keyword_types[keyword].append('Conjunction')
 
     def _unescaped_docstring(self, text):
         if self._active_doc_string_separator == '"""':
