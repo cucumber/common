@@ -2,6 +2,10 @@ SHELL := /usr/bin/env bash
 # https://stackoverflow.com/questions/2483182/recursive-wildcards-in-gnu-make
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
+# Make "default" the default make target
+default:
+.PHONY: default
+
 update-dependencies:
 	# no-op
 .PHONY: update-dependencies
