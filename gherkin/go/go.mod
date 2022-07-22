@@ -7,4 +7,4 @@ require (
 
 replace github.com/cucumber/common/messages/go/v19 => ../../messages/go
 
-go 1.13
+go 1.18
