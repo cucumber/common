@@ -1,9 +1,10 @@
 Feature: Scenario Outline with values with trailing backslash
 
 Scenario Outline: minimalistic
-    When <what>
+    Given <what>
+    When <this>
     Then <that>
 
 Examples:
-  | what  | that   |
-  | what\ | that\\ |
+  | what | this  | that   |
+  | x\\y | this\ | that\\ |
