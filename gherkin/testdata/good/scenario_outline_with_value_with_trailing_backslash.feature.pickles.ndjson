@@ -1,0 +1,1 @@
+{"pickle":{"astNodeIds":["5","3"],"id":"8","language":"en","name":"minimalistic","steps":[{"astNodeIds":["0","3"],"id":"6","text":"what\\","type":"Action"},{"astNodeIds":["1","3"],"id":"7","text":"that\\","type":"Outcome"}],"tags":[],"uri":"../testdata/good/scenario_outline_with_value_with_trailing_backslash.feature"}}

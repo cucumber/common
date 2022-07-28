@@ -1,0 +1,10 @@
+(1:1)FeatureLine:()Feature/Scenario Outline with values with trailing backslash/
+(2:1)Empty://
+(3:1)ScenarioLine:()Scenario Outline/minimalistic/
+(4:5)StepLine:(Action)When /<what>/
+(5:5)StepLine:(Outcome)Then /<that>/
+(6:1)Empty://
+(7:1)ExamplesLine:()Examples//
+(8:3)TableRow://5:what,13:that
+(9:3)TableRow://5:what\,13:that\
+EOF
