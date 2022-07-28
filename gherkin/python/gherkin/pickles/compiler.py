@@ -155,9 +155,11 @@ class Compiler(object):
 
         for n, variable_cell in enumerate(variable_cells):
             value_cell = value_cells[n]
+            # For the case of trailing backslash, re-escaping backslashes are needed
+            reescaped_value = re.sub(r'\\', r'\\\\', value_cell['value'])
             name = re.sub(
                 u'<{0[value]}>'.format(variable_cell),
-                value_cell['value'],
+                reescaped_value,
                 name
             )
         return name
