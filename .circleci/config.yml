@@ -40,7 +40,7 @@ executors:
     working_directory: ~/cucumber
   docker-circleci-node-18:
     docker:
-      - image: cimg/node:18.4
+      - image: cimg/node:18.7
     working_directory: ~/cucumber
 
   # Ruby
