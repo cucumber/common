@@ -40,7 +40,7 @@ executors:
     working_directory: ~/cucumber
   docker-circleci-node-18:
     docker:
-      - image: cimg/node:18.4
+      - image: cimg/node:18.7
     working_directory: ~/cucumber
 
   # Ruby
@@ -68,13 +68,13 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: cimg/python:3.10.5
+      - image: cimg/python:3.10.6
     working_directory: ~/cucumber
 
   # Php
   docker-circleci-php:
     docker:
-      - image: cimg/php:8.1.7
+      - image: cimg/php:8.1.9
     working_directory: ~/cucumber
 
 ###
