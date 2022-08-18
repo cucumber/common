@@ -11,6 +11,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
+* [C] The C implementation re-enabled and made up to date.
+  ([#1989](https://github.com/cucumber/common/pull/1989))
+
 ### Changed
 
 ### Deprecated
@@ -19,7 +22,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
-* [C] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
+* [Python] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
 * [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
 
 ## [24.0.0] - 2022-05-31
