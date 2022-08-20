@@ -1,6 +1,7 @@
 #ifndef GHERKIN_STRING_UTILITIES_H_
 #define GHERKIN_STRING_UTILITIES_H_
 
+#include <stdbool.h>
 #include <wchar.h>
 
 #ifdef __cplusplus
@@ -16,6 +17,8 @@ wchar_t* StringUtilities_copy_to_wide_string(const char* string);
 size_t StringUtilities_code_point_length(const wchar_t* string);
 
 size_t StringUtilities_code_point_length_for_part(const wchar_t* string, const int length);
+
+bool StringUtilities_is_whitespace(const wchar_t wchar);
 
 #ifdef __cplusplus
 }

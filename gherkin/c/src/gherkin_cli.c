@@ -5,14 +5,16 @@
 #include <locale.h>
 #include <wchar.h>
 
+#include "error_event.h"
 #include "file_reader.h"
 #include "string_token_scanner.h"
 #include "token_matcher.h"
+#include "id_generator.h"
+#include "incrementing_id_generator.h"
 #include "parser.h"
 #include "ast_builder.h"
 #include "compiler.h"
 #include "gherkin_document_event.h"
-#include "attachment_event.h"
 #include "pickle_event.h"
 #include "source_event.h"
 
@@ -57,9 +59,10 @@ int main(int argc, char** argv) {
     setlocale(LC_ALL, "en_US.UTF-8");
     Options options = parse_options(argc, argv);
     TokenMatcher* token_matcher = TokenMatcher_new(L"en");
-    Builder* builder = AstBuilder_new();
+    IdGenerator* id_generator = IncrementingIdGenerator_new();
+    Builder* builder = AstBuilder_new(id_generator);
     Parser* parser = Parser_new(builder);
-    Compiler* compiler = Compiler_new();
+    Compiler* compiler = Compiler_new(id_generator);
     int return_code = 0;
     int result_code = 0;
     int i;
@@ -99,10 +102,10 @@ int main(int argc, char** argv) {
             return_code = result_code;
             while (Parser_has_more_errors(parser)) {
                 Error* error = Parser_next_error(parser);
-                AttachmentEvent* attachment_event = AttachmentEvent_new(argv[i], error->location);
-                AttacnmentEvent_transfer_error_text(attachment_event, error);
-                Event_print((Event*)attachment_event, stdout);
-                Event_delete((Event*)attachment_event);
+                ErrorEvent* error_event = ErrorEvent_new(argv[i], error->location);
+                ErrorEvent_transfer_error_text(error_event, error);
+                Event_print((Event*)error_event, stdout);
+                Event_delete((Event*)error_event);
                 Error_delete(error);
             }
         }
@@ -112,6 +115,7 @@ int main(int argc, char** argv) {
     Compiler_delete(compiler);
     Parser_delete(parser);
     AstBuilder_delete(builder);
+    id_generator->id_generator_delete(id_generator);
     TokenMatcher_delete(token_matcher);
     return return_code;
 }

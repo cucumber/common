@@ -3,12 +3,13 @@
 
 #include "builder.h"
 #include "gherkin_document.h"
+#include "id_generator.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-Builder* AstBuilder_new();
+Builder* AstBuilder_new(IdGenerator* id_generator);
 
 void AstBuilder_delete(Builder* builder);
 

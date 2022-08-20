@@ -4,9 +4,8 @@
 
 static void delete_pickle_cell_content(const PickleCell* pickle_cell);
 
-const PickleCell* PickleCell_new(const PickleLocation* location, const wchar_t* value) {
+const PickleCell* PickleCell_new(const wchar_t* value) {
     PickleCell* pickle_cell  = (PickleCell*)malloc(sizeof(PickleCell));
-    pickle_cell->location = location;
     pickle_cell->value = 0;
     if (value) {
         pickle_cell->value = StringUtilities_copy_string(value);
@@ -23,8 +22,6 @@ void PickleCell_delete(const PickleCell* pickle_cell) {
 }
 
 void PickleCell_transfer(PickleCell* to_pickle_cell, PickleCell* from_pickle_cell) {
-    to_pickle_cell->location = from_pickle_cell->location;
-    from_pickle_cell->location = 0;
     to_pickle_cell->value = from_pickle_cell->value;
     from_pickle_cell->value = 0;
     PickleCell_delete(from_pickle_cell);
@@ -45,9 +42,6 @@ void PickleCells_delete(const PickleCells* pickle_cells) {
 }
 
 static void delete_pickle_cell_content(const PickleCell* pickle_cell) {
-    if (pickle_cell->location) {
-        PickleLocation_delete(pickle_cell->location);
-    }
     if (pickle_cell->value) {
         free((void*)pickle_cell->value);
     }

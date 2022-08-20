@@ -10,6 +10,7 @@ Token* Token_new(const GherkinLine* gherkin_line, int line) {
     token->matched_type = Token_None;
     token->matched_text = 0;
     token->matched_keyword = 0;
+    token->matched_keyword_type = Keyword_Type_None;
     token->matched_items = 0;
     token->matched_language = 0;
     return token;

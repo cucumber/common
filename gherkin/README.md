@@ -10,6 +10,7 @@ Gherkin is currently implemented for the following platforms (in order of birthd
 - [Ruby](https://github.com/cucumber/gherkin-ruby)
 - [Go](https://github.com/cucumber/gherkin-go)
 - [Python](https://github.com/cucumber/gherkin-python)
+- [C](https://github.com/cucumber/common/tree/main/gherkin/c)
 - [Objective-C](https://github.com/cucumber/gherkin-objective-c)
 - [Perl](https://github.com/cucumber/gherkin-perl)
 - [PHP](https://github.com/cucumber/gherkin-php)
@@ -17,7 +18,6 @@ Gherkin is currently implemented for the following platforms (in order of birthd
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) if you want to contribute a parser for a new language.
 Our wish-list is (in no particular order):
 
-- C
 - Rust
 - Elixir
 

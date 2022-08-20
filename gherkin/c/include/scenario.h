@@ -4,6 +4,7 @@
 #include <wchar.h>
 
 #include "ast.h"
+#include "id_generator.h"
 #include "child_definition.h"
 #include "example_table.h"
 #include "location.h"
@@ -18,6 +19,7 @@ typedef struct Scenario {
     item_delete_function scenario_delete;
     GherkinAstType type;
     Location location;
+    const wchar_t* id;
     wchar_t* keyword;
     wchar_t* name;
     const wchar_t* description;
@@ -26,7 +28,7 @@ typedef struct Scenario {
     const Examples* examples;
 } Scenario;
 
-const Scenario* Scenario_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps, const Examples* examples);
+const Scenario* Scenario_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const Steps* steps, const Examples* examples);
 
 void Scenario_delete(const Scenario* scenario);
 

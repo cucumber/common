@@ -5,6 +5,7 @@
 #include <wchar.h>
 #include "gherkin_document.h"
 #include "pickle.h"
+#include "id_generator.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -12,7 +13,7 @@ extern "C" {
 
 typedef struct Compiler Compiler;
 
-Compiler* Compiler_new();
+Compiler* Compiler_new(IdGenerator* id_generator);
 
 void Compiler_delete(Compiler* compiler);
 

@@ -23,6 +23,7 @@ LIST(APPEND GHERKIN_SRS
         src/item_queue.c
         src/gherkin_line.c
         src/error.c
+        src/error_event.c
         src/error_list.c
         src/dialect.c
         src/ast_builder.c
@@ -42,21 +43,20 @@ LIST(APPEND GHERKIN_SRS
         src/tag.c
         src/compiler.c
         src/pickle.c
+        src/pickle_ast_node_id.c
         src/pickle_cell.c
-        src/pickle_id_creator.c
-        src/pickle_location.c
         src/pickle_row.c
         src/pickle_step.c
         src/pickle_string.c
         src/pickle_table.c
         src/pickle_tag.c
         src/event.c
-        src/attachment_event.c
         src/gherkin_document_event.c
         src/pickle_event.c
         src/source_event.c
         src/ast_printer.c
         src/pickle_printer.c
+        src/incrementing_id_generator.c
         )
 
 LIST(APPEND GENERATE_TOKEN

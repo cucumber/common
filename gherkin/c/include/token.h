@@ -6,6 +6,7 @@
 #include "location.h"
 #include "gherkin_line.h"
 #include "rule_type.h"
+#include "keyword_type.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,6 +37,7 @@ typedef struct Token {
     TokenType matched_type;
     const wchar_t* matched_text;
     const wchar_t* matched_keyword;
+    KeywordType matched_keyword_type;
     const Items* matched_items;
     const wchar_t* matched_language;
 } Token;

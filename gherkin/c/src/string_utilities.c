@@ -73,6 +73,36 @@ size_t StringUtilities_code_point_length_for_part(const wchar_t* string, const i
     return code_points;
 }
 
+/* The unicode characters with property White_Space=yes according to Wikipedia */
+/* L'\u0085' (Next Line) is excluded since the (gcc) compiler gives the error  */
+/* "\u0085 is not a valid universal character"                                 */
+bool StringUtilities_is_whitespace(const wchar_t wchar) {
+    return (wchar == L' ' ||
+            wchar == L'\t' ||
+            wchar == L'\n' ||
+            wchar == L'\r' ||
+            wchar == L'\f' ||
+            wchar == L'\v' ||
+            wchar == L'\u00A0' ||
+            wchar == L'\u1680' ||
+            wchar == L'\u2000' ||
+            wchar == L'\u2001' ||
+            wchar == L'\u2002' ||
+            wchar == L'\u2003' ||
+            wchar == L'\u2004' ||
+            wchar == L'\u2005' ||
+            wchar == L'\u2006' ||
+            wchar == L'\u2007' ||
+            wchar == L'\u2008' ||
+            wchar == L'\u2009' ||
+            wchar == L'\u200A' ||
+            wchar == L'\u2028' ||
+            wchar == L'\u2029' ||
+            wchar == L'\u202F' ||
+            wchar == L'\u205F' ||
+            wchar == L'\u3000');
+}
+
 
 Utf8Source* StringUtf8Source_new(const char* string) {
     StringUtf8Source* string_utf8_source = (StringUtf8Source*)malloc(sizeof(StringUtf8Source));
