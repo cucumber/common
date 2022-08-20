@@ -16,6 +16,10 @@ void PrintUtilities_print_json_string(FILE* file, const wchar_t* text) {
             fputc((char)'\\', file);
             fputc((char)'r', file);
         }
+        else if (text[i] == L'\t') {
+            fputc((char)'\\', file);
+            fputc((char)'t', file);
+        }
         else {
             i = UnicodeUtilities_print_wide_character_to_utf8_file(file, text, i);
         }

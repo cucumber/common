@@ -2,7 +2,7 @@ package gherkin
 
 import (
 	"fmt"
-	messages "github.com/cucumber/common/messages/go/v17"
+	messages "github.com/cucumber/common/messages/go/v19"
 	"os"
 	"strings"
 )
@@ -69,7 +69,7 @@ func ExampleParseGherkinDocument_multiple() {
 	builder := NewAstBuilder((&messages.Incrementing{}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin())
+	matcher := NewMatcher(DialectsBuiltin())
 
 	input1 := `Feature: Test`
 	r1 := strings.NewReader(input1)
@@ -117,7 +117,7 @@ func ExampleParseGherkinDocument_error() {
 	builder := NewAstBuilder((&messages.Incrementing{}).NewId)
 	parser := NewParser(builder)
 	parser.StopAtFirstError(false)
-	matcher := NewMatcher(GherkinDialectsBuildin())
+	matcher := NewMatcher(DialectsBuiltin())
 
 	input1 := `# a comment
 Feature: Foo

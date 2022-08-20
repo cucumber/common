@@ -41,6 +41,8 @@ void ErrorList_internal_grammar_error(ErrorList* error_list);
 
 void ErrorList_add_invalid_operation_error(ErrorList* error_list, int state);
 
+bool ErrorList_check_token_tags_for_whitespace(ErrorList* error_list, Token* received_token);
+
 bool ErrorList_has_more_errors(ErrorList* error_list);
 
 Error* ErrorList_next_error(ErrorList* error_list);

@@ -23,6 +23,7 @@ LIST(APPEND GHERKIN_SRS
         src/item_queue.c
         src/gherkin_line.c
         src/error.c
+        src/error_event.c
         src/error_list.c
         src/dialect.c
         src/ast_builder.c
@@ -42,21 +43,20 @@ LIST(APPEND GHERKIN_SRS
         src/tag.c
         src/compiler.c
         src/pickle.c
+        src/pickle_ast_node_id.c
         src/pickle_cell.c
-        src/pickle_id_creator.c
-        src/pickle_location.c
         src/pickle_row.c
         src/pickle_step.c
         src/pickle_string.c
         src/pickle_table.c
         src/pickle_tag.c
         src/event.c
-        src/attachment_event.c
         src/gherkin_document_event.c
         src/pickle_event.c
         src/source_event.c
         src/ast_printer.c
         src/pickle_printer.c
+        src/incrementing_id_generator.c
         )
 
 LIST(APPEND GENERATE_TOKEN
@@ -70,8 +70,8 @@ LIST(APPEND GHERKIN_CLI
 
 add_library(gherkin ${GHERKIN_SRS})
 include(CheckLibraryExists)
-CHECK_LIBRARY_EXISTS(m log10 "" HAVE_LIB_M)   
-if (HAVE_LIB_M)  
+CHECK_LIBRARY_EXISTS(m log10 "" HAVE_LIB_M)
+if (HAVE_LIB_M)
     target_link_libraries(gherkin PRIVATE m)
 endif (HAVE_LIB_M)
 target_include_directories(gherkin PUBLIC
@@ -85,10 +85,10 @@ add_executable(gherkin_generate_tokens ${GENERATE_TOKEN})
 target_link_libraries(gherkin_generate_tokens gherkin)
 
 file(GLOB GOOD_FEATURE_FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/good/*.feature
+        ${CMAKE_CURRENT_SOURCE_DIR}/../testdata/good/*.feature
         )
 file(GLOB BAD_FEATURE_FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/bad/*.feature
+        ${CMAKE_CURRENT_SOURCE_DIR}/../testdata/bad/*.feature
         )
 add_custom_target(invo DEPENDS invo)
 add_dependencies(invo gherkinexe)

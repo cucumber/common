@@ -4,13 +4,9 @@
     "baseUrl": ".",
     "paths": {
       "@cucumber/messages": ["messages/javascript"],
-      "@cucumber/message-streams": ["message-streams/javascript"],
       "@cucumber/gherkin": ["gherkin/javascript/src/index.ts"],
-      "@cucumber/gherkin-streams": ["gherkin-streams/javascript/src/index.ts"],
       "@cucumber/gherkin-utils": ["gherkin-utils/javascript/src/index.ts"],
-      "@cucumber/fake-cucumber": ["fake-cucumber/javascript/src/index.ts"],
       "@cucumber/query": ["query/javascript/src/index.ts"],
-      "@cucumber/compatibility-kit": ["compatibility-kit/javascript/src/index.ts"],
     },
     "noEmit": true
   },

@@ -11,6 +11,8 @@ static const wchar_t* find_cell_delimiter(const wchar_t* current_pos);
 
 static const wchar_t* find_tag_char(const wchar_t* current_pos);
 
+static const wchar_t* find_tag_ending(const wchar_t* current_pos);
+
 static int calculate_cell_count(const wchar_t* text);
 
 static int calculate_tag_count(const wchar_t* text);
@@ -28,7 +30,7 @@ const GherkinLine* GherkinLine_new(const wchar_t* line_text, int line_number) {
     line->indent = 0;
     line->line_text = line_text;
     line->trimmed_line = line_text;
-    while (line->trimmed_line[0] != '\0' && (line->trimmed_line[0] == L' ' || line->trimmed_line[0] == L'\t')) {
+    while (line->trimmed_line[0] != '\0' && StringUtilities_is_whitespace(line->trimmed_line[0])) {
         ++line->trimmed_line;
         ++line->indent;
     }
@@ -121,12 +123,12 @@ bool GherkinLine_is_language_line(const GherkinLine* line) {
     if (*current_pos != L'#')
         return false;
     ++current_pos;
-    while (*current_pos != '\0' && *current_pos == L' ')
+    while (*current_pos != '\0' && StringUtilities_is_whitespace(*current_pos))
         ++current_pos;
     if (wcsncmp(L"language", current_pos, 8) != 0)
         return false;
     current_pos += 8;
-    while (*current_pos != L'\0' && *current_pos == L' ')
+    while (*current_pos != L'\0' && StringUtilities_is_whitespace(*current_pos))
         ++current_pos;
     if (*current_pos != L':')
         return false;
@@ -138,21 +140,21 @@ const wchar_t* GherkinLine_get_language(const GherkinLine* line) {
     while (*start != L'\0' && *start != L':')
         ++start;
     ++start;
-    while (*start != L'\0' && *start == L' ')
+    while (*start != L'\0' && StringUtilities_is_whitespace(*start))
         ++start;
     const wchar_t* end = start;
-    while (*end != L'\0' && *end != L' ')
+    while (*end != L'\0' && !StringUtilities_is_whitespace(*end))
         ++end;
     return StringUtilities_copy_string_part(start, end - start);
 }
 
 static wchar_t* copy_trimmed_text(const wchar_t* text, int prefix_length) {
     const wchar_t* text_start = text + prefix_length;
-    while (*text_start != L'\0' && *text_start == L' ') {
+    while (*text_start != L'\0' && StringUtilities_is_whitespace(*text_start)) {
         ++text_start;
     }
     const wchar_t* text_end = text_start + wcslen(text_start);
-    while (text_end > text_start && *(text_end - 1) == L' ') {
+    while (text_end > text_start && StringUtilities_is_whitespace(*(text_end - 1))) {
         --text_end;
     }
     return StringUtilities_copy_string_part(text_start, text_end - text_start);
@@ -174,6 +176,16 @@ static const wchar_t* find_tag_char(const wchar_t* start_pos) {
     const wchar_t* current_pos = start_pos;
     while (*current_pos != L'\0') {
         if (*current_pos == L'@')
+            return current_pos;
+        ++current_pos;
+    }
+    return current_pos;
+}
+
+static const wchar_t* find_tag_ending(const wchar_t* start_pos) {
+    const wchar_t* current_pos = start_pos;
+    while (*current_pos != L'\0') {
+        if (*current_pos == L'@' || (StringUtilities_is_whitespace(*current_pos) && (*(current_pos + 1) == L'@' || *(current_pos + 1) == L'#')))
             return current_pos;
         ++current_pos;
     }
@@ -211,9 +223,9 @@ static const wchar_t* populate_cell_data(Span* item, const wchar_t* start_pos, i
     if (!end_pos || *end_pos == L'\0')
         return 0;
     ++current_pos;
-    while (current_pos < end_pos && *current_pos == L' ')
+    while (current_pos < end_pos && StringUtilities_is_whitespace(*current_pos))
         ++current_pos;
-    while (end_text > current_pos && *(end_text - 1) == L' ')
+    while (end_text > current_pos && StringUtilities_is_whitespace(*(end_text - 1)))
         --end_text;
     item->column = start_indent + StringUtilities_code_point_length_for_part(start_pos, current_pos - start_pos) + 1;
     int text_length = end_text - current_pos;
@@ -247,9 +259,9 @@ static const wchar_t* populate_tag_data(Span* item, const wchar_t* start_pos, in
     const wchar_t* current_pos = find_tag_char(start_pos);
     if (!current_pos || *current_pos == L'\0')
         return 0;
-    const wchar_t* end_pos = find_tag_char(current_pos + 1);
+    const wchar_t* end_pos = find_tag_ending(current_pos + 1);
     const wchar_t* end_text = end_pos;
-    while (end_text > current_pos && *(end_text - 1) == L' ')
+    while (end_text > current_pos && StringUtilities_is_whitespace(*(end_text - 1)))
         --end_text;
     item->column = start_indent + StringUtilities_code_point_length_for_part(start_pos, current_pos - start_pos) + 1;
     int text_length = end_text - current_pos;

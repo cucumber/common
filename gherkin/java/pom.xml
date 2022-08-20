@@ -5,10 +5,10 @@
     <parent>
         <groupId>io.cucumber</groupId>
         <artifactId>cucumber-parent</artifactId>
-        <version>2.1.2</version>
+        <version>3.0.0</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>22.0.1-SNAPSHOT</version>
+    <version>24.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -30,7 +30,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
-                <version>2.13.1</version>
+                <version>2.13.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -41,13 +41,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>[17.1.2-SNAPSHOT,18.0.0)</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.eclipsesource.minimal-json</groupId>
-            <artifactId>minimal-json</artifactId>
-            <version>0.9.5</version>
+            <version>[19.0.0,20.0.0)</version>
         </dependency>
 
         <dependency>
@@ -79,34 +73,35 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>com.eclipsesource.minimal-json:minimal-json</include>
-                                </includes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>com.eclipsesource.json</pattern>
-                                    <shadedPattern>io.cucumber.gherkin.internal.com.eclipsesource.json</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <filters>
-                                <filter>
-                                    <artifact>com.eclipsesource.minimal-json:minimal-json</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
+                            <source>${project.basedir}/src/main/groovy/io/cucumber/gherkin/GherkinDialects.groovy</source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/target/generated-sources/gherkin-dialects/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>

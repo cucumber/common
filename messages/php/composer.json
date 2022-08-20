@@ -11,12 +11,25 @@
     "require-dev": {
         "vimeo/psalm": "^4.18",
         "phpunit/phpunit": "^9.5",
-        "psalm/plugin-phpunit": "^0.16.1",
-        "friendsofphp/php-cs-fixer": "^3.5"
+        "psalm/plugin-phpunit": "^0.17.0",
+        "friendsofphp/php-cs-fixer": "^3.5",
+        "ramsey/uuid": "^4.2.1"
     },
     "autoload": {
         "psr-4": {
-            "Cucumber\\Messages\\": ["src","src-generated"]
+            "Cucumber\\Messages\\": [
+                "src",
+                "src-generated"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cucumber\\Messages\\": [
+                "src",
+                "src-generated",
+                "tests"
+            ]
         }
     }
 }

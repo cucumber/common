@@ -38,6 +38,13 @@ final class PickleStep implements JsonSerializable
          * A unique ID for the PickleStep
          */
         public readonly string $id = '',
+
+        /**
+         * The context in which the step was specified: context (Given), action (When) or outcome (Then).
+         *
+         * Note that the keywords `But` and `And` inherit their meaning from prior steps and the `*` 'keyword' doesn't have specific meaning (hence Unknown)
+         */
+        public readonly ?PickleStep\Type $type = null,
         public readonly string $text = '',
     ) {
     }
@@ -52,12 +59,14 @@ final class PickleStep implements JsonSerializable
         self::ensureArgument($arr);
         self::ensureAstNodeIds($arr);
         self::ensureId($arr);
+        self::ensureType($arr);
         self::ensureText($arr);
 
         return new self(
             isset($arr['argument']) ? PickleStepArgument::fromArray($arr['argument']) : null,
             array_values(array_map(fn (mixed $member) => (string) $member, $arr['astNodeIds'])),
             (string) $arr['id'],
+            isset($arr['type']) ? PickleStep\Type::from((string) $arr['type']) : null,
             (string) $arr['text'],
         );
     }
@@ -95,6 +104,16 @@ final class PickleStep implements JsonSerializable
         }
         if (array_key_exists('id', $arr) && is_array($arr['id'])) {
             throw new SchemaViolationException('Property \'id\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{type?: string|int|bool} $arr
+     */
+    private static function ensureType(array $arr): void
+    {
+        if (array_key_exists('type', $arr) && is_array($arr['type'])) {
+            throw new SchemaViolationException('Property \'type\' was array');
         }
     }
 

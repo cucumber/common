@@ -43,6 +43,16 @@
           "description": "A unique ID for the PickleStep",
           "type": "string"
         },
+        "type": {
+          "description": "The context in which the step was specified: context (Given), action (When) or outcome (Then).\n\nNote that the keywords `But` and `And` inherit their meaning from prior steps and the `*` 'keyword' doesn't have specific meaning (hence Unknown)",
+          "type": "string",
+          "enum": [
+            "Unknown",
+            "Context",
+            "Action",
+            "Outcome"
+          ]
+        },
         "text": {
           "type": "string"
         }
@@ -139,7 +149,7 @@
   ],
   "properties": {
     "id": {
-      "description": "*\n A unique id for the pickle. This is a [SHA1](https://en.wikipedia.org/wiki/SHA-1) hash\n from the source data and the `locations` of the pickle.\n This ID will change if source the file is modified.",
+      "description": "*\n A unique id for the pickle",
       "type": "string"
     },
     "uri": {

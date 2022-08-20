@@ -1,8 +1,6 @@
 #ifndef GHERKIN_PICKLE_CELL_H_
 #define GHERKIN_PICKLE_CELL_H_
 
-#include "pickle_location.h"
-
 #include <wchar.h>
 
 #ifdef __cplusplus
@@ -10,7 +8,6 @@ extern "C" {
 #endif
 
 typedef struct PickleCell {
-    const PickleLocation* location;
     wchar_t* value;
 } PickleCell;
 
@@ -19,7 +16,7 @@ typedef struct PickleCells {
     PickleCell* pickle_cells;
 } PickleCells;
 
-const PickleCell* PickleCell_new(const PickleLocation* location, const wchar_t* value);
+const PickleCell* PickleCell_new(const wchar_t* value);
 
 void PickleCell_delete(const PickleCell* pickle_cell);
 

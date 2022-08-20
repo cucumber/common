@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/cucumber/common/gherkin/go/v22"
+	"github.com/cucumber/common/gherkin/go/v24"
 	"io"
 	"os"
 	"strings"
@@ -48,12 +48,27 @@ func FormatToken(token *gherkin.Token) string {
 	for i := range token.Items {
 		items = append(items, token.Items[i].String())
 	}
+	var keyword string
+	if token.Keyword == "" {
+		keyword = token.Keyword
+	} else if token.KeywordType == "" {
+		keyword = fmt.Sprintf("()%s", token.Keyword)
+	} else {
+		keyword = fmt.Sprintf("(%s)%s", token.KeywordType, token.Keyword)
+	}
+	var text string
+	if token.Type.Name() == "Empty" {
+		text = ""
+	} else {
+		text = token.Text
+	}
+
 	return fmt.Sprintf("(%d:%d)%s:%s/%s/%s",
 		token.Location.Line,
 		token.Location.Column,
 		token.Type.Name(),
-		token.Keyword,
-		token.Text,
+		keyword,
+		text,
 		strings.Join(items, ","),
 	)
 }
@@ -76,7 +91,7 @@ func GenerateTokens(in io.Reader, out io.Writer) error {
 	builder := &tokenGenerator{out}
 	parser := gherkin.NewParser(builder)
 	parser.StopAtFirstError(true)
-	matcher := gherkin.NewMatcher(gherkin.GherkinDialectsBuildin())
+	matcher := gherkin.NewMatcher(gherkin.DialectsBuiltin())
 
 	scanner := gherkin.NewScanner(in)
 

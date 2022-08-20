@@ -10,14 +10,14 @@ Gherkin is currently implemented for the following platforms (in order of birthd
 - [Ruby](https://github.com/cucumber/gherkin-ruby)
 - [Go](https://github.com/cucumber/gherkin-go)
 - [Python](https://github.com/cucumber/gherkin-python)
+- [C](https://github.com/cucumber/common/tree/main/gherkin/c)
 - [Objective-C](https://github.com/cucumber/gherkin-objective-c)
 - [Perl](https://github.com/cucumber/gherkin-perl)
+- [PHP](https://github.com/cucumber/gherkin-php)
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) if you want to contribute a parser for a new language.
 Our wish-list is (in no particular order):
 
-- C
-- PHP
 - Rust
 - Elixir
 
@@ -45,7 +45,7 @@ Alternatively, you can use the lower level parser and compiler. Some usage examp
 
 ```java
 // Java
-List<String> paths = singletonList("testdata/good/minimal.feature");
+List<String> paths = singletonList("../testdata/good/minimal.feature");
 boolean includeSource = false;
 boolean includeAst = true;
 boolean includePickles = true;
@@ -132,6 +132,16 @@ use Gherkin::Pickles::Compiler;
 my $parser = Gherkin::Parser->new();
 my $gherkin_document = $parser->parse("Feature: ...");
 my $pickles = Gherkin::Pickles::Compiler->compile($gherkin_document);
+```
+
+```php
+# PHP
+use Cucumber\Gherkin\GherkinParser;
+
+$path = '/path/to/my.feature';
+
+$parser = new GherkinParser();
+$pickles = $parser->parseString(uri: $path, data: file_get_contents($path));
 ```
 
 ### CLI

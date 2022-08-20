@@ -4,12 +4,13 @@
 
 static void delete_example_table_content(const ExampleTable* example_table);
 
-const ExampleTable* ExampleTable_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const TableRow* table_header, const TableRows* table_body) {
+const ExampleTable* ExampleTable_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const TableRow* table_header, const TableRows* table_body) {
     ExampleTable* example_table = (ExampleTable*)malloc(sizeof(ExampleTable));
     example_table->table_delete = (item_delete_function)ExampleTable_delete;
     example_table->type = Gherkin_Examples;
     example_table->location.line = location.line;
     example_table->location.column = location.column;
+    example_table->id = id_generator->new_id(id_generator);
     example_table->keyword = 0;
     if (keyword) {
         example_table->keyword = StringUtilities_copy_string(keyword);
@@ -37,6 +38,8 @@ void ExampleTable_transfer(ExampleTable* to_example_table, ExampleTable* from_ex
     to_example_table->type = from_example_table->type;
     to_example_table->location.line = from_example_table->location.line;
     to_example_table->location.column = from_example_table->location.column;
+    to_example_table->id = from_example_table->id;
+    from_example_table->id = 0;
     to_example_table->keyword = from_example_table->keyword;
     from_example_table->keyword = 0;
     to_example_table->name = from_example_table->name;
@@ -67,6 +70,9 @@ void Examples_delete(const Examples* examples) {
 }
 
 static void delete_example_table_content(const ExampleTable* example_table) {
+    if (example_table->id) {
+        free((void*)example_table->id);
+    }
     if (example_table->keyword) {
         free((void*)example_table->keyword);
     }

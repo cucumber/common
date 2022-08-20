@@ -347,7 +347,19 @@
           "description": "The location of the steps' `keyword`"
         },
         "keyword": {
+          "description": "The actual keyword as it appeared in the source.",
           "type": "string"
+        },
+        "keywordType": {
+          "description": "The test phase signalled by the keyword: Context definition (Given), Action performance (When), Outcome assertion (Then). Other keywords signal Continuation (And and But) from a prior keyword. Please note that all translations which a dialect maps to multiple keywords (`*` is in this category for all dialects), map to 'Unknown'.",
+          "type": "string",
+          "enum": [
+            "Unknown",
+            "Context",
+            "Action",
+            "Outcome",
+            "Conjunction"
+          ]
         },
         "text": {
           "type": "string"

@@ -116,6 +116,7 @@ module Gherkin
         step = Cucumber::Messages::Step.new(
           location: get_location(step_line, 0),
           keyword: step_line.matched_keyword,
+          keyword_type: step_line.matched_keyword_type,
           text: step_line.matched_text,
           data_table: data_table,
           doc_string: doc_string,

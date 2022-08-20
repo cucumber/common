@@ -11,19 +11,67 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-### Changed
+* [C] The C implementation re-enabled and made up to date.
+  ([#1989](https://github.com/cucumber/common/pull/1989))
 
-* [Java] Replaced `Gherkin` with a `GherkinParser` that uses a builder to construct.
-* [Java] Made all internal classes package private
-* [Java] Removed unused `stopAtFirstError` property from `Parser`
+### Changed
 
 ### Deprecated
 
 ### Removed
 
-- [Java] the `io.cucumber.gherkin.Main` class is no longer part of the jar.
+### Fixed
+
+* [Python] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
+* [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
+
+## [24.0.0] - 2022-05-31
+
+### Added
+
+* [Java], [JavaScript], [PHP], [Perl], [Python], [Go], [C], [DotNet],
+  [Ruby] Support new messages keyword types fields an added
+  with [#1966](https://github.com/cucumber/common/pull/1966)
+  ([#1741](https://github.com/cucumber/common/pull/1741))
+
+### Changed
+
+* [Java] the `GherkinDialect` constructor is no longer public (it's only used internally)
+* [Go] the `gherkin.GherkinDialectsBuildin` id renamed to `gherkin.DialectsBuiltin`
+* [Go] the `gherkin.GherkinDialect` id renamed to `gherkin.Dialect`
+* [Go] the `gherkin.GherkinDialectProvider` id renamed to `gherkin.DialectProvider`
+* The `ne` (Nepali) `and` translation changed from `अनी ` to `अनि `
+* The `uz` (Uzbek) `given` translation changed from `Агар ` to `Belgilangan `
+* The `en-old` (Old English) `when` translation changed from `Tha ` / `Þa ` / `Ða ` to `Bæþsealf ` / `Bæþsealfa ` / `Bæþsealfe ` / `Ciricæw ` / `Ciricæwe ` / `Ciricæwa `
 
 ### Fixed
+
+* [Java] remove shaded dependency on `com.eclipsesource.minimal-json:minimal-json`
+  ([#1957](https://github.com/cucumber/common/issues/1957)
+   [#1959](https://github.com/cucumber/common/pull/1959))
+
+## [23.0.1] - 2022-03-31
+
+### Fixed
+
+* [PhP] Fix dependency of messages ([#1943](https://github.com/cucumber/common/pull/1943))
+
+## [23.0.0] - 2022-03-30
+
+### Changed
+
+* Update `messages` to v18.0.0
+* [Java] Replaced `Gherkin` with a `GherkinParser` that uses a builder to construct.
+* [Java] Made all internal classes package private
+* [Java] Removed unused `stopAtFirstError` property from `Parser`
+* [PHP] Implemented `Gherkin`
+* [JavaScript] `@cucumber/message-streams` has been removed from the dependencies.
+  If you are using `@cucumber/gherkin-streams` v5.0.0 or later, you have to add
+  `@cucumber/message-streams` in your dependencies in addition to `@cucumber/gherkin`.
+
+### Removed
+
+- [Java] the `io.cucumber.gherkin.Main` class is no longer part of the jar.
 
 ## [22.0.0] - 2021-09-23
 
@@ -1076,7 +1124,10 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v24.0.0...main
+[24.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...gherkin/v24.0.0
+[23.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...gherkin/v23.0.1
+[23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0
 [22.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v21.0.0...gherkin/v22.0.0
 [21.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.1...gherkin/v21.0.0
 [20.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v20.0.0...gherkin/v20.0.1

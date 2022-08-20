@@ -3,7 +3,7 @@ package gherkin
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/cucumber/common/messages/go/v17"
+	"github.com/cucumber/common/messages/go/v19"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"

@@ -3,12 +3,13 @@
 
 static void delete_table_row_content(const TableRow* table_row);
 
-const TableRow* TableRow_new(Location location, const TableCells* table_cells) {
+const TableRow* TableRow_new(Location location, IdGenerator* id_generator, const TableCells* table_cells) {
     TableRow* table_row  = (TableRow*)malloc(sizeof(TableRow));
     table_row->row_delete = (item_delete_function)TableRow_delete;
     table_row->type = Gherkin_TableRow;
     table_row->location.line = location.line;
     table_row->location.column = location.column;
+    table_row->id = id_generator->new_id(id_generator);
     table_row->table_cells = table_cells;
     return table_row;
 }
@@ -25,6 +26,8 @@ void TableRow_transfer(TableRow* to_table_row, TableRow* from_table_row) {
     to_table_row->type = from_table_row->type;
     to_table_row->location.line = from_table_row->location.line;
     to_table_row->location.column = from_table_row->location.column;
+    to_table_row->id = from_table_row->id;
+    from_table_row->id = 0;
     to_table_row->table_cells = from_table_row->table_cells;
     from_table_row->table_cells = 0;
     TableRow_delete(from_table_row);
@@ -45,6 +48,9 @@ void TableRows_delete(const TableRows* table_rows) {
 }
 
 static void delete_table_row_content(const TableRow* table_row) {
+    if (table_row->id) {
+        free((void*)table_row->id);
+    }
     if (table_row->table_cells) {
         TableCells_delete(table_row->table_cells);
     }

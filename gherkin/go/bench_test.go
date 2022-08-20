@@ -1,7 +1,7 @@
 package gherkin
 
 import (
-	messages "github.com/cucumber/common/messages/go/v17"
+	messages "github.com/cucumber/common/messages/go/v19"
 	"strings"
 	"testing"
 )
@@ -52,7 +52,7 @@ func Benchmark_NewParserMatcherScanner(b *testing.B) { //benchmark function star
 	for i := 0; i < b.N; i++ { // use b.N for looping
 		noopbuilder := new(noopBuilder)
 		_ = NewParser(noopbuilder)
-		_ = NewMatcher(GherkinDialectsBuildin())
+		_ = NewMatcher(DialectsBuiltin())
 		_ = NewScanner(strings.NewReader(benchmarkGherkinText))
 	}
 }
@@ -87,7 +87,7 @@ func Benchmark_ParseWithoutBuilder(b *testing.B) { //benchmark function starts w
 	noopbuilder := new(noopBuilder)
 	parser := NewParser(noopbuilder)
 	parser.StopAtFirstError(true)
-	matcher := NewMatcher(GherkinDialectsBuildin())
+	matcher := NewMatcher(DialectsBuiltin())
 
 	b.StartTimer()
 	for i := 0; i < b.N; i++ { // use b.N for looping

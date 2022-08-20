@@ -1,5 +1,7 @@
 package io.cucumber.gherkin;
 
+import io.cucumber.messages.types.StepKeywordType;
+
 import java.util.List;
 
 class Token {
@@ -10,6 +12,7 @@ class Token {
     public List<GherkinLineSpan> matchedItems;
     public int matchedIndent;
     public GherkinDialect matchedGherkinDialect;
+    public StepKeywordType keywordType;
     public Location location;
 
     public Token(IGherkinLine line, Location location) {

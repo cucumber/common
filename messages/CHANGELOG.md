@@ -9,24 +9,62 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Support for EcmaScript modules (aka ESM)
-  ([#1756](https://github.com/cucumber/common/pull/1756))
-
 ### Changed
-
-* JSON Schema: some `array` fields now have `"minItems": 1`.
-* Java: Generate Java code that uses `Optional` in getters. This makes the library
-  more type safe (avoids illegal null values). To upgrade, replace `import io.cucumber.messages.types.*` with `import static io.cucumber.messages.Messages.*`.
-  Classes without required fields have public empty constructors, and static `from`
-  methods for each field. Setters are removed. Classes with required fields do
-  not have public empty constructors.
-  ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+## [19.1.2] - 2022-06-22
+
+### Fixed
+
+* [Javascript] Schema was still missing in 19.1.1 due to how npm manages the files attribute in package.json
+  ([PR#2020](https://github.com/cucumber/common/pull/2020))
+
+## [19.1.1] - 2022-06-22
+
+### Fixed
+
+* [Javascript] Schema are actually missing from 19.1.0
+  ([PR#2016](https://github.com/cucumber/common/pull/2016))
+
+## [19.1.0] - 2022-06-20
+
+### Added
+
+* [Javascript] Adding the json schemas of the messages to the NPM package
+  ([PR#2010](https://github.com/cucumber/common/pull/2010))
+
+## [19.0.0] - 2022-05-31
+
+### Added
+
+* Expand the messages protocol with keyword types ([#1966](https://github.com/cucumber/common/pull/1966))
+
+### Changed
+
+* [Java] the `PickleStep` constructor has changed - it now needs an extra `PickleStepType` argument.
+* [Java] the `Step` constructor has changed - it now needs an extra `StepKeywordType` argument.
+
+## [18.0.0] - 2022-03-24
+
+### Added
+
+* Support for EcmaScript modules (aka ESM)
+  ([#1756](https://github.com/cucumber/common/pull/1756))
+* New optional `name` property on the Hook schema ([#1914](https://github.com/cucumber/common/pull/1914))
+
+### Changed
+
+* JSON Schema: some `array` fields now have `"minItems": 1`.
+* Java: Make this library more null safe.
+    - Generate Java code that uses `Optional` in getters.
+    - Setters are removed.
+    - Classes without required fields have public empty constructors, and static `of` methods for each field.
+  ([#1858](https://github.com/cucumber/common/pull/1858) [aslakhellesoy])
 
 ## [17.1.1] - 2021-09-17
 
@@ -583,7 +621,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Protobuf messages for Go, Java, JavaScript, TypeScript and Ruby
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v17.1.1...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/messages/v19.1.2...main
+[19.1.2]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.1...messages/v19.1.2
+[19.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v19.1.0...messages/v19.1.1
+[19.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v19.0.0...messages/v19.1.0
+[19.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v18.0.0...messages/v19.0.0
+[18.0.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.1...messages/v18.0.0
 [17.1.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.1.0...messages/v17.1.1
 [17.1.0]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.1...messages/v17.1.0
 [17.0.1]:      https://github.com/cucumber/cucumber/compare/messages/v17.0.0...messages/v17.0.1

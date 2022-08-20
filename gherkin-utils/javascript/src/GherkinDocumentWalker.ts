@@ -325,6 +325,7 @@ export default class GherkinDocumentWalker {
     return {
       id: step.id,
       keyword: step.keyword,
+      keywordType: step.keywordType,
       location: step.location,
       text: step.text,
       dataTable: step.dataTable,

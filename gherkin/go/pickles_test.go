@@ -3,7 +3,7 @@ package gherkin
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/cucumber/common/messages/go/v17"
+	"github.com/cucumber/common/messages/go/v19"
 	"os"
 	"strings"
 )
@@ -33,5 +33,5 @@ func ExampleCompilePickles() {
 
 	// Output:
 	//
-	// [{"id":"1","uri":"test.feature","name":"test","language":"en","steps":[{"astNodeIds":["0","2"],"id":"0","text":"a red ball"}],"tags":[],"astNodeIds":["4","2"]}]
+	// [{"id":"1","uri":"test.feature","name":"test","language":"en","steps":[{"astNodeIds":["0","2"],"id":"0","type":"Context","text":"a red ball"}],"tags":[],"astNodeIds":["4","2"]}]
 }

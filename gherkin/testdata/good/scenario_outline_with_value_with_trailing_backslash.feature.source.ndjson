@@ -1,0 +1,1 @@
+{"source":{"data":"Feature: Scenario Outline with values with trailing backslash\n\nScenario Outline: minimalistic\n    Given <what>\n    When <this>\n    Then <that>\n\nExamples:\n  | what | this  | that   |\n  | x\\\\y | this\\ | that\\\\ |","mediaType":"text/x.cucumber.gherkin+plain","uri":"../testdata/good/scenario_outline_with_value_with_trailing_backslash.feature"}}

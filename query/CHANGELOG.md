@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [12.0.0] - 2022-06-01
+
+### Changed
+
+* Bump `@cucumber/messages` to v19.0.0
+
 ## [11.0.0] - 2021-07-08
 
 ### Changed
@@ -154,7 +160,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First JavaScript implementation
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v11.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/query/v12.0.0...main
+[12.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v11.0.0...query/v12.0.0
 [11.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v10.1.0...query/v11.0.0
 [10.1.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v10.0.0...query/v10.1.0
 [10.0.0]:      https://github.com/cucumber/cucumber/compare/cucumber-query/v9.0.2...query/v10.0.0

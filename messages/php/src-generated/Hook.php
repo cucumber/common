@@ -26,6 +26,7 @@ final class Hook implements JsonSerializable
      */
     public function __construct(
         public readonly string $id = '',
+        public readonly ?string $name = null,
         public readonly SourceReference $sourceReference = new SourceReference(),
         public readonly ?string $tagExpression = null,
     ) {
@@ -39,11 +40,13 @@ final class Hook implements JsonSerializable
     public static function fromArray(array $arr): self
     {
         self::ensureId($arr);
+        self::ensureName($arr);
         self::ensureSourceReference($arr);
         self::ensureTagExpression($arr);
 
         return new self(
             (string) $arr['id'],
+            isset($arr['name']) ? (string) $arr['name'] : null,
             SourceReference::fromArray($arr['sourceReference']),
             isset($arr['tagExpression']) ? (string) $arr['tagExpression'] : null,
         );
@@ -59,6 +62,16 @@ final class Hook implements JsonSerializable
         }
         if (array_key_exists('id', $arr) && is_array($arr['id'])) {
             throw new SchemaViolationException('Property \'id\' was array');
+        }
+    }
+
+    /**
+     * @psalm-assert array{name?: string|int|bool} $arr
+     */
+    private static function ensureName(array $arr): void
+    {
+        if (array_key_exists('name', $arr) && is_array($arr['name'])) {
+            throw new SchemaViolationException('Property \'name\' was array');
         }
     }
 
