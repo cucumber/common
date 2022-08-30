@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@cucumber/compatibility-kit": "^11.0.0",
-    "@typescript-eslint/eslint-plugin": "5.36.0",
-    "@typescript-eslint/parser": "5.36.0",
+    "@typescript-eslint/eslint-plugin": "5.36.1",
+    "@typescript-eslint/parser": "5.36.1",
     "ajv": "8.11.0",
     "ajv-cli": "5.0.0",
     "eslint": "7.32.0",
