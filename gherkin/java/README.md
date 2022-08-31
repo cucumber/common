@@ -4,4 +4,4 @@
 
 Gherkin parser/compiler for Java.
 
-See [GherkinTest](src/test/java/io/cucumber/gherkin/GherkinTest.java) for sample usage.
+See [GherkinTest](src/test/java/io/cucumber/gherkin/GherkinParserTest.java) for sample usage.
