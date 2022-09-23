@@ -2691,7 +2691,8 @@ static const Keywords ru_but_keywords = { 4, ru_but_KEYWORDS };
 static const wchar_t* const ru_examples_KEYWORDS[] = { L"Примеры" };
 static const Keywords ru_examples_keywords = { 1, ru_examples_KEYWORDS };
 
-static const wchar_t* const ru_feature_KEYWORDS[] = { L"Функция", L"Функциональность", L"Функционал", L"Свойство" };
+static const wchar_t* const ru_feature_KEYWORDS[] = { L"Функция", L"Функциональность", L"Функционал", L"Свойство",
+"LФича" };
 static const Keywords ru_feature_keywords = { 4, ru_feature_KEYWORDS };
 
 static const wchar_t* const ru_given_KEYWORDS[] = { L"* ", L"Допустим ", L"Дано ", L"Пусть " };
@@ -2703,7 +2704,7 @@ static const Keywords ru_rule_keywords = { 1, ru_rule_KEYWORDS };
 static const wchar_t* const ru_scenario_KEYWORDS[] = { L"Пример", L"Сценарий" };
 static const Keywords ru_scenario_keywords = { 2, ru_scenario_KEYWORDS };
 
-static const wchar_t* const ru_scenarioOutline_KEYWORDS[] = { L"Структура сценария", L"Шаблон сценария" };
+static const wchar_t* const ru_scenarioOutline_KEYWORDS[] = { L"Структура сценария", L"Шаблон сценария", L"Шаблон примера" };
 static const Keywords ru_scenarioOutline_keywords = { 2, ru_scenarioOutline_KEYWORDS };
 
 static const wchar_t* const ru_then_KEYWORDS[] = { L"* ", L"То ", L"Затем ", L"Тогда " };

@@ -3626,6 +3626,7 @@ var builtinDialects = gherkinDialectMap{
 				"Функциональность",
 				"Функционал",
 				"Свойство",
+				"Фича",
 			},
 			rule: {
 				"Правило",
@@ -3641,6 +3642,7 @@ var builtinDialects = gherkinDialectMap{
 			scenarioOutline: {
 				"Структура сценария",
 				"Шаблон сценария",
+				"Шаблон примера"
 			},
 			examples: {
 				"Примеры",
