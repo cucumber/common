@@ -46,19 +46,19 @@ executors:
   # Ruby
   docker-circleci-ruby-23:
     docker:
-      - image: circleci/ruby:2.3
+      - image: circleci/ruby:2.7
     working_directory: ~/cucumber
   docker-circleci-ruby-24:
     docker:
-      - image: circleci/ruby:2.4
+      - image: circleci/ruby:2.7
     working_directory: ~/cucumber
   docker-circleci-ruby-25:
     docker:
-      - image: circleci/ruby:2.5
+      - image: circleci/ruby:2.7
     working_directory: ~/cucumber
   docker-circleci-ruby-26:
     docker:
-      - image: circleci/ruby:2.6
+      - image: circleci/ruby:2.7
     working_directory: ~/cucumber
   # Java
   docker-circleci-openjdk:
