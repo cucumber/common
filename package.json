@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "license": "MIT",
   "workspaces": [
-    "messages/javascript",
     "gherkin/javascript",
     "gherkin-utils/javascript",
     "query/javascript"
