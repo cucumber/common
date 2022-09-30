@@ -413,7 +413,9 @@ workflows:
 
       ### Go
 
-      - gherkin-go
+      - gherkin-go:
+          requires:
+            - prepare-parallel
 
       ### JavaScript
 
@@ -438,15 +440,27 @@ workflows:
 
       ### Ruby
 
-      - gherkin-ruby-23
-      - gherkin-ruby-24
-      - gherkin-ruby-25
-      - gherkin-ruby-26
+      - gherkin-ruby-23:
+          requires:
+            - prepare-parallel
+      - gherkin-ruby-24:
+          requires:
+            - prepare-parallel
+      - gherkin-ruby-25:
+          requires:
+            - prepare-parallel
+      - gherkin-ruby-26:
+          requires:
+            - prepare-parallel
 
       ### Java
 
-      - gherkin-java
-      - gherkin-utils-java
+      - gherkin-java:
+          requires:
+            - prepare-parallel
+      - gherkin-utils-java:
+          requires:
+            - prepare-parallel
 
       ### .NET
 
