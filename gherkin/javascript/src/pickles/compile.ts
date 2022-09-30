@@ -79,19 +79,13 @@ function compileRule(
   rule.children.forEach((stepsContainer) => {
     if (stepsContainer.background) {
       ruleBackgroundSteps = ruleBackgroundSteps.concat(stepsContainer.background.steps)
-    } else if (stepsContainer.scenario.examples.length === 0) {
-      compileScenario(
-        tags,
-        ruleBackgroundSteps,
-        stepsContainer.scenario,
-        language,
-        pickles,
-        uri,
-        newId
-      )
     } else {
-      compileScenarioOutline(
-        featureTags,
+      const compileFunc = stepsContainer.scenario.examples.length === 0 
+        ? compileScenario
+        : compileScenarioOutline
+      
+      compileFunc(
+        tags,
         ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
