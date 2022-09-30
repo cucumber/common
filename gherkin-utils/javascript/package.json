@@ -38,7 +38,7 @@
   "dependencies": {
     "@cucumber/messages": "^19.1.2",
     "@teppeis/multimaps": "2.0.0",
-    "commander": "9.4.0"
+    "commander": "9.4.1"
   },
   "directories": {
     "test": "test"
