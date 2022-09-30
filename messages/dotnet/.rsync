@@ -1,4 +1,0 @@
-../../LICENSE LICENSE
-../../.templates/github/ .github/
-../../.templates/dotnet/ .
-../messages.proto messages.proto

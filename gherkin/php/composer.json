@@ -26,8 +26,8 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../../messages/php",
+            "type": "vcs",
+            "url": "https://github.com/cucumber/messages-php",
             "options": {
                 "versions": {
                     "cucumber/messages": "19.0.0"

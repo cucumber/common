@@ -1,7 +1,6 @@
 //
 // This file is generated. Do not edit! Edit parser.go.razor instead.
 
-//
 package gherkin
 
 import (
