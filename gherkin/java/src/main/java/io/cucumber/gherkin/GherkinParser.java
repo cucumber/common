@@ -9,6 +9,7 @@ import io.cucumber.messages.types.Source;
 import io.cucumber.messages.types.SourceReference;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static io.cucumber.gherkin.EncodingParser.readWithEncodingFromSource;
 import static io.cucumber.messages.types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 
@@ -82,14 +83,17 @@ public final class GherkinParser {
     }
 
     public Stream<Envelope> parse(Path path) throws IOException {
-        byte[] bytes = Files.readAllBytes(path);
-        String data = new String(bytes, UTF_8);
         // .feature.md files are not supported
-        return parseGherkinPlain(path.toUri().toString(), data);
+        return parse(path.toUri().toString(), Files.readAllBytes(path));
     }
 
-    private Stream<Envelope> parseGherkinPlain(String uri, String source) {
-        return parse(Envelope.of(new Source(uri, source, TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
+    public Stream<Envelope> parse(String uri, InputStream source) throws IOException {
+        return parse(uri, InputStreams.readAllBytes(source));
+    }
+
+    public Stream<Envelope> parse(String uri, byte[] source) {
+        String withEncodingFromSource = readWithEncodingFromSource(source);
+        return parse(Envelope.of(new Source(uri, withEncodingFromSource, TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
     }
 
     public Stream<Envelope> parse(Envelope envelope) {
