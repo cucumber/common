@@ -10,31 +10,40 @@ import io.cucumber.messages.types.Scenario;
 import io.cucumber.messages.types.Source;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static io.cucumber.messages.types.SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GherkinParserTest {
-    final Envelope envelope = Envelope.of(new Source("minimal.feature",
-            "Feature: Minimal\n" +
-                    "\n" +
-                    "  Scenario: minimalistic\n" +
-                    "    Given the minimalism\n",
-            TEXT_X_CUCUMBER_GHERKIN_PLAIN));
+
+    final String feature = "Feature: Minimal\n" +
+            "\n" +
+            "  Scenario: minimalistic\n" +
+            "    Given the minimalism\n";
+    final Envelope envelope = Envelope.of(new Source("minimal.feature", feature, TEXT_X_CUCUMBER_GHERKIN_PLAIN));
 
     @Test
     public void use_this_in_readme() {
-        String name = GherkinParser.builder()
-                .includeSource(false)
-                .build()
-                .parse(envelope)
-                .filter(envelope -> envelope.getPickle().isPresent())
-                .findFirst().get()
-                .getPickle().get()
-                .getName();
-        assertEquals("minimalistic", name);
+        GherkinParser parser = GherkinParser.builder().build();
+        Stream<Envelope> pickles = parser.parse(envelope).filter(envelope -> envelope.getPickle().isPresent());
+        assertEquals(1, pickles.count());
+    }
+
+    @Test
+    public void can_parse_streams() throws IOException {
+        try (InputStream is = new ByteArrayInputStream(feature.getBytes(StandardCharsets.UTF_8))){
+            GherkinParser parser = GherkinParser.builder().build();
+            Stream<Envelope> pickles = parser.parse("minimal.feature",is).filter(envelope -> envelope.getPickle().isPresent());
+            assertEquals(1, pickles.count());
+        }
     }
 
     @Test

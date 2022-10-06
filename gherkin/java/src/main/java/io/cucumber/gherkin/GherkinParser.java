@@ -8,6 +8,7 @@ import io.cucumber.messages.types.ParseError;
 import io.cucumber.messages.types.Source;
 import io.cucumber.messages.types.SourceReference;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -82,16 +83,21 @@ public final class GherkinParser {
         return new Builder();
     }
 
-    public Stream<Envelope> parse(Path path) throws IOException {
+    public Stream<Envelope> parse(Path source) throws IOException {
+        requireNonNull(source);
         // .feature.md files are not supported
-        return parse(path.toUri().toString(), Files.readAllBytes(path));
+        return parse(source.toUri().toString(), Files.readAllBytes(source));
     }
 
     public Stream<Envelope> parse(String uri, InputStream source) throws IOException {
+        requireNonNull(uri);
+        requireNonNull(source);
         return parse(uri, InputStreams.readAllBytes(source));
     }
 
     public Stream<Envelope> parse(String uri, byte[] source) {
+        requireNonNull(uri);
+        requireNonNull(source);
         String withEncodingFromSource = readWithEncodingFromSource(source);
         return parse(Envelope.of(new Source(uri, withEncodingFromSource, TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
     }

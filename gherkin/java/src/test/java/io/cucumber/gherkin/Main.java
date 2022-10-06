@@ -3,7 +3,10 @@ package io.cucumber.gherkin;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.MessageToNdjsonWriter;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,7 +19,7 @@ public class Main {
 
     public static void main(String[] argv) throws IOException {
         List<String> args = new ArrayList<>(asList(argv));
-        List<Path> paths = new ArrayList<>();
+        List<String> paths = new ArrayList<>();
 
         GherkinParser.Builder builder = GherkinParser.builder();
 
@@ -37,16 +40,19 @@ public class Main {
                     builder.idGenerator(new IncrementingIdGenerator());
                     break;
                 default:
-                    paths.add(Paths.get(arg));
+                    paths.add(arg);
             }
         }
 
         GherkinParser parser = builder.build();
 
         try (MessageToNdjsonWriter writer = new MessageToNdjsonWriter(System.out, OBJECT_MAPPER::writeValue)) {
-            for (Path path : paths) {
-                parser.parse(path)
-                        .forEach(envelope -> printMessage(writer, envelope));
+            for (String path : paths) {
+                try (InputStream fis  = Files.newInputStream(Paths.get(path))) {
+                    // Don't use parser.parse(Path). The test suite uses relative paths.
+                    parser.parse(path, fis)
+                            .forEach(envelope -> printMessage(writer, envelope));
+                }
             }
         }
     }
