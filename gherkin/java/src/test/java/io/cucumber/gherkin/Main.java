@@ -2,11 +2,10 @@ package io.cucumber.gherkin;
 
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.MessageToNdjsonWriter;
-import io.cucumber.messages.types.Source;
-import io.cucumber.messages.types.SourceMediaType;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,11 +47,13 @@ public class Main {
         GherkinParser parser = builder.build();
 
         try (MessageToNdjsonWriter writer = new MessageToNdjsonWriter(System.out, OBJECT_MAPPER::writeValue)) {
-            paths.stream()
-                    .map(Paths::get)
-                    .map(Main::readEnvelopeFromPath)
-                    .flatMap(parser::parse)
-                    .forEach(envelope -> printMessage(writer, envelope));
+            for (String path : paths) {
+                try (InputStream fis  = Files.newInputStream(Paths.get(path))) {
+                    // Don't use parser.parse(Path). The test suite uses relative paths.
+                    parser.parse(path, fis)
+                            .forEach(envelope -> printMessage(writer, envelope));
+                }
+            }
         }
     }
 
@@ -64,13 +65,4 @@ public class Main {
         }
     }
 
-    private static Envelope readEnvelopeFromPath(Path path) {
-        try {
-            byte[] bytes = Files.readAllBytes(path);
-            String data = new String(bytes, StandardCharsets.UTF_8);
-            return Envelope.of(new Source(path.toString(), data, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN));
-        } catch (IOException e) {
-            throw new GherkinException(e.getMessage(), e);
-        }
-    }
 }
