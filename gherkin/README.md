@@ -47,8 +47,7 @@ Alternatively, you can use the lower level parser and compiler. Some usage examp
 // Java
 Path path = Paths.get("../testdata/good/minimal.feature");
 GherkinParser parser = GherkinParser.builder().build();
-Stream<Envelope> envelopeStream = parser.parse(path);
-Stream<Envelope> pickleStream = envelopeStream.filter(Envelope::hasPickle);
+Stream<Envelope> pickles = parser.parse(envelope).filter(envelope -> envelope.getPickle().isPresent());
 ```
 
 ```csharp
