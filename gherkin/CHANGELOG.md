@@ -23,6 +23,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+* [Javascript] Fix compiling a rule with scenario outline of gherkin document is different from ruby's ([#2091](https://github.com/cucumber/common/pull/2091))
 * [Python] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
 * [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
 
