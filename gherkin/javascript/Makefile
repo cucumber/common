@@ -28,7 +28,7 @@ acceptance/testdata/%.ast.ndjson: ../testdata/% ../testdata/%.ast.ndjson
 ifndef GOLDEN
 	diff --unified <(jq "." $<.ast.ndjson) <(jq "." $@)
 else
-	cp $@ ../$(word 2,$^)
+	cp $@ $(word 2,$^)
 endif
 
 acceptance/testdata/%.pickles.ndjson: ../testdata/% ../testdata/%.pickles.ndjson
@@ -37,7 +37,7 @@ acceptance/testdata/%.pickles.ndjson: ../testdata/% ../testdata/%.pickles.ndjson
 ifndef GOLDEN
 	diff --unified <(jq "." $<.pickles.ndjson) <(jq "." $@)
 else
-	cp $@ ../$(word 2,$^)
+	cp $@ $(word 2,$^)
 endif
 
 acceptance/testdata/%.source.ndjson: ../testdata/% ../testdata/%.source.ndjson
@@ -46,7 +46,7 @@ acceptance/testdata/%.source.ndjson: ../testdata/% ../testdata/%.source.ndjson
 ifndef GOLDEN
 	diff --unified <(jq "." $<.source.ndjson) <(jq "." $@)
 else
-	cp $@ ../$(word 2,$^)
+	cp $@ $(word 2,$^)
 endif
 
 acceptance/testdata/%.errors.ndjson: ../testdata/% ../testdata/%.errors.ndjson
@@ -55,7 +55,7 @@ acceptance/testdata/%.errors.ndjson: ../testdata/% ../testdata/%.errors.ndjson
 ifndef GOLDEN
 	diff --unified <(jq "." $<.errors.ndjson) <(jq "." $@)
 else
-	cp $@ ../$(word 2,$^)
+	cp $@ $(word 2,$^)
 endif
 
 clean:
