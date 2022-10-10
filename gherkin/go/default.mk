@@ -118,7 +118,7 @@ endif
 	go test ./...
 	touch $@
 
-post-release: add-replaces
+post-release:
 ifdef NEW_VERSION
 	pushd ../.. && \
 	source scripts/functions.sh && update_go_library_version $(LIBNAME) $(NEW_VERSION) && \
@@ -140,14 +140,6 @@ remove-replaces:
 	sed -i '/^replace/d' go.mod
 	sed -i 'N;/^\n$$/D;P;D;' go.mod
 .PHONY: remove-replaces
-
-add-replaces:
-ifeq ($(shell sed -n "/^\s*github.com\/cucumber/p" go.mod | wc -l), 0)
-	# No replacements here
-else
-	sed -i '/^go .*/i $(GO_REPLACEMENTS)\n' go.mod
-endif
-.PHONY: add-replaces
 
 update-major:
 ifeq ($(CURRENT_MAJOR), $(NEW_MAJOR))
