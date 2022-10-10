@@ -91,7 +91,7 @@ function compileRule(
       )
     } else {
       compileScenarioOutline(
-        featureTags,
+        tags,
         ruleBackgroundSteps,
         stepsContainer.scenario,
         language,
