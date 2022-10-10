@@ -8,7 +8,7 @@
         <version>3.0.0</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>24.1.0</version>
+    <version>24.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
