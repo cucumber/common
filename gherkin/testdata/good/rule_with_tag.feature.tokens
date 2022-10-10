@@ -17,4 +17,13 @@
 (17:5)TagLine://5:@tag_scenario
 (18:5)ScenarioLine:()Scenario/Scenario with feature, rule and scenario tags/
 (19:7)StepLine:(Context)Given /b/
+(20:1)Empty://
+(21:5)TagLine://5:@tag_outline
+(22:5)ScenarioLine:()Scenario Outline/Tagged Scenario outline/
+(23:7)StepLine:(Context)Given /b/
+(24:1)Empty://
+(25:7)TagLine://7:@examples_tag
+(26:7)ExamplesLine:()Examples//
+(27:9)TableRow://11:header
+(28:9)TableRow://11:a
 EOF
