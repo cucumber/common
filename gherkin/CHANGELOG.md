@@ -11,7 +11,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 
-* [Java] Added for reading directly from input (files, streams, paths, ect)
+* [Java] Added support for reading directly from input (files, streams, paths, ect)
 * [C] The C implementation re-enabled and made up to date.
   ([#1989](https://github.com/cucumber/common/pull/1989))
 
@@ -22,8 +22,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
-
-* [Javascript] Fix compiling a rule with scenario outline of gherkin document is different from ruby's ([#2091](https://github.com/cucumber/common/pull/2091))
+* [Javascript] Include tags from rules in scenario outlines ([#2091](https://github.com/cucumber/common/pull/2091))
 * [Python] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
 * [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
 
