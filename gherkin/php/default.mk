@@ -48,8 +48,7 @@ clean:
 
 .tested: .deps $(PHP_SOURCE_FILES)
 	vendor/bin/php-cs-fixer --dry-run --diff fix
-#   Disabled: See https://github.com/cucumber/common/pull/2095
-#	vendor/bin/psalm --no-cache
+	vendor/bin/psalm --no-cache
 	vendor/bin/phpunit
 	touch $@
 
