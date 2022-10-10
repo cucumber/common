@@ -8,7 +8,7 @@
         <version>3.0.0</version>
     </parent>
     <artifactId>gherkin</artifactId>
-    <version>24.0.1-SNAPSHOT</version>
+    <version>24.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Gherkin</name>
     <description>Gherkin parser</description>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>messages</artifactId>
-            <version>[19.0.0,20.0.0)</version>
+            <version>[19.1.4,20.0.0)</version>
         </dependency>
 
         <dependency>
