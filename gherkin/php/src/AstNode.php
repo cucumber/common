@@ -62,14 +62,8 @@ final class AstNode
         return $items[0] ?? $defaultValue;
     }
 
-    /**
-     * needed for non-object return
-     *
-     * @param null|object $defaultValue
-     *
-     * @psalm-return ($defaultValue is null ? S|null : S )
-     */
-    public function getSingleUntyped(RuleType $ruleType, ?object $defaultValue = null): mixed
+    /** needed for non-object return */
+    public function getSingleUntyped(RuleType $ruleType, mixed $defaultValue = null): mixed
     {
         $items =$this->subItems[$ruleType->name] ?? [];
 
