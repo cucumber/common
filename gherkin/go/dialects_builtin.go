@@ -2506,7 +2506,7 @@ var builtinDialects = gherkinDialectMap{
 				"機能",
 			},
 			rule: {
-				"Rule",
+				"ルール",
 			},
 			background: {
 				"背景",
@@ -2538,10 +2538,12 @@ var builtinDialects = gherkinDialectMap{
 			},
 			and: {
 				"* ",
+				"且つ",
 				"かつ",
 			},
 			but: {
 				"* ",
+				"然し",
 				"しかし",
 				"但し",
 				"ただし",
@@ -2554,8 +2556,10 @@ var builtinDialects = gherkinDialectMap{
 
 			"ならば": messages.StepKeywordType_OUTCOME,
 
+			"且つ": messages.StepKeywordType_CONJUNCTION,
 			"かつ": messages.StepKeywordType_CONJUNCTION,
 
+			"然し":  messages.StepKeywordType_CONJUNCTION,
 			"しかし": messages.StepKeywordType_CONJUNCTION,
 			"但し":  messages.StepKeywordType_CONJUNCTION,
 			"ただし": messages.StepKeywordType_CONJUNCTION,
