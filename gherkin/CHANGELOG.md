@@ -10,8 +10,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased]
 
 ### Added
+* Additional `ja` (Japanese) translations for `and`, `but`
 
 ### Changed
+* `ja` (Japanese) `Rule` translation changed from `Rule` to `ルール`
 
 ### Deprecated
 
