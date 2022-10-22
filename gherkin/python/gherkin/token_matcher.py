@@ -59,12 +59,7 @@ class GherkinInMarkdownTokenMatcher(object):
             # if(self._is_gfm_table_separator(table_cells)):
             #     return False
         
-            token.matched_keyword = '|'
-            token.matched_type='TableRow'
-            token.matched_items=table_cells
-            
-            # Why not use this?
-            # self._set_token_matched(token, 'TableRow', items=token.line.table_cells)
+            self._set_token_matched(token, 'TableRow', keyword='|',items=token.line.table_cells)
 
             return True
         return False
