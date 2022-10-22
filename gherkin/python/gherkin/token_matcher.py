@@ -28,25 +28,17 @@ class GherkinInMarkdownTokenMatcher(object):
         self._active_doc_string_separator = None
 
     def match_FeatureLine(self, token):
-        #     if (this.matchedFeatureLine) {
-        #   return this.setTokenMatched(token, null, false)
-        # }
-
-
         # We first try to match "# Feature: blah"
-        return self._match_title_line_new(KEYWORD_PREFIX_HEADER, self.dialect.feature_keywords, ':', token, 'FeatureLine')
-        # return self._match_title_line(token, 'FeatureLine', self.dialect.feature_keywords)
+        return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.feature_keywords, ':', token, 'FeatureLine')
 
     def match_RuleLine(self, token):
-        return self._match_title_line(token, 'RuleLine', self.dialect.rule_keywords)
+        return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.rule_keywords, ':', token, 'RuleLine')
 
     def match_ScenarioLine(self, token):
-        return (self._match_title_line(token, 'ScenarioLine', self.dialect.scenario_keywords) or
-                self._match_title_line(token, 'ScenarioLine',
-                                       self.dialect.scenario_outline_keywords))
+        return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.scenario_keywords, ':', token, 'ScenarioLine') or self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.scenario_outline_keywords, ':', token, 'ScenarioLine')
 
     def match_BackgroundLine(self, token):
-        return self._match_title_line(token, 'BackgroundLine', self.dialect.background_keywords)
+        return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.background_keywords, ':', token, 'BackgroundLine')
 
     def match_ExamplesLine(self, token):
         return self._match_title_line(token, 'ExamplesLine', self.dialect.examples_keywords)
@@ -76,7 +68,7 @@ class GherkinInMarkdownTokenMatcher(object):
                     self.dialect.then_keywords +
                     self.dialect.and_keywords +
                     self.dialect.but_keywords)
-        return self._match_title_line_new(KEYWORD_PREFIX_BULLET, nonStarStepKeywords, '', token, 'StepLine')
+        return self._match_title_line(KEYWORD_PREFIX_BULLET, nonStarStepKeywords, '', token, 'StepLine')
         
         # for keyword in (k for k in keywords if token.line.startswith(k)):
         #     title = token.line.get_rest_trimmed(len(keyword))
@@ -171,7 +163,7 @@ class GherkinInMarkdownTokenMatcher(object):
         self._set_token_matched(token, 'EOF')
         return True
 
-    def _match_title_line_new(self, prefix, keywords, keywordSuffix, token, token_type):
+    def _match_title_line(self, prefix, keywords, keywordSuffix, token, token_type):
         
         keywords_or_list="|".join(map(lambda x: re.escape(x), keywords))
         match = re.search(f'{prefix}({keywords_or_list}){keywordSuffix}(.*)', token.line.get_line_text())
@@ -183,22 +175,6 @@ class GherkinInMarkdownTokenMatcher(object):
             indent += len(match.group(1))
             self._set_token_matched(token, token_type, match.group(3).strip(), matchedKeyword, indent=indent)
             return True
-        return False
-
-
-        # for keyword in (k for k in keywords if token.line.startswith_title_keyword(k)):
-        #     title = token.line.get_rest_trimmed(len(keyword) + len(':'))
-        #     self._set_token_matched(token, token_type, title, keyword)
-        #     return True
-
-        # return False
-    # TODO - DELETE
-    def _match_title_line(self, token, token_type, keywords):
-        for keyword in (k for k in keywords if token.line.startswith_title_keyword(k)):
-            title = token.line.get_rest_trimmed(len(keyword) + len(':'))
-            self._set_token_matched(token, token_type, title, keyword)
-            return True
-
         return False
 
     def _set_token_matched(self, token, matched_type, text=None,

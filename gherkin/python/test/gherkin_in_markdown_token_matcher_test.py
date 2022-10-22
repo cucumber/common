@@ -184,3 +184,39 @@ def test_it_matches_unindented_tags():
     ]
     assert t1.matched_items == expected_items
 
+
+def test_it_matches_RuleLine():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    line = GherkinLine('''## Rule: the world''',location['line'])
+    token = Token(gherkin_line=line, location=location)
+    assert tm.match_RuleLine(token)
+    assert token.matched_type == 'RuleLine'
+    assert token.matched_keyword == 'Rule'
+    assert token.matched_text == 'the world'
+
+def test_it_matches_ScenarioLine():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    line = GherkinLine('''## Scenario: the one where''',location['line'])
+    token = Token(gherkin_line=line, location=location)
+    assert tm.match_ScenarioLine(token)
+    assert token.matched_type == 'ScenarioLine'
+    assert token.matched_keyword == 'Scenario'
+    assert token.matched_text == 'the one where'
+
+def test_it_matches_ScenarioLine_outline():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    line = GherkinLine('''## Scenario Outline: the ones where''',location['line'])
+    token = Token(gherkin_line=line, location=location)
+    assert tm.match_ScenarioLine(token)
+    assert token.matched_type == 'ScenarioLine'
+    assert token.matched_keyword == 'Scenario Outline'
+    assert token.matched_text == 'the ones where'
+
+def test_it_matches_ackgroundLine():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    line = GherkinLine('''## Background: once upon a time''',location['line'])
+    token = Token(gherkin_line=line, location=location)
+    assert tm.match_BackgroundLine(token)
+    assert token.matched_type == 'BackgroundLine'
+    assert token.matched_keyword == 'Background'
+    assert token.matched_text == 'once upon a time'
