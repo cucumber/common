@@ -170,3 +170,17 @@ def test_it_matches_indented_tags():
     ]
     assert t1.matched_items == expected_items
 
+def test_it_matches_unindented_tags():
+    tm = GherkinInMarkdownTokenMatcher('en')
+
+    l1 = GherkinLine('`@foo`   `@bar`',location['line'])
+    t1 = Token(l1,location)
+    assert tm.match_TagLine(t1)
+
+    assert t1.matched_type == 'TagLine'
+    expected_items= [
+       {'column': 2, 'text': '@foo'},
+       {'column': 11, 'text': '@bar'}
+    ]
+    assert t1.matched_items == expected_items
+
