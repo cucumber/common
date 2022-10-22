@@ -52,3 +52,34 @@ def test_it_matches_hyphen_Step():
   assert token.matched_keyword == 'Given '
   assert token.matched_text == 'I have 3 cukes'
   assert token.location['column'] == 6
+
+def test_it_matches_arbitrary_text_as_Other():
+  tm = GherkinInMarkdownTokenMatcher('en')
+  line = GherkinLine('''Whatever''',location['line'])
+  token = Token(gherkin_line=line, location=location)
+  assert tm.match_Other(token)
+  assert token.matched_type == 'Other'
+
+def test_it_matches_a_non_keyword_line_as_Other():
+  tm = GherkinInMarkdownTokenMatcher('en')
+  line = GherkinLine('''* whatever Given''',location['line'])
+  token = Token(gherkin_line=line, location=location)
+  assert tm.match_Other(token)
+  assert token.matched_type == 'Other'
+
+def test_it_matches_a_non_keyword_header_line_as_Other():
+  tm = GherkinInMarkdownTokenMatcher('en')
+  line = GherkinLine('''## The world is wet''',location['line'])
+  token = Token(gherkin_line=line, location=location)
+  assert tm.match_Other(token)
+  assert token.matched_type == 'Other'
+
+def test_it_matches_doctring_separator():
+  tm = GherkinInMarkdownTokenMatcher('en')
+  line = GherkinLine('''  ```somefink''',location['line'])
+  token = Token(gherkin_line=line, location=location)
+  assert tm.match_DocStringSeparator(token)
+  assert token.matched_type == 'DocStringSeparator'
+  assert token.matched_keyword == '```'
+  assert token.matched_text == 'somefink'
+
