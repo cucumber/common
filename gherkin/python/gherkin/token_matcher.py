@@ -116,10 +116,20 @@ class GherkinInMarkdownTokenMatcher(object):
         return True
 
     def match_TagLine(self, token):
-        if not token.line.startswith('@'):
+
+        tags = []
+        matching_tags = re.finditer('`(@[^`]+)`', token.line.get_line_text())
+        idx=0
+        for match in matching_tags:
+            tags.append({
+                'column': token.line.indent + match.start(idx) + 2,
+                'text': match.group(1)
+            })
+
+        if(len(tags) == 0):
             return False
 
-        self._set_token_matched(token, 'TagLine', items=token.line.tags)
+        self._set_token_matched(token, 'TagLine', items=tags)
         return True
 
     def match_DocStringSeparator(self, token):

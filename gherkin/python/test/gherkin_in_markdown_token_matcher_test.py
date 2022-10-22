@@ -156,5 +156,17 @@ def test_it_matches_table_separator_row_as_comment():
     assert not tm.match_TableRow(t2)
     assert not tm.match_Comment(t2)
 
+def test_it_matches_indented_tags():
+    tm = GherkinInMarkdownTokenMatcher('en')
 
+    l1 = GherkinLine('  `@foo` `@bar`',location['line'])
+    t1 = Token(l1,location)
+    assert tm.match_TagLine(t1)
+
+    assert t1.matched_type == 'TagLine'
+    expected_items= [
+       {'column': 4, 'text': '@foo'},
+       {'column': 11, 'text': '@bar'}
+    ]
+    assert t1.matched_items == expected_items
 
