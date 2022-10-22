@@ -55,9 +55,9 @@ class GherkinInMarkdownTokenMatcher(object):
         # Gherkin tables must be indented 2-5 spaces in order to be distinguidedn from non-Gherkin tables
 
         if re.match('^\\s\\s\\s?\\s?\\s?\\|',token.line.get_line_text(0)):
-            # table_cells = token.line.table_cells
-            # if(self._is_gfm_table_separator(table_cells)):
-            #     return False
+            table_cells = token.line.table_cells
+            if(self._is_gfm_table_separator(table_cells)):
+                return False
         
             self._set_token_matched(token, 'TableRow', keyword='|',items=token.line.table_cells)
 
@@ -65,9 +65,8 @@ class GherkinInMarkdownTokenMatcher(object):
         return False
 
     def _is_gfm_table_separator(self, table_cells):
-        # map(lambda x: re.escape(x), keywords)
-        text_of_table_cells = map(lambda x: x.text, table_cells)
-        separator_values = filter(lambda x: re.match('^:?-+:?$',x),text_of_table_cells)
+        text_of_table_cells = map(lambda x: x['text'], table_cells)
+        separator_values = list(filter(lambda x: re.match('^:?-+:?$',x),text_of_table_cells))
         return len(separator_values) > 0
 
 

@@ -138,3 +138,23 @@ def test_it_does_not_match_table_row_indented_1_space():
     token = Token(gherkin_line, location)
     assert not tm.match_TableRow(token)
 
+def test_it_does_not_match_table_row_indented_6_space():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    gherkin_line = GherkinLine('''      |foo|bar|''',location['line'])
+    token = Token(gherkin_line, location)
+    assert not tm.match_TableRow(token)
+
+def test_it_matches_table_separator_row_as_comment():
+    tm = GherkinInMarkdownTokenMatcher('en')
+
+    l1 = GherkinLine('  | h1 | h2 |',location['line'])
+    t1 = Token(l1,location)
+    assert tm.match_TableRow(t1)
+
+    l2 = GherkinLine('  | --- | --- |',location['line'])
+    t2 = Token(l2,location)
+    assert not tm.match_TableRow(t2)
+    assert not tm.match_Comment(t2)
+
+
+
