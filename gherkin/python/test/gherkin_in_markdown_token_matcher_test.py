@@ -42,3 +42,13 @@ def test_it_matches_plus_Step():
   assert token.matched_keyword == 'Given '
   assert token.matched_text == 'I have 3 cukes'
   assert token.location['column'] == 6
+
+def test_it_matches_hyphen_Step():
+  tm = GherkinInMarkdownTokenMatcher('en')
+  line = GherkinLine('''  -  Given I have 3 cukes''',location['line'])
+  token = Token(gherkin_line=line, location=location)
+  assert tm.match_StepLine(token)
+  assert token.matched_type == 'StepLine'
+  assert token.matched_keyword == 'Given '
+  assert token.matched_text == 'I have 3 cukes'
+  assert token.location['column'] == 6
