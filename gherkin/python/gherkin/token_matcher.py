@@ -114,7 +114,7 @@ class GherkinInMarkdownTokenMatcher(object):
         if not self._active_doc_string_separator:
             # open
             return (self._match_DocStringSeparator(token, '"""', True) or
-                    self._match_DocStringSeparator(token, '```', True))
+                    self._match_DocStringSeparator(token, '````', True) or self._match_DocStringSeparator(token, '```', True))
         else:
             # close
             return self._match_DocStringSeparator(token, self._active_doc_string_separator, False)

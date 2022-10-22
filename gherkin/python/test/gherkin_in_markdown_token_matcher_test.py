@@ -74,7 +74,7 @@ def test_it_matches_a_non_keyword_header_line_as_Other():
   assert tm.match_Other(token)
   assert token.matched_type == 'Other'
 
-def test_it_matches_doctring_separator():
+def test_it_matches_3_ticks_doctring_separator():
   tm = GherkinInMarkdownTokenMatcher('en')
   line = GherkinLine('''  ```somefink''',location['line'])
   token = Token(gherkin_line=line, location=location)
@@ -82,4 +82,13 @@ def test_it_matches_doctring_separator():
   assert token.matched_type == 'DocStringSeparator'
   assert token.matched_keyword == '```'
   assert token.matched_text == 'somefink'
+
+def test_it_matches_4_ticks_doctring_separator():
+  tm = GherkinInMarkdownTokenMatcher('en')
+  line = GherkinLine('''  ````''',location['line'])
+  token = Token(gherkin_line=line, location=location)
+  assert tm.match_DocStringSeparator(token)
+  assert token.matched_type == 'DocStringSeparator'
+  assert token.matched_keyword == '````'
+  assert token.matched_text == ''
 
