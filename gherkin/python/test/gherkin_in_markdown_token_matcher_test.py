@@ -118,3 +118,23 @@ def test_it_matches_table_row_indented_2_spaces():
        {'column': 8, 'text': 'bar'}
     ]
     assert token.matched_items == expected_items
+
+def test_it_matches_table_row_indented_5_spaces():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    gherkin_line = GherkinLine('''     |foo|bar|''',location['line'])
+    token = Token(gherkin_line, location)
+    assert tm.match_TableRow(token)
+    assert token.matched_type == 'TableRow'
+    assert token.matched_keyword == '|'
+    expected_items= [
+       {'column': 7, 'text': 'foo'},
+       {'column': 11, 'text': 'bar'}
+    ]
+    assert token.matched_items == expected_items
+
+def test_it_does_not_match_table_row_indented_1_space():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    gherkin_line = GherkinLine(''' |foo|bar|''',location['line'])
+    token = Token(gherkin_line, location)
+    assert not tm.match_TableRow(token)
+
