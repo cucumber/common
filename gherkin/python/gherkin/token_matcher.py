@@ -8,10 +8,6 @@ from .errors import NoSuchLanguageException
 KEYWORD_PREFIX_BULLET = '^(\\s*[*+-]\\s*)'
 KEYWORD_PREFIX_HEADER = '^(#{1,6}\\s)'
 
-# def escapeRegex(text):
-#     # return str(text).replace("/[-[\]{}()*+?.,\\^$|#\s]/g", '\\$&')
-#     pass
-
 # Branch by abstraction
 class GherkinInMarkdownTokenMatcher(object):
     LANGUAGE_RE = re.compile(r"^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$")
@@ -26,10 +22,25 @@ class GherkinInMarkdownTokenMatcher(object):
             self._change_dialect(self._default_dialect_name)
         self._indent_to_remove = 0
         self._active_doc_string_separator = None
+        self.matched_feature_line=False
 
     def match_FeatureLine(self, token):
+
+        if(self.matched_feature_line):
+            self._set_token_matched(token,None)
+
         # We first try to match "# Feature: blah"
-        return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.feature_keywords, ':', token, 'FeatureLine')
+        result = self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.feature_keywords, ':', token, 'FeatureLine')
+        # If we didn't match "# Feature: blah", we still match this line
+        # as a FeatureLine.
+        # The reason for this is that users may not want to be constrained by having this as their fist line.
+
+        if not result:
+            self._set_token_matched(token,'FeatureLine',token.line.get_line_text())
+        self.matched_feature_line=result
+        return result
+        
+
 
     def match_RuleLine(self, token):
         return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.rule_keywords, ':', token, 'RuleLine')
@@ -41,7 +52,7 @@ class GherkinInMarkdownTokenMatcher(object):
         return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.background_keywords, ':', token, 'BackgroundLine')
 
     def match_ExamplesLine(self, token):
-        return self._match_title_line(token, 'ExamplesLine', self.dialect.examples_keywords)
+        return self._match_title_line(KEYWORD_PREFIX_HEADER, self.dialect.examples_keywords, ':', token, 'ExamplesLine')
 
     def match_TableRow(self, token):
         # Gherkin tables must be indented 2-5 spaces in order to be distinguidedn from non-Gherkin tables
@@ -70,42 +81,45 @@ class GherkinInMarkdownTokenMatcher(object):
                     self.dialect.but_keywords)
         return self._match_title_line(KEYWORD_PREFIX_BULLET, nonStarStepKeywords, '', token, 'StepLine')
         
-        # for keyword in (k for k in keywords if token.line.startswith(k)):
-        #     title = token.line.get_rest_trimmed(len(keyword))
-        #     keyword_types = self.keyword_types[keyword]
-        #     if len(keyword_types) == 1:
-        #         keyword_type = keyword_types[0]
-        #     else:
-        #         keyword_type = 'Unknown'
-        #     self._set_token_matched(token, 'StepLine', title, keyword, keyword_type=keyword_type)
-        #     return True
-
-        # return False
-
     def match_Comment(self, token):
-        if not token.line.startswith('#'):
-            return False
-
-        text = token.line._line_text  # take the entire line, including leading space
-        self._set_token_matched(token, 'Comment', text, indent=0)
-        return True
+        if(token.line.startswith('|')):
+            table_cells = token.line.table_cells
+            if(self._is_gfm_table_separator(table_cells)):
+                return True
+        return self._set_token_matched(token,None,False)
 
     def match_Empty(self, token):
-        if not token.line.is_empty():
-            return False
 
-        self._set_token_matched(token, 'Empty', indent=0)
-        return True
+        result = False
+        if token.line.is_empty():
+            result = True
+        if ( not self.match_TagLine(token) and 
+             not self.match_FeatureLine(token) and
+             not self.match_ScenarioLine(token) and
+             not self.match_BackgroundLine(token) and
+             not self.match_ExamplesLine(token) and
+             not self.match_RuleLine(token) and
+             not self.match_TableRow(token) and
+             not self.match_Comment(token) and
+             not self.match_Language(token) and
+             not self.match_DocStringSeparator(token) and
+             not self.match_EOF(token) and
+             not self.match_StepLine(token)
+           ):
+            # neutered
+            result = True
 
+        if(result):
+            self._set_token_matched(token, 'Empty', indent=0)
+            return result
+        return False
+
+    # We've made a deliberate choice not to support `# language: [ISO 639-1]` headers or similar
+    # in Markdown. Users should specify a language globally. 
     def match_Language(self, token):
-        match = self.LANGUAGE_RE.match(token.line.get_line_text())
-        if not match:
-            return False
-
-        dialect_name = match.group(1)
-        self._set_token_matched(token, 'Language', dialect_name)
-        self._change_dialect(dialect_name, token.location)
-        return True
+        if not token:
+            raise ValueError('no token')
+        return False
 
     def match_TagLine(self, token):
 

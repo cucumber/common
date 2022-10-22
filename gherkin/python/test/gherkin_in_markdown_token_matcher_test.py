@@ -154,7 +154,7 @@ def test_it_matches_table_separator_row_as_comment():
     l2 = GherkinLine('  | --- | --- |',location['line'])
     t2 = Token(l2,location)
     assert not tm.match_TableRow(t2)
-    assert not tm.match_Comment(t2)
+    assert tm.match_Comment(t2)
 
 def test_it_matches_indented_tags():
     tm = GherkinInMarkdownTokenMatcher('en')
@@ -212,7 +212,7 @@ def test_it_matches_ScenarioLine_outline():
     assert token.matched_keyword == 'Scenario Outline'
     assert token.matched_text == 'the ones where'
 
-def test_it_matches_ackgroundLine():
+def test_it_matches_backgroundLine():
     tm = GherkinInMarkdownTokenMatcher('en')
     line = GherkinLine('''## Background: once upon a time''',location['line'])
     token = Token(gherkin_line=line, location=location)
@@ -220,3 +220,12 @@ def test_it_matches_ackgroundLine():
     assert token.matched_type == 'BackgroundLine'
     assert token.matched_keyword == 'Background'
     assert token.matched_text == 'once upon a time'
+
+def test_it_matches_ExamplesLine():
+    tm = GherkinInMarkdownTokenMatcher('en')
+    line = GherkinLine('''## Examples: ''',location['line'])
+    token = Token(gherkin_line=line, location=location)
+    assert tm.match_ExamplesLine(token)
+    assert token.matched_type == 'ExamplesLine'
+    assert token.matched_keyword == 'Examples'
+    assert token.matched_text == ''
