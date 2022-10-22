@@ -52,11 +52,29 @@ class GherkinInMarkdownTokenMatcher(object):
         return self._match_title_line(token, 'ExamplesLine', self.dialect.examples_keywords)
 
     def match_TableRow(self, token):
-        if not token.line.startswith('|'):
-            return False
-        # TODO: indent
-        self._set_token_matched(token, 'TableRow', items=token.line.table_cells)
-        return True
+        # Gherkin tables must be indented 2-5 spaces in order to be distinguidedn from non-Gherkin tables
+
+        if re.match('^\\s\\s\\s?\\s?\\s?\\|',token.line.get_line_text(0)):
+            table_cells = token.line.table_cells
+            # if(self._is_gfm_table_separator(table_cells)):
+            #     return False
+        
+            token.matched_keyword = '|'
+            token.matched_type='TableRow'
+            token.matched_items=table_cells
+            
+            # Why not use this?
+            # self._set_token_matched(token, 'TableRow', items=token.line.table_cells)
+
+            return True
+        return False
+
+    def _is_gfm_table_separator(self, table_cells):
+        # map(lambda x: re.escape(x), keywords)
+        text_of_table_cells = map(lambda x: x.text, table_cells)
+        separator_values = filter(lambda x: re.match('^:?-+:?$',x),text_of_table_cells)
+        return len(separator_values) > 0
+
 
     def match_StepLine(self, token):
         nonStarStepKeywords = (self.dialect.given_keywords +
