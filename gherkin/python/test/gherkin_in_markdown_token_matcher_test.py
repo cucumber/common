@@ -86,9 +86,25 @@ def test_it_matches_3_ticks_doctring_separator():
 def test_it_matches_4_ticks_doctring_separator():
   tm = GherkinInMarkdownTokenMatcher('en')
   line = GherkinLine('''  ````''',location['line'])
-  token = Token(gherkin_line=line, location=location)
-  assert tm.match_DocStringSeparator(token)
-  assert token.matched_type == 'DocStringSeparator'
-  assert token.matched_keyword == '````'
-  assert token.matched_text == ''
+  t1 = Token(gherkin_line=line, location=location)
+  assert tm.match_DocStringSeparator(t1)
+  assert t1.matched_type == 'DocStringSeparator'
+  assert t1.matched_keyword == '````'
+  assert t1.matched_indent == 2
+  assert t1.matched_text == ''
+
+  t2 = Token(gherkin_line=GherkinLine('''  ```''',location['line']), location=location)
+  assert tm.match_Other(t2)
+  assert t2.matched_type == 'Other'
+  assert t2.matched_keyword == None
+  assert t2.matched_text == '```'
+
+  t3 = Token(gherkin_line=GherkinLine('''  ````''',location['line']), location=location)
+  assert tm.match_DocStringSeparator(t3)
+  assert t3.matched_type == 'DocStringSeparator'
+  assert t3.matched_keyword == '````'
+  assert t1.matched_indent == 2
+  assert t3.matched_text == ''
+
+
 

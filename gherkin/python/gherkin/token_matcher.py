@@ -123,7 +123,7 @@ class GherkinInMarkdownTokenMatcher(object):
         if not token.line.startswith(separator):
             return False
 
-        content_type = None
+        content_type = ''
         if is_open:
             content_type = token.line.get_rest_trimmed(len(separator))
             self._active_doc_string_separator = separator
