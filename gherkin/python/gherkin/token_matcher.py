@@ -8,7 +8,6 @@ from .errors import NoSuchLanguageException
 KEYWORD_PREFIX_BULLET = '^(\\s*[*+-]\\s*)'
 KEYWORD_PREFIX_HEADER = '^(#{1,6}\\s)'
 
-# Branch by abstraction
 class GherkinInMarkdownTokenMatcher(object):
     LANGUAGE_RE = re.compile(r"^\s*#\s*language\s*:\s*([a-zA-Z\-_]+)\s*$")
 
