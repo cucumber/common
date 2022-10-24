@@ -1,4 +1,5 @@
-# before_each(self):
+# coding=utf-8
+
 import pytest
 from gherkin.token import Token
 from gherkin.token_matcher import GherkinInMarkdownTokenMatcher
