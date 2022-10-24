@@ -190,7 +190,7 @@ class GherkinInMarkdownTokenMatcher(object):
     def _match_title_line(self, prefix, keywords, keywordSuffix, token, token_type):
         
         keywords_or_list="|".join(map(lambda x: re.escape(x), keywords))
-        match = re.search('{}({}){}(.*)'.format(prefix,keywords_or_list, keywordSuffix), token.line.get_line_text())
+        match = re.search(u'{}({}){}(.*)'.format(prefix, keywords_or_list, keywordSuffix), token.line.get_line_text())
         indent = token.line.indent
         result = False
         
