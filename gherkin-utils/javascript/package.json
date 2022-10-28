@@ -4,9 +4,7 @@
   "description": "Various Gherkin utilities",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "bin": {
-    "@cucumber/gherkin-utils": "bin/gherkin-utils"
-  },
+  "bin": "bin/gherkin-utils",
   "scripts": {
     "test": "mocha",
     "prepublishOnly": "tsc --build tsconfig.build.json"
