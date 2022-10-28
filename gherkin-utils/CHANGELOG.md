@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 * Declared required dependencies correctly ([#2072](https://github.com/cucumber/common/pull/2072))
+* Update `@cucumber/gherkin-utils` `package.json` to use correct `bin` option.
 
 ## [8.0.0] - 2022-05-31
 
