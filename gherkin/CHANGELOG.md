@@ -10,6 +10,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased]
 
 ### Added
+* Added `amh` (Amharic) translation
 
 ### Changed
 
