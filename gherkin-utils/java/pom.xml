@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>gherkin-utils</artifactId>
-  <version>8.0.1</version>
+  <version>8.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Gherkin Utils</name>
   <description>Gherkin utils for doing things such as walking a Gherkin tree or pretty printing Gherkin files.
