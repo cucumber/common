@@ -74,7 +74,7 @@ executors:
   # Php
   docker-circleci-php:
     docker:
-      - image: cimg/php:8.1.11
+      - image: cimg/php:8.1.12
     working_directory: ~/cucumber
 
 ###
