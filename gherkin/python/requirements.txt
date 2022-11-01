@@ -1,5 +1,5 @@
 # -- FOR TESTING:
-pytest <7.2; python_version <  '3.0'
+pytest <7.3; python_version <  '3.0'
 pytest >= 5.0; python_version >= '3.0'
 # MAYBE: For pytest HTML reports.
 # pytest-html
