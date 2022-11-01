@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>gherkin-utils</artifactId>
-  <version>8.0.1-SNAPSHOT</version>
+  <version>8.0.1</version>
   <packaging>jar</packaging>
   <name>Gherkin Utils</name>
   <description>Gherkin utils for doing things such as walking a Gherkin tree or pretty printing Gherkin files.
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>gherkin</artifactId>
-      <version>[24.0.0,25.0.0)</version>
+      <version>[24.1.0,25.0.0)</version>
     </dependency>
 
     <dependency>

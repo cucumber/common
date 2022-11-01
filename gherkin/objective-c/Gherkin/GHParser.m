@@ -154,85 +154,71 @@
 {
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchEOFWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchEmptyWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchEmptyWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchCommentWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchCommentWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchTagLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchTagLineWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchFeatureLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchFeatureLineWithToken: theToken]; } defaultValue: NO];
 }
-
+- (BOOL)matchRuleLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
+{
+    if ([theToken isEOF]) return NO;
+    return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchRuleLineWithToken: theToken]; } defaultValue: NO];
+}
 - (BOOL)matchBackgroundLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchBackgroundLineWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchScenarioLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchScenarioLineWithToken: theToken]; } defaultValue: NO];
 }
-
-- (BOOL)matchScenarioOutlineLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
-{
-    if ([theToken isEOF]) return NO;
-    return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchScenarioOutlineLineWithToken: theToken]; } defaultValue: NO];
-}
-
 - (BOOL)matchExamplesLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchExamplesLineWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchStepLineWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchStepLineWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchDocStringSeparatorWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchDocStringSeparatorWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchTableRowWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchTableRowWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchLanguageWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchLanguageWithToken: theToken]; } defaultValue: NO];
 }
-
 - (BOOL)matchOtherWithContext:(GHParserContext *)theContext token:(GHToken *)theToken
 {
     if ([theToken isEOF]) return NO;
     return [self handleExternalErrorWithContext: theContext actionBlock: ^() { return [[theContext tokenMatcher] matchOtherWithToken: theToken]; } defaultValue: NO];
 }
-
 - (NSUInteger)matchToken:(GHToken *)theToken withState:(NSUInteger)theState context:(GHParserContext *)theContext
 {
     NSUInteger newState;
@@ -319,6 +305,9 @@
         case 26:
             newState = [self matchTokenAt_26: theToken context: theContext];
             break;
+        case 27:
+            newState = [self matchTokenAt_27: theToken context: theContext];
+            break;
         case 28:
             newState = [self matchTokenAt_28: theToken context: theContext];
             break;
@@ -337,6 +326,54 @@
         case 33:
             newState = [self matchTokenAt_33: theToken context: theContext];
             break;
+        case 34:
+            newState = [self matchTokenAt_34: theToken context: theContext];
+            break;
+        case 35:
+            newState = [self matchTokenAt_35: theToken context: theContext];
+            break;
+        case 36:
+            newState = [self matchTokenAt_36: theToken context: theContext];
+            break;
+        case 37:
+            newState = [self matchTokenAt_37: theToken context: theContext];
+            break;
+        case 38:
+            newState = [self matchTokenAt_38: theToken context: theContext];
+            break;
+        case 39:
+            newState = [self matchTokenAt_39: theToken context: theContext];
+            break;
+        case 40:
+            newState = [self matchTokenAt_40: theToken context: theContext];
+            break;
+        case 41:
+            newState = [self matchTokenAt_41: theToken context: theContext];
+            break;
+        case 43:
+            newState = [self matchTokenAt_43: theToken context: theContext];
+            break;
+        case 44:
+            newState = [self matchTokenAt_44: theToken context: theContext];
+            break;
+        case 45:
+            newState = [self matchTokenAt_45: theToken context: theContext];
+            break;
+        case 46:
+            newState = [self matchTokenAt_46: theToken context: theContext];
+            break;
+        case 47:
+            newState = [self matchTokenAt_47: theToken context: theContext];
+            break;
+        case 48:
+            newState = [self matchTokenAt_48: theToken context: theContext];
+            break;
+        case 49:
+            newState = [self matchTokenAt_49: theToken context: theContext];
+            break;
+        case 50:
+            newState = [self matchTokenAt_50: theToken context: theContext];
+            break;
         default:
             @throw [NSException exceptionWithName: NSInvalidArgumentException reason: [@"Unknown state: " stringByAppendingFormat: @"%d", (int)theState] userInfo: nil];
     }
@@ -350,19 +387,19 @@
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchLanguageWithContext: theContext token: theToken])
     {
         [self startRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self buildWithContext: theContext token: theToken];
         return 1;
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
         [self startRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 2;
@@ -370,7 +407,7 @@
     if ([self matchFeatureLineWithContext: theContext token: theToken])
     {
         [self startRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self buildWithContext: theContext token: theToken];
         return 3;
     }
@@ -384,7 +421,7 @@
         [self buildWithContext: theContext token: theToken];
         return 0;
     }
-    
+
     NSString * stateComment = @"State: 0 - Start";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Language", @"#TagLine", @"#FeatureLine", @"#Comment", @"#Empty", nil];
@@ -394,11 +431,9 @@
     
     [self addError: error withContext: theContext];
     return 0;
-
 }
 
-
-// GherkinDocument:0>Feature:0>Feature_Header:0>#Language:0
+// GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0
 - (int)matchTokenAt_1:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchTagLineWithContext: theContext token: theToken])
@@ -422,8 +457,8 @@
         [self buildWithContext: theContext token: theToken];
         return 1;
     }
-    
-    NSString * stateComment = @"State: 1 - GherkinDocument:0>Feature:0>Feature_Header:0>#Language:0";
+
+    NSString * stateComment = @"State: 1 - GherkinDocument:0>Feature:0>FeatureHeader:0>#Language:0";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#FeatureLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
@@ -432,11 +467,9 @@
     
     [self addError: error withContext: theContext];
     return 1;
-
 }
 
-
-// GherkinDocument:0>Feature:0>Feature_Header:1>Tags:0>#TagLine:0
+// GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0
 - (int)matchTokenAt_2:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchTagLineWithContext: theContext token: theToken])
@@ -460,8 +493,8 @@
         [self buildWithContext: theContext token: theToken];
         return 2;
     }
-    
-    NSString * stateComment = @"State: 2 - GherkinDocument:0>Feature:0>Feature_Header:1>Tags:0>#TagLine:0";
+
+    NSString * stateComment = @"State: 2 - GherkinDocument:0>Feature:0>FeatureHeader:1>Tags:0>#TagLine:0";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#FeatureLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
@@ -470,19 +503,17 @@
     
     [self addError: error withContext: theContext];
     return 2;
-
 }
 
-
-// GherkinDocument:0>Feature:0>Feature_Header:2>#FeatureLine:0
+// GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0
 - (int)matchTokenAt_3:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
@@ -496,34 +527,46 @@
     }
     if ([self matchBackgroundLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self buildWithContext: theContext token: theToken];
         return 6;
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
@@ -531,30 +574,28 @@
         [self buildWithContext: theContext token: theToken];
         return 4;
     }
-    
-    NSString * stateComment = @"State: 3 - GherkinDocument:0>Feature:0>Feature_Header:2>#FeatureLine:0";
+
+    NSString * stateComment = @"State: 3 - GherkinDocument:0>Feature:0>FeatureHeader:2>#FeatureLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 3;
-
 }
 
-
-// GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0
 - (int)matchTokenAt_4:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -565,66 +606,77 @@
     if ([self matchBackgroundLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self buildWithContext: theContext token: theToken];
         return 6;
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 4;
     }
-    
-    NSString * stateComment = @"State: 4 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:1>Description:0>#Other:0";
+
+    NSString * stateComment = @"State: 4 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:1>Description:0>#Other:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 4;
-
 }
 
-
-// GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0
 - (int)matchTokenAt_5:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -633,53 +685,63 @@
     }
     if ([self matchBackgroundLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self buildWithContext: theContext token: theToken];
         return 6;
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature_Header];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeatureHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 5;
     }
-    
-    NSString * stateComment = @"State: 5 - GherkinDocument:0>Feature:0>Feature_Header:3>Description_Helper:2>#Comment:0";
+
+    NSString * stateComment = @"State: 5 - GherkinDocument:0>Feature:0>FeatureHeader:3>DescriptionHelper:2>#Comment:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 5;
-
 }
-
 
 // GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0
 - (int)matchTokenAt_6:(GHToken *)theToken context:(GHParserContext *)theContext
@@ -689,7 +751,7 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
@@ -709,27 +771,39 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
@@ -737,21 +811,19 @@
         [self buildWithContext: theContext token: theToken];
         return 7;
     }
-    
+
     NSString * stateComment = @"State: 6 - GherkinDocument:0>Feature:1>Background:0>#BackgroundLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 6;
-
 }
 
-
-// GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
 - (int)matchTokenAt_7:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
@@ -760,7 +832,7 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -777,51 +849,62 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 7;
     }
-    
-    NSString * stateComment = @"State: 7 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:1>Description:0>#Other:0";
+
+    NSString * stateComment = @"State: 7 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 7;
-
 }
 
-
-// GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0
 - (int)matchTokenAt_8:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
@@ -829,7 +912,7 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -844,46 +927,56 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 8;
     }
-    
-    NSString * stateComment = @"State: 8 - GherkinDocument:0>Feature:1>Background:1>Description_Helper:2>#Comment:0";
+
+    NSString * stateComment = @"State: 8 - GherkinDocument:0>Feature:1>Background:1>DescriptionHelper:2>#Comment:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 8;
-
 }
-
 
 // GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0
 - (int)matchTokenAt_9:(GHToken *)theToken context:(GHParserContext *)theContext
@@ -894,7 +987,7 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchTableRowWithContext: theContext token: theToken])
     {
@@ -906,7 +999,7 @@
     {
         [self startRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self buildWithContext: theContext token: theToken];
-        return 32;
+        return 49;
     }
     if ([self matchStepLineWithContext: theContext token: theToken])
     {
@@ -917,30 +1010,43 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -952,21 +1058,19 @@
         [self buildWithContext: theContext token: theToken];
         return 9;
     }
-    
+
     NSString * stateComment = @"State: 9 - GherkinDocument:0>Feature:1>Background:2>Step:0>#StepLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 9;
-
 }
 
-
-// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 - (int)matchTokenAt_10:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
@@ -976,7 +1080,7 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchTableRowWithContext: theContext token: theToken])
     {
@@ -993,33 +1097,47 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -1031,21 +1149,19 @@
         [self buildWithContext: theContext token: theToken];
         return 10;
     }
-    
-    NSString * stateComment = @"State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
+
+    NSString * stateComment = @"State: 10 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 10;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:0>Tags:0>#TagLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0
 - (int)matchTokenAt_11:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchTagLineWithContext: theContext token: theToken])
@@ -1060,13 +1176,6 @@
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
@@ -1077,30 +1186,28 @@
         [self buildWithContext: theContext token: theToken];
         return 11;
     }
-    
-    NSString * stateComment = @"State: 11 - GherkinDocument:0>Feature:2>Scenario_Definition:0>Tags:0>#TagLine:0";
+
+    NSString * stateComment = @"State: 11 - GherkinDocument:0>Feature:2>ScenarioDefinition:0>Tags:0>#TagLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#ScenarioLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 11;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:0>#ScenarioLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
 - (int)matchTokenAt_12:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
@@ -1120,30 +1227,60 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
@@ -1151,31 +1288,29 @@
         [self buildWithContext: theContext token: theToken];
         return 13;
     }
-    
-    NSString * stateComment = @"State: 12 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:0>#ScenarioLine:0";
+
+    NSString * stateComment = @"State: 12 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 12;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
 - (int)matchTokenAt_13:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -1192,63 +1327,94 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 13;
     }
-    
-    NSString * stateComment = @"State: 13 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:1>Description:0>#Other:0";
+
+    NSString * stateComment = @"State: 13 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 13;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
 - (int)matchTokenAt_14:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -1263,61 +1429,89 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 14;
     }
-    
-    NSString * stateComment = @"State: 14 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:1>Description_Helper:2>#Comment:0";
+
+    NSString * stateComment = @"State: 14 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 14;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
 - (int)matchTokenAt_15:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchTableRowWithContext: theContext token: theToken])
     {
@@ -1329,7 +1523,7 @@
     {
         [self startRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self buildWithContext: theContext token: theToken];
-        return 30;
+        return 47;
     }
     if ([self matchStepLineWithContext: theContext token: theToken])
     {
@@ -1340,33 +1534,66 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -1378,21 +1605,19 @@
         [self buildWithContext: theContext token: theToken];
         return 15;
     }
-    
-    NSString * stateComment = @"State: 15 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:0>#StepLine:0";
+
+    NSString * stateComment = @"State: 15 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 15;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
 - (int)matchTokenAt_16:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
@@ -1400,10 +1625,10 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchTableRowWithContext: theContext token: theToken])
     {
@@ -1420,36 +1645,72 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -1461,524 +1722,45 @@
         [self buildWithContext: theContext token: theToken];
         return 16;
     }
-    
-    NSString * stateComment = @"State: 16 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
+
+    NSString * stateComment = @"State: 16 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 16;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:0>#ScenarioOutlineLine:0
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
 - (int)matchTokenAt_17:(GHToken *)theToken context:(GHParserContext *)theContext
 {
-    if ([self matchEOFWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self buildWithContext: theContext token: theToken];
-        return 27;
-    }
-    if ([self matchEmptyWithContext: theContext token: theToken])
+    if ([self matchTagLineWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 17;
-    }
-    if ([self matchCommentWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 19;
-    }
-    if ([self matchStepLineWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        if ([self lookAheadWithContext_0: theContext token: theToken])
-        {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 22;
-        }
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
-    }
-    if ([self matchScenarioLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self buildWithContext: theContext token: theToken];
-        return 12;
-    }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
-    if ([self matchOtherWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self buildWithContext: theContext token: theToken];
-        return 18;
-    }
-    
-    NSString * stateComment = @"State: 17 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:0>#ScenarioOutlineLine:0";
-    [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
-    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
-    if (stopAtFirstError)
-        @throw error;
-    
-    [self addError: error withContext: theContext];
-    return 17;
-
-}
-
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0
-- (int)matchTokenAt_18:(GHToken *)theToken context:(GHParserContext *)theContext
-{
-    if ([self matchEOFWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self buildWithContext: theContext token: theToken];
-        return 27;
-    }
-    if ([self matchCommentWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self buildWithContext: theContext token: theToken];
-        return 19;
-    }
-    if ([self matchStepLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        if ([self lookAheadWithContext_0: theContext token: theToken])
-        {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 22;
-        }
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
-    }
-    if ([self matchScenarioLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self buildWithContext: theContext token: theToken];
-        return 12;
-    }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
-    if ([self matchOtherWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 18;
-    }
-    
-    NSString * stateComment = @"State: 18 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:1>Description:0>#Other:0";
-    [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
-    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
-    if (stopAtFirstError)
-        @throw error;
-    
-    [self addError: error withContext: theContext];
-    return 18;
-
-}
-
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0
-- (int)matchTokenAt_19:(GHToken *)theToken context:(GHParserContext *)theContext
-{
-    if ([self matchEOFWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self buildWithContext: theContext token: theToken];
-        return 27;
-    }
-    if ([self matchCommentWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 19;
-    }
-    if ([self matchStepLineWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        if ([self lookAheadWithContext_0: theContext token: theToken])
-        {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 22;
-        }
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
-    }
-    if ([self matchScenarioLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self buildWithContext: theContext token: theToken];
-        return 12;
-    }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
-    if ([self matchEmptyWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 19;
-    }
-    
-    NSString * stateComment = @"State: 19 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:1>Description_Helper:2>#Comment:0";
-    [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Empty", nil];
-    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
-    if (stopAtFirstError)
-        @throw error;
-    
-    [self addError: error withContext: theContext];
-    return 19;
-
-}
-
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0
-- (int)matchTokenAt_20:(GHToken *)theToken context:(GHParserContext *)theContext
-{
-    if ([self matchEOFWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self buildWithContext: theContext token: theToken];
-        return 27;
-    }
-    if ([self matchTableRowWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self buildWithContext: theContext token: theToken];
-        return 21;
-    }
-    if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
-    {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeDocString];
-        [self buildWithContext: theContext token: theToken];
-        return 28;
-    }
-    if ([self matchStepLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        if ([self lookAheadWithContext_0: theContext token: theToken])
-        {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 22;
-        }
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
-    }
-    if ([self matchScenarioLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self buildWithContext: theContext token: theToken];
-        return 12;
-    }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
-    if ([self matchCommentWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    if ([self matchEmptyWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    
-    NSString * stateComment = @"State: 20 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:0>#StepLine:0";
-    [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
-    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
-    if (stopAtFirstError)
-        @throw error;
-    
-    [self addError: error withContext: theContext];
-    return 20;
-
-}
-
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0
-- (int)matchTokenAt_21:(GHToken *)theToken context:(GHParserContext *)theContext
-{
-    if ([self matchEOFWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
-        [self buildWithContext: theContext token: theToken];
-        return 27;
-    }
-    if ([self matchTableRowWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 21;
-    }
-    if ([self matchStepLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self buildWithContext: theContext token: theToken];
-        return 20;
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        if ([self lookAheadWithContext_0: theContext token: theToken])
-        {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 22;
-        }
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
-    }
-    if ([self matchScenarioLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self buildWithContext: theContext token: theToken];
-        return 12;
-    }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
-    if ([self matchCommentWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 21;
-    }
-    if ([self matchEmptyWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 21;
-    }
-    
-    NSString * stateComment = @"State: 21 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:0>DataTable:0>#TableRow:0";
-    [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
-    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
-    if (stopAtFirstError)
-        @throw error;
-    
-    [self addError: error withContext: theContext];
-    return 21;
-
-}
-
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:0>Tags:0>#TagLine:0
-- (int)matchTokenAt_22:(GHToken *)theToken context:(GHParserContext *)theContext
-{
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 22;
     }
     if ([self matchExamplesLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
         [self buildWithContext: theContext token: theToken];
-        return 23;
+        return 18;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 22;
+        return 17;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 22;
+        return 17;
     }
-    
-    NSString * stateComment = @"State: 22 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:0>Tags:0>#TagLine:0";
+
+    NSString * stateComment = @"State: 17 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#ExamplesLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
@@ -1986,23 +1768,516 @@
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 22;
-
+    return 17;
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:0>#ExamplesLine:0
-- (int)matchTokenAt_23:(GHToken *)theToken context:(GHParserContext *)theContext
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
+- (int)matchTokenAt_18:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 18;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 20;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self buildWithContext: theContext token: theToken];
+        return 21;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 12;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 19;
+    }
+
+    NSString * stateComment = @"State: 18 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 18;
+}
+
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
+- (int)matchTokenAt_19:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 20;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self buildWithContext: theContext token: theToken];
+        return 21;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 12;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 19;
+    }
+
+    NSString * stateComment = @"State: 19 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 19;
+}
+
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
+- (int)matchTokenAt_20:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 20;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self buildWithContext: theContext token: theToken];
+        return 21;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 12;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 20;
+    }
+
+    NSString * stateComment = @"State: 20 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 20;
+}
+
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
+- (int)matchTokenAt_21:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 21;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 12;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 21;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 21;
+    }
+
+    NSString * stateComment = @"State: 21 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 21;
+}
+
+// GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0
+- (int)matchTokenAt_22:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+
+    NSString * stateComment = @"State: 22 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:0>Tags:0>#TagLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 22;
+}
+
+// GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0
+- (int)matchTokenAt_23:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
@@ -2014,9 +2289,10 @@
         [self buildWithContext: theContext token: theToken];
         return 25;
     }
-    if ([self matchTableRowWithContext: theContext token: theToken])
+    if ([self matchBackgroundLineWithContext: theContext token: theToken])
     {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self buildWithContext: theContext token: theToken];
         return 26;
     }
@@ -2024,55 +2300,39 @@
     {
         if ([self lookAheadWithContext_0: theContext token: theToken])
         {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 22;
+        return 31;
         }
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
-        return 12;
+        return 32;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
@@ -2080,33 +2340,29 @@
         [self buildWithContext: theContext token: theToken];
         return 24;
     }
-    
-    NSString * stateComment = @"State: 23 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:0>#ExamplesLine:0";
+
+    NSString * stateComment = @"State: 23 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:1>#RuleLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 23;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0
+// GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>#Other:0
 - (int)matchTokenAt_24:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
@@ -2114,10 +2370,11 @@
         [self buildWithContext: theContext token: theToken];
         return 25;
     }
-    if ([self matchTableRowWithContext: theContext token: theToken])
+    if ([self matchBackgroundLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self buildWithContext: theContext token: theToken];
         return 26;
     }
@@ -2126,100 +2383,80 @@
         if ([self lookAheadWithContext_0: theContext token: theToken])
         {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 22;
+        return 31;
         }
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
-        return 12;
+        return 32;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 24;
     }
-    
-    NSString * stateComment = @"State: 24 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:1>Description:0>#Other:0";
+
+    NSString * stateComment = @"State: 24 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:1>Description:0>#Other:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Other", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 24;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0
+// GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:2>#Comment:0
 - (int)matchTokenAt_25:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 25;
     }
-    if ([self matchTableRowWithContext: theContext token: theToken])
+    if ([self matchBackgroundLineWithContext: theContext token: theToken])
     {
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self buildWithContext: theContext token: theToken];
         return 26;
     }
@@ -2227,192 +2464,1603 @@
     {
         if ([self lookAheadWithContext_0: theContext token: theToken])
         {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 22;
+        return 31;
         }
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
-        return 12;
+        return 32;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 25;
     }
-    
-    NSString * stateComment = @"State: 25 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:1>Description_Helper:2>#Comment:0";
+
+    NSString * stateComment = @"State: 25 - GherkinDocument:0>Feature:3>Rule:0>RuleHeader:2>DescriptionHelper:2>#Comment:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#BackgroundLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 25;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:2>Examples_Table:0>#TableRow:0
+// GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0
 - (int)matchTokenAt_26:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
-    }
-    if ([self matchTableRowWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 26;
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        if ([self lookAheadWithContext_0: theContext token: theToken])
-        {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 22;
-        }
-    }
-    if ([self matchTagLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
-        [self buildWithContext: theContext token: theToken];
-        return 11;
-    }
-    if ([self matchExamplesLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self buildWithContext: theContext token: theToken];
-        return 23;
-    }
-    if ([self matchScenarioLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self buildWithContext: theContext token: theToken];
-        return 12;
-    }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
-    {
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Table];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self buildWithContext: theContext token: theToken];
-        return 17;
-    }
-    if ([self matchCommentWithContext: theContext token: theToken])
-    {
-        [self buildWithContext: theContext token: theToken];
-        return 26;
+        return 42;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
         return 26;
     }
-    
-    NSString * stateComment = @"State: 26 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:3>Examples_Definition:1>Examples:2>Examples_Table:0>#TableRow:0";
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 28;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 27;
+    }
+
+    NSString * stateComment = @"State: 26 - GherkinDocument:0>Feature:3>Rule:1>Background:0>#BackgroundLine:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
     return 26;
-
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
-- (int)matchTokenAt_28:(GHToken *)theToken context:(GHParserContext *)theContext
+// GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0
+- (int)matchTokenAt_27:(GHToken *)theToken context:(GHParserContext *)theContext
 {
-    if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
+    if ([self matchEOFWithContext: theContext token: theToken])
     {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 28;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self buildWithContext: theContext token: theToken];
         return 29;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
+        return 27;
+    }
+
+    NSString * stateComment = @"State: 27 - GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:1>Description:0>#Other:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 27;
+}
+
+// GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0
+- (int)matchTokenAt_28:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
         return 28;
     }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 28;
+    }
+
+    NSString * stateComment = @"State: 28 - GherkinDocument:0>Feature:3>Rule:1>Background:1>DescriptionHelper:2>#Comment:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
     
-    NSString * stateComment = @"State: 28 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
+    [self addError: error withContext: theContext];
+    return 28;
+}
+
+// GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0
+- (int)matchTokenAt_29:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self buildWithContext: theContext token: theToken];
+        return 30;
+    }
+    if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self buildWithContext: theContext token: theToken];
+        return 45;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+
+    NSString * stateComment = @"State: 29 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:0>#StepLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 29;
+}
+
+// GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+- (int)matchTokenAt_30:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 30;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 30;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 30;
+    }
+
+    NSString * stateComment = @"State: 30 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 30;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0
+- (int)matchTokenAt_31:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+    }
+
+    NSString * stateComment = @"State: 31 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:0>Tags:0>#TagLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#ScenarioLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 31;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0
+- (int)matchTokenAt_32:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 34;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 33;
+    }
+
+    NSString * stateComment = @"State: 32 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:0>#ScenarioLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 32;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0
+- (int)matchTokenAt_33:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 34;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 33;
+    }
+
+    NSString * stateComment = @"State: 33 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:1>Description:0>#Other:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 33;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0
+- (int)matchTokenAt_34:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 34;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 34;
+    }
+
+    NSString * stateComment = @"State: 34 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:1>DescriptionHelper:2>#Comment:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 34;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0
+- (int)matchTokenAt_35:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self buildWithContext: theContext token: theToken];
+        return 36;
+    }
+    if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self buildWithContext: theContext token: theToken];
+        return 43;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+
+    NSString * stateComment = @"State: 35 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:0>#StepLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#DocStringSeparator", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 35;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0
+- (int)matchTokenAt_36:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 36;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 35;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDataTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 36;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 36;
+    }
+
+    NSString * stateComment = @"State: 36 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:0>DataTable:0>#TableRow:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 36;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0
+- (int)matchTokenAt_37:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+    }
+
+    NSString * stateComment = @"State: 37 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:0>Tags:0>#TagLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#TagLine", @"#ExamplesLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 37;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0
+- (int)matchTokenAt_38:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 40;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self buildWithContext: theContext token: theToken];
+        return 41;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 39;
+    }
+
+    NSString * stateComment = @"State: 38 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:0>#ExamplesLine:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Empty", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 38;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0
+- (int)matchTokenAt_39:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self buildWithContext: theContext token: theToken];
+        return 40;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self buildWithContext: theContext token: theToken];
+        return 41;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDescription];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 39;
+    }
+
+    NSString * stateComment = @"State: 39 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:1>Description:0>#Other:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 39;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0
+- (int)matchTokenAt_40:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 40;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self buildWithContext: theContext token: theToken];
+        return 41;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 40;
+    }
+
+    NSString * stateComment = @"State: 40 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:1>DescriptionHelper:2>#Comment:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#Comment", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 40;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0
+- (int)matchTokenAt_41:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchTableRowWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 41;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 38;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesTable];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 41;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 41;
+    }
+
+    NSString * stateComment = @"State: 41 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:3>ExamplesDefinition:1>Examples:2>ExamplesTable:0>#TableRow:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#TableRow", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 41;
+}
+
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+- (int)matchTokenAt_43:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 44;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 43;
+    }
+
+    NSString * stateComment = @"State: 43 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#DocStringSeparator", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
@@ -2420,23 +4068,22 @@
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 28;
-
+    return 43;
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
-- (int)matchTokenAt_29:(GHToken *)theToken context:(GHParserContext *)theContext
+// GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+- (int)matchTokenAt_44:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchStepLineWithContext: theContext token: theToken])
     {
@@ -2444,7 +4091,19 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self buildWithContext: theContext token: theToken];
-        return 20;
+        return 35;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 37;
+        }
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
@@ -2452,93 +4111,96 @@
         {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 22;
+        return 31;
         }
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
-        return 11;
+        return 22;
     }
     if ([self matchExamplesLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
         [self buildWithContext: theContext token: theToken];
-        return 23;
+        return 38;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
-        return 12;
+        return 32;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 29;
+        return 44;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 29;
+        return 44;
     }
-    
-    NSString * stateComment = @"State: 29 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:1>ScenarioOutline:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
+
+    NSString * stateComment = @"State: 44 - GherkinDocument:0>Feature:3>Rule:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 29;
-
+    return 44;
 }
 
-
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
-- (int)matchTokenAt_30:(GHToken *)theToken context:(GHParserContext *)theContext
+// GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+- (int)matchTokenAt_45:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 31;
+        return 46;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 30;
+        return 45;
     }
-    
-    NSString * stateComment = @"State: 30 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
+
+    NSString * stateComment = @"State: 45 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#DocStringSeparator", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
@@ -2546,23 +4208,135 @@
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 30;
-
+    return 45;
 }
 
+// GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+- (int)matchTokenAt_46:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchEOFWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
+        [self buildWithContext: theContext token: theToken];
+        return 42;
+    }
+    if ([self matchStepLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self buildWithContext: theContext token: theToken];
+        return 29;
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 31;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchScenarioLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self buildWithContext: theContext token: theToken];
+        return 32;
+    }
+    if ([self matchRuleLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self buildWithContext: theContext token: theToken];
+        return 23;
+    }
+    if ([self matchCommentWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 46;
+    }
+    if ([self matchEmptyWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 46;
+    }
 
-// GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
-- (int)matchTokenAt_31:(GHToken *)theToken context:(GHParserContext *)theContext
+    NSString * stateComment = @"State: 46 - GherkinDocument:0>Feature:3>Rule:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 46;
+}
+
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+- (int)matchTokenAt_47:(GHToken *)theToken context:(GHParserContext *)theContext
+{
+    if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 48;
+    }
+    if ([self matchOtherWithContext: theContext token: theToken])
+    {
+        [self buildWithContext: theContext token: theToken];
+        return 47;
+    }
+
+    NSString * stateComment = @"State: 47 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
+    [theToken detach];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#DocStringSeparator", @"#Other", nil];
+    id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
+    if (stopAtFirstError)
+        @throw error;
+    
+    [self addError: error withContext: theContext];
+    return 47;
+}
+
+// GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+- (int)matchTokenAt_48:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchStepLineWithContext: theContext token: theToken])
     {
@@ -2574,76 +4348,110 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_1: theContext token: theToken])
+        {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 17;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
+    }
+    if ([self matchExamplesLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamplesDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeExamples];
+        [self buildWithContext: theContext token: theToken];
+        return 18;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario];
-        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 31;
+        return 48;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 31;
+        return 48;
     }
-    
-    NSString * stateComment = @"State: 31 - GherkinDocument:0>Feature:2>Scenario_Definition:1>__alt0:0>Scenario:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
+
+    NSString * stateComment = @"State: 48 - GherkinDocument:0>Feature:2>ScenarioDefinition:1>Scenario:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ExamplesLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 31;
-
+    return 48;
 }
 
-
-// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0
-- (int)matchTokenAt_32:(GHToken *)theToken context:(GHParserContext *)theContext
+// GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0
+- (int)matchTokenAt_49:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchDocStringSeparatorWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 33;
+        return 50;
     }
     if ([self matchOtherWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 32;
+        return 49;
     }
-    
-    NSString * stateComment = @"State: 32 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:0>#DocStringSeparator:0";
+
+    NSString * stateComment = @"State: 49 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:0>#DocStringSeparator:0";
     [theToken detach];
     NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#DocStringSeparator", @"#Other", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
@@ -2651,13 +4459,11 @@
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 32;
-
+    return 49;
 }
 
-
-// GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0
-- (int)matchTokenAt_33:(GHToken *)theToken context:(GHParserContext *)theContext
+// GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0
+- (int)matchTokenAt_50:(GHToken *)theToken context:(GHParserContext *)theContext
 {
     if ([self matchEOFWithContext: theContext token: theToken])
     {
@@ -2666,7 +4472,7 @@
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeFeature];
         [self buildWithContext: theContext token: theToken];
-        return 27;
+        return 42;
     }
     if ([self matchStepLineWithContext: theContext token: theToken])
     {
@@ -2678,57 +4484,69 @@
     }
     if ([self matchTagLineWithContext: theContext token: theToken])
     {
+        if ([self lookAheadWithContext_0: theContext token: theToken])
+        {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
         [self buildWithContext: theContext token: theToken];
         return 11;
+        }
+    }
+    if ([self matchTagLineWithContext: theContext token: theToken])
+    {
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
+        [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeTags];
+        [self buildWithContext: theContext token: theToken];
+        return 22;
     }
     if ([self matchScenarioLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioDefinition];
         [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario];
         [self buildWithContext: theContext token: theToken];
         return 12;
     }
-    if ([self matchScenarioOutlineLineWithContext: theContext token: theToken])
+    if ([self matchRuleLineWithContext: theContext token: theToken])
     {
         [self endRuleWithContext: theContext ruleType: GHRuleTypeDocString];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeStep];
         [self endRuleWithContext: theContext ruleType: GHRuleTypeBackground];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenario_Definition];
-        [self startRuleWithContext: theContext ruleType: GHRuleTypeScenarioOutline];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRule];
+        [self startRuleWithContext: theContext ruleType: GHRuleTypeRuleHeader];
         [self buildWithContext: theContext token: theToken];
-        return 17;
+        return 23;
     }
     if ([self matchCommentWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 33;
+        return 50;
     }
     if ([self matchEmptyWithContext: theContext token: theToken])
     {
         [self buildWithContext: theContext token: theToken];
-        return 33;
+        return 50;
     }
-    
-    NSString * stateComment = @"State: 33 - GherkinDocument:0>Feature:1>Background:2>Step:1>Step_Arg:0>__alt1:1>DocString:2>#DocStringSeparator:0";
+
+    NSString * stateComment = @"State: 50 - GherkinDocument:0>Feature:1>Background:2>Step:1>StepArg:0>__alt0:1>DocString:2>#DocStringSeparator:0";
     [theToken detach];
-    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#ScenarioOutlineLine", @"#Comment", @"#Empty", nil];
+    NSArray<NSString *> * expectedTokens = [[NSArray<NSString *> alloc] initWithObjects: @"#EOF", @"#StepLine", @"#TagLine", @"#ScenarioLine", @"#RuleLine", @"#Comment", @"#Empty", nil];
     id error = [theToken isEOF] ? (GHParserException *)[[GHUnexpectedEOFException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment] : [[GHUnexpectedTokenException alloc] initWithToken: theToken expectedTokenTypes: expectedTokens stateComment: stateComment];
     if (stopAtFirstError)
         @throw error;
     
     [self addError: error withContext: theContext];
-    return 33;
-
+    return 50;
 }
-
 
 
 - (BOOL)lookAheadWithContext_0:(GHParserContext *)theContext token:(GHToken *)currentToken
@@ -2744,8 +4562,8 @@
         [tokenBuffer addObject: theToken];
 
         if (NO
-            || [self matchExamplesLineWithContext: theContext token: theToken]
-        )
+            || [self matchScenarioLineWithContext: theContext token: theToken]
+)
         {
             match = YES;
             break;
@@ -2754,7 +4572,7 @@
         || [self matchEmptyWithContext: theContext token: theToken]
         || [self matchCommentWithContext: theContext token: theToken]
         || [self matchTagLineWithContext: theContext token: theToken]
-    );
+);
     for (GHToken * token in tokenBuffer)
     {
         [[theContext tokenQueue] addObject: token];
@@ -2762,5 +4580,35 @@
     return match;
 }
 
+- (BOOL)lookAheadWithContext_1:(GHParserContext *)theContext token:(GHToken *)currentToken
+{
+    [currentToken detach];
+    GHToken * theToken;
+    NSMutableArray<GHToken *> * tokenBuffer = [[NSMutableArray<GHToken *> alloc] init];
+    BOOL match = NO;
+    do
+    {
+        theToken = [self readTokenWithContext: theContext];
+        [theToken detach];
+        [tokenBuffer addObject: theToken];
+
+        if (NO
+            || [self matchExamplesLineWithContext: theContext token: theToken]
+)
+        {
+            match = YES;
+            break;
+        }
+    } while (NO
+        || [self matchEmptyWithContext: theContext token: theToken]
+        || [self matchCommentWithContext: theContext token: theToken]
+        || [self matchTagLineWithContext: theContext token: theToken]
+);
+    for (GHToken * token in tokenBuffer)
+    {
+        [[theContext tokenQueue] addObject: token];
+    }
+    return match;
+}
 
 @end
