@@ -2632,57 +2632,77 @@ var builtinDialects = gherkinDialectMap{
 			"* ": messages.StepKeywordType_UNKNOWN,
 		}},
 	"ka": &Dialect{
-		"ka", "Georgian", "ქართველი", map[string][]string{
+		"ka", "Georgian", "ქართული", map[string][]string{
 			feature: {
 				"თვისება",
+				"მოთხოვნა",
 			},
 			rule: {
-				"Rule",
+				"წესი",
 			},
 			background: {
 				"კონტექსტი",
 			},
 			scenario: {
 				"მაგალითად",
-				"სცენარის",
+				"მაგალითი",
+				"მაგ",
+				"სცენარი",
 			},
 			scenarioOutline: {
 				"სცენარის ნიმუში",
+				"სცენარის შაბლონი",
+				"ნიმუში",
+				"შაბლონი",
 			},
 			examples: {
 				"მაგალითები",
 			},
 			given: {
 				"* ",
-				"მოცემული",
+				"მოცემული ",
+				"Მოცემულია ",
+				"ვთქვათ ",
 			},
 			when: {
 				"* ",
-				"როდესაც",
+				"როდესაც ",
+				"როცა ",
+				"როგორც კი ",
+				"თუ ",
 			},
 			then: {
 				"* ",
-				"მაშინ",
+				"მაშინ ",
 			},
 			and: {
 				"* ",
-				"და",
+				"და ",
+				"ასევე ",
 			},
 			but: {
 				"* ",
-				"მაგ­რამ",
+				"მაგრამ ",
+				"თუმცა ",
 			},
 		},
 		map[string]messages.StepKeywordType{
-			"მოცემული": messages.StepKeywordType_CONTEXT,
+			"მოცემული ":  messages.StepKeywordType_CONTEXT,
+			"Მოცემულია ": messages.StepKeywordType_CONTEXT,
+			"ვთქვათ ":    messages.StepKeywordType_CONTEXT,
 
-			"როდესაც": messages.StepKeywordType_ACTION,
+			"როდესაც ":   messages.StepKeywordType_ACTION,
+			"როცა ":      messages.StepKeywordType_ACTION,
+			"როგორც კი ": messages.StepKeywordType_ACTION,
+			"თუ ":        messages.StepKeywordType_ACTION,
 
-			"მაშინ": messages.StepKeywordType_OUTCOME,
+			"მაშინ ": messages.StepKeywordType_OUTCOME,
 
-			"და": messages.StepKeywordType_CONJUNCTION,
+			"და ":    messages.StepKeywordType_CONJUNCTION,
+			"ასევე ": messages.StepKeywordType_CONJUNCTION,
 
-			"მაგ­რამ": messages.StepKeywordType_CONJUNCTION,
+			"მაგრამ ": messages.StepKeywordType_CONJUNCTION,
+			"თუმცა ":  messages.StepKeywordType_CONJUNCTION,
 
 			"* ": messages.StepKeywordType_UNKNOWN,
 		}},
