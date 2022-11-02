@@ -11,6 +11,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Added
 * Additional `ja` (Japanese) translations for `and`, `but`
+* Added `amh` (Amharic) translation
 
 ### Changed
 * `ja` (Japanese) `Rule` translation changed from `Rule` to `ルール`
@@ -20,6 +21,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Removed
 
 ### Fixed
+* Translations fixed for `ka` (Georgian) locale
 
 ## [24.1.0] - 2022-10-10
 
@@ -33,7 +35,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 * [Javascript] Include tags from rules in scenario outlines ([#2091](https://github.com/cucumber/common/pull/2091))
 * [Python] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
 * [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
-* Translations fixed for `ka` (Georgian) locale
 
 ## [24.0.0] - 2022-05-31
 
