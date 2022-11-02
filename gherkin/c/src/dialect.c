@@ -1880,14 +1880,14 @@ static const Dialect it_dialect = {
         &it_then_keywords,
         &it_when_keywords };
 
-static const wchar_t* const ja_and_KEYWORDS[] = { L"* ", L"かつ" };
-static const Keywords ja_and_keywords = { 2, ja_and_KEYWORDS };
+static const wchar_t* const ja_and_KEYWORDS[] = { L"* ", L"且つ", L"かつ" };
+static const Keywords ja_and_keywords = { 3, ja_and_KEYWORDS };
 
 static const wchar_t* const ja_background_KEYWORDS[] = { L"背景" };
 static const Keywords ja_background_keywords = { 1, ja_background_KEYWORDS };
 
-static const wchar_t* const ja_but_KEYWORDS[] = { L"* ", L"しかし", L"但し", L"ただし" };
-static const Keywords ja_but_keywords = { 4, ja_but_KEYWORDS };
+static const wchar_t* const ja_but_KEYWORDS[] = { L"* ", L"然し", L"しかし", L"但し", L"ただし" };
+static const Keywords ja_but_keywords = { 5, ja_but_KEYWORDS };
 
 static const wchar_t* const ja_examples_KEYWORDS[] = { L"例", L"サンプル" };
 static const Keywords ja_examples_keywords = { 2, ja_examples_KEYWORDS };
@@ -1898,7 +1898,7 @@ static const Keywords ja_feature_keywords = { 2, ja_feature_KEYWORDS };
 static const wchar_t* const ja_given_KEYWORDS[] = { L"* ", L"前提" };
 static const Keywords ja_given_keywords = { 2, ja_given_KEYWORDS };
 
-static const wchar_t* const ja_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const ja_rule_KEYWORDS[] = { L"ルール" };
 static const Keywords ja_rule_keywords = { 1, ja_rule_KEYWORDS };
 
 static const wchar_t* const ja_scenario_KEYWORDS[] = { L"シナリオ" };
