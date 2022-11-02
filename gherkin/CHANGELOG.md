@@ -10,15 +10,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ## [Unreleased]
 
 ### Added
+* Additional `ja` (Japanese) translations for `and`, `but`
 * Added `amh` (Amharic) translation
 
 ### Changed
+* `ja` (Japanese) `Rule` translation changed from `Rule` to `ルール`
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+* Translations fixed for `ka` (Georgian) locale
 
 ## [24.1.0] - 2022-10-10
 

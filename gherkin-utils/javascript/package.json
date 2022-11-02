@@ -1,12 +1,10 @@
 {
   "name": "@cucumber/gherkin-utils",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Various Gherkin utilities",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "bin": {
-    "@cucumber/gherkin-utils": "bin/gherkin-utils"
-  },
+  "bin": "bin/gherkin-utils",
   "scripts": {
     "test": "mocha",
     "prepublishOnly": "tsc --build tsconfig.build.json"
@@ -28,7 +26,7 @@
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/message-streams": "^4.0.1",
     "@types/mocha": "10.0.0",
-    "@types/node": "18.11.7",
+    "@types/node": "18.11.9",
     "fast-glob": "3.2.12",
     "mocha": "10.1.0",
     "ts-node": "10.9.1",
@@ -36,7 +34,7 @@
   },
   "dependencies": {
     "@cucumber/gherkin": "^24.1.0",
-    "@cucumber/messages": "^19.1.2",
+    "@cucumber/messages": "^19.1.4",
     "@teppeis/multimaps": "2.0.0",
     "commander": "9.4.1",
     "source-map-support": "^0.5.21"
