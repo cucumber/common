@@ -17,7 +17,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [8.0.1] - 2022-11-01
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 * Declared required dependencies correctly ([#2072](https://github.com/cucumber/common/pull/2072))
+* Update `@cucumber/gherkin-utils` `package.json` to use correct `bin` option.
 
 ## [8.0.0] - 2022-05-31
 
@@ -127,7 +140,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v8.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin-utils/v8.0.1...main
+[8.0.1]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v8.0.0...gherkin-utils/v8.0.1
 [8.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v7.0.0...gherkin-utils/v8.0.0
 [7.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v6.0.0...gherkin-utils/v7.0.0
 [6.0.0]:      https://github.com/cucumber/cucumber/compare/gherkin-utils/v5.1.0...gherkin-utils/v6.0.0
