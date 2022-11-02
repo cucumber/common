@@ -1,4 +1,0 @@
-../../LICENSE LICENSE
-../../.templates/github/ .github/
-../../.templates/elixir/ .
-../messages.proto messages.proto

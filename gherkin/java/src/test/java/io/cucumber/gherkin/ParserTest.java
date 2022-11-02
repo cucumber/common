@@ -2,9 +2,9 @@ package io.cucumber.gherkin;
 
 import io.cucumber.messages.IdGenerator;
 import io.cucumber.messages.types.GherkinDocument;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParserTest {
 

@@ -19,6 +19,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 
 ### Fixed
 
+## [24.1.0] - 2022-10-10
+
+### Added
+
+* [Java] Added support for reading directly from input (files, streams, paths, ect)
+* [C] The C implementation re-enabled and made up to date.
+  ([#1989](https://github.com/cucumber/common/pull/1989))
+
+### Fixed
+* [Javascript] Include tags from rules in scenario outlines ([#2091](https://github.com/cucumber/common/pull/2091))
+* [Python] Fix gherkin-python for compiling example values with trailing backslash ([#2048](https://github.com/cucumber/common/pull/2048), [#1954](https://github.com/cucumber/common/issues/1954))
 * [PHP] Disallow installation of Messages `18.x` ([#2034](https://github.com/cucumber/common/pull/2034))
 * Translations fixed for `ka` (Georgian) locale
 
@@ -1121,7 +1132,8 @@ to Gherkin 2.
 * First release
 
 <!-- Releases -->
-[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v24.0.0...main
+[Unreleased]: https://github.com/cucumber/cucumber/compare/gherkin/v24.1.0...main
+[24.1.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v24.0.0...gherkin/v24.1.0
 [24.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.1...gherkin/v24.0.0
 [23.0.1]:     https://github.com/cucumber/cucumber/compare/gherkin/v23.0.0...gherkin/v23.0.1
 [23.0.0]:     https://github.com/cucumber/cucumber/compare/gherkin/v22.0.0...gherkin/v23.0.0

@@ -172,7 +172,14 @@ static bool match_TagLine(ParserContext* context, Token* token) {
     if (token->matched_type == Token_EOF) {
         return false;
     };
-    return handle_external_error(context, token, context->token_matcher->match_TagLine);
+    bool match_result = handle_external_error(context, token, context->token_matcher->match_TagLine);
+    if (match_result) {
+        bool tag_error = ErrorList_check_token_tags_for_whitespace(context->errors, token);
+        if (tag_error && context->stop_at_first_error) {
+            ErrorList_jump_to_global_rescue_env(context->errors);
+        }
+    }
+    return match_result;
 }
 static bool match_FeatureLine(ParserContext* context, Token* token) {
     if (token->matched_type == Token_EOF) {

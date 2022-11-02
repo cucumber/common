@@ -4,10 +4,12 @@
 
 static void delete_tag_content(const PickleTag* tag);
 
-const PickleTag* PickleTag_new(const wchar_t* name, int line, int column) {
+const PickleTag* PickleTag_new(const wchar_t* ast_node_id, const wchar_t* name) {
     PickleTag* tag = (PickleTag*)malloc(sizeof(PickleTag));
-    tag->location.line = line;
-    tag->location.column = column;
+    tag->ast_node_id.id = 0;
+    if (ast_node_id) {
+        tag->ast_node_id.id = StringUtilities_copy_string(ast_node_id);
+    }
     tag->name = 0;
     if (name) {
         tag->name = StringUtilities_copy_string(name);
@@ -23,9 +25,11 @@ void PickleTag_delete(const PickleTag* tag) {
     free((void*)tag);
 }
 
-void PickleTag_transfer(PickleTag* to_tag, const wchar_t* name, int line, int column) {
-    to_tag->location.line = line;
-    to_tag->location.column = column;
+void PickleTag_transfer(PickleTag* to_tag, const wchar_t* ast_node_id, const wchar_t* name) {
+    to_tag->ast_node_id.id = 0;
+    if (ast_node_id) {
+        to_tag->ast_node_id.id = StringUtilities_copy_string(ast_node_id);
+    }
     to_tag->name = 0;
     if (name) {
         to_tag->name = StringUtilities_copy_string(name);
@@ -47,6 +51,9 @@ void PickleTags_delete(const PickleTags* tags) {
 }
 
 static void delete_tag_content(const PickleTag* tag) {
+    if (tag->ast_node_id.id) {
+        free((void*)tag->ast_node_id.id);
+    }
     if (tag->name) {
         free((void*)tag->name);
     }

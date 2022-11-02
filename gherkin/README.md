@@ -10,6 +10,7 @@ Gherkin is currently implemented for the following platforms (in order of birthd
 - [Ruby](https://github.com/cucumber/gherkin-ruby)
 - [Go](https://github.com/cucumber/gherkin-go)
 - [Python](https://github.com/cucumber/gherkin-python)
+- [C](https://github.com/cucumber/common/tree/main/gherkin/c)
 - [Objective-C](https://github.com/cucumber/gherkin-objective-c)
 - [Perl](https://github.com/cucumber/gherkin-perl)
 - [PHP](https://github.com/cucumber/gherkin-php)
@@ -17,7 +18,6 @@ Gherkin is currently implemented for the following platforms (in order of birthd
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) if you want to contribute a parser for a new language.
 Our wish-list is (in no particular order):
 
-- C
 - Rust
 - Elixir
 
@@ -45,12 +45,9 @@ Alternatively, you can use the lower level parser and compiler. Some usage examp
 
 ```java
 // Java
-List<String> paths = singletonList("../testdata/good/minimal.feature");
-boolean includeSource = false;
-boolean includeAst = true;
-boolean includePickles = true;
-Stream<Envelope> envelopeStream = Gherkin.fromPaths(paths, includeSource, includeAst, includePickles);
-Stream<Envelope> pickleStream = envelopeStream.filter(Envelope::hasPickle);
+Path path = Paths.get("../testdata/good/minimal.feature");
+GherkinParser parser = GherkinParser.builder().build();
+Stream<Envelope> pickles = parser.parse(envelope).filter(envelope -> envelope.getPickle().isPresent());
 ```
 
 ```csharp

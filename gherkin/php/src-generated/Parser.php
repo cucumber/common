@@ -3977,7 +3977,7 @@ final class Parser
 
             if (false
                 || $this->match_ScenarioLine($context, $token)
-) {
+            ) {
                 $match = true;
                 break;
             }
@@ -3985,7 +3985,7 @@ final class Parser
             || $this->match_Empty($context, $token)
             || $this->match_Comment($context, $token)
             || $this->match_TagLine($context, $token)
-);
+        );
 
         $context->tokenQueue = [...$context->tokenQueue, ...$queue];
 
@@ -4002,7 +4002,7 @@ final class Parser
 
             if (false
                 || $this->match_ExamplesLine($context, $token)
-) {
+            ) {
                 $match = true;
                 break;
             }
@@ -4010,7 +4010,7 @@ final class Parser
             || $this->match_Empty($context, $token)
             || $this->match_Comment($context, $token)
             || $this->match_TagLine($context, $token)
-);
+        );
 
         $context->tokenQueue = [...$context->tokenQueue, ...$queue];
 

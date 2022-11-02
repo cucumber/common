@@ -1,9 +1,9 @@
 package io.cucumber.gherkin;
 
 import io.cucumber.messages.types.Envelope;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 // This tests that the message library exposes its version. This test is hard to do in the
 // library itself since it requires running against a packaged version (jar).

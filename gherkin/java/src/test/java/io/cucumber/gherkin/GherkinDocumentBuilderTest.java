@@ -6,11 +6,11 @@ import io.cucumber.messages.types.FeatureChild;
 import io.cucumber.messages.types.GherkinDocument;
 import io.cucumber.messages.types.Pickle;
 import io.cucumber.messages.types.TableRow;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GherkinDocumentBuilderTest {
     private final IdGenerator idGenerator = new IncrementingIdGenerator();

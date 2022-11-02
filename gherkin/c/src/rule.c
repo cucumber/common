@@ -4,12 +4,13 @@
 #include "string_utilities.h"
 #include <stdlib.h>
 
-const Rule* Rule_new(Location location, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const ChildDefinitions* child_definitions) {
+const Rule* Rule_new(Location location, IdGenerator* id_generator, const wchar_t* keyword, const wchar_t* name, const wchar_t* description, const Tags* tags, const ChildDefinitions* child_definitions) {
     Rule* rule = (Rule*)malloc(sizeof(Rule));
     rule->rule_delete = (item_delete_function)Rule_delete;
     rule->type = Gherkin_Rule;
     rule->location.line = location.line;
     rule->location.column = location.column;
+    rule->id = id_generator->new_id(id_generator);
     if (keyword) {
         rule->keyword = StringUtilities_copy_string(keyword);
     }
@@ -17,6 +18,7 @@ const Rule* Rule_new(Location location, const wchar_t* keyword, const wchar_t* n
         rule->name = StringUtilities_copy_string(name);
     }
     rule->description = description;
+    rule->tags = tags;
     rule->child_definitions = child_definitions;
     return rule;
 }
@@ -24,6 +26,9 @@ const Rule* Rule_new(Location location, const wchar_t* keyword, const wchar_t* n
 void Rule_delete(const Rule* rule) {
     if (!rule) {
         return;
+    }
+    if (rule->id) {
+        free((void*)rule->id);
     }
     if (rule->keyword) {
         free((void*)rule->keyword);
@@ -33,6 +38,9 @@ void Rule_delete(const Rule* rule) {
     }
     if (rule->description) {
         free((void*)rule->description);
+    }
+    if (rule->tags) {
+        Tags_delete(rule->tags);
     }
     if (rule->child_definitions) {
         ChildDefinition* scenario_definition;

@@ -20,6 +20,8 @@ void TokenFormatterBuilder_end_rule(Builder* builder, RuleType rule);
 
 static const char* token_type_to_string(TokenType token_type);
 
+static const char* keyword_type_to_string(const KeywordType keyword_type);
+
 Builder* TokenFormatterBuilder_new() {
     TokenFormatterBuilder* builder = (TokenFormatterBuilder*)malloc(sizeof(TokenFormatterBuilder));
     builder->builder.build = &TokenFormatterBuilder_build;
@@ -69,8 +71,14 @@ void TokenFormatterBuilder_build(Builder* builder, Token* token) {
                 token->location.line,
                 token->location.column,
                 token_type_to_string(token->matched_type));
-        PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
-                                   token->matched_keyword ? token->matched_keyword : L"");
+	if (token->matched_keyword) {
+            fprintf(((TokenFormatterBuilder*)builder)->file,
+                    "(%s)",
+		    keyword_type_to_string(token->matched_keyword_type));
+          PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file, token->matched_keyword);
+	} else {
+	    PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file, L"");
+	}
         fprintf(((TokenFormatterBuilder*)builder)->file, "/");
         PrintUtilities_print_wide_string(((TokenFormatterBuilder*)builder)->file,
                                    token->matched_text ? token->matched_text : L"");
@@ -123,6 +131,24 @@ const char* token_type_to_string(TokenType token_type) {
         return "Other";
     case Token_EOF:
         return "EOF";
+    }
+    return "";
+}
+
+const char* keyword_type_to_string(const KeywordType keyword_type) {
+    switch (keyword_type) {
+    case Keyword_Type_None:
+        return "";
+    case Keyword_Unknown:
+        return "Unknown";
+    case Keyword_Context:
+        return "Context";
+    case Keyword_Action:
+        return "Action";
+    case Keyword_Outcome:
+         return "Outcome";
+    case Keyword_Conjunction:
+        return "Conjunction";
     }
     return "";
 }

@@ -189,7 +189,21 @@ static bool match_@(rule.Name.Replace("#", ""))(ParserContext* context, Token* t
     @:    return false;
     @:};
     }
-    return handle_external_error(context, token, context->token_matcher->match_@(rule.Name.Replace("#", "")));
+    @if (rule.Name != "#TagLine")
+    {
+    @:return handle_external_error(context, token, context->token_matcher->match_@(rule.Name.Replace("#", "")));
+    }
+    @if (rule.Name == "#TagLine")
+    {
+    @:bool match_result = handle_external_error(context, token, context->token_matcher->match_TagLine);
+    @:if (match_result) {
+    @:    bool tag_error = ErrorList_check_token_tags_for_whitespace(context->errors, token);
+    @:    if (tag_error && context->stop_at_first_error) {
+    @:        ErrorList_jump_to_global_rescue_env(context->errors);
+    @:    }
+    @:}
+    @:return match_result;
+    }
 }</text>
 }
 

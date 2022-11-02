@@ -40,7 +40,7 @@ executors:
     working_directory: ~/cucumber
   docker-circleci-node-18:
     docker:
-      - image: cimg/node:18.4
+      - image: cimg/node:18.12
     working_directory: ~/cucumber
 
   # Ruby
@@ -68,13 +68,13 @@ executors:
   # Python
   docker-circleci-python:
     docker:
-      - image: cimg/python:3.10.5
+      - image: cimg/python:3.10.7
     working_directory: ~/cucumber
 
   # Php
   docker-circleci-php:
     docker:
-      - image: cimg/php:8.1.7
+      - image: cimg/php:8.1.12
     working_directory: ~/cucumber
 
 ###
@@ -110,17 +110,6 @@ jobs:
 
   ### Go
 
-  messages-go:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/go
-          command: |
-            cd messages/go
-            make
-
   gherkin-go:
     executor: docker-circleci-golang
     steps:
@@ -133,18 +122,6 @@ jobs:
             make
 
   ### JavaScript
-
-  messages-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/javascript
-          command: |
-            sudo npm install --global npm@8
-            cd messages/javascript
-            make
 
   gherkin-javascript-node-12:
     executor: docker-circleci-node-12
@@ -219,21 +196,6 @@ jobs:
 
   ### Ruby
 
-  messages-ruby:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/ruby
-          command: |
-            cd messages/ruby
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - messages/ruby
-
   gherkin-ruby-23:
     executor: docker-circleci-ruby-23
     steps:
@@ -280,23 +242,6 @@ jobs:
 
   ### Java
 
-  messages-java:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: messages/java
-          command: |
-            cd messages/java
-            make
-      - persist_to_workspace:
-          root: '~/.m2/repository'
-          paths:
-            - 'io/cucumber/messages'
-
   gherkin-java:
     executor: docker-circleci-openjdk
     steps:
@@ -333,17 +278,6 @@ jobs:
 
   ### .NET
 
-  messages-dotnet:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/dotnet
-          command: |
-            cd messages/dotnet
-            make
-
   gherkin-dotnet:
     executor: docker-cucumber-build
     steps:
@@ -366,17 +300,6 @@ jobs:
           name: gherkin/perl
           command: |
             cd gherkin/perl
-            make
-
-  messages-perl:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/perl
-          command: |
-            cd messages/perl
             make
 
   ### Python
@@ -418,21 +341,6 @@ jobs:
 
   ### Elixir
 
-  messages-elixir:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/elixir
-          command: |
-            cd messages/elixir
-            make
-      - persist_to_workspace:
-          root: ~/cucumber
-          paths:
-            - messages/elixir/lib/cucumber_messages/generated/
-
   # gherkin-elixir:
   #   executor: docker-cucumber-build
   #   steps:
@@ -445,30 +353,6 @@ jobs:
   #           make
 
   ### PHP
-
-  messages-php:
-    executor: docker-cucumber-build
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/php
-          command: |
-            cd messages/php
-            make
-
-  messages-php-bc:
-    executor: docker-cucumber-build
-    environment:
-      COMPOSER_FLAGS: --prefer-lowest
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: messages/php
-          command: |
-            cd messages/php
-            make
 
   gherkin-php:
     executor: docker-cucumber-build
@@ -529,18 +413,12 @@ workflows:
 
       ### Go
 
-      - messages-go:
-          requires:
-            - prepare-parallel
       - gherkin-go:
           requires:
-            - messages-go
+            - prepare-parallel
 
       ### JavaScript
 
-      - messages-javascript:
-          requires:
-            - prepare-parallel
       - gherkin-javascript-node-12:
           requires:
             - prepare-parallel
@@ -562,40 +440,29 @@ workflows:
 
       ### Ruby
 
-      - messages-ruby:
-          requires:
-            - prepare-parallel
       - gherkin-ruby-23:
           requires:
-            - messages-ruby
+            - prepare-parallel
       - gherkin-ruby-24:
           requires:
-            - messages-ruby
+            - prepare-parallel
       - gherkin-ruby-25:
           requires:
-            - messages-ruby
+            - prepare-parallel
       - gherkin-ruby-26:
           requires:
-            - messages-ruby
+            - prepare-parallel
 
       ### Java
 
-      - messages-java:
-          requires:
-            - prepare-parallel
       - gherkin-java:
           requires:
-            - messages-java
+            - prepare-parallel
       - gherkin-utils-java:
           requires:
-            - messages-java
-            - gherkin-java
+            - prepare-parallel
 
       ### .NET
-
-      - messages-dotnet:
-          requires:
-            - prepare-parallel
 
       - gherkin-dotnet:
           requires:
@@ -604,10 +471,6 @@ workflows:
       ## Perl
 
       - gherkin-perl:
-          requires:
-            - prepare-parallel
-
-      - messages-perl:
           requires:
             - prepare-parallel
 
@@ -629,30 +492,16 @@ workflows:
 
       ### Elixir
 
-      - messages-elixir:
-          requires:
-            - prepare-parallel
-
       # - gherkin-elixir:
       #     requires:
       #       - messages-elixir
 
       ### PHP
 
-      - messages-php:
-          requires:
-            - prepare-parallel
-
       - gherkin-php:
-          requires:
-            - prepare-parallel
-            - messages-php
-
-      - messages-php-bc:
           requires:
             - prepare-parallel
 
       - gherkin-php-bc:
           requires:
             - prepare-parallel
-            - messages-php-bc

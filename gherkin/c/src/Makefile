@@ -54,7 +54,8 @@ UTILITIES_OBJS= \
 	../objs/print_utilities.o \
 	../objs/string_utilities.o \
 	../objs/unicode_utilities.o \
-	../objs/utf8_source.o
+	../objs/utf8_source.o \
+	../objs/incrementing_id_generator.o
 -include $(UTILITIES_OBJS:.o=.d)
 
 PARSER_OBJS= \
@@ -96,9 +97,8 @@ COMPILER_OBJS= \
 
 PICKLES_OBJS= \
 	../objs/pickle.o \
+	../objs/pickle_ast_node_id.o \
 	../objs/pickle_cell.o \
-	../objs/pickle_id_creator.o \
-	../objs/pickle_location.o \
 	../objs/pickle_row.o \
 	../objs/pickle_step.o \
 	../objs/pickle_string.o \
@@ -108,7 +108,7 @@ PICKLES_OBJS= \
 
 EVENT_OBJS= \
 	../objs/event.o \
-	../objs/attachment_event.o \
+	../objs/error_event.o \
 	../objs/gherkin_document_event.o \
 	../objs/pickle_event.o \
 	../objs/source_event.o \
