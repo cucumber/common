@@ -17,3 +17,12 @@ Feature: Some tagged rules
     @tag_scenario
     Scenario: Scenario with feature, rule and scenario tags
       Given b
+
+    @tag_outline
+    Scenario Outline: Tagged Scenario outline
+      Given b
+
+      @examples_tag
+      Examples:
+        | header |
+        | a      |

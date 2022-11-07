@@ -2,11 +2,6 @@
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "target": "ES5",
-    "module": "CommonJS",
-  },
-  "references": [
-    {
-      "path": "./messages/javascript/tsconfig.build-cjs.json"
-    },
-  ]
+    "module": "CommonJS"
+  }
 }

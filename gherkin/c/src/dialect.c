@@ -300,7 +300,7 @@ static const Keywords bg_feature_keywords = { 1, bg_feature_KEYWORDS };
 static const wchar_t* const bg_given_KEYWORDS[] = { L"* ", L"Дадено " };
 static const Keywords bg_given_keywords = { 2, bg_given_KEYWORDS };
 
-static const wchar_t* const bg_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const bg_rule_KEYWORDS[] = { L"Правило" };
 static const Keywords bg_rule_keywords = { 1, bg_rule_KEYWORDS };
 
 static const wchar_t* const bg_scenario_KEYWORDS[] = { L"Пример", L"Сценарий" };
@@ -970,8 +970,8 @@ static const Keywords en_old_scenarioOutline_keywords = { 2, en_old_scenarioOutl
 static const wchar_t* const en_old_then_KEYWORDS[] = { L"* ", L"Tha ", L"Þa ", L"Ða ", L"Tha the ", L"Þa þe ", L"Ða ðe " };
 static const Keywords en_old_then_keywords = { 7, en_old_then_KEYWORDS };
 
-static const wchar_t* const en_old_when_KEYWORDS[] = { L"* ", L"Tha ", L"Þa ", L"Ða " };
-static const Keywords en_old_when_keywords = { 4, en_old_when_KEYWORDS };
+static const wchar_t* const en_old_when_KEYWORDS[] = { L"* ", L"Bæþsealf ", L"Bæþsealfa ", L"Bæþsealfe ", L"Ciricæw ", L"Ciricæwe ", L"Ciricæwa " };
+static const Keywords en_old_when_keywords = { 7, en_old_when_KEYWORDS };
 
 static const Dialect en_old_dialect = {
         L"en-old",
@@ -1033,6 +1033,53 @@ static const Dialect en_pirate_dialect = {
         &en_pirate_scenarioOutline_keywords,
         &en_pirate_then_keywords,
         &en_pirate_when_keywords };
+
+static const wchar_t* const en_tx_and_KEYWORDS[] = { L"Come hell or high water " };
+static const Keywords en_tx_and_keywords = { 1, en_tx_and_KEYWORDS };
+
+static const wchar_t* const en_tx_background_KEYWORDS[] = { L"Lemme tell y'all a story" };
+static const Keywords en_tx_background_keywords = { 1, en_tx_background_KEYWORDS };
+
+static const wchar_t* const en_tx_but_KEYWORDS[] = { L"Well now hold on, I'll you what " };
+static const Keywords en_tx_but_keywords = { 1, en_tx_but_KEYWORDS };
+
+static const wchar_t* const en_tx_examples_KEYWORDS[] = { L"Now that's a story longer than a cattle drive in July" };
+static const Keywords en_tx_examples_keywords = { 1, en_tx_examples_KEYWORDS };
+
+static const wchar_t* const en_tx_feature_KEYWORDS[] = { L"This ain’t my first rodeo", L"All gussied up" };
+static const Keywords en_tx_feature_keywords = { 2, en_tx_feature_KEYWORDS };
+
+static const wchar_t* const en_tx_given_KEYWORDS[] = { L"Fixin' to ", L"All git out " };
+static const Keywords en_tx_given_keywords = { 2, en_tx_given_KEYWORDS };
+
+static const wchar_t* const en_tx_rule_KEYWORDS[] = { L"Rule " };
+static const Keywords en_tx_rule_keywords = { 1, en_tx_rule_KEYWORDS };
+
+static const wchar_t* const en_tx_scenario_KEYWORDS[] = { L"All hat and no cattle" };
+static const Keywords en_tx_scenario_keywords = { 1, en_tx_scenario_KEYWORDS };
+
+static const wchar_t* const en_tx_scenarioOutline_KEYWORDS[] = { L"Serious as a snake bite", L"Busy as a hound in flea season" };
+static const Keywords en_tx_scenarioOutline_keywords = { 2, en_tx_scenarioOutline_KEYWORDS };
+
+static const wchar_t* const en_tx_then_KEYWORDS[] = { L"There’s no tree but bears some fruit " };
+static const Keywords en_tx_then_keywords = { 1, en_tx_then_KEYWORDS };
+
+static const wchar_t* const en_tx_when_KEYWORDS[] = { L"Quick out of the chute " };
+static const Keywords en_tx_when_keywords = { 1, en_tx_when_KEYWORDS };
+
+static const Dialect en_tx_dialect = {
+        L"en-tx",
+        &en_tx_and_keywords,
+        &en_tx_background_keywords,
+        &en_tx_but_keywords,
+        &en_tx_examples_keywords,
+        &en_tx_feature_keywords,
+        &en_tx_given_keywords,
+        &en_tx_rule_keywords,
+        &en_tx_scenario_keywords,
+        &en_tx_scenarioOutline_keywords,
+        &en_tx_then_keywords,
+        &en_tx_when_keywords };
 
 static const wchar_t* const eo_and_KEYWORDS[] = { L"* ", L"Kaj " };
 static const Keywords eo_and_keywords = { 2, eo_and_KEYWORDS };
@@ -1522,7 +1569,7 @@ static const Keywords hi_feature_keywords = { 1, hi_feature_KEYWORDS };
 static const wchar_t* const hi_given_KEYWORDS[] = { L"* ", L"अगर ", L"यदि ", L"चूंकि " };
 static const Keywords hi_given_keywords = { 4, hi_given_KEYWORDS };
 
-static const wchar_t* const hi_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const hi_rule_KEYWORDS[] = { L"नियम" };
 static const Keywords hi_rule_keywords = { 1, hi_rule_KEYWORDS };
 
 static const wchar_t* const hi_scenario_KEYWORDS[] = { L"परिदृश्य" };
@@ -1833,14 +1880,14 @@ static const Dialect it_dialect = {
         &it_then_keywords,
         &it_when_keywords };
 
-static const wchar_t* const ja_and_KEYWORDS[] = { L"* ", L"かつ" };
-static const Keywords ja_and_keywords = { 2, ja_and_KEYWORDS };
+static const wchar_t* const ja_and_KEYWORDS[] = { L"* ", L"且つ", L"かつ" };
+static const Keywords ja_and_keywords = { 3, ja_and_KEYWORDS };
 
 static const wchar_t* const ja_background_KEYWORDS[] = { L"背景" };
 static const Keywords ja_background_keywords = { 1, ja_background_KEYWORDS };
 
-static const wchar_t* const ja_but_KEYWORDS[] = { L"* ", L"しかし", L"但し", L"ただし" };
-static const Keywords ja_but_keywords = { 4, ja_but_KEYWORDS };
+static const wchar_t* const ja_but_KEYWORDS[] = { L"* ", L"然し", L"しかし", L"但し", L"ただし" };
+static const Keywords ja_but_keywords = { 5, ja_but_KEYWORDS };
 
 static const wchar_t* const ja_examples_KEYWORDS[] = { L"例", L"サンプル" };
 static const Keywords ja_examples_keywords = { 2, ja_examples_KEYWORDS };
@@ -1851,7 +1898,7 @@ static const Keywords ja_feature_keywords = { 2, ja_feature_KEYWORDS };
 static const wchar_t* const ja_given_KEYWORDS[] = { L"* ", L"前提" };
 static const Keywords ja_given_keywords = { 2, ja_given_KEYWORDS };
 
-static const wchar_t* const ja_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const ja_rule_KEYWORDS[] = { L"ルール" };
 static const Keywords ja_rule_keywords = { 1, ja_rule_KEYWORDS };
 
 static const wchar_t* const ja_scenario_KEYWORDS[] = { L"シナリオ" };
@@ -2350,7 +2397,7 @@ static const Dialect mn_dialect = {
         &mn_then_keywords,
         &mn_when_keywords };
 
-static const wchar_t* const ne_and_KEYWORDS[] = { L"* ", L"र ", L"अनी " };
+static const wchar_t* const ne_and_KEYWORDS[] = { L"* ", L"र ", L"अनि " };
 static const Keywords ne_and_keywords = { 3, ne_and_KEYWORDS };
 
 static const wchar_t* const ne_background_KEYWORDS[] = { L"पृष्ठभूमी" };
@@ -2556,8 +2603,8 @@ static const Keywords pl_feature_keywords = { 4, pl_feature_KEYWORDS };
 static const wchar_t* const pl_given_KEYWORDS[] = { L"* ", L"Zakładając ", L"Mając ", L"Zakładając, że " };
 static const Keywords pl_given_keywords = { 4, pl_given_KEYWORDS };
 
-static const wchar_t* const pl_rule_KEYWORDS[] = { L"Rule" };
-static const Keywords pl_rule_keywords = { 1, pl_rule_KEYWORDS };
+static const wchar_t* const pl_rule_KEYWORDS[] = { L"Zasada", L"Reguła" };
+static const Keywords pl_rule_keywords = { 2, pl_rule_KEYWORDS };
 
 static const wchar_t* const pl_scenario_KEYWORDS[] = { L"Przykład", L"Scenariusz" };
 static const Keywords pl_scenario_keywords = { 2, pl_scenario_KEYWORDS };
@@ -2839,7 +2886,7 @@ static const Keywords sr_Cyrl_feature_keywords = { 3, sr_Cyrl_feature_KEYWORDS }
 static const wchar_t* const sr_Cyrl_given_KEYWORDS[] = { L"* ", L"За дато ", L"За дате ", L"За дати " };
 static const Keywords sr_Cyrl_given_keywords = { 4, sr_Cyrl_given_KEYWORDS };
 
-static const wchar_t* const sr_Cyrl_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const sr_Cyrl_rule_KEYWORDS[] = { L"Правило" };
 static const Keywords sr_Cyrl_rule_keywords = { 1, sr_Cyrl_rule_KEYWORDS };
 
 static const wchar_t* const sr_Cyrl_scenario_KEYWORDS[] = { L"Пример", L"Сценарио", L"Пример" };
@@ -2886,7 +2933,7 @@ static const Keywords sr_Latn_feature_keywords = { 4, sr_Latn_feature_KEYWORDS }
 static const wchar_t* const sr_Latn_given_KEYWORDS[] = { L"* ", L"Za dato ", L"Za date ", L"Za dati " };
 static const Keywords sr_Latn_given_keywords = { 4, sr_Latn_given_KEYWORDS };
 
-static const wchar_t* const sr_Latn_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const sr_Latn_rule_KEYWORDS[] = { L"Pravilo" };
 static const Keywords sr_Latn_rule_keywords = { 1, sr_Latn_rule_KEYWORDS };
 
 static const wchar_t* const sr_Latn_scenario_KEYWORDS[] = { L"Scenario", L"Primer" };
@@ -3168,7 +3215,7 @@ static const Keywords tr_feature_keywords = { 1, tr_feature_KEYWORDS };
 static const wchar_t* const tr_given_KEYWORDS[] = { L"* ", L"Diyelim ki " };
 static const Keywords tr_given_keywords = { 2, tr_given_KEYWORDS };
 
-static const wchar_t* const tr_rule_KEYWORDS[] = { L"Rule" };
+static const wchar_t* const tr_rule_KEYWORDS[] = { L"Kural" };
 static const Keywords tr_rule_keywords = { 1, tr_rule_KEYWORDS };
 
 static const wchar_t* const tr_scenario_KEYWORDS[] = { L"Örnek", L"Senaryo" };
@@ -3353,7 +3400,7 @@ static const Keywords uz_examples_keywords = { 1, uz_examples_KEYWORDS };
 static const wchar_t* const uz_feature_KEYWORDS[] = { L"Функционал" };
 static const Keywords uz_feature_keywords = { 1, uz_feature_KEYWORDS };
 
-static const wchar_t* const uz_given_KEYWORDS[] = { L"* ", L"Агар " };
+static const wchar_t* const uz_given_KEYWORDS[] = { L"* ", L"Belgilangan " };
 static const Keywords uz_given_keywords = { 2, uz_given_KEYWORDS };
 
 static const wchar_t* const uz_rule_KEYWORDS[] = { L"Rule" };
@@ -3451,7 +3498,7 @@ static const wchar_t* const zh_CN_given_KEYWORDS[] = { L"* ", L"假如", L"假�
 static const Keywords zh_CN_given_keywords = { 4, zh_CN_given_KEYWORDS };
 
 static const wchar_t* const zh_CN_rule_KEYWORDS[] = { L"Rule", L"规则" };
-static const Keywords zh_CN_rule_keywords = { 1, zh_CN_rule_KEYWORDS };
+static const Keywords zh_CN_rule_keywords = { 2, zh_CN_rule_KEYWORDS };
 
 static const wchar_t* const zh_CN_scenario_KEYWORDS[] = { L"场景", L"剧本" };
 static const Keywords zh_CN_scenario_keywords = { 2, zh_CN_scenario_KEYWORDS };
@@ -3618,6 +3665,8 @@ const Dialect* Dialect_for(const wchar_t* language) {
         return &en_old_dialect;
     if (wcscmp(en_pirate_dialect.language_name, language) == 0)
         return &en_pirate_dialect;
+    if (wcscmp(en_tx_dialect.language_name, language) == 0)
+        return &en_tx_dialect;
     if (wcscmp(eo_dialect.language_name, language) == 0)
         return &eo_dialect;
     if (wcscmp(es_dialect.language_name, language) == 0)
