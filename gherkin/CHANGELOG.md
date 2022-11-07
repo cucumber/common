@@ -12,6 +12,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG](htt
 ### Added
 * Additional `ja` (Japanese) translations for `and`, `but`
 * Added `amh` (Amharic) translation
+* Add `Фича` and `Шаблон примера` as more convenient translations ([#2078](https://github.com/cucumber/common/pull/2078))
 
 ### Changed
 * `ja` (Japanese) `Rule` translation changed from `Rule` to `ルール`
