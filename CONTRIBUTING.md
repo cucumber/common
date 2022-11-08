@@ -7,10 +7,6 @@ First off - thank you for contributing to Cucumber!
 This [monorepo](https://gomonorepo.org/) contains various components (libraries)
 used by Cucumber, such as:
 
-* The Gherkin parser
-* The Cucumber Expressions engine
-* The Tag Expressions parser
-* The Cucumber Protocol messages
 * ...and a few more bits and bobs.
 
 Each top level directory is the name of a cucumber *package*, and each directory
