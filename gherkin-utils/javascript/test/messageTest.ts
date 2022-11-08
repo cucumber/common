@@ -13,7 +13,7 @@ const asyncPipeline = promisify(pipeline)
 describe('Walking with messages', () => {
   const localMessageFiles = fg.sync(`${__dirname}/messages/**/*.ndjson`)
   const tckMessageFiles = fg.sync(
-    `${__dirname}/../../../node_modules/@cucumber/compatibility-kit/features/**/*.ndjson`
+    `${__dirname}/../node_modules/@cucumber/compatibility-kit/features/**/*.ndjson`
   )
   const messageFiles = [].concat(localMessageFiles, tckMessageFiles)
 
