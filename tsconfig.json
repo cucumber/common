@@ -2,10 +2,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@cucumber/gherkin-utils": ["gherkin-utils/javascript/src/index.ts"],
-      "@cucumber/query": ["query/javascript/src/index.ts"]
-    },
     "noEmit": true
   },
   "ts-node": {

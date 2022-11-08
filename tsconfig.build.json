@@ -9,13 +9,5 @@
     "target": "es6",
     "module": "commonjs"
   },
-  "files": [],
-  "references": [
-    {
-      "path": "./gherkin-utils/javascript/tsconfig.build.json"
-    },
-    {
-      "path": "./query/javascript/tsconfig.build.json"
-    }
-  ]
+  "files": []
 }
