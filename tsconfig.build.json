@@ -12,6 +12,9 @@
   "files": [],
   "references": [
     {
+      "path": "./gherkin/javascript/tsconfig.build.json"
+    },
+    {
       "path": "./gherkin-utils/javascript/tsconfig.build.json"
     },
     {

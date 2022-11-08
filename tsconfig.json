@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@cucumber/gherkin": ["gherkin/javascript/src/index.ts"],
       "@cucumber/gherkin-utils": ["gherkin-utils/javascript/src/index.ts"],
       "@cucumber/query": ["query/javascript/src/index.ts"]
     },

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <Deterministic Condition="'$(Configuration)' == 'Release'">false</Deterministic>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gherkin.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Version">
+    <VersionNumber>24.1.0</VersionNumber>
+    <Version Condition="'$(SnapshotSuffix)' != ''">$(VersionNumber)-$(SnapshotSuffix)</Version>
+    <Version Condition="'$(SnapshotSuffix)' == ''">$(VersionNumber)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package Properties">
+    <Product>Gherkin Parser</Product>
+    <PackageId>Gherkin</PackageId>
+    <Authors>Cucumber Ltd, Gaspar Nagy</Authors>
+    <Copyright>Copyright © Cucumber Ltd, Gaspar Nagy</Copyright>
+    <Description>Cross-platform parser for the Gherkin language, used by Cucumber, SpecFlow and other Cucumber-based tools to parse feature files.</Description>
+    <PackageTags>specflow gherkin cucumber</PackageTags>
+    <PackageProjectUrl>https://github.com/cucumber/common/tree/main/gherkin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cucumber/common</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>cucumber-mark-green-128.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>bin/$(Configuration)/NuGet</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="gherkin-languages.json"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\Resources\cucumber-mark-green-128.png">
+      <Pack>True</Pack>
+      <PackagePath>.</PackagePath>
+      <Visible>true</Visible>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+arch="net5.0"
+
+dotnet "Gherkin.Specs/bin/Debug/$arch/Gherkin.Specs.dll" tokens "${@:1}"

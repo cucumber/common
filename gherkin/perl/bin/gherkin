@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use lib 'lib';
+
+use App::gherkin;
+
+
+my $app = App::gherkin->new();
+exit $app->run($app->parse_options(@ARGV));
+
+__END__
+
+=head1 NAME
+
+gherkin - Parser of documents in the Gherkin language
+
+=head1 SYNOPSIS
+
+ gherkin [options] file...
+ gherkin --help
+
+=head1 DESCRIPTION
+
+C<gherkin> accepts a series of filenames to parse. It outputs a series
+of ndjson formatted messages containing the source document, parsed
+document (AST) and pickles as specified at L<https://github.com/cucumber/common/blob/main/messages/messages.md>.
+
+=head1 OPTIONS
+
+The following options are supported:
+
+ --no-source         Do not include the feature file source in output
+ --no-ast            Do not include the AST (parsed source) in output
+ --no-pickles        Do not include pickles (expanded scenarios) in output
+ --predictable-ids   Generate IDs from a sequence instead of random UUIDs
+
+ --help              Print this usage message
+

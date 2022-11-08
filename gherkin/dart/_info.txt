@@ -1,0 +1,40 @@
+To test specific feature file, add below code
+in `java/src/test/java/io/cucumber/gherkin/GherkinTest.java`:
+
+    @Test
+    public void test_successful_token_matching() throws IOException {
+        List<String> paths = singletonList("testdata/good/rule_with_tag.feature");
+
+        // Get the AST
+        for (String featureFilePath: paths)
+        {
+            TokenMatcher tokenMatcher = new TokenMatcher();
+
+            Path path = Paths.get(featureFilePath);
+            String featureContent = new String(Files.readAllBytes(path));
+            String featureTokens = TokensGenerator.generateTokens(featureContent, tokenMatcher);
+
+            String tokenFilePath = featureFilePath + ".tokens";
+            path = Paths.get(tokenFilePath);
+            String expectedTokensText = new String(Files.readAllBytes(path));
+
+            assertEquals(expectedTokensText, featureTokens);
+        }
+
+    }
+
+Also, create the source below at
+`java/src/test/java/io/cucumber/gherkin/TokensGenerator.java`:
+
+package io.cucumber.gherkin;
+
+public class TokensGenerator
+{
+	public static String generateTokens(String featureContent
+		, Parser.ITokenMatcher tokenMatcher)
+	{
+		TokenFormatterBuilder tokenFormatterBuilder = new TokenFormatterBuilder();
+		Parser<String> parser = new Parser<>(tokenFormatterBuilder);
+		return parser.parse(featureContent, tokenMatcher);
+	}
+}

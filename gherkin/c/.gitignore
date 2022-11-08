@@ -1,0 +1,10 @@
+bin/
+objs/
+libs/
+acceptance/
+.built
+.compared
+.run
+.vs/
+out/
+build/

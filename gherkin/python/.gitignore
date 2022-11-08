@@ -1,0 +1,10 @@
+acceptance/
+.built
+.compared
+.pipped
+*.pyc
+dist/
+build/
+.tox/
+.coverage
+.coverage.*

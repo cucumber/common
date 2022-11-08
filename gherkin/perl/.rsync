@@ -1,0 +1,5 @@
+../../.templates/github/ .github/
+../../.templates/perl/ .
+../LICENSE LICENSE.txt
+../gherkin.berp gherkin.berp
+../gherkin-languages.json gherkin-languages.json

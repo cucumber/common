@@ -108,6 +108,68 @@ jobs:
           paths:
             - '*'
 
+  ### Go
+
+  gherkin-go:
+    executor: docker-circleci-golang
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/go
+          command: |
+            cd gherkin/go
+            make
+
+  ### JavaScript
+
+  gherkin-javascript-node-12:
+    executor: docker-circleci-node-12
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/javascript
+          command: |
+            sudo npm install --global npm@8
+            cd gherkin/javascript
+            make
+
+  gherkin-javascript-node-14:
+    executor: docker-circleci-node-14
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/javascript
+          command: |
+            sudo npm install --global npm@8
+            cd gherkin/javascript
+            make
+
+  gherkin-javascript-node-16:
+    executor: docker-circleci-node-16
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/javascript
+          command: |
+            sudo npm install --global npm@8
+            cd gherkin/javascript
+            make
+
+  gherkin-javascript-node-18:
+    executor: docker-circleci-node-18
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/javascript
+          command: |
+            cd gherkin/javascript
+            make
+
   gherkin-utils-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -132,7 +194,71 @@ jobs:
             cd query/javascript
             make
 
+  ### Ruby
+
+  gherkin-ruby-23:
+    executor: docker-circleci-ruby-23
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make
+
+  gherkin-ruby-24:
+    executor: docker-circleci-ruby-24
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make
+
+  gherkin-ruby-25:
+    executor: docker-circleci-ruby-25
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make
+
+  gherkin-ruby-26:
+    executor: docker-circleci-ruby-26
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/ruby
+          command: |
+            cd gherkin/ruby
+            make
+
   ### Java
+
+  gherkin-java:
+    executor: docker-circleci-openjdk
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - attach_workspace:
+          at: '~/.m2/repository'
+      - run:
+          name: gherkin/java
+          command: |
+            cd gherkin/java
+            make
+      - persist_to_workspace:
+          root: '~/.m2/repository'
+          paths:
+            - 'io/cucumber/gherkin'
+
   gherkin-utils-java:
     executor: docker-circleci-openjdk
     steps:
@@ -144,6 +270,114 @@ jobs:
           name: gherkin-utils-java
           command: |
             cd gherkin-utils/java
+            make
+      - persist_to_workspace:
+          root: '~/.m2/repository'
+          paths:
+            - 'io/cucumber/gherkin'
+
+  ### .NET
+
+  gherkin-dotnet:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/dotnet
+          command: |
+            cd gherkin/dotnet
+            make
+
+  ### Perl
+
+  gherkin-perl:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/perl
+          command: |
+            cd gherkin/perl
+            make
+
+  ### Python
+
+  gherkin-python-2:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/python
+          command: |
+            cd gherkin/python
+            make GHERKIN_PYTHON_VERSION=python2
+
+  gherkin-python-3:
+    executor: docker-circleci-python
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/python
+          command: |
+            cd gherkin/python
+            make
+
+  ### C
+
+  gherkin-c:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/c
+          command: |
+            cd gherkin/c
+            make
+
+  ### Elixir
+
+  # gherkin-elixir:
+  #   executor: docker-cucumber-build
+  #   steps:
+  #     - attach_workspace:
+  #         at: "~/cucumber"
+  #     - run:
+  #         name: gherkin/elixir
+  #         command: |
+  #           cd gherkin/elixir
+  #           make
+
+  ### PHP
+
+  gherkin-php:
+    executor: docker-cucumber-build
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/php
+          command: |
+            cd gherkin/php
+            composer config --unset repo.0
+            make
+
+  gherkin-php-bc:
+    executor: docker-cucumber-build
+    environment:
+      COMPOSER_FLAGS: --prefer-lowest
+    steps:
+      - attach_workspace:
+          at: '~/cucumber'
+      - run:
+          name: gherkin/php
+          command: |
+            cd gherkin/php
+            composer config --unset repo.0
             make
 
 ###
@@ -177,6 +411,26 @@ workflows:
     jobs:
       - prepare-parallel
 
+      ### Go
+
+      - gherkin-go:
+          requires:
+            - prepare-parallel
+
+      ### JavaScript
+
+      - gherkin-javascript-node-12:
+          requires:
+            - prepare-parallel
+      - gherkin-javascript-node-14:
+          requires:
+            - prepare-parallel
+      - gherkin-javascript-node-16:
+          requires:
+            - prepare-parallel
+      - gherkin-javascript-node-18:
+          requires:
+            - prepare-parallel
       - gherkin-utils-javascript:
           requires:
             - prepare-parallel
@@ -184,7 +438,70 @@ workflows:
           requires:
             - prepare-parallel
 
+      ### Ruby
+
+      - gherkin-ruby-23:
+          requires:
+            - prepare-parallel
+      - gherkin-ruby-24:
+          requires:
+            - prepare-parallel
+      - gherkin-ruby-25:
+          requires:
+            - prepare-parallel
+      - gherkin-ruby-26:
+          requires:
+            - prepare-parallel
+
+      ### Java
+
+      - gherkin-java:
+          requires:
+            - prepare-parallel
       - gherkin-utils-java:
           requires:
             - prepare-parallel
 
+      ### .NET
+
+      - gherkin-dotnet:
+          requires:
+            - prepare-parallel
+
+      ## Perl
+
+      - gherkin-perl:
+          requires:
+            - prepare-parallel
+
+      ## Python
+
+      - gherkin-python-2:
+          requires:
+            - prepare-parallel
+
+      - gherkin-python-3:
+          requires:
+            - prepare-parallel
+
+      ### C
+
+      - gherkin-c:
+          requires:
+            - prepare-parallel
+
+      ### Elixir
+
+      # - gherkin-elixir:
+      #     requires:
+      #       - messages-elixir
+
+      ### PHP
+
+      - gherkin-php:
+          requires:
+            - prepare-parallel
+
+      - gherkin-php-bc:
+          requires:
+            - prepare-parallel

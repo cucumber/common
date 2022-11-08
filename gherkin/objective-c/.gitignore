@@ -1,0 +1,5 @@
+acceptance/
+build/
+.built
+.compared
+.xcodeproj_built_debug

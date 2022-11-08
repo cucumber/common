@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+$VERBOSE=nil # Shut up JRuby warnings on Travis
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__),"../lib"))
+
+require 'optparse'
+require 'json'
+require 'cucumber/messages'
+require 'gherkin'
+
+options = {
+  include_source: true,
+  include_gherkin_document: true,
+  include_pickles: true,
+  predictable_ids: false
+}
+
+OptionParser.new do |opts|
+  opts.on("--[no-]source", "Don't print source messages") do |v|
+    options[:include_source] = v
+  end
+  opts.on("--[no-]ast", "Don't print ast messages") do |v|
+    options[:include_gherkin_document] = v
+  end
+  opts.on("--[no-]pickles", "Don't print pickle messages") do |v|
+    options[:include_pickles] = v
+  end
+  opts.on("--predictable-ids", "Generate incrementing ids rather than UUIDs") do |v|
+    options[:id_generator] = Cucumber::Messages::IdGenerator::Incrementing.new if v
+  end
+end.parse!
+
+def process_messages(messages, options)
+  messages.each do |message|
+    STDOUT.write(message.to_json)
+    STDOUT.write("\n")
+  end
+end
+
+if ARGV.empty?
+  # Read from STDIN
+  messages = Cucumber::Messages::NdjsonToMessageEnumerator.new(STDIN)
+else
+  messages = Gherkin.from_paths(ARGV, options)
+end
+
+process_messages(messages, options)

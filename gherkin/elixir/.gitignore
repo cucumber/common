@@ -1,0 +1,32 @@
+
+# Created by https://www.toptal.com/developers/gitignore/api/elixir,vscode
+# Edit at https://www.toptal.com/developers/gitignore?templates=elixir,vscode
+
+### Elixir ###
+/_build
+/cover
+/deps
+/doc
+/.fetch
+erl_crash.dump
+*.ez
+*.beam
+/config/*.secret.exs
+.elixir_ls/
+
+### Elixir Patch ###
+
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# End of https://www.toptal.com/developers/gitignore/api/elixir,vscode
+
+.deps
+.tested
+.compile_messages
+.setup_mix_and_get_dependencies
