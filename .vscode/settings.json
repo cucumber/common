@@ -1,7 +1,0 @@
-{
-  "python.testing.pytestArgs": [
-    "gherkin/python/gherkin/test"
-  ],
-  "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
-}
