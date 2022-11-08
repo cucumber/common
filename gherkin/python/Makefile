@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
-GOOD_FEATURE_FILES = $(shell find ../testdata/good -name "*.feature")
-BAD_FEATURE_FILES  = $(shell find ../testdata/bad -name "*.feature")
+GOOD_FEATURE_FILES = $(shell find ../testdata/good -name "*.feature" -o -name "*.feature.md")
+BAD_FEATURE_FILES  = $(shell find ../testdata/bad -name "*.feature" -o -name "*.feature.md")
 
 TOKENS   = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.tokens,$(GOOD_FEATURE_FILES))
 ASTS     = $(patsubst ../testdata/%.feature,acceptance/testdata/%.feature.ast.ndjson,$(GOOD_FEATURE_FILES))
