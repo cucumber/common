@@ -1,8 +1,0 @@
-.build/
-.built
-acceptance/
-Gherkin-*
-perl5/
-.cpanfile_dependencies
-cpanfile.snapshot
-CHANGELOG.md
