@@ -9,29 +9,27 @@ NPM_MODULE = $(shell cat package.json | jq .name --raw-output)
 default: .tested
 .PHONY: default
 
-../../node_modules ../../package-lock.json: package.json
-	cd ../.. && npm install
+node_modules package-lock.json: package.json
+	npm install
 
 .codegen:
 	touch $@
 
 .tested: .tested-npm .built
 
-.built: $(TYPESCRIPT_SOURCE_FILES) ../../node_modules ../../package-lock.json .codegen
-	pushd ../.. && \
+.built: $(TYPESCRIPT_SOURCE_FILES) node_modules .codegen
 	npm run build && \
-	popd && \
 	touch $@
 
-.tested-npm: $(TYPESCRIPT_SOURCE_FILES) ../../node_modules ../../package-lock.json .codegen
+.tested-npm: $(TYPESCRIPT_SOURCE_FILES) node_modules .codegen
 	npm run test
 	touch $@
 
 pre-release: clean update-version update-dependencies default
 .PHONY: pre-release
 
-update-dependencies: ../../node_modules ../../package-lock.json
-	../../node_modules/.bin/npm-check-updates --upgrade --reject hast-util-sanitize,@types/node,react-markdown,rehype-raw,rehype-sanitize,remark-gfm
+update-dependencies: node_modules 
+	npm run upgrade -- --reject hast-util-sanitize,@types/node,react-markdown,rehype-raw,rehype-sanitize,remark-gfm
 .PHONY: update-dependencies
 
 update-version:
@@ -73,7 +71,7 @@ clean-javascript:
 .PHONY: clean-javascript
 
 clobber: clean
-	rm -rf node_modules ../../node_modules
+	rm -rf node_modules
 .PHONY: clobber
 
 ### COMMON stuff for all platforms
