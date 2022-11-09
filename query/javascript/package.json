@@ -5,8 +5,13 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "build": "tsc --build tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "eslint-fix": "eslint --ext ts,tsx --max-warnings 0 --fix",
+    "eslint": "eslint --ext ts,tsx --max-warnings 0",
     "test": "mocha",
-    "prepublishOnly": "tsc --build tsconfig.build.json"
+    "prepublishOnly": "tsc --build tsconfig.build.json",
+    "upgrade": "npm-check-updates --upgrade"
   },
   "repository": {
     "type": "git",
@@ -22,14 +27,32 @@
   },
   "homepage": "https://github.com/cucumber/cucumber#readme",
   "devDependencies": {
+    "@cucumber/compatibility-kit": "^11.0.0",
     "@cucumber/fake-cucumber": "^16.0.0",
     "@cucumber/gherkin": "^24.1.0",
     "@cucumber/gherkin-streams": "^5.0.1",
     "@cucumber/gherkin-utils": "^8.0.1",
     "@types/mocha": "10.0.0",
     "@types/node": "18.11.9",
+    "@typescript-eslint/eslint-plugin": "5.42.1",
+    "@typescript-eslint/parser": "5.42.1",
+    "ajv": "8.11.0",
+    "ajv-cli": "5.0.0",
+    "eslint": "8.27.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.10",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-simple-import-sort": "8.0.0",
     "mocha": "10.1.0",
+    "npm-check-updates": "16.3.18",
+    "prettier": "2.7.1",
+    "pretty-quick": "3.1.3",
+    "rimraf": "^3.0.2",
     "ts-node": "10.9.1",
+    "tsconfig-paths": "4.1.0",
     "typescript": "4.8.4"
   },
   "dependencies": {
@@ -38,5 +61,11 @@
   },
   "directories": {
     "test": "test"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true,
+    "printWidth": 100
   }
 }

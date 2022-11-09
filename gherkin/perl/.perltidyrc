@@ -1,3 +1,0 @@
-# find . -type f | grep -v '\.build' | grep -v 500_error_formatter | grep -iE 'pm$|t$|pl$' | xargs -n1 perltidy -b
--i=4 # Indent level is 4 cols
--ce  # cuddled else
