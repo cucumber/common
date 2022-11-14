@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+* [Java] Enabled reproducible builds
+
 ### Deprecated
 
 ### Removed
@@ -18,14 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 ## [8.0.1] - 2022-11-01
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
 
 ### Fixed
 
