@@ -18,6 +18,7 @@
 
   <properties>
     <project.Automatic-Module-Name>io.cucumber.gherkin.utils</project.Automatic-Module-Name>
+    <project.build.outputTimestamp>1000000</project.build.outputTimestamp>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
   </properties>
