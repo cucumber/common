@@ -1,7 +1,0 @@
-.DS_Store
-.rsynced
-.idea/
-.devcontainer/
-.vscode/
-executables
-node_modules
