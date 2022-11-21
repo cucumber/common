@@ -1,7 +1,6 @@
 SHELL := /usr/bin/env bash
 BUILD_IMAGE ?= $(shell grep "image: cucumber/cucumber-build:" .circleci/config.yml | cut -c 16-)
-PACKAGES ?= gherkin-utils \
-	query
+PACKAGES ?= query
 
 default: .rsynced $(patsubst %,default-%,$(PACKAGES))
 .PHONY: default

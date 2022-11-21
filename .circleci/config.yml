@@ -103,18 +103,6 @@ jobs:
           paths:
             - '*'
 
-  gherkin-utils-javascript:
-    executor: docker-circleci-node-14
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - run:
-          name: gherkin-utils/javascript
-          command: |
-            sudo npm install --global npm@8
-            cd gherkin-utils/javascript
-            make
-
   query-javascript:
     executor: docker-circleci-node-14
     steps:
@@ -125,20 +113,6 @@ jobs:
           command: |
             sudo npm install --global npm@8
             cd query/javascript
-            make
-
-  ### Java
-  gherkin-utils-java:
-    executor: docker-circleci-openjdk
-    steps:
-      - attach_workspace:
-          at: '~/cucumber'
-      - attach_workspace:
-          at: '~/.m2/repository'
-      - run:
-          name: gherkin-utils-java
-          command: |
-            cd gherkin-utils/java
             make
 
 ###
@@ -172,14 +146,6 @@ workflows:
     jobs:
       - prepare-parallel
 
-      - gherkin-utils-javascript:
-          requires:
-            - prepare-parallel
       - query-javascript:
           requires:
             - prepare-parallel
-
-      - gherkin-utils-java:
-          requires:
-            - prepare-parallel
-
