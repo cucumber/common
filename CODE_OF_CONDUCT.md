@@ -6,7 +6,7 @@ As a community, we expect any participant to act according to the following grou
 
 ## Enforcing this code of conduct
 
-If you experience or observe a violation of this code of conduct, or have any other concerns, please contact [the moderators](#who-are-the-moderators) at [mods@cucumber.io](mailto:mods@cucumber.io). We are here to help you. Your reports will be taken seriously, treated in confidence and will not be dismissed or argued with.
+If you experience or observe a violation of this code of conduct, or have any other concerns, please contact [the moderators](#who-are-the-moderators). We are here to help you. Your reports will be taken seriously, treated in confidence and will not be dismissed or argued with.
 
 As a member of the community, you are also encouraged to help others act according to the following principles.
 
@@ -37,11 +37,11 @@ This isn’t an exhaustive list of things that you can’t do. Rather, take it i
 
 ## Who do these rules apply to?
 
-These rules apply to anyone involved in the Cucumber community, including but not limited to the founders and staff of Cucumber Limited, presenters, organisers and attendees at Cucumber events, maintainers and contributors of open source projects, and community members engaged in discussions on issue trackers, mailing lists or chat rooms.
+These rules apply to anyone involved in the Cucumber community, including but not limited to organisers and attendees at Cucumber events, maintainers and contributors of open source projects, and community members engaged in discussions on issue trackers, mailing lists or chat rooms.
 
 ## Where does this apply?
 
-The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official Discord chat channels; GitHub repositories under cucumber, cucumber-ltd, and the cukes@googlegroups.com community mailing list.
+The rules listed above apply to all official Cucumber venues; including in-person events like conferences or trainings, the official Discord chat server; GitHub repositories under the `cucumber` org, and any other officially-sanctioned community channels.
 
 ## Consequences
 
@@ -51,18 +51,15 @@ Decisions about consequences of violations of this Code of Conduct are made by [
 
 ## Questions or Feedback
 
-If you have any questions or feedback on this Code of Conduct, [we’re happy to hear from you](mailto:mods@cucumber.io).
+If you have any questions or feedback on this Code of Conduct, [we’re happy to hear from you](#who-are-the-moderators).
 
 ## Who are the moderators?
 
 The current moderators of the Cucumber community are:
 
 - Matt Wynne
-- Aslak Hellesøy
-- Tracey S. Rosenberg
-- Jo Laing
 
-You can contact us by email at [mods@cucumber.io](mailto:mods@cucumber.io).
+You can contact us by email at [team@cucumber.community](mailto:team@cucumber.community).
 
 ## References / inspiration
 
