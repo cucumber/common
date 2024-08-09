@@ -26,7 +26,7 @@ This isn’t an exhaustive list of things that you can’t do. Rather, take it i
 - Don’t discriminate against anyone.
 - Don’t shame people for their mistakes or inexperience.
 - Don’t harass people, sexually or otherwise. If someone has asked you to stop doing whatever you're doing - or if you notice they don't like what you're doing - stop and apologize, even if it seems unreasonable to you. Then remember, they are not under any obligation to accept your apology or interact with you in the future. Harassment includes comments or questions related to personal attributes such as (but not limited to) age, body size, culture, ethnicity, gender expression, gender identity, level of experience, nationality, personal ability or disability, physical appearance, physical or mental difference, race, religion, set of skills, sexual orientation, socio-economic status, and subculture. Harassment also includes sexual images in public spaces, deliberate intimidation, stalking, following, harassing photography or recording, inappropriate physical contact, and unwelcome sexual attention.
-- On GitHub, Gitter, Slack and other online or offline communications channels, don't use sexual/racially offensive nicknames or avatars, or other nicknames/avatars that might detract from a friendly, safe and welcoming environment for all.
+- On GitHub, Gitter, Discord and other online or offline communications channels, don't use sexual/racially offensive nicknames or avatars, or other nicknames/avatars that might detract from a friendly, safe and welcoming environment for all.
 - Respect that some individuals and cultures consider the casual use of profanity offensive and off-putting.
 - Don’t dismiss people who react negatively to someone’s behaviour, especially your own. If someone reacts to something differently than you do, it might not be that they are overreacting. Instead, they might be responding reasonably in the context of their life experiences. Please do your best to anticipate what those sensitivities might be and respond accordingly.
 - Unwelcome / non-consensual sexual advances are not okay.
@@ -41,7 +41,7 @@ These rules apply to anyone involved in the Cucumber community, including but no
 
 ## Where does this apply?
 
-The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official Slack chat channels; GitHub repositories under cucumber, cucumber-ltd, and the cukes@googlegroups.com community mailing list.
+The rules listed above apply to all official Cucumber venues; including the CukeUp conferences, public training courses, official Discord chat channels; GitHub repositories under cucumber, cucumber-ltd, and the cukes@googlegroups.com community mailing list.
 
 ## Consequences
 
