@@ -58,6 +58,7 @@ If you have any questions or feedback on this Code of Conduct, [we’re happy to
 The current moderators of the Cucumber community are:
 
 - Matt Wynne
+- Volodymyr Bober
 
 You can contact us by email at [team@cucumber.community](mailto:team@cucumber.community).
 
